@@ -1,0 +1,333 @@
+/************************************************************************************/
+body{background:#224477;margin:0;font-family: "Arial Rounded MT Bold", sans;}
+h1, h2, h3, h4, h5{color:#ddd;}
+/************************************************************************************/
+#main{
+	width: 1200px;
+	margin: auto;
+}
+#barra{
+	width: 300px;
+	background: #FFFFFF;
+	float: left;
+}
+#logo{
+	width: 210px;
+	margin: 10px auto;
+	padding:5px;
+	font-size: 40px;
+	font-weight: bolder;
+	background: #224477;
+	color: #FFF;
+	text-align: center;
+	text-shadow: 1px 1px 3px #BBB;
+	font-family: serif;
+}
+#menu{
+	width: 300px;
+}
+#notas{
+	width: 240px;
+	margin: 30px 10px;
+	padding:0 5px 10px 30px;
+	background: #EBDA18;
+	font-family: "Segoe Print", sans-serif;
+	font-size: 13px;
+}
+#n_title{
+	width: 267px;
+	height: 20px;
+	margin-left: -30px;
+	background: #DCBF1D;
+	padding:4px;
+	font-weight: bold;
+	font-size: 11px;
+}
+#contenedor{
+	width: 890px;
+	float: right;
+}
+#hmenu{
+	width: 890px;
+	height: 60px;
+}
+#divalert{
+	height:40px;
+	width:890px;
+	margin-top:3px;
+}
+#ALERTAS{
+	width: 890px;
+	height: 40px;
+}
+#contenido{
+	width: 890px;
+}
+#pie{
+	clear:both;
+	margin:auto;
+	padding: 6px;
+	width: 100%;
+	height:20px;
+	background: #113366;
+	border-bottom: 1px solid #335588;
+	text-align: center;
+	color: #AAA;
+	font-size: 10px;
+	-ms-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+}
+.title{
+	margin: 10px 0;
+	padding: 5px;
+	color: #eee;
+	font-size: 18px;
+	font-weight: bold;
+	background: #375F9A;
+	border-bottom: 1px solid #DDDDDD;
+	border-radius: 2px;
+	-ms-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	text-shadow: 1px 1px 3px #222;
+}
+/*************************************************************************************/
+/**** MENU LATERAL *******************************************************************/
+.menul{
+	list-style: none;
+	margin: 5px;
+	margin-bottom: 30px;
+	padding: 0;
+}
+.menul li{
+	margin:3px;
+	padding:0;
+	background: #DDDDDD url(img/lnv.png) 75px 0px repeat-y;
+	border-radius: 4px;
+	-ms-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+}
+.menul li:hover{
+	background: #EEEEEE url(img/lnv.png) 74px 0px repeat-y;
+	border:1px solid #DDDDDD;
+	height: 68px;
+}
+.menul li a{
+	display: block;
+	width: 200px;
+	height: 62px;
+	padding: 4px;
+	padding-left: 80px;
+	text-decoration: none;
+	color: #224477;
+}
+/**** OPCIONES DEL MENU *****************/
+._usuario{background:url(img/user32.png) no-repeat 23px center;}
+._buscar{background:url(img/search32.png) no-repeat 23px center;}
+._todos{background:url(img/users32.png) no-repeat 23px center;}
+._morosos{background:url(img/usersblock32.png) no-repeat 23px center;}
+._recargos{background:url(img/cerrar.png) no-repeat 23px center;}
+._agregar{background:url(img/userplus32.png) no-repeat 23px center;}
+._diario{background:url(img/diario32.png) no-repeat 23px center;}
+._fechas{background:url(img/fechas32.png) no-repeat 23px center;}
+._visitas{background:url(img/visitas32.png) no-repeat 23px center;}
+._estado{background:url(img/edo_cta32.png) no-repeat 23px center;}
+._backup{background:url(img/database.png) no-repeat 23px center;}
+._activos{background:url(img/star.png) no-repeat 23px center;}
+._inactivos{background:url(img/userminus32.png) no-repeat 23px center;}
+._pagos{background:url(img/Recycle.png) no-repeat 23px center;}
+/*************************************************************************************/
+/**** MENU LATERAL *******************************************************************/
+.menuh{
+	margin:0;
+	padding:0;
+	list-style: none;
+}
+.menuh li{
+	margin:0px 3px;
+	padding:0;
+	float:left;
+}
+.menuh li a{
+	display: block;
+	width: 120px;
+	padding: 35px 5px 5px 5px;
+	background:#ffffff;
+	text-decoration: none;
+	text-align: center;
+	color: #224477;
+	border-radius: 0 0 3px 3px;
+	-ms-border-radius: 0 0 3px 3px;
+	-moz-border-radius: 0 0 3px 3px;
+	-webkit-border-radius: 0 0 3px 3px;
+	-khtml-border-radius: 0 0 3px 3px;
+}
+/*************************************************************************************/
+/**** FORMATO DE TABLAS **************************************************************/
+table{width: 100%; empty-cells: show; border-collapse: collapse; text-transform: uppercase;}
+table caption{
+	padding:8px;
+	font-size: 16px;
+	color: #111;
+	background: #888;
+	border-bottom: 1px solid #888;
+	border-radius: 5px 5px 0 0;
+	-ms-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	-khtml-border-radius: 5px 5px 0 0;
+}
+table thead{
+	font-size: 13px;
+	padding: 5px;
+	background: #888;
+}
+table tbody tr th{
+	padding: 6px 6px;
+	color: #224373;
+	font-size: 16px;
+	text-align: left;
+	background: #B1B1B1 url(img/tr.png) repeat-x bottom;
+	text-shadow: 1px 1px #DDD;
+}
+table tbody tr td{
+	font-size: 16px;
+	padding: 6px; 
+	background: #B2B2B2 url(img/tr.png) repeat-x bottom;
+	text-shadow: 1px 1px #E5E5E5;
+}
+
+table tfoot tr th{
+	background: #888;
+	border-radius: 0 0 5px 5px;
+	text-align: right;
+	padding-bottom: 5px;
+	-ms-border-radius: 0 0 5px 5px;
+	-moz-border-radius: 0 0 5px 5px;
+	-webkit-border-radius: 0 0 5px 5px;
+	-khtml-border-radius: 0 0 5px 5px;
+}
+.tboton{
+	display: block;
+	width: 60px;
+	margin: 5px;
+	padding: 45px 0 5px 0;
+	font-size: 10px;
+	text-align: center;
+}
+.tboton{text-decoration: none;color:#222;}
+.detalles{
+	background: #BBB url(img/contactcard32.png) no-repeat 14px 5px;
+}
+.detalles:hover{
+	background: #EEE url(img/contactcard32.png) no-repeat 14px 5px;
+}
+.cuenta{
+	background: #BBB url(img/moneyreceipt32.png) no-repeat 15px 5px;
+}
+.cuenta:hover{
+	background: #EEE url(img/moneyreceipt32.png) no-repeat 15px 5px ;
+}
+.recargos{
+	background: #BBB url(img/cerrar.png) no-repeat 15px 5px;
+}
+.recargos:hover{
+	background: #EEE url(img/cerrar.png) no-repeat 15px 5px ;
+}
+.editar{
+	background: #BBB url(img/notepencil32.png) no-repeat 15px 5px;
+}
+.editar:hover{
+	background: #EEE url(img/notepencil32.png) no-repeat 15px 5px ;
+}
+.eliminar{
+	background: #BBB url(img/userminus32.png) 13px 5px no-repeat;
+}
+.eliminar:hover{
+	background: #EEE url(img/userminus32.png) 13px 5px no-repeat;
+}
+
+/*************************************************************************************/
+/**** FORMULARIOS ********************************************************************/
+input[type=text], input[type=password], select, textarea{
+	border:2px solid #222;
+	background: #444;
+	color: #eee;
+	font-size: 20px;
+	text-transform: uppercase;
+	border-radius: 4px;
+	padding: 4px;
+	-ms-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+}
+input[type=submit], input[type=button]{
+	border: 3px solid #DDD;
+	padding: 7px;
+	font-size: 20px;
+	background: #BBB;
+	margin:3px;
+	-ms-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	text-shadow: 1px 1px #DDD;
+}
+/*************************************************************************************/
+.boton{
+	margin:3px;
+	padding:5px 8px;
+	border:2px solid #888;
+	background: #ddd;
+	color: #666;
+	text-shadow: 1px 1px #888;
+	text-align: center;
+	text-decoration: none;
+}
+.clear{clear: both;}
+a{outline: none;}
+.sombra {
+	-moz-box-shadow: 2px 3px 5px #777; /* FireFox3.5+ */
+	-webkit-box-shadow: 2px 3px 5px #777; /* Safari 3.0+, Chrome */
+	box-shadow: 2px 3px 5px #777; /* Opera 10.5, IE 9.0 */
+}
+.esqRedondas{
+	border-radius: 4px;
+	-ms-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-khtml-border-radius: 4px;
+}
+.esqRedondas_b{
+	border-radius: 0px 0 2em 4pt;
+	-ms-border-radius: 0px 0 2em 4pt;
+	-moz-border-radius: 0px 0 2em 4pt;
+	-webkit-border-radius: 0px 0 2em 4pt;
+	-khtml-border-radius: 0px 0 2em 4pt;
+}
+.campoerror{border:2px solid #AA1818;}
+/---------------STYLOS PARA LOS BOTONOS Y LINKS DEL PAGINADOR------------------------------/
+#actual {
+	color:#000000;
+	font-weight:600;
+}
+a {
+	color:#CCCCCC;
+	text-decoration:none;
+}
+a:hover {
+	color:#000000;
+}
+.numPages {
+	border:1px solid #999999;
+	padding:0.3em 0.4em;
+}
+.numPages:hover {
+	background:#CCCCCC;
+}

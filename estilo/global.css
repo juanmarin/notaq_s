@@ -1,0 +1,18 @@
+/*********************************************************************
+*** GENERAL *********************************************************/
+#lst_users{
+	border: 1px solid #DDD;
+}
+.img-boton{
+	border:0px;
+	margin-bottom: -6px;
+}
+.img-boton:hover{
+	background: #D5D5D5;
+	cursor: pointer;
+}
+.campo-error{
+	border:2px solid #c66;
+	background: #AA0101;
+	color: #fff;
+}

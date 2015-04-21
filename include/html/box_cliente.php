@@ -1,0 +1,89 @@
+<?php header('Content-Type: text/html; charset=iso-8859-1'); ?>
+<style>
+	table tbody tr th{text-align: right;}
+</style>
+<table>
+<caption></caption>
+<thead>
+	<tr>
+		<th colspan="2"></th>
+	</tr>
+</thead>
+<tbody>
+	<?php
+	require_once("../php/sys_db.class.php");
+	require_once("../conf/Config_con.php");
+	
+	function getVivienda($tipo)
+	{
+		switch($tipo)
+		{
+			case 1:	echo "Propia";	break;
+			case 2:	echo "Renta";	break;
+			case 3:	echo "Padres";	break;
+			case 4:	echo "otro";	break;
+			default:	echo "No definido";	break;
+		}
+	}
+	function getProp($tipo) 
+	{
+		switch($tipo)
+		{
+			case 1:	echo "Si";	break;
+			case 0:	echo "No";	break;
+			default:	echo "No definido";	break;
+		}
+	}
+	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
+	$result = $db->query("SELECT * FROM clientes WHERE id = ".$_GET["cl"]." LIMIT 0, 1");
+	while ($ln = $db->fetchNextObject($result))
+	{
+		$cliente = $ln->id;
+		?>
+		<tr>
+			<th width="195">Nombre: </th><td><?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
+		</tr>
+		<tr>
+			<th>Dirección: </th><td><?echo $ln->direccion.", Colonia: ".$ln->colonia;?></td>
+		</tr>
+		<tr>
+			<th>Teléfono de casa: </th><td><?echo $ln->telefono;?></td>
+		</tr>
+		<tr>
+			<th>Teléfono celular: </th><td><?echo $ln->celular;?></td>
+		</tr>
+		<tr>
+			<th>RFC: </th><td><?echo $ln->rfc;?></td>
+		</tr>
+		<tr>
+			<th>Vivienda: </th><td><?echo getVivienda($ln->vivienda);?></td>
+		</tr>
+		<tr>
+			<th>Empresa: </th><td><?echo $ln->empresa;?></td>
+		</tr>
+		<tr>
+			<th>Puesto: </th><td><?echo $ln->epuesto;?></td>
+		</tr>
+		<tr>
+			<th>Teléfono: </th><td><?echo $ln->etelefono;?></td>
+		</tr>
+		<tr>
+			<th>Dirección: </th><td><?echo $ln->edireccion .", Colonia: ".$ln->ecolonia;?></td>
+		</tr>
+		<tr>
+			<th>Negocio propio: </th><td><?echo getProp($ln->propio);?></td>
+		</tr>
+		<tr>
+			<th>Cliente activo: </th><td><?echo getProp($ln->activo);?></td>
+		</tr>
+		<?php
+	}
+	?>
+</tbody>
+
+<tfoot>
+	<tr>
+		<th colspan="4"><a href="?pg=2e&cl=<?echo $cliente;?>" class="boton">Ver cuenta de cliente</a></th>
+	</tr>				
+</tfoot>
+<table>

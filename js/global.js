@@ -1,0 +1,47 @@
+/*************************************************
+** SCRIPTS PARA LA PAGINA PRINCIPAL 				**
+**************************************************/
+$(document).ready(function(){
+	//-MIS FUNCIONES
+	jQuery.alertas = function(){
+		$("#ALERTAS").slideDown();
+		setTimeout(
+			function(){
+				$("#ALERTAS").slideUp(500);
+			},
+			9000
+		);
+	}
+	//-- INICIALIZANDO DATEPICKER ... ----------------------------------------------->
+	$(function(){
+		$(".dpfecha").datepicker({dateFormat: 'yy-mm-dd'});
+		/*$("#fecha").change(function(){
+			alert($(this).val());
+		});*/
+	});
+	//-MOSTRANDO EFECTO AL INICIAR PAGINA ----------------------------------------
+	$("#contenido").hide();
+	$("#contenido").show("slide", { direction: "right" }, 1000);
+	//-MOSTRANDO ALERTAS ---------------------------------------------------------
+	$.alertas();
+	$("#usuario").focus();
+	//-FORMULARIO PARA ENVIAR MENSAJES
+	//-VALIDANDO FORMULARIO
+	$("#frm_mensaje_enviar").validate();
+	//-ENVIANDO DATOS
+	$("#btn_mensaje_enviar").click(function(){
+		$.post("include/php/sys_modelo.php", {
+			action: "frm_mensaje_guardar",
+			asunto: $("#asunto").val(),
+			para: $("#para").val(),
+			mensaje: $("#mensaje").val()
+		}, function(data){
+			$("#ALERTAS").html(data);
+			$.alertas();
+			setTimeout(function(){
+				//$("#frm_mensaje_enviar")[0].reset();
+				$("#mensaje").val("");
+			},1000);
+		});
+	});
+});

@@ -1,0 +1,13 @@
+Estado pagos:
+0 = Pendiente de pago		 
+1 = Pagado
+2 = Cuenta saldada
+3 = Pago adelantado
+
+Estado de cuetas:
+0 = Activa 
+1 = Saldada
+2 = Liquidada con monto menor
+
+
+cuenta-> porcentaje 
