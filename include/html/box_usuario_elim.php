@@ -26,9 +26,9 @@
 		<th colspan="4">
 		<input type="hidden" name="usr" value="<?php echo $_GET['usr']; ?>" />
 		<input type="hidden" name="action" value="usr_elimina" />
-		<input type="submit" name="eliminar_usuario" value="Borrar" />
+		<input type="submit" name="eliminar_usuario" value="Borrar" onclick="return confirm('¿Está seguro que desea eliminar al usuario?');" />
 		</th>
-	</tr>				
+	</tr>
 </tfoot>
 <table>
 </form>

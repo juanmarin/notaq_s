@@ -7,39 +7,43 @@
 	$_SESSION["U_NIVEL"] = $user->userData[10];
 	if($_SESSION["U_NIVEL"] == 0){$_SESSION["hash"] = $user->randomPass(100);}
 ?>
-	<html>
-	<head>
-		<title>NOTAq</title>
-			<meta name="author" content="Juan Marin" />
-			<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
-			<meta http-equiv="content-style-type" content="text/css" />
-			<link rel="stylesheet" href="estilo/style.css" type="text/css" media="all" />
-			<link rel="stylesheet" href="estilo/global.css" type="text/css" media="all" />
-			<link rel="stylesheet" href="estilo/alerts.css" type="text/css" media="all" />
-			<link rel="stylesheet" href="estilo/themes/base/ui.all.css" type="text/css" media="all" />
-			<link rel="stylesheet" href="estilo/thickbox.css" type="text/css" media="all" />
-			<link rel="stylesheet" href="estilo/jquery.cleditor.css" type="text/css" media="all" />
+<html>
+<head>
+<title>NOTAq</title>
+<meta name="author" content="Juan Marin" />
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+<meta http-equiv="content-style-type" content="text/css" />
+
+<link rel="stylesheet" href="estilo/style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="estilo/global.css" type="text/css" media="all" />
+<link rel="stylesheet" href="estilo/alerts.css" type="text/css" media="all" />
+<link rel="stylesheet" href="estilo/themes/base/ui.all.css" type="text/css" media="all" />
+<link rel="stylesheet" href="estilo/thickbox.css" type="text/css" media="all" />
+<link rel="stylesheet" href="estilo/jquery.cleditor.css" type="text/css" media="all" />
 <!--[if IE]>
 	<style>
 		@import url("estilo/IEfixes.css");
 	</style>
 <![endif]-->
-			<script type="text/javascript" src="js/jquery-1.4.1.min.js"></script>
-			<script type="text/javascript" src="js/jquery.validate.js"></script>
-			<script type="text/javascript" src="js/ui/ui.core.js"></script>
-			<script type="text/javascript" src="js/ui/effects.core.js"></script>
-			<script type="text/javascript" src="js/ui/effects.slide.js"></script>
-			<script type="text/javascript" src="js/ui/ui.datepicker.js"></script>  
-			<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-			<script type="text/javascript" src="js/thickbox.js"></script>
-			<script type="text/javascript" src="js/jquery.cleditor.min.js"></script>
-			<script type="text/javascript" src="js/global.js"></script>
-	</head>
-	<body>
+<script type="text/javascript" src="js/jquery-1.4.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript" src="js/ui/ui.core.js"></script>
+<script type="text/javascript" src="js/ui/effects.core.js"></script>
+<script type="text/javascript" src="js/ui/effects.slide.js"></script>
+<script type="text/javascript" src="js/ui/ui.datepicker.js"></script>  
+<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="js/thickbox.js"></script>
+<script type="text/javascript" src="js/jquery.cleditor.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+</head>
+<body>
 
 	<div id="main">
+	
 		<div id="barra" class="sombra esqRedondas_b">
+		
 			<div id="logo">NOTAq</div>
+		
 			<div id="vmenu">
 				<ul class="menul">
 					<?php
@@ -48,25 +52,30 @@
 					{
 						case 3:
 							?>
-	    							<li><a href="?pg=3a" class="_diario">Reporte Diario</a></li>
-	    							<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
-	    							<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
+    							<li><a href="?pg=3a" class="_diario">Reporte Diario</a></li>
+    							<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
+    							<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
 								<li><a href="?pg=3f" class="_visitas">Reporte Recargos</a></li>
 								<li><a href="?pg=3d" class="_estado">Historial Credito</a></li>
 								<li><a href="?pg=3e" class="_pagos">Control Pagos</a></li>
 							<?php
-						break;
+							break;
 						case 4:
 							?>         
-								<li><a href="?pg=4" class="_usuario">Informaci&oacute;n personal</a></li>
+							<li><a href="?pg=4" class="_usuario">Informaci&oacute;n personal</a></li>
 							<?
-								if($_SESSION["U_NIVEL"] == 0){
-							?>
+							if($_SESSION["U_NIVEL"] == 0)
+							{
+								?>
 								<li><a href="?pg=4a" class="_todos">Lista de usuarios</a></li>
 								<li><a href="?pg=4b" class="_agregar">Agregar usuario</a></li>
 								<li><a href="?pg=4d" class="_tPrestamos">Tabla Prestamos</a></li>
-                                				<li><a href="?pg=4c" class="_backup">Respaldar Base de Datos</a></li>
-								### ---------------------------------------------------------------------------------------------------------######
+                                <li><a href="?pg=4c" class="_backup">Respaldar Base de Datos</a></li>
+								<?php
+							}
+							break;
+						default:
+							?>         
 								<li><a href="?pg=2a" class="_buscar">Buscar cliente</a></li>
 								<li><a href="?pg=2" class="_todos">Todos los clientes</a></li>
 								<li><a href="?pg=2cb" class="_activos">Clientes activos</a></li>
@@ -74,15 +83,6 @@
 								<li><a href="?pg=2cc" class="_demanda">Clientes en demanda</a></li>
 								<li><a href="?pg=2ca" class="_inactivos">Clientes inactivos</a></li>
 								<li><a href="?pg=2d" class="_agregar">Agregar cliente</a></li>
-							<?php
-							}
-							break;
-						default:
-							?>         
-								<li><a href="?pg=2a" class="_buscar">Buscar cliente</a></li>
-								<li><a href="?pg=2" class="_todos">Mis clientes</a></li>
-								<li><a href="?pg=2cb" class="_activos">Mis clientes activos</a></li>
-								<li><a href="?pg=2c" class="_morosos">Mis lientes morosos</a></li>
 							<?php
 					}
 					?>
@@ -249,24 +249,15 @@
 		
 			<div id="hmenu">
 				<ul class="menuh">
-				<?php
-						if($user->userData[7] == "ADMINISTRADOR" and $user->userData[10] == 0){				
-				?>
 					<li><a href="?pg=1">Portada</a></li>
 					<li><a href="?pg=2">Clientes</a></li>
-					<li><a href="?pg=3a">Reportes</a></li>					
+					<li><a href="?pg=3a">Reportes</a></li>
+					<?php
+						//if($user->userData[7] == "ADMINISTRADOR" and $user->userData[10] == 0){				
+					?>
 					<li><a href="?pg=5">Inversionistas</a></li>
 					<li><a href="?pg=4">Panel</a></li>
 					<li><a href="?logout=1">Salir</a></li>
-				<?php
-					}else{
-				?>
-						<li><a href="?pg=1">Portada</a></li>
-						<li><a href="?pg=4">Mis cuenta</a></li>
-						<li><a href="?logout=1">Salir</a></li>
-				<?php	
-					}
-				?>
 				</ul>
 			</div>
 			

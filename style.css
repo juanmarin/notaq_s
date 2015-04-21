@@ -127,6 +127,7 @@ h1, h2, h3, h4, h5{color:#ddd;}
 	color: #224477;
 }
 /**** OPCIONES DEL MENU *****************/
+
 ._usuario{background:url(img/user32.png) no-repeat 23px center;}
 ._buscar{background:url(img/search32.png) no-repeat 23px center;}
 ._todos{background:url(img/users32.png) no-repeat 23px center;}
@@ -141,6 +142,7 @@ h1, h2, h3, h4, h5{color:#ddd;}
 ._activos{background:url(img/star.png) no-repeat 23px center;}
 ._inactivos{background:url(img/userminus32.png) no-repeat 23px center;}
 ._pagos{background:url(img/Recycle.png) no-repeat 23px center;}
+._tPrestamos{background:url(img/moneyreceipt32.png) no-repeat 23px center;}
 /*************************************************************************************/
 /**** MENU LATERAL *******************************************************************/
 .menuh{

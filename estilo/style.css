@@ -1,5 +1,5 @@
 /************************************************************************************/
-body{background:#224477;margin:0;font-family: "Arial Rounded MT Bold", sans;}
+body{background:#009999;margin:0;font-family: "Arial Rounded MT Bold", sans;}
 h1, h2, h3, h4, h5{color:#ddd;}
 /************************************************************************************/
 #main{
@@ -17,7 +17,7 @@ h1, h2, h3, h4, h5{color:#ddd;}
 	padding:5px;
 	font-size: 40px;
 	font-weight: bolder;
-	background: #224477;
+	background: #009999;
 	color: #FFF;
 	text-align: center;
 	text-shadow: 1px 1px 3px #BBB;
@@ -85,7 +85,7 @@ h1, h2, h3, h4, h5{color:#ddd;}
 	color: #eee;
 	font-size: 18px;
 	font-weight: bold;
-	background: #375F9A;
+	background: #888;
 	border-bottom: 1px solid #DDDDDD;
 	border-radius: 2px;
 	-ms-border-radius: 4px;

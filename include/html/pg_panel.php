@@ -15,25 +15,27 @@ $ln = $db->fetchNextObject($result);
 <tbody>
 	<tr>
 		<th width="350">Nombre:</th>
-		<td><input type="text" name="nombre" id="nombre" value="<?php echo $ln->nombre;?>" size="30" readonly="yes" /></td>
+		<td><input type="text" name="nombre" id="nombre" value="<?php echo $ln->nombre;?>" size="50" /></td>
 	</tr>
 	<tr>
 		<th>Puesto:</th>
-		<td><input type="text" name="puesto" id="puesto" value="<?php echo $ln->puesto;?>" size="15"  readonly="yes"/></td>
+		<td><input type="text" name="puesto" id="puesto" value="<?php echo $ln->puesto;?>" size="50" /></td>
 	</tr>
 	<tr>
 		<th>Departamento:</th>
-		<td><input type="text" name="departamento" id="departamento" value="<?php echo $ln->departamento;?>" size="15"  readonly="yes"/></td>
+		<td><input type="text" name="departamento" id="departamento" value="<?php echo $ln->departamento;?>" size="40" /></td>
 	</tr>
-
-		<input type="hidden" name="nivel" id="nivel" value="<?php echo $ln->nivel;?>" size="10" readonly="yes"/><
+	<tr>
+		<th>Nivel:</th>
+		<td><input type="text" name="nivel" id="nivel" value="<?php echo $ln->nivel;?>" size="10" /></td>
+	</tr>
 	<tr>
 		<th>Correo:</th>
-		<td><input type="text" name="email" id="email" value="<?php echo $ln->email;?>" size="15" /></td>
+		<td><input type="text" name="email" id="email" value="<?php echo $ln->email;?>" size="40" /></td>
 	</tr>
 	<tr>
 		<th>Teléfono:</th>
-		<td><input type="text" name="telefono" id="telefono" value="<?php echo $ln->telefono;?>" size="15" readonly="yes" /></td>
+		<td><input type="text" name="telefono" id="telefono" value="<?php echo $ln->telefono;?>" size="20" /></td>
 	</tr>
 </tbody>
 <tfoot>
@@ -48,19 +50,19 @@ $ln = $db->fetchNextObject($result);
 <tbody>
 	<tr>
 		<th width="350">Nombre de usuario:</th>
-		<td><input type="text" name="uname" id="uname" value="<?php echo $ln->username;?>" size="15" readonly="yes" /></td>
+		<td><input type="text" name="uname" id="uname" value="<?php echo $ln->username;?>" /></td>
 	</tr>
 	<tr>
 		<th>Contraseña actual:</th>
-		<td><input type="password" name="conac" id="conac" value="" size="15" /></td>
+		<td><input type="password" name="conac" id="conac" value="" /></td>
 	</tr>
 	<tr>
 		<th>Contraseña nueva:</th>
-		<td><input type="password" name="conu" id="conu" size="15"/></td>
+		<td><input type="password" name="conu" id="conu" /></td>
 	</tr>
 	<tr>
 		<th>Confirmar contraseña nueva:</th>
-		<td><input type="password" name="confnu" id="confnu"  size="15"/></td>
+		<td><input type="password" name="confnu" id="confnu" /></td>
 	</tr>
 </tbody>
 <tfoot>
