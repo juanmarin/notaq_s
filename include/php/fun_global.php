@@ -529,9 +529,8 @@ function dateadd($date, $dd=0, $mm=0, $yy=0, $hh=0, $mn=0, $ss=0){ ##### Funcion
      return $date_result;
 }
 function calculamonto($cantidad, $monto1, $monto2, $plazo1, $plazo2, $tipo_pago){
-    $tot1 = ($plazo1 * $monto1);
-    $tot2 = ($plazo2 * $monto2);
-    $saldo = ($tot1 + $tot2);
+	
+    $saldo = (($plazo1 * $monto1) + ($plazo2 * $monto2));
     $int_moneda = ($saldo - $cantidad);
     $int_tot = (($int_moneda * 100)/$cantidad);
     
@@ -545,8 +544,7 @@ function calculamonto($cantidad, $monto1, $monto2, $plazo1, $plazo2, $tipo_pago)
 			break;
             case "MENSUAL":
 					$tiempo = ceil(($plazo1 + $plazo2));	
-			break;
-            		
+			break;     		
 		}
     $datosPrestamo = array('saldo'=>$saldo, 'int_moneda'=>$int_moneda, 'interes'=>$interes, 'tiempo'=>$tiempo);   
     return $datosPrestamo;   
