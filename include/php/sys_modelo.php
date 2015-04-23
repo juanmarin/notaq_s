@@ -5,7 +5,7 @@ session_start();
 <thead>
 	<title>Modelo</title>
 	<style>
-		<!-- body{background:#009999;} -->
+		<!-- body{background:#fff;} -->
 	</style>
 </thead>
 <body>
@@ -41,7 +41,7 @@ switch($_POST["action"]){
 			$_SESSION["nu_ema"] = $_POST["email"]; 
 			$_SESSION["nu_tel"] = $_POST["telefono"]; 
 			$_SESSION["nu_una"] = $_POST["uname"];
-			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">El usuario seleccionado ya existe, intente con uno diferente.</p></th></tr>';
+			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Ya existe un usuario con ese username, intente con uno diferente.</p></th></tr>';
 			#echo $_SESSION["msg"];
 			#echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
@@ -307,27 +307,24 @@ switch($_POST["action"]){
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2bd&cl='.$_POST["cl"].'"> ';
 		}
 	case "cuenta_nueva":
-		echo "dia pago: " . $_POST["dias_pago"]. "<br />";
+		#echo "dia pago: " . $_POST["dias_pago"]. "<br />";
 		if	(
 				(($_POST["tipo_pago"] < 4) && ($_POST["dias_pago"] == "nd")) || 
 				($_POST["tipo_pago"] == "nd") || 
 				($_POST["cantidad"] == "") || 
-				($_POST["interes"] == "") || 
-				($_POST["tiempo"] == "") 
-			){
-			echo "Mandaste los datos vacios wey!!";
+				($_POST["plazo1"] == "") || 
+				($_POST["monto1"] == "") 
+			)
+			{
+			
 			# no hacer nada porque estan mal los datos
 		}else{
-			
-			$_POST["$monto1"] = $monto1;
-			$_POST["$monto2"] = $monto2;
-			$_POST["plazo1"] = $plazo1;
-			$_POST["plazo2"] = $plazo2;
-			echo $_POST["$monto2"];
+					
 			# mandamos llamar la funcion que nos traera los datos para crear la nuev cuenta
-			$datosPrestamo = calculamonto($_POST["cantidad"], $monto1, $monto2, $plazo1, $plazo2, $_POST["tipo_pago"]);
-			$datosPrestamo['interes'] = $_POST["interes"];
-			$datosPrestamo['tiempo'] = $_POST["tiempo"];
+			
+			$datosPrestamo = calculamonto($_POST["cantidad"], $_POST["monto1"], $_POST["monto2"], $_POST["plazo1"], $_POST["plazo2"], $_POST["tipo_pago"]);
+			var_dump($datosPrestamo);
+			
 			## calcular total
 			$total = $_POST["cantidad"] * (( ($_POST["interes"] * $_POST["tiempo"])  / 100 ) + 1 );
 			$npagos = getPagos($total, $_POST["tiempo"], $_POST["tipo_pago"]);
@@ -412,7 +409,7 @@ switch($_POST["action"]){
 			}
 			include_once "imprimeReciboCuenta.php";
 		}
-		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+		//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		break;
 	case "reimprimir_prestamo":
 		$dia = $POST["dia"];
