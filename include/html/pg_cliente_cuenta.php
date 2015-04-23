@@ -19,7 +19,7 @@
 			fecha = new Date(a, mes, d);
 			dia = fecha.getDay();
 			//alert(dia + ' // ' + m);
-			if(dia == A){
+			if(dia == 0){
 				alert("No se puede seleccionar el día domingo.\n Seleccione otro día.");
 			}else{
 				$("#dias_pago option").removeAttr("selected");
@@ -256,7 +256,7 @@ if($chk == 0){
 		</tr>
 		<tr>
 			<th>Cantidad:</th>
-			<td>$<input type="text" name="cantidad" size="5" /></td>
+			<td>$<input type="text" name="cantidad" id ="cantidad" size="5" /></td>
 			<th>Cobrador:</th>
 			<td>
     <?php
