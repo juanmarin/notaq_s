@@ -3,8 +3,8 @@
 	
 		$cantidad = 1000;
 		$monto1 = 150; 
-		$plazo1 = 7;
-		$plazo2 = 4;
+		$plazo1 = 6;
+		$plazo2 = 5;
 		$monto2 = 100;
 		$tipo_pago = "SEMANAL";
 		
@@ -14,9 +14,8 @@
 		echo "Monto Int.: ".$datosPrestamo['int_moneda']."<br/>";
 		echo "Interes Tot: ".$datosPrestamo['interes']."<br/>";
 		echo "Plazo Real: ".$datosPrestamo['tiempo']."<br/>";
-		echo "Cale con CEIL: ".ceil($datosPrestamo['tiempo'])."<br/>";
 
-		var_dump($datosPrestamo);
+		echo var_dump($datosPrestamo);
 	
 		
 ?>
