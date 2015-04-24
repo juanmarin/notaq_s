@@ -351,7 +351,7 @@ switch($_POST["action"]){
 			
 			## calcular total
 			$total = $cantidad * (( ($interes * $tiempo)  / 100 ) + 1 );
-			$npagos = getPagos($total, $tiempo, $tipo_pago);
+			$npagos = $plazo1 + $plazo2;
 			$pago = $total / $npagos; 
 			if($_POST["tipo_pago"] == 4){
 				$diasPago = substr($_POST["fechapp"], -2);
