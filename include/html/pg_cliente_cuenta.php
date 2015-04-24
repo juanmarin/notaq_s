@@ -335,16 +335,19 @@ if($chk == 0){
 	}else {
 		$tp = "MENSUAL";
 	}
+	$sql = "SELECT userID, username FROM mymvcdb_users WHERE userID =".$r->cobrador;
+	$ln2 = $db->fetchNextObject($sql);
 	?>
 	<table>
 	<caption>DETALLES DE LA CUENTA</caption>
 	<tbody>
 		<tr>
-			<th>FECHA:</th><td colspan="5"><?php echo $r->fecha; ?></td>
+			<th>FECHA:</th><td colspan="3"><?php echo $r->fecha; ?></td>
+			<th>COBRADOR:</th><td colspan=""><?php echo $ln2->username; ?></td>
 		</tr>
 		<tr>
 			<th>MONTO:</th>		<td>$&nbsp;<?php moneda($r->cantidad); ?></td>
-			<th> </th>	<td> </td>
+			<th> </th>		<td> </td>
 			<th>SALDO:</th>		<td>$&nbsp;<?php echo moneda($saldo); ?></td>
 		</tr>
 		<tr>
