@@ -5,7 +5,10 @@
 	if($_SESSION["hola"] == 1){} else {$_SESSION["hola"] = 0;}
 	$_SESSION["REQUIRED1"] = $user->userData[0];
 	$_SESSION["U_NIVEL"] = $user->userData[10];
+	$_SESSION["DEPTO"] = $user->userData[7];
+	$_SESSION["USERNAME"] = $user->userData[1];
 	if($_SESSION["U_NIVEL"] == 0){$_SESSION["hash"] = $user->randomPass(100);}
+	//echo var_dump($user);
 ?>
 <html>
 <head>
@@ -20,6 +23,9 @@
 <link rel="stylesheet" href="estilo/themes/base/ui.all.css" type="text/css" media="all" />
 <link rel="stylesheet" href="estilo/thickbox.css" type="text/css" media="all" />
 <link rel="stylesheet" href="estilo/jquery.cleditor.css" type="text/css" media="all" />
+
+
+    
 <!--[if IE]>
 	<style>
 		@import url("estilo/IEfixes.css");
