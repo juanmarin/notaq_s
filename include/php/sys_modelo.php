@@ -359,7 +359,7 @@ switch($_POST["action"]){
 				$diasPago = $_POST["dias_pago"];
 			}			
 			## creando cuenta 
-			$_cadena = "INSERT INTO cuentas (cliente, fecha, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, observaciones)
+			$_cadena = "INSERT INTO cuentas (cliente, fecha, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones)
 			VALUES (
 				". $_POST["cl"] .",
 				'". $_POST["fecha"] ."',
@@ -371,6 +371,7 @@ switch($_POST["action"]){
 				". $total .", 
 				". $npagos .",
 				". $pago .",
+				'".$_POST["cobrador"] ."',
 				'". $_POST["observ"]."'
 			)";
 			#echo $_cadena;
@@ -385,13 +386,13 @@ switch($_POST["action"]){
 				$n = 2;
 			}elseif($tipo_pago == 3) { 
 				#$fechas = getFechasQuincenas($_POST["dias_pago"], $npagos, $_POST["fechapp"]);
-				$dia = split("-", $_POST["dias_pago"]);
+				$dia = split("-", $dias_pago);
 				#$tipo = "week";
 				#$n = 2;
 			}else {
 				$tipo = "month";
 			}
-			for($i=0;$i<$npagos;$i++) {
+			for($i=0;$i<$plazo1;$i++) {
 				if($cnt > 0){
 					if($tipo_pago == 3){
 						$a = (int)substr($prxpago, 0, -6);
@@ -424,13 +425,56 @@ switch($_POST["action"]){
 					".$_POST["cl"].",
 					".$cuenta.", 
 					'".$prxpago."',
-					".$pago.", 
+					".$monto1.", 
 					".($interes * $tiempo)."   
 				)";
 				//echo $sql . "<br />";
 				mysql_query($sql);
 				$cnt++;
 			}
+ #### INSERTANDO EL SEGUNDO MONTO A LA CUENTA ////
+ 		if($monto2 && $plazo2 > 0){
+ 			for($i=0;$i<$plazo2;$i++) {
+				if($cnt > 0){
+					if($tipo_pago == 3){
+						$a = (int)substr($prxpago, 0, -6);
+						$m = (int)substr($prxpago, 5, -3);
+						$d = (int)substr($prxpago, -2);
+						if( $d > 15 ){
+							if($m == 12){$m = 1; $a++;}else{ $m++;}
+							$d = $dia[0];
+						}else{
+							if($m == 2 && $dia[1] == 30) {
+								$d = 28;
+							}else {
+								$d = $dia[1];
+							}
+						}
+						if($m < 10){$m = "0".$m;}
+						if($d < 10){$d = "0".$d;}
+						$prxpago = $a . "-" . $m . "-" . $d;
+						echo $prxpago . " ~ " . $dia[0] . $dia[1] . "<br />";
+					}else {
+						$prxpago = date('Y-m-d', strtotime($prxpago.' + '.$n.' '.$tipo));
+					}
+				}else {
+					$prxpago = $_POST["fechapp"];
+				}
+				
+				$_SESSION["pp"] = $_POST["fechapp"];
+				$sql = "INSERT INTO pagos (cliente, cuenta, fecha, pago, interes) 
+				VALUES (
+					".$_POST["cl"].",
+					".$cuenta.", 
+					'".$prxpago."',
+					".$monto2.", 
+					".($interes * $tiempo)."   
+				)";
+				//echo $sql . "<br />";
+				mysql_query($sql);
+				$cnt++;
+			}
+		}
 			include_once "imprimeReciboCuenta.php";
 		}
 		//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
