@@ -344,7 +344,7 @@ if($chk == 0){
 		</tr>
 		<tr>
 			<th>MONTO:</th>		<td>$&nbsp;<?php moneda($r->cantidad); ?></td>
-			<th>INTERES:</th>	<td><?php echo $r->interes; ?> %</td>
+			<th> </th>	<td> </td>
 			<th>SALDO:</th>		<td>$&nbsp;<?php echo moneda($saldo); ?></td>
 		</tr>
 		<tr>
