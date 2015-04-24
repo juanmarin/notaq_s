@@ -558,4 +558,21 @@ function eliminaUsuario($u, $pas, $usr_Delete){
         	$queryc = mysql_query($sqlc);
         }
 }
+function revert_tipoPago($tipo_pago){
+	switch($tipo_pago){
+			case "SEMANAL":	
+					$tipo_pago = 1;
+			break;
+			case "CATORCENAL":
+					$tipo_pago = 2;	
+			break;
+            case "QUINCENAL":
+					$tipo_pago = 3;	
+			break;   
+			case "MENSUAL":
+					$tipo_pago = 4;
+			break;  		
+		}
+	return $tipo_pago;
+}
 ?>

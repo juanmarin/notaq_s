@@ -11,7 +11,7 @@ session_start();
 <body>
 <?php
 	foreach($_POST as $var => $val){
-		echo $var . " - " . $val . "<br />";
+		echo $var . " => " . $val . "<br />";
 	}
 require_once "../conf/Config.php";
 require_once "fun_global.php";
@@ -319,15 +319,39 @@ switch($_POST["action"]){
 			
 			# no hacer nada porque estan mal los datos
 		}else{
-					
+			switch($_POST["tipo_pago"]){
+			case 1:	
+					$tipo_pago = "SEMANAL";
+			break;
+			case 2:
+					$tipo_pago = "CATORCENAL";	
+			break;
+            case 3:
+					$tipo_pago = "QUINCENAL";	
+			break;   
+			case 4:
+					$tipo_pago = "MENSUAL";
+			break;  		
+		}		
 			# mandamos llamar la funcion que nos traera los datos para crear la nuev cuenta
-			
-			$datosPrestamo = calculamonto($_POST["cantidad"], $_POST["monto1"], $_POST["monto2"], $_POST["plazo1"], $_POST["plazo2"], $_POST["tipo_pago"]);
+			$cantidad = $_POST["cantidad"];
+			$monto1 = $_POST["monto1"];
+			$monto2 = $_POST["monto2"]; 
+			$plazo1 = $_POST["plazo1"];
+			$plazo2 = $_POST["plazo2"];
+			//$tipo_pago = $_POST["tipo_pago"];
+
+			$datosPrestamo = calculamonto($cantidad, $monto1, $monto2, $plazo1, $plazo2, $tipo_pago);
 			var_dump($datosPrestamo);
+			$tiempo = $datosPrestamo['tiempo'];
+			$interes = $datosPrestamo['interes'];
+			$tipo_pago = revert_tipoPago($tipo_pago);
+			echo $tipo_pago;
+			echo $tiempo;
 			
 			## calcular total
-			$total = $_POST["cantidad"] * (( ($_POST["interes"] * $_POST["tiempo"])  / 100 ) + 1 );
-			$npagos = getPagos($total, $_POST["tiempo"], $_POST["tipo_pago"]);
+			$total = $cantidad * (( ($interes * $tiempo)  / 100 ) + 1 );
+			$npagos = getPagos($total, $tiempo, $tipo_pago);
 			$pago = $total / $npagos; 
 			if($_POST["tipo_pago"] == 4){
 				$diasPago = substr($_POST["fechapp"], -2);
@@ -339,10 +363,10 @@ switch($_POST["action"]){
 			VALUES (
 				". $_POST["cl"] .",
 				'". $_POST["fecha"] ."',
-				". $_POST["cantidad"] .",
-				". $_POST["interes"] .",
-				". $_POST["tiempo"] .",
-				". $_POST["tipo_pago"] .",
+				". $cantidad .",
+				". $interes .",
+				". $tiempo .",
+				". $tipo_pago .",
 				'". $diasPago ."',
 				". $total .", 
 				". $npagos .",
@@ -354,12 +378,12 @@ switch($_POST["action"]){
 			$cuenta = mysql_insert_id();
 			$cnt = 0;
 			$n = 1;
-			if($_POST["tipo_pago"] == 1){
+			if($tipo_pago == 1){
 				$tipo = "week";
-			}elseif($_POST["tipo_pago"] == 2) { 
+			}elseif($tipo_pago == 2) { 
 				$tipo = "week";
 				$n = 2;
-			}elseif($_POST["tipo_pago"] == 3) { 
+			}elseif($tipo_pago == 3) { 
 				#$fechas = getFechasQuincenas($_POST["dias_pago"], $npagos, $_POST["fechapp"]);
 				$dia = split("-", $_POST["dias_pago"]);
 				#$tipo = "week";
@@ -369,7 +393,7 @@ switch($_POST["action"]){
 			}
 			for($i=0;$i<$npagos;$i++) {
 				if($cnt > 0){
-					if($_POST["tipo_pago"] == 3){
+					if($tipo_pago == 3){
 						$a = (int)substr($prxpago, 0, -6);
 						$m = (int)substr($prxpago, 5, -3);
 						$d = (int)substr($prxpago, -2);
@@ -401,7 +425,7 @@ switch($_POST["action"]){
 					".$cuenta.", 
 					'".$prxpago."',
 					".$pago.", 
-					".($_POST["interes"] * $_POST["tiempo"])."   
+					".($interes * $tiempo)."   
 				)";
 				//echo $sql . "<br />";
 				mysql_query($sql);

@@ -256,7 +256,7 @@ if($chk == 0){
 		</tr>
 		<tr>
 			<th>Cantidad:</th>
-			<td>$<input type="text" name="cantidad" id ="cantidad" size="5" /></td>
+			<td>$<input type="text" name="cantidad" size="5" /></td>
 			<th>Cobrador:</th>
 			<td>
     <?php
