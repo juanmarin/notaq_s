@@ -1,3 +1,8 @@
+<?php
+	session_start();
+	$UserName = $_SESSION["USERNAME"];
+	echo $UserName;
+?>
 <p class="title">Clientes &raquo; Listado de clientes activos</p>
 <table>
 <caption>CUENTAS ABIERTAS</caption>
