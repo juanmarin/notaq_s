@@ -265,7 +265,7 @@ if($chk == 0){
             echo "<select name='cobrador' id='cobrador'>";
             echo "<option value='seleccionar'>Asignar</option>";
             while($row = mysql_fetch_array($rs)){
-            echo "<option value='".$row["userID"]."'>".$row["username"]."</option>";
+            echo "<option value='".$row["username"]."'>".$row["username"]."</option>";
             }mysql_free_result($rs);
     ?>
 			</select>
@@ -335,15 +335,13 @@ if($chk == 0){
 	}else {
 		$tp = "MENSUAL";
 	}
-	$sql = "SELECT userID, username FROM mymvcdb_users WHERE userID =".$r->cobrador;
-	$ln2 = $db->fetchNextObject($sql);
 	?>
 	<table>
 	<caption>DETALLES DE LA CUENTA</caption>
 	<tbody>
 		<tr>
 			<th>FECHA:</th><td colspan="3"><?php echo $r->fecha; ?></td>
-			<th>COBRADOR:</th><td colspan=""><?php echo $ln2->username; ?></td>
+			<th>COBRADOR:</th><td colspan=""><?php echo $r->cobrador; ?></td>
 		</tr>
 		<tr>
 			<th>MONTO:</th>		<td>$&nbsp;<?php moneda($r->cantidad); ?></td>
