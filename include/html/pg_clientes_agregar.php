@@ -57,6 +57,23 @@
 			</td>
 		</tr>
 		<tr>
+			<td>
+				Asignar Cobrador:
+			</td>
+			<td>
+				<?php
+		            $sql = "SELECT userID, username FROM mymvcdb_users WHERE nivel = 3";
+		            $rs = mysql_query($sql) or die(mysql_error());
+		            echo "<select name='cobrador' id='cobrador'>";
+		            echo "<option value='seleccionar'>Asignar</option>";
+		            while($row = mysql_fetch_array($rs)){
+		            echo "<option value='".$row["username"]."'>".$row["username"]."</option>";
+		            }mysql_free_result($rs);
+		    	?>
+			</select>
+			</td>
+		</tr>
+		<tr>
 			<td colspan="1">
 			Vivienda:<br />
 			<label><input type="radio" name="vivienda" class="vivienda" value="1" /> Propia</label>
