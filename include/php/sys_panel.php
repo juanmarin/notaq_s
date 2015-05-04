@@ -70,8 +70,7 @@
 							?>         
 							<li><a href="?pg=4" class="_usuario">Informaci&oacute;n personal</a></li>
 							<?
-							if($_SESSION["U_NIVEL"] == 0)
-							{
+							if($_SESSION["U_NIVEL"] == 0){
 								?>
 								<li><a href="?pg=4a" class="_todos">Lista de usuarios</a></li>
 								<li><a href="?pg=4b" class="_agregar">Agregar usuario</a></li>
@@ -81,7 +80,8 @@
 							}
 							break;
 						default:
-							?>         
+							if ($_SESSION["U_NIVEL"] == 0) {
+								?>         
 								<li><a href="?pg=2a" class="_buscar">Buscar cliente</a></li>
 								<li><a href="?pg=2" class="_todos">Todos los clientes</a></li>
 								<li><a href="?pg=2cb" class="_activos">Clientes activos</a></li>
@@ -90,6 +90,15 @@
 								<li><a href="?pg=2ca" class="_inactivos">Clientes inactivos</a></li>
 								<li><a href="?pg=2d" class="_agregar">Agregar cliente</a></li>
 							<?php
+							} elseif ($_SESSION["U_NIVEL"] == 3) {
+								?>         
+								<li><a href="?pg=2a" class="_buscar">Buscar cliente</a></li>
+								<li><a href="?pg=2" class="_todos">Mis clientes</a></li>
+								<li><a href="?pg=2cb" class="_activos">Mis Clientes activos</a></li>
+								<li><a href="?pg=2c" class="_morosos">Mis Clientes morosos</a></li>
+							<?php
+							} {
+							}
 					}
 					?>
 				</ul>
@@ -255,15 +264,26 @@
 		
 			<div id="hmenu">
 				<ul class="menuh">
-					<li><a href="?pg=1">Portada</a></li>
-					<li><a href="?pg=2">Clientes</a></li>
-					<li><a href="?pg=3a">Reportes</a></li>
-					<?php
-						//if($user->userData[7] == "ADMINISTRADOR" and $user->userData[10] == 0){				
-					?>
-					<li><a href="?pg=5">Inversionistas</a></li>
-					<li><a href="?pg=4">Panel</a></li>
-					<li><a href="?logout=1">Salir</a></li>
+				<?php
+					if ($_SESSION["U_NIVEL"] == 0) {
+						?>
+							<li><a href="?pg=1">Portada</a></li>
+							<li><a href="?pg=2">Clientes</a></li>
+							<li><a href="?pg=3a">Reportes</a></li>
+							<li><a href="?pg=5">Inversionistas</a></li>
+							<li><a href="?pg=4">Panel</a></li>
+							<li><a href="?logout=1">Salir</a></li>
+						<?php
+					} elseif($_SESSION["U_NIVEL"] == 3) {
+						?>
+							<li><a href="?pg=1">Portada</a></li>
+							<li><a href="?pg=4">Mi cuenta</a></li>
+							<li><a href="?pg=3a">Reportes</a></li>
+							<li><a href="?logout=1">Salir</a></li>
+						<?php
+					}{}
+					
+				?>
 				</ul>
 			</div>
 			
