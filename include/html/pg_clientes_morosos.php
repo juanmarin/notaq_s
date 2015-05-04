@@ -1,3 +1,9 @@
+<?php
+	session_start();
+	$UserName = $_SESSION["USERNAME"];
+	echo "Nivel ".($_SESSION["U_NIVEL"])."<br/>";
+	echo $UserName;
+?>
 <p class="title">Portada &raquo; Listado de Clientes Morosos</p>
 <table>
 <caption>CUENTAS CON RECARGOS</caption>
@@ -16,8 +22,9 @@
 	require_once("include/php/sys_db.class.php");
 	require_once("include/conf/Config_con.php");
 	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidop, clientes.demanda, cuentas.cliente, cuentas.estado, 
-            pagos.cuenta, pagos.cliente, pagos.fecha, SUM(pagos.pago) AS pago, pagos.estado
+	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidop, clientes.demanda, cuentas.cliente, 
+				   cuentas.cobrador, cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha, 
+				   SUM(pagos.pago) AS pago, pagos.estado
             FROM clientes, cuentas, pagos 
             WHERE
                 clientes.id = cuentas.cliente AND
@@ -40,10 +47,6 @@
 			<td style="text-align:center">$ <?echo moneda($r->pago);?></td>
 			<th style="text-align:center"><input type="checkbox" name="ids[]" value="<? echo $r->id; ?>" /></th>
 			<td width="80"><a href="?pg=2e&cl=<?echo $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
-			<!--
-<td width="80"><a href="include/php/sys_modelo.php?cte=<?echo $r->id;?>&cta=<?echo $r->cuenta;?>&action=recargo_elimina" class="tboton sombra esqRedondas recargos">Elimina</a></td>
--->
-
 		</tr>
 		<?
 	}
