@@ -42,7 +42,6 @@ switch($_POST["action"]){
 			$_SESSION["nu_tel"] = $_POST["telefono"]; 
 			$_SESSION["nu_una"] = $_POST["uname"];
 			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Ya existe un usuario con ese username, intente con uno diferente.</p></th></tr>';
-			#echo $_SESSION["msg"];
 			#echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
 		elseif($_POST["conu"] != $_POST["confnu"])
@@ -123,7 +122,7 @@ switch($_POST["action"]){
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=4"> ';
 		break;
 	case "cliente_nuevo":
-		$_cadena = "INSERT INTO clientes (nombre, apellidop, apellidom, direccion, colonia, telefono, celular, rfc, vivienda, Aval)
+		$_cadena = "INSERT INTO clientes (nombre, apellidop, apellidom, direccion, colonia, telefono, celular, rfc, vivienda, Aval, c_cobrador)
 		VALUES (
 			'". $_POST["nombre"] ."',
 			'". $_POST["apellidop"] ."',
@@ -133,8 +132,10 @@ switch($_POST["action"]){
 			'". $_POST["tel"] ."',
 			'". $_POST["cel"] ."',
 			'". $_POST["rfc"] ."',
+			'". $_POST["cobrador"]."',
 			'". $_POST["vivienda"] ."',
-			" . $_POST["aval"] ."
+			'". $_POST["aval"] ."',
+			".  $_POST["cobrador"]."
 		)";
 		$_query = mysql_query($_cadena);
 		if($_query){
