@@ -132,12 +132,12 @@ switch($_POST["action"]){
 			'". $_POST["tel"] ."',
 			'". $_POST["cel"] ."',
 			'". $_POST["rfc"] ."',
-			'". $_POST["cobrador"]."',
 			'". $_POST["vivienda"] ."',
 			'". $_POST["aval"] ."',
-			".  $_POST["cobrador"]."
+			'".  $_POST["cobrador"]."'
 		)";
 		$_query = mysql_query($_cadena);
+		echo $_cadena;
 		if($_query){
 			$_SESSION["clid"] = mysql_insert_id();
 			if($_POST["aval"] ==1){
