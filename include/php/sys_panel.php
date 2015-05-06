@@ -74,7 +74,6 @@
 								?>
 								<li><a href="?pg=4a" class="_todos">Lista de usuarios</a></li>
 								<li><a href="?pg=4b" class="_agregar">Agregar usuario</a></li>
-								<li><a href="?pg=4d" class="_tPrestamos">Tabla Prestamos</a></li>
                                 <li><a href="?pg=4c" class="_backup">Respaldar Base de Datos</a></li>
 								<?php
 							}
