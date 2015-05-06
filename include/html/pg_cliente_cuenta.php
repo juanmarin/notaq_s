@@ -91,8 +91,10 @@
 				<?php
 			}
 			?>
-			 <td rowspan="2" width="390"><strong>Nombre: </strong> <br /><?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>			
-			<?php  
+			 <td rowspan="2" width="390"><strong>Nombre: </strong> <br /><?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
+			 <td rowspan="2" width="200"><strong>Cobrador: </strong> <br /><?echo $ln->c_cobrador;?></td>			
+			<?php
+			/*  
 			//--- FOTOGRAFIA DEL CLIENTE ---------------------------------------------------------------------------------------
 			$exists = 0;
 			if(file_exists("include/jpegcam/htdocs/" . $_SESSION["idcliente"] . ".jpg")){
@@ -143,6 +145,7 @@
 				<a href="include/html/box_fotos.php?height=275&width=750" class="thickbox" rel="ife" title="<?echo "IFE"." ".$ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>">Ampliar IFE</a>
 				<?php
 			}
+			*/
 			?>
             </tr>
 			</td>
@@ -250,7 +253,7 @@ if($chk == 0){
 	<tbody>
 		<tr>
 			<th width="120">Fecha:</th>
-			<td width="210"><input type="text" name="fecha" size="10" value="<?echo date('Y-m-d');?>" /></td>
+			<td width="210"><input type="text" name="fecha" id="fecha" size="10" value="<?echo date('Y-m-d');?>" class="dpfecha" /></td>
 			<th width="150">Primer pago:</th>
 			<td><input type="text" name="fechapp" id="fechapp" size="10" value="<?echo date('Y-m-d');?>" class="dpfecha" /></td>
 		</tr>
@@ -405,7 +408,7 @@ if($chk == 0){
 		while($re = $db->fetchNextObject($rec)) {
 			$i++;
 			echo '<tr>';
-            	echo '	<th> <center>'.$i.'</center></td>';
+            echo '	<th> <center>'.$i.'</center></td>';
 			echo '	<th> <center>'.$re->pago.'</center></td>';
 			echo '	<td> <center>$ '; moneda($re->monto).'</center></td>';
             //$monto = moneda($re->monto);
@@ -491,7 +494,8 @@ if($chk == 0){
 			<th align="left">FECHA</th>
 			<th align="left">CARGO</th>
 			<th>ABONO</th>
-			<th></th>
+			<th align="center">F. PAGO</th>
+			<th align="left"></th>
 			<th align="left"></th>
 		</tr>
 	</thead>
@@ -517,6 +521,7 @@ if($chk == 0){
 			</td>
 			<td>$ <?php moneda($r->pago); ?></td>
 			<td>$ <?php moneda($r->pago_real); ?></td>
+			<td><?php echo $r->fechaPago; ?></td>
 			<th style="text-align: center;">
 				<?php
 				if($r->estado == 0) {
