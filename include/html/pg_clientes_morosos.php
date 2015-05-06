@@ -1,8 +1,8 @@
 <?php
 	session_start();
 	$UserName = $_SESSION["USERNAME"];
-	echo "Nivel ".($_SESSION["U_NIVEL"])."<br/>";
-	echo $UserName;
+	//echo "Nivel ".($_SESSION["U_NIVEL"])."<br/>";
+	//echo $UserName;
 ?>
 <p class="title">Portada &raquo; Listado de Clientes Morosos</p>
 <table>
