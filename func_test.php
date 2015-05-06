@@ -16,6 +16,8 @@
 		echo "Plazo Real: ".$datosPrestamo['tiempo']."<br/>";
 
 		echo var_dump($datosPrestamo);
+		$date = "2013-04-22";
+		echo "Fecha: ".date("d-m-Y", strtotime($date));
 	
 		
 ?>
