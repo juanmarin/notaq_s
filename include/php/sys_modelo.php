@@ -637,7 +637,7 @@ switch($_POST["action"]){
 		$u = $_POST["u"];
 		$usrDelete = $_POST["usr"];
 		eliminaUsuario($u, $pas, $usrDelete);
-		#echo '<meta http-equiv="refresh" content="0;url=../../?pg=4a"> ';
+		echo '<meta http-equiv="refresh" content="0;url=../../?pg=4a"> ';
 	break;
 
     case "cta_elimina":
