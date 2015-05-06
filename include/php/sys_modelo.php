@@ -124,7 +124,7 @@ switch($_POST["action"]){
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=4"> ';
 		break;
 	case "cliente_nuevo":
-		$_cadena = "INSERT INTO clientes (nombre, apellidop, apellidom, direccion, colonia, telefono, celular, rfc, vivienda, Aval, c_cobrador)
+		$_cadena = "INSERT INTO clientes (nombre, apellidop, apellidom, direccion, colonia, telefono, celular, rfc, vivienda, Aval, activo, c_cobrador)
 		VALUES (
 			'". $_POST["nombre"] ."',
 			'". $_POST["apellidop"] ."',
@@ -136,10 +136,11 @@ switch($_POST["action"]){
 			'". $_POST["rfc"] ."',
 			'". $_POST["vivienda"] ."',
 			'". $_POST["aval"] ."',
+			'".$_POST["activo"]."',
 			'".  $_POST["cobrador"]."'
 		)";
 		$_query = mysql_query($_cadena);
-		echo $_cadena;
+		//echo $_cadena;
 		if($_query){
 			$_SESSION["clid"] = mysql_insert_id();
 			if($_POST["aval"] ==1){
