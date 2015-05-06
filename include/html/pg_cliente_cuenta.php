@@ -376,7 +376,7 @@ if($chk == 0){
 		if(getHayRecargo($proxpago) == 1) {
 			$sql = "SELECT * FROM recargos WHERE pago_id = ".$pago_id." AND pago = '".$proxpago."'";
 			$rec = $db->query($sql);
-			$monto = ($cantidad * 10) / 100;
+			$monto = 10;
 			if($db->numRows() == 0){
 				$sql = "INSERT INTO recargos (cuenta, cliente, pago, fecha, monto, pago_id) VALUES (".$cuenta.", ".$cliente.", '".$proxpago."', '".date("Y-m-d")."', ".$monto.", ".$pago_id.")";
 				$db->execute($sql);	
