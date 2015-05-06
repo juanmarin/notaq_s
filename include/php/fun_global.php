@@ -541,9 +541,11 @@ function calculamonto($cantidad, $monto1, $monto2, $plazo1, $plazo2, $tipo_pago)
 			break;
 			case "QUINCENAL":
 					$tiempo = ceil(($plazo1 + $plazo2) / 2);	
+					$interes = $int_tot / $tiempo;
 			break;
             case "MENSUAL":
-					$tiempo = ceil(($plazo1 + $plazo2));	
+					$tiempo = ceil(($plazo1 + $plazo2));
+					$interes = $int_tot / $tiempo;	
 			break;     		
 		}
     $datosPrestamo = array('saldo'=>$saldo, 'int_moneda'=>$int_moneda, 'interes'=>$interes, 'tiempo'=>$tiempo);   
