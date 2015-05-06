@@ -9,6 +9,7 @@
 <table>
 <form name="nc1" action="include/php/sys_modelo.php" method="post">
 <input type="hidden" name="action" value="cliente_nuevo" />
+<input type="hidden" name="activo" value="1" />
 	<caption>Agregar nuevo cliente: Datos personales</caption>
 	<thead>
 		<tr>
