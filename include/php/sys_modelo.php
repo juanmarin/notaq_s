@@ -10,9 +10,11 @@ session_start();
 </thead>
 <body>
 <?php
+/*
 	foreach($_POST as $var => $val){
 		echo $var . " => " . $val . "<br />";
 	}
+*/
 require_once "../conf/Config.php";
 require_once "fun_global.php";
 
@@ -334,7 +336,7 @@ switch($_POST["action"]){
 					$tipo_pago = "MENSUAL";
 			break;  		
 		}		
-			# mandamos llamar la funcion que nos traera los datos para crear la nuev cuenta
+			# mandamos llamar la funcion que nos traera los datos para crear la nueva cuenta
 			$cantidad = $_POST["cantidad"];
 			$monto1 = $_POST["monto1"];
 			$monto2 = $_POST["monto2"]; 
@@ -343,12 +345,12 @@ switch($_POST["action"]){
 			//$tipo_pago = $_POST["tipo_pago"];
 
 			$datosPrestamo = calculamonto($cantidad, $monto1, $monto2, $plazo1, $plazo2, $tipo_pago);
-			var_dump($datosPrestamo);
+			//var_dump($datosPrestamo);
 			$tiempo = $datosPrestamo['tiempo'];
 			$interes = $datosPrestamo['interes'];
 			$tipo_pago = revert_tipoPago($tipo_pago);
-			echo $tipo_pago;
-			echo $tiempo;
+			//echo $tipo_pago;
+			//echo $tiempo;
 			
 			## calcular total
 			$total = $cantidad * (( ($interes * $tiempo)  / 100 ) + 1 );
@@ -388,6 +390,7 @@ switch($_POST["action"]){
 			}elseif($tipo_pago == 3) { 
 				#$fechas = getFechasQuincenas($_POST["dias_pago"], $npagos, $_POST["fechapp"]);
 				$dia = split("-", $dias_pago);
+				//var_dump($dia);
 				#$tipo = "week";
 				#$n = 2;
 			}else {
