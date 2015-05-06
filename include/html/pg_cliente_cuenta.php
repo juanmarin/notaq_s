@@ -521,7 +521,7 @@ if($chk == 0){
 			</td>
 			<td>$ <?php moneda($r->pago); ?></td>
 			<td>$ <?php moneda($r->pago_real); ?></td>
-			<td><?php echo $r->fechaPago; ?></td>
+			<td><?php echo date("d-m-Y", strtotime($r->fechaPago));?></td>
 			<th style="text-align: center;">
 				<?php
 				if($r->estado == 0) {
