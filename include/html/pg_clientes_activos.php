@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	$UserName = $_SESSION["USERNAME"];
-	echo $UserName;
+	//echo $UserName;
 ?>
 <p class="title">Clientes &raquo; Listado de clientes activos</p>
 <table>
@@ -19,7 +19,20 @@
 	require_once("include/php/sys_db.class.php");
 	require_once("include/conf/Config_con.php");
 	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidom, cuentas.cantidad, cuentas.cobrador FROM clientes, cuentas WHERE clientes.id = cuentas.cliente AND cuentas.estado = 0 AND cuentas.cobrador = '".$UserName."' ORDER BY clientes.nombre ASC";
+	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidom, cuentas.cantidad, cuentas.cobrador 
+	FROM clientes, cuentas 
+	WHERE clientes.id = cuentas.cliente 
+	AND cuentas.estado = 0 
+	ORDER BY clientes.nombre ASC";
+	// Query para filtrar por cobrador ///
+	/*
+	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
+	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidom, cuentas.cantidad, cuentas.cobrador 
+	FROM clientes, cuentas 
+	WHERE clientes.id = cuentas.cliente 
+	AND cuentas.estado = 0 
+	AND cuentas.cobrador = '".$UserName."' ORDER BY clientes.nombre ASC";
+	*/
 	$res = $db->query($sql);
 	$num_rows = mysql_num_rows($res);
 	while($r = $db->fetchNextObject($res)){
