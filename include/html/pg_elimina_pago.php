@@ -10,13 +10,14 @@
 		<input type="hidden" name="action" value="elimina_pago" />
 		<input type="submit" name="elimina" id="elimina" value="Eliminar &raquo;" />
 <table>
-<caption>Reporte del dia : <?php echo getFecha($desde); ?> </caption>
+<caption>Pagos recibidos en el dia : <?php echo getFecha($desde); ?> </caption>
 <thead>
 	<tr>
-      <th>Fecha Pago</th>
+      	<th>Fecha Pago</th>
+      	<th>F. Operacion</th>
 		<th colspan="2">Nombre</th>
 		<th colspan="2">Pago Total</th>
-		<th colspan="2">Eliminar</th>
+		<th colspan="1">Eliminar</th>
 	</tr>
 </thead>
 <tbody>
@@ -26,7 +27,7 @@
         $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
         $result = $db->query("SELECT clientes.id AS clientes, clientes.nombre, clientes.apellidop, 
         clientes.apellidom, 
-        pagos.id AS pago, pagos.fechaPago, SUM(pagos.pago_real) AS pago_real, pagos.interes, pagos.estado 
+        pagos.id AS pago, pagos.fecha, pagos.fechaPago, SUM(pagos.pago_real) AS pago_real, pagos.interes, pagos.estado 
         FROM clientes, pagos 
         WHERE clientes.id = pagos.cliente 
         			AND DATE(pagos.fechaPago) BETWEEN '".$desde."' 
@@ -40,10 +41,11 @@
             $totIntCobrado += $intPagado;
 ?>
 		<tr>
-		<th width="250px" style="text-align: center;"><? echo getFecha($ln->fechaPago);?></th>
+			<th width="180px" style="text-align: center;"><? echo getFecha($ln->fecha);?></th>
+			<th width="180px" style="text-align: center;"><? echo getFecha($ln->fechaPago);?></th>
 			<th colspan="3" width="250px" style="text-align: center"><?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
 			
-			<th width="250px" style="text-align: center;"><?echo "&#36;"; echo $ln->pago_real;?></th>
+			<th width="180px" style="text-align: center;"><?echo "&#36;"; echo $ln->pago_real;?></th>
 			<th style="text-align:center"><input type="checkbox" name="ids[]" value="<? echo $ln->pago; ?>" /></th>
 			<!--
 			<th style="text-align: center;"><a href="?pg=2e&cl=<?echo $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
@@ -102,12 +104,12 @@
 <?php
     }else{
 ?>
-<p class="title">Reporte &raquo; Diario</p>
+<p class="title">Control &raquo; Pagos</p>
 <table>
 <caption></caption>
 <thead>
 	<tr>
-		<th colspan="2">Reporte Diario</th>
+		<th colspan="2">Control de Pagos</th>
 	</tr>
 </thead>
 <tbody>
