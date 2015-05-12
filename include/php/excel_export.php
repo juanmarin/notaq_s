@@ -4,8 +4,8 @@
  */
   
  
- $conexion = mysql_connect ("localhost", "root", "root");
- mysql_select_db ("notaq", $conexion);    
+ $conexion = mysql_connect ("localhost", "confian1_notaq", "99_shamp00");
+ mysql_select_db ("confian1_notaq", $conexion);    
  $sql = "SELECT * FROM clientes ORDER BY nombre ASC";
  $resultado = mysql_query ($sql, $conexion) or die (mysql_error ());
  $registros = mysql_num_rows ($resultado);
