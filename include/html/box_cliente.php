@@ -18,10 +18,10 @@
 	{
 		switch($tipo)
 		{
-			case 1:	echo "Propia";	break;
-			case 2:	echo "Renta";	break;
-			case 3:	echo "Padres";	break;
-			case 4:	echo "otro";	break;
+			case 1:		echo "Propia";		break;
+			case 2:		echo "Renta";		break;
+			case 3:		echo "Padres";		break;
+			case 4:		echo "otro";		break;
 			default:	echo "No definido";	break;
 		}
 	}
@@ -29,8 +29,8 @@
 	{
 		switch($tipo)
 		{
-			case 1:	echo "Si";	break;
-			case 0:	echo "No";	break;
+			case 1:		echo "Si";		break;
+			case 0:		echo "No";		break;
 			default:	echo "No definido";	break;
 		}
 	}
@@ -41,40 +41,43 @@
 		$cliente = $ln->id;
 		?>
 		<tr>
-			<th width="195">Nombre: </th><td><?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
+			<th width="195">Nombre: </th><td><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
 		</tr>
 		<tr>
-			<th>Dirección: </th><td><?echo $ln->direccion.", Colonia: ".$ln->colonia;?></td>
+			<th>Dirección: </th><td><?= $ln->direccion.", Colonia: ".$ln->colonia;?></td>
 		</tr>
 		<tr>
-			<th>Teléfono de casa: </th><td><?echo $ln->telefono;?></td>
+			<th>Teléfono de casa: </th><td><?= $ln->telefono;?></td>
 		</tr>
 		<tr>
-			<th>Teléfono celular: </th><td><?echo $ln->celular;?></td>
+			<th>Teléfono celular: </th><td><?= $ln->celular;?></td>
 		</tr>
 		<tr>
-			<th>RFC: </th><td><?echo $ln->rfc;?></td>
+			<th>RFC: </th><td><?= $ln->rfc;?></td>
 		</tr>
 		<tr>
-			<th>Vivienda: </th><td><?echo getVivienda($ln->vivienda);?></td>
+			<th>Vivienda: </th><td><?= getVivienda($ln->vivienda);?></td>
 		</tr>
 		<tr>
-			<th>Empresa: </th><td><?echo $ln->empresa;?></td>
+			<th>Empresa: </th><td><?= $ln->empresa;?></td>
 		</tr>
 		<tr>
-			<th>Puesto: </th><td><?echo $ln->epuesto;?></td>
+			<th>Puesto: </th><td><?= $ln->epuesto;?></td>
 		</tr>
 		<tr>
-			<th>Teléfono: </th><td><?echo $ln->etelefono;?></td>
+			<th>Teléfono: </th><td><?= $ln->etelefono;?></td>
 		</tr>
 		<tr>
-			<th>Dirección: </th><td><?echo $ln->edireccion .", Colonia: ".$ln->ecolonia;?></td>
+			<th>Dirección: </th><td><?= $ln->edireccion .", Colonia: ".$ln->ecolonia;?></td>
 		</tr>
 		<tr>
-			<th>Negocio propio: </th><td><?echo getProp($ln->propio);?></td>
+			<th>Negocio propio: </th><td><?= getProp($ln->propio);?></td>
 		</tr>
 		<tr>
-			<th>Cliente activo: </th><td><?echo getProp($ln->activo);?></td>
+			<th>Cliente activo: </th><td><?= getProp($ln->activo);?></td>
+		</tr>
+		<tr>
+			<th>Cobrador: </th><td><?= $ln->c_cobrador;?></td>
 		</tr>
 		<?php
 	}
@@ -83,7 +86,7 @@
 
 <tfoot>
 	<tr>
-		<th colspan="4"><a href="?pg=2e&cl=<?echo $cliente;?>" class="boton">Ver cuenta de cliente</a></th>
+		<th colspan="4"><a href="?pg=2e&cl=<?= $cliente;?>" class="boton">Ver cuenta de cliente</a></th>
 	</tr>				
 </tfoot>
 <table>
