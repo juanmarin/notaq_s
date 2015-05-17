@@ -1,4 +1,4 @@
-<?php header('Content-Type: text/html; charset=iso-8859-1'); ?>
+<?php @session_start(); header('Content-Type: text/html; charset=iso-8859-1'); ?>
 <script type="text/javascript" src="js/thickbox.js"></script>
 <script>
 	$(document).ready(function(){
@@ -20,7 +20,14 @@ require_once("../php/sys_db.class.php");
 require_once("../conf/Config_con.php");
 
 $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-$res = $db->query("SELECT * FROM clientes WHERE nombre LIKE '%".$_POST["consulta"]."%' OR apellidop LIKE '%".$_POST["consulta"]."%' OR apellidom LIKE '%".$_POST["consulta"]."%'");
+if($_SESSION["U_NIVEL"] == 0){
+	$cobrador = '';
+} else {
+	$cobrador = "AND clientes.c_cobrador = '".$_SESSION["USERNAME"]."'";
+}
+$sql = "SELECT * FROM clientes WHERE nombre LIKE '%".$_POST["consulta"]."%' OR apellidop LIKE '%".$_POST["consulta"]."%' OR apellidom LIKE '%".$_POST["consulta"]."%' $cobrador";
+echo $sql;
+$res = $db->query($sql);
 while ($ln = $db->fetchNextObject($res))
 {
 	?>
