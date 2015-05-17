@@ -25,20 +25,20 @@ if($_SESSION["U_NIVEL"] == 0){
 } else {
 	$cobrador = "AND clientes.c_cobrador = '".$_SESSION["USERNAME"]."'";
 }
-$sql = "SELECT * FROM clientes WHERE nombre LIKE '%".$_POST["consulta"]."%' OR apellidop LIKE '%".$_POST["consulta"]."%' OR apellidom LIKE '%".$_POST["consulta"]."%' $cobrador";
+$sql = "SELECT * FROM clientes WHERE (nombre LIKE '%".$_POST["consulta"]."%' OR apellidop LIKE '%".$_POST["consulta"]."%' OR apellidom LIKE '%".$_POST["consulta"]."%') $cobrador";
 echo $sql;
 $res = $db->query($sql);
 while ($ln = $db->fetchNextObject($res))
 {
 	?>
 	<tr>
-		<th><?echo $ln->nombre." ".($ln->apellidop)." ".($ln->apellidom);?></th>
-		<td width="80"><a href="?pg=2e&cl=<?echo $ln->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
-		<td width="80"><a href="include/html/box_cliente.php?width=500&height=600&cl=<?echo $ln->id;?>" class="thickbox tboton sombra esqRedondas detalles">Detalles</a></td>
-		<td width="80"><a href="?pg=2b&cl=<?echo $ln->id;?>" class="tboton sombra esqRedondas editar">Editar</a></td>
-		<td width="80"><a href="include/html/box_cliente_elim.php?width=480&height=250&cl=<?echo $ln->id;?>" class="thickbox tboton sombra esqRedondas eliminar" title="Eliminar cliente">Eliminar</a></td>
+		<th><?= $ln->nombre." ".($ln->apellidop)." ".($ln->apellidom);?></th>
+		<td width="80"><a href="?pg=2e&cl=<?= $ln->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
+		<td width="80"><a href="include/html/box_cliente.php?width=500&height=600&cl=<?= $ln->id;?>" class="thickbox tboton sombra esqRedondas detalles">Detalles</a></td>
+		<td width="80"><a href="?pg=2b&cl=<?= $ln->id;?>" class="tboton sombra esqRedondas editar">Editar</a></td>
+		<td width="80"><a href="include/html/box_cliente_elim.php?width=480&height=250&cl=<?= $ln->id;?>" class="thickbox tboton sombra esqRedondas eliminar" title="Eliminar cliente">Eliminar</a></td>
 	</tr>
-	<?
+	<?php
 }
 ?>
 </tbody>
