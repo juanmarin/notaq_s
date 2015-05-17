@@ -1,4 +1,4 @@
-<?php session_start();
+<?php @session_start();
 	//AQUI ES DONDE SE DA LA MAGIA!
 	require_once("include/php/fun_global.php"); 
 	require_once("include/php/sys_db.class.php");
@@ -53,39 +53,38 @@
 			<div id="vmenu">
 				<ul class="menul">
 					<?php
-					$pg = $_GET["pg"];
-					switch($pg[0])
+					$pg = (isset($_GET["pg"]))?$_GET["pg"]:0;
+					switch($pg)
 					{
 						case 3:
-								if($_SESSION["U_NIVEL"] == 0){
-							?>
-    							<li><a href="?pg=3a" class="_diario">Reporte Diario</a></li>
-    							<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
-    							<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
+							if($_SESSION["U_NIVEL"] == 0){
+								?>
+    								<li><a href="?pg=3a" class="_diario">Reporte Diario</a></li>
+    								<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
+    								<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
 								<li><a href="?pg=3f" class="_visitas">Reporte Recargos</a></li>
 								<li><a href="?pg=3d" class="_estado">Historial Credito</a></li>
 								<li><a href="?pg=3e" class="_pagos">Control Pagos</a></li>
-							<?php
+								<?php
 							} elseif ($_SESSION["U_NIVEL"] == 3) {
 								?>
 								<li><a href="?pg=3a" class="_diario">Reporte Diario</a></li>
-    							<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
-    							<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
+    								<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
+    								<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
 								<li><a href="?pg=3f" class="_visitas">Reporte Recargos</a></li>
-							<?php
-							} {
+								<?php
 							}
 							break;
 						case 4:
 							?>         
-							<li><a href="?pg=4" class="_usuario">Informaci&oacute;n personal</a></li>
-							<?
+								<li><a href="?pg=4" class="_usuario">Informaci&oacute;n personal</a></li>
+								<?php
 								if($_SESSION["U_NIVEL"] == 0){
-							?>
-									<li><a href="?pg=4a" class="_todos">Lista de usuarios</a></li>
-									<li><a href="?pg=4b" class="_agregar">Agregar usuario</a></li>
-	                                <li><a href="?pg=4c" class="_backup">Respaldar Base de Datos</a></li>
-							<?php
+								?>
+								<li><a href="?pg=4a" class="_todos">Lista de usuarios</a></li>
+								<li><a href="?pg=4b" class="_agregar">Agregar usuario</a></li>
+								<li><a href="?pg=4c" class="_backup">Respaldar Base de Datos</a></li>
+								<?php
 							}
 							break;
 						default:
@@ -98,15 +97,14 @@
 								<li><a href="?pg=2cc" class="_demanda">Clientes en demanda</a></li>
 								<li><a href="?pg=2ca" class="_inactivos">Clientes inactivos</a></li>
 								<li><a href="?pg=2d" class="_agregar">Agregar cliente</a></li>
-							<?php
+								<?php
 							} elseif ($_SESSION["U_NIVEL"] == 3) {
 								?>         
 								<li><a href="?pg=2a" class="_buscar">Buscar cliente</a></li>
 								<li><a href="?pg=2" class="_todos">Mis clientes</a></li>
 								<li><a href="?pg=2cb" class="_activos">Mis Clientes activos</a></li>
 								<li><a href="?pg=2c" class="_morosos">Mis Clientes vencidos</a></li>
-							<?php
-							} {
+								<?php
 							}
 					}
 					?>
@@ -123,7 +121,8 @@
 					require_once("include/conf/Config_con.php");
 					$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 					//- OBTENER NUMERO DE CUENTA ACTUAL --
-					$sql = "SELECT id FROM cuentas WHERE estado = 0 AND cliente = ".$_GET["cl"]."";
+					$getCliente = (isset($_GET["cl"]))?$_GET["pg"]:"";
+					$sql = "SELECT id FROM cuentas WHERE estado = 0 AND cliente = ".$getCliente."";
 					$res = $db->query($sql);
 					if($db->numRows() > 0){
 						unset($_SESSION["nohaycuenta"]);
