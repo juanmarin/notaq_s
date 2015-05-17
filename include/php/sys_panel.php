@@ -110,8 +110,8 @@
 					?>
 				</ul>
 			</div>
-			<?
-			if($_GET["pg"] == "2e"){
+			<?php
+			if(isset($_GET["pg"]) && $_GET["pg"] == "2e"){
 			?>
 				<div id="notas" class="sombra">
 				<div id="n_title">Notas de cliente</div>
@@ -147,7 +147,7 @@
 				</ol>
 				</div>
 				<?php
-				}elseif($_GET["pg"] == "5"){
+				}elseif(isset($_GET["pg"]) && $_GET["pg"] == "5"){
 					?>
 					<div id="notas" class="sombra">
 					<div id="n_title">Reporte de Inversion</div>
