@@ -58,7 +58,7 @@ class flexibleAccess{
    * The database password
    * var string
    */
-  var $dbPass = 'mysqlsvr';
+  var $dbPass = 'root';
   /**
    * 99_shamp00
    * The database table that holds all the information
