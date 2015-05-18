@@ -40,7 +40,7 @@
 		<tr>
 			<td style="text-align:center"><?= $r->id;?></td>
 			<td style="text-align:center"><?= $r->nombre . " ". $r->apellidop ." " .$r->apellidom;?></td>
-			<td style="text-align:center">$ <?= $r->total;?></td>
+			<td style="text-align:center">$ <?= moneda($r->total);?></td>
 			<td width="80"><a href="?pg=2e&cl=<?= $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
 		</tr>
 		<?php
