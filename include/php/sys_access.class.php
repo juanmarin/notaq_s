@@ -275,6 +275,7 @@ class flexibleAccess{
    * return string
    */
   function randomPass($length=10, $chrs = '1234567890qwertyuiopasdfghjklzxcvbnm'){
+    $pwd = '';
     for($i = 0; $i < $length; $i++) {
         $pwd .= $chrs{mt_rand(0, strlen($chrs)-1)};
     }
@@ -294,7 +295,7 @@ class flexibleAccess{
   {
     //if (defined('DEVELOPMENT_MODE') ) echo '<b>Query to execute: </b>'.$sql.'<br /><b>Line: </b>'.$line.'<br />';
 	$res = mysql_db_query($this->dbName, $sql, $this->dbConn);
-	if ( !res )
+	if ( !$res )
 		$this->error(mysql_error($this->dbConn), $line);
 	return $res;
   }

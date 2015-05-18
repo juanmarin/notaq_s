@@ -3,7 +3,7 @@
 //define("IN_SITE", true);
 $sitio_nombre_raiz = "/";
 $tipo_login = 1;
-$_GET["m"] = ( $_GET["m"] )? $_GET["m"] : "1";
+$_GET["m"] = ( isset($_GET["m"]) )? $_GET["m"] : "1";
 $msg = '<p class="suggestion">Recuerde coincidir en mayúsculas.</p>';
 if ($tipo_login == 3){
 	session_start();
@@ -12,7 +12,7 @@ if ($tipo_login == 3){
 } else {
 	require_once 'include/php/sys_access.class.php';
 	$user = new flexibleAccess();
-	if ( $_GET['logout'] == '1' ){
+	if ( isset($_GET['logout']) && $_GET['logout'] == '1' ){
 		##echo '<script>alert("Checkpoint");</script>';
 		$user->logout('http://'.$_SERVER['HTTP_HOST'].'/'. $sitio_nombre_raiz .'/');
 		session_destroy();
