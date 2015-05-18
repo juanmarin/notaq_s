@@ -122,7 +122,7 @@
 						require_once("include/conf/Config_con.php");
 						$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 						//- OBTENER NUMERO DE CUENTA ACTUAL --
-						$getCliente = (isset($_GET["cl"]))?$_GET["pg"]:"";
+						$getCliente = (isset($_GET["cl"]))?$_GET["cl"]:"";
 						$sql = "SELECT id FROM cuentas WHERE estado = 0 AND cliente = ".$getCliente."";
 						$res = $db->query($sql);
 						if($db->numRows() > 0){
@@ -303,7 +303,7 @@
 							<?php
 						}
 					}
-					echo $loginmsg;
+					echo (isset($loginmsg))?$loginmsg:'';
 					?>
 				</div>
 			</div>
