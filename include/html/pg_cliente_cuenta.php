@@ -19,12 +19,8 @@
 			fecha = new Date(a, mes, d);
 			dia = fecha.getDay();
 			//alert(dia + ' // ' + m);
-			if(dia == 0){
-				alert("No se puede seleccionar el día domingo.\n Seleccione otro día.");
-			}else{
-				$("#dias_pago option").removeAttr("selected");
-				$("#dias_pago option[value="+dia+"]").attr("selected", "selected");
-			}
+			$("#dias_pago option").removeAttr("selected");
+			$("#dias_pago option[value="+dia+"]").attr("selected", "selected");
 			if(fecha < "<?php echo date('Y-m-d');?>"){
 				alert("No puede seleccionar fechas anteriores para el primer pago");
 			}
@@ -416,11 +412,11 @@ if($chk == 0){
             $tot += $re->monto;
         ?>
                 <form name="frm_saldar" action="include/php/sys_modelo.php"  method="post">
-                <input type="hidden" name="pago_id" value="<? echo $re->pago_id;?>" />
-                <input type="hidden" name="c" value="<? echo $cuenta;?>" />
-                <input type="hidden" name="cl" value="<? echo $cliente;?>" />
-                <input type="hidden" name="recargo" value="<? echo $re->monto;?>" />
-                <input type="hidden" name="fecha_recargo" value="<? echo $re->pago;?>" />
+                <input type="hidden" name="pago_id" value="<?= $re->pago_id;?>" />
+                <input type="hidden" name="c" value="<?= $cuenta;?>" />
+                <input type="hidden" name="cl" value="<?= $cliente;?>" />
+                <input type="hidden" name="recargo" value="<?= $re->monto;?>" />
+                <input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
                 <input type="hidden" name="action" value="recargos" />
                 <th><center> <input type="submit" name="rec_pagar" value="Pagar Recargo" /> </center></th>
                 </form>
@@ -428,11 +424,11 @@ if($chk == 0){
             }else{
         ?>
                 <form name="frm_re_recargo" action="include/php/sys_modelo.php"  method="post">
-                <input type="hidden" name="pago_id" value="<? echo $re->pago_id;?>" />
-                <input type="hidden" name="c" value="<? echo $cuenta;?>" />
-                <input type="hidden" name="cl" value="<? echo $cliente;?>" />
-                <input type="hidden" name="recargo" value="<? echo $re->monto;?>" />
-                <input type="hidden" name="fecha_recargo" value="<? echo $re->pago;?>" />
+                <input type="hidden" name="pago_id" value="<?= $re->pago_id;?>" />
+                <input type="hidden" name="c" value="<?= $cuenta;?>" />
+                <input type="hidden" name="cl" value="<?= $cliente;?>" />
+                <input type="hidden" name="recargo" value="<?= $re->monto;?>" />
+                <input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
                 <input type="hidden" name="action" value="recargos" />
                 <th> <center> <input type="submit" name="rec_reimprime" value="Reimprimir" /> </center></th>
                 </form>
@@ -468,19 +464,19 @@ if($chk == 0){
 			<tbody>
 				<tr>
 					<td colspan="5">
-				<a href="include/html/box_cliente_cuenta_saldar.php?width=500&height=430&c=<? echo $cuenta;?>" class="thickbox boton esqRedondas sombra">Saldar cuenta</a>
+				<a href="include/html/box_cliente_cuenta_saldar.php?width=500&height=430&c=<?= $cuenta;?>" class="thickbox boton esqRedondas sombra">Saldar cuenta</a>
 				<a href="include/html/box_cuenta_elim.php?width=480&height=250&cte=<?= $cliente;?>&cta=<?= $cuenta;?>" class="thickbox boton esqRedondas sombra">Elim. Cuenta</a>
 				<a href="?pg=3da&cl=<?= $cliente;?>" class="boton esqRedondas sombra">Historial</a>			
 				<?php
                      #if($r->tipo_pago == 4)
                      if($tp == "MENSUAL"){
                	?>
-				 <a href="include/html/box_cliente_cuenta_interes.php?width=500&height=430&c=<? echo $cuenta;?>" class="thickbox boton esqRedondas sombra">Solo interes</a>
+				 <a href="include/html/box_cliente_cuenta_interes.php?width=500&height=430&c=<?= $cuenta;?>" class="thickbox boton esqRedondas sombra">Solo interes</a>
                	<?php
                    		}
                	?>
       			<a href="include/html/box_cliente_cuenta_pagare.php?height=500&width=400&c=<?php echo $cuenta;?>&cl=<?php echo $cliente; ?>" class="thickbox boton esqRedondas sombra">Imp. Pagare</a>
-				<a href="include/html/box_cliente_reimprime_cuenta.php?width=500&height=430&c=<? echo $cuenta;?>" class="thickbox boton esqRedondas sombra">Re. Prestamo</a>
+				<a href="include/html/box_cliente_reimprime_cuenta.php?width=500&height=430&c=<?= $cuenta;?>" class="thickbox boton esqRedondas sombra">Re. Prestamo</a>
 				</td>
 				</tr>		
 		</table>	
@@ -529,11 +525,11 @@ if($chk == 0){
 					if($saldo > $pago_acum){
 						?>
 							<form name="frm_<?= $r->id;?>" action="include/php/sys_modelo.php" method="post">
-								<input type="hidden" name="numpago" value="<? echo $i;?>" />
-								<input type="text" name="pago" value="<? echo $pago_acum;?>" size="7" />
-								<input type="hidden" name="cl" value="<? echo $_GET['cl'];?>" />
-								<input type="hidden" name="c" value="<? echo $cuenta;?>" />
-								<input type="hidden" name="pid" value="<? echo $r->id;?>" />
+								<input type="hidden" name="numpago" value="<?= $i;?>" />
+								<input type="text" name="pago" value="<?= $pago_acum;?>" size="7" />
+								<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
+								<input type="hidden" name="c" value="<?= $cuenta;?>" />
+								<input type="hidden" name="pid" value="<?= $r->id;?>" />
 								<input type="hidden" name="action" value="cuenta_pagar" />
 								<input type="submit" value="ABONAR" />
 							</form>
@@ -542,11 +538,11 @@ if($chk == 0){
 						$pago_acum = $saldo;
 						?>
 							<form name="frm_<?= $r->id;?>" action="include/php/sys_modelo.php" method="post">
-								<input type="hidden" name="numpago" value="<? echo $i;?>" />
-								<input type="text" name="pago" value="<? echo $pago_acum;?>" size="7" />
-								<input type="hidden" name="cl" value="<? echo $_GET['cl'];?>" />
-								<input type="hidden" name="c" value="<? echo $cuenta;?>" />
-								<input type="hidden" name="pid" value="<? echo $r->id;?>" />
+								<input type="hidden" name="numpago" value="<?= $i;?>" />
+								<input type="text" name="pago" value="<?= $pago_acum;?>" size="7" />
+								<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
+								<input type="hidden" name="c" value="<?= $cuenta;?>" />
+								<input type="hidden" name="pid" value="<?= $r->id;?>" />
 								<input type="hidden" name="action" value="cuenta_pagar" />
 								<input type="submit" value="ABONAR" />
 							</form>
@@ -555,11 +551,11 @@ if($chk == 0){
 						$pago_acum = $saldo;
 						?>
 							<form name="frm_<?= $r->id;?>" action="include/php/sys_modelo.php" method="post">
-								<input type="hidden" name="numpago" value="<? echo $i;?>" />
-								<input type="text" name="pago" value="<? echo $r->pago_real;?>" size="7" />
-								<input type="hidden" name="cl" value="<? echo $_GET['cl'];?>" />
-								<input type="hidden" name="c" value="<? echo $cuenta;?>" />
-								<input type="hidden" name="pid" value="<? echo $r->id;?>" />
+								<input type="hidden" name="numpago" value="<?= $i;?>" />
+								<input type="text" name="pago" value="<?= $r->pago_real;?>" size="7" />
+								<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
+								<input type="hidden" name="c" value="<?= $cuenta;?>" />
+								<input type="hidden" name="pid" value="<?= $r->id;?>" />
 								<input type="hidden" name="action" value="cuenta_pagar" />
 								<input type="submit" value="ABONAR" />
 							</form>
@@ -569,11 +565,11 @@ if($chk == 0){
 					if($r->pago == 0){
 						?>
 							<form name="frm_<?= $r->id;?>" action="include/php/sys_modelo.php" method="post">
-								<input type="hidden" name="numpago" value="<? echo $i;?>" />
-								<input type="hidden" name="pago" value="<? echo $pago_acum;?>" />
-								<input type="hidden" name="cl" value="<? echo $_GET['cl'];?>" />
-								<input type="hidden" name="c" value="<? echo $cuenta;?>" />
-								<input type="hidden" name="pid" value="<? echo $r->id;?>" />
+								<input type="hidden" name="numpago" value="<?= $i;?>" />
+								<input type="hidden" name="pago" value="<?= $pago_acum;?>" />
+								<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
+								<input type="hidden" name="c" value="<?= $cuenta;?>" />
+								<input type="hidden" name="pid" value="<?= $r->id;?>" />
 								<input type="hidden" name="action" value="cuenta_pagar" />
 								<input type="submit" value="REIMPRIMIR" />
 							</form>
@@ -582,11 +578,11 @@ if($chk == 0){
 					}else {
 						?>
 							<form name="frm_<?= $r->id;?>" action="include/php/sys_modelo.php" method="post">
-								<input type="hidden" name="numpago" value="<? echo $i;?>" />
-								<input type="hidden" name="pago" value="<? echo $pago_acum;?>" />
-								<input type="hidden" name="cl" value="<? echo $_GET['cl'];?>" />
-								<input type="hidden" name="c" value="<? echo $cuenta;?>" />
-								<input type="hidden" name="pid" value="<? echo $r->id;?>" />
+								<input type="hidden" name="numpago" value="<?= $i;?>" />
+								<input type="hidden" name="pago" value="<?= $pago_acum;?>" />
+								<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
+								<input type="hidden" name="c" value="<?= $cuenta;?>" />
+								<input type="hidden" name="pid" value="<?= $r->id;?>" />
 								<input type="hidden" name="action" value="cuenta_pagar" />
 								<input type="submit" value="REIMPRIMIR" />
 							</form>
@@ -596,11 +592,11 @@ if($chk == 0){
 				}elseif($r->estado == 3) {
 						?>
 							<form name="frm_<?= $r->id;?>" action="include/php/sys_modelo.php" method="post">
-								<input type="hidden" name="numpago" value="<? echo $i;?>" />
-								<input type="hidden" name="pago" value="<? echo $r->pago_real;?>" />
-								<input type="hidden" name="cl" value="<? echo $_GET['cl'];?>" />
-								<input type="hidden" name="c" value="<? echo $cuenta;?>" />
-								<input type="hidden" name="pid" value="<? echo $r->id;?>" />
+								<input type="hidden" name="numpago" value="<?= $i;?>" />
+								<input type="hidden" name="pago" value="<?= $r->pago_real;?>" />
+								<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
+								<input type="hidden" name="c" value="<?= $cuenta;?>" />
+								<input type="hidden" name="pid" value="<?= $r->id;?>" />
 								<input type="hidden" name="action" value="cuenta_pagar" />
 								<input type="submit" value="REIMPRIMIR" />
 							</form>
