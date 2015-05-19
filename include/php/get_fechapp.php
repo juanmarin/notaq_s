@@ -1,5 +1,5 @@
 <?php
-session_start();
+@session_start();
 if(isset($_SESSION["REQUIRED1"])){
 	## iniciar variables
 	$tp = $_POST["tp"];

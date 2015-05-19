@@ -1,5 +1,5 @@
 <?php
-session_start();
+@session_start();
 ?>
 <html>
 <thead>
@@ -18,7 +18,7 @@ session_start();
 require_once "../conf/Config.php";
 require_once "fun_global.php";
 
-if($_GET["action"]){
+if(isset($_GET["action"])){
 	$_POST["action"] = $_GET["action"];
 }
 switch($_POST["action"]){
@@ -312,47 +312,31 @@ switch($_POST["action"]){
 		}
 	case "cuenta_nueva":
 		#echo "dia pago: " . $_POST["dias_pago"]. "<br />";
-		if	(
-				(($_POST["tipo_pago"] < 4) && ($_POST["dias_pago"] == "nd")) || 
-				($_POST["tipo_pago"] == "nd") || 
-				($_POST["cantidad"] == "") || 
-				($_POST["plazo1"] == "") || 
-				($_POST["monto1"] == "") 
-			)
-			{
-			
+		if((($_POST["tipo_pago"] < 4) && ($_POST["dias_pago"] == "nd")) || ($_POST["tipo_pago"] == "nd") || ($_POST["cantidad"] == "") || ($_POST["plazo1"] == "") || ($_POST["monto1"] == "")){
 			# no hacer nada porque estan mal los datos
 		}else{
+			# inicializar las variables
 			switch($_POST["tipo_pago"]){
-			case 1:	
-					$tipo_pago = "SEMANAL";
-			break;
-			case 2:
-					$tipo_pago = "CATORCENAL";	
-			break;
-            case 3:
-					$tipo_pago = "QUINCENAL";	
-			break;   
-			case 4:
-					$tipo_pago = "MENSUAL";
-			break;  		
-		}		
-			# mandamos llamar la funcion que nos traera los datos para crear la nueva cuenta
+				case 1:	$tipo_pago = "SEMANAL";		break;
+				case 2:	$tipo_pago = "CATORCENAL";	break;
+				case 3:	$tipo_pago = "QUINCENAL";	break;   
+				case 4:	$tipo_pago = "MENSUAL";		break;  		
+			}
 			$cantidad = $_POST["cantidad"];
 			$monto1 = $_POST["monto1"];
 			$monto2 = $_POST["monto2"]; 
 			$plazo1 = $_POST["plazo1"];
 			$plazo2 = $_POST["plazo2"];
-			//$tipo_pago = $_POST["tipo_pago"];
-
+			
+			# mandamos llamar la funcion que nos traera los datos para crear la nueva cuenta
 			$datosPrestamo = calculamonto($cantidad, $monto1, $monto2, $plazo1, $plazo2, $tipo_pago);
-			//var_dump($datosPrestamo);
+			var_dump($datosPrestamo);
 			$tiempo = $datosPrestamo['tiempo'];
 			$interes = $datosPrestamo['interes'];
 			$tipo_pago = revert_tipoPago($tipo_pago);
 			//echo $tipo_pago;
 			//echo $tiempo;
-			
+
 			## calcular total
 			$total = $cantidad * (( ($interes * $tiempo)  / 100 ) + 1 );
 			$npagos = $plazo1 + $plazo2;
@@ -361,10 +345,11 @@ switch($_POST["action"]){
 				$diasPago = substr($_POST["fechapp"], -2);
 			}else{
 				$diasPago = $_POST["dias_pago"];
-			}			
+			}
+			echo "<br />Variable dias_pago: $diasPago <br />";		
 			## creando cuenta 
 			$_cadena = "INSERT INTO cuentas (cliente, fecha, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones)
-			VALUES (
+				VALUES (
 				". $_POST["cl"] .",
 				'". $_POST["fecha"] ."',
 				". $cantidad .",
@@ -378,26 +363,27 @@ switch($_POST["action"]){
 				'".$_POST["cobrador"] ."',
 				'". $_POST["observ"]."'
 			)";
-			#echo $_cadena;
+			echo $_cadena . "<br />";
 			$res = mysql_query($_cadena);
 			$cuenta = mysql_insert_id();
 			$cnt = 0;
 			$n = 1;
 			if($tipo_pago == 1){
 				$tipo = "week";
-			}elseif($tipo_pago == 2) { 
+			}elseif($tipo_pago == 2) {
 				$tipo = "week";
 				$n = 2;
 			}elseif($tipo_pago == 3) { 
 				#$fechas = getFechasQuincenas($_POST["dias_pago"], $npagos, $_POST["fechapp"]);
-				$dia = split("-", $dias_pago);
-				//var_dump($dia);
+				$dia = split("-", $diasPago);
+				echo "<br />Variable dias_pago: $diasPago <br />";
+				var_dump($dia);
 				#$tipo = "week";
 				#$n = 2;
-			}else {
+			}else{
 				$tipo = "month";
 			}
-			for($i=0;$i<$plazo1;$i++) {
+			for($i=0;$i<$plazo1;$i++){
 				if($cnt > 0){
 					if($tipo_pago == 3){
 						$a = (int)substr($prxpago, 0, -6);
@@ -409,7 +395,7 @@ switch($_POST["action"]){
 						}else{
 							if($m == 2 && $dia[1] == 30) {
 								$d = 28;
-							}else {
+							}else{
 								$d = $dia[1];
 							}
 						}
@@ -417,69 +403,68 @@ switch($_POST["action"]){
 						if($d < 10){$d = "0".$d;}
 						$prxpago = $a . "-" . $m . "-" . $d;
 						echo $prxpago . " ~ " . $dia[0] . $dia[1] . "<br />";
-					}else {
+					}else{
 						$prxpago = date('Y-m-d', strtotime($prxpago.' + '.$n.' '.$tipo));
 					}
-				}else {
+				}else{
 					$prxpago = $_POST["fechapp"];
 				}
-				
 				$_SESSION["pp"] = $_POST["fechapp"];
 				$sql = "INSERT INTO pagos (cliente, cuenta, fecha, pago, interes) 
 				VALUES (
-					".$_POST["cl"].",
-					".$cuenta.", 
-					'".$prxpago."',
-					".$monto1.", 
-					".($interes * $tiempo)."   
+				".$_POST["cl"].",
+				".$cuenta.", 
+				'".$prxpago."',
+				".$monto1.", 
+				".($interes * $tiempo)."   
 				)";
-				//echo $sql . "<br />";
+				echo $sql . "<br />";
 				mysql_query($sql);
 				$cnt++;
 			}
- #### INSERTANDO EL SEGUNDO MONTO A LA CUENTA ////
- 		if($monto2 && $plazo2 > 0){
- 			for($i=0;$i<$plazo2;$i++) {
-				if($cnt > 0){
-					if($tipo_pago == 3){
-						$a = (int)substr($prxpago, 0, -6);
-						$m = (int)substr($prxpago, 5, -3);
-						$d = (int)substr($prxpago, -2);
-						if( $d > 15 ){
-							if($m == 12){$m = 1; $a++;}else{ $m++;}
-							$d = $dia[0];
-						}else{
-							if($m == 2 && $dia[1] == 30) {
-								$d = 28;
-							}else {
-								$d = $dia[1];
-							}
-						}
-						if($m < 10){$m = "0".$m;}
-						if($d < 10){$d = "0".$d;}
-						$prxpago = $a . "-" . $m . "-" . $d;
-						echo $prxpago . " ~ " . $dia[0] . $dia[1] . "<br />";
-					}else {
-						$prxpago = date('Y-m-d', strtotime($prxpago.' + '.$n.' '.$tipo));
-					}
-				}else {
-					$prxpago = $_POST["fechapp"];
-				}
-				
-				$_SESSION["pp"] = $_POST["fechapp"];
-				$sql = "INSERT INTO pagos (cliente, cuenta, fecha, pago, interes) 
-				VALUES (
-					".$_POST["cl"].",
-					".$cuenta.", 
-					'".$prxpago."',
-					".$monto2.", 
-					".($interes * $tiempo)."   
-				)";
-				//echo $sql . "<br />";
-				mysql_query($sql);
-				$cnt++;
+			#### INSERTANDO EL SEGUNDO MONTO A LA CUENTA ////
+			if($monto2 && $plazo2 > 0){
+			for($i=0;$i<$plazo2;$i++) {
+			if($cnt > 0){
+			if($tipo_pago == 3){
+			$a = (int)substr($prxpago, 0, -6);
+			$m = (int)substr($prxpago, 5, -3);
+			$d = (int)substr($prxpago, -2);
+			if( $d > 15 ){
+			if($m == 12){$m = 1; $a++;}else{ $m++;}
+			$d = $dia[0];
+			}else{
+			if($m == 2 && $dia[1] == 30) {
+			$d = 28;
+			}else {
+			$d = $dia[1];
 			}
-		}
+			}
+			if($m < 10){$m = "0".$m;}
+			if($d < 10){$d = "0".$d;}
+			$prxpago = $a . "-" . $m . "-" . $d;
+			echo $prxpago . " ~ " . $dia[0] . $dia[1] . "<br />";
+			}else {
+			$prxpago = date('Y-m-d', strtotime($prxpago.' + '.$n.' '.$tipo));
+			}
+			}else {
+			$prxpago = $_POST["fechapp"];
+			}
+
+			$_SESSION["pp"] = $_POST["fechapp"];
+			$sql = "INSERT INTO pagos (cliente, cuenta, fecha, pago, interes) 
+			VALUES (
+			".$_POST["cl"].",
+			".$cuenta.", 
+			'".$prxpago."',
+			".$monto2.", 
+			".($interes * $tiempo)."   
+			)";
+			//echo $sql . "<br />";
+			mysql_query($sql);
+			$cnt++;
+			}
+			}
 			include_once "imprimeReciboCuenta.php";
 		}
 		//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
@@ -651,28 +636,28 @@ switch($_POST["action"]){
         $sql = 'SELECT username, password FROM mymvcdb_users WHERE username = "'.$_POST["u"].'" AND  password = "'.$pas.'" AND NIVEL = 0';
         $res = mysql_query($sql);
         if(mysql_num_rows($res) > 0){
-        	if($delCte == yes) {
-        		$sqlc = "DELETE FROM clientes WHERE id = $cte";
-        		$queryc = mysql_query($sqlc);
-				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2"> ';
-        	}else {
-		    #- LE DAMOS EN LA MADRE A TODO LO RELACIONADO CON ESA CUENTA Y ESE CLIENTE        
-		    $sql = "DELETE FROM cuentas WHERE id = $cta";
+		if($delCte == "yes") {
+			$sqlc = "DELETE FROM clientes WHERE id = $cte";
+			$queryc = mysql_query($sqlc);
+			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2"> ';
+		}else {
+			#- LE DAMOS EN LA MADRE A TODO LO RELACIONADO CON ESA CUENTA Y ESE CLIENTE        
+			$sql = "DELETE FROM cuentas WHERE id = $cta";
 			$query = mysql_query($sql);
 			if($query){
-		        $sql = "DELETE FROM pagos WHERE cliente = $cte AND cuenta = $cta AND estado = 0";
-		    if($query){
-		        $sql = "DELETE FROM recargos WHERE cliente = $cte AND cuenta = $cta";
-		    if($query){
-		        $sql = "DELETE FROM notas WHERE cliete = $cta";
-		    if($query){
-				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
+				$sql = "DELETE FROM pagos WHERE cliente = $cte AND cuenta = $cta AND estado = 0";
+				if($query){
+					$sql = "DELETE FROM recargos WHERE cliente = $cte AND cuenta = $cta";
+					if($query){
+						$sql = "DELETE FROM notas WHERE cliete = $cta";
+						if($query){
+							echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
+						}
+					}
+				}
 			}
-		    }
-		    }
-		    }
-		    }
-        } else {
+		}
+	} else {
             ?>
                 <script type="text/javascript" >
 		          alert("Permiso denegado.\nUsuario o contraseña incorrectos.\nIntente de nuevo.");
