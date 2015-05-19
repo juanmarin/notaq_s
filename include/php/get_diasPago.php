@@ -15,6 +15,7 @@ if(isset($_SESSION["REQUIRED1"])){
 				<option value="4"<?=($dia==4)?' selected="selected"':'';?>>JUEVES</option>
 				<option value="5"<?=($dia==5)?' selected="selected"':'';?>>VIERNES</option>
 				<option value="6"<?=($dia==6)?' selected="selected"':'';?>>SABADO</option>
+				<option value="7"<?=($dia==7)?' selected="selected"':'';?>>DOMINGO</option>
 				<?php
 				break;
 		case 2:
@@ -25,6 +26,7 @@ if(isset($_SESSION["REQUIRED1"])){
 				<option value="4"<?=($dia==4)?' selected="selected"':'';?>>JUEVES</option>
 				<option value="5"<?=($dia==5)?' selected="selected"':'';?>>VIERNES</option>
 				<option value="6"<?=($dia==6)?' selected="selected"':'';?>>SABADO</option>
+				<option value="7"<?=($dia==7)?' selected="selected"':'';?>>DOMINGO</option>
 				<?php
 				break;
 		case 3:
