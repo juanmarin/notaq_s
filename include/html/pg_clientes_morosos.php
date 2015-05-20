@@ -42,13 +42,13 @@
 		<form action="include/php/sys_modelo.php" method="post">
 		<input type="hidden" name="action" value="cliente_demandas" />
 		<tr>
-			<td style="text-align:center"> <?echo $r->id;?></td>	
-			<td style="text-align:center"><?echo $r->nombre ." ". $r->apellidop ." " .$r->apellidom;?></td>
-			<td style="text-align:center">$ <?echo moneda($r->pago);?></td>
-			<th style="text-align:center"><input type="checkbox" name="ids[]" value="<? echo $r->id; ?>" /></th>
-			<td width="80"><a href="?pg=2e&cl=<?echo $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
+			<td style="text-align:center"> <?php echo $r->id;?></td>	
+			<td style="text-align:center"><?php echo $r->nombre ." ". $r->apellidop ." " .$r->apellidom;?></td>
+			<td style="text-align:center">$ <?php echo moneda($r->pago);?></td>
+			<th style="text-align:center"><input type="checkbox" name="ids[]" value="<?php echo $r->id; ?>" /></th>
+			<td width="80"><a href="?pg=2e&cl=<?php echo $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
 		</tr>
-		<?
+		<?php
 	}
 	?>
 </tbody>
