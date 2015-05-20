@@ -5,8 +5,8 @@
 ?>
 	<p class="title">Reportes &raquo; inicio</p>
 	<form action="" method="post">
-		<input type="hidden" name="desde" id="desde" size="10" value="<?echo $desde;?>" />
-		<input type="hidden" name="hasta" id="hasta" size="10" value="<?echo $hasta;?>" />
+		<input type="hidden" name="desde" id="desde" size="10" value="<?= $desde;?>" />
+		<input type="hidden" name="hasta" id="hasta" size="10" value="<?= $hasta;?>" />
 		<input type="submit" name="imprimir" value="Imprimir" />
 	</form>
 <table>
@@ -39,11 +39,11 @@
             $totIntCobrado += $intPagado;
 ?>
 		<tr>
-		<th width="250px" style="text-align: center;"><? echo getFecha($ln->fechaPago);?></th>
-			<th colspan="3" width="250px" style="text-align: center"><?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
+		<th width="250px" style="text-align: center;"><?= getFecha($ln->fechaPago);?></th>
+			<th colspan="3" width="250px" style="text-align: center"><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
 			
-			<th width="250px" style="text-align: center;"><?echo "&#36;"; echo $ln->pago_real;?></th>
-			<th colspan="2" style="text-align: center;"><a href="?pg=2e&cl=<?echo $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
+			<th width="250px" style="text-align: center;"><?= "&#36;"; echo $ln->pago_real;?></th>
+			<th colspan="2" style="text-align: center;"><a href="?pg=2e&cl=<?= $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
 		</tr>
 	</tbody>
 	<?php
@@ -53,15 +53,15 @@
 	<tr>
 		<th colspan="4" style="text-align: left"> Totales </th>
 		
-		<th colspan="3" style="text-align:center"><?echo "&#36;"; echo $totSaldado + $totGlobal;?></th>
+		<th colspan="3" style="text-align:center"><?= "&#36;"; echo $totSaldado + $totGlobal;?></th>
 	</tr>
 	</tfoot>
 	</table>
 	<br /><br /><br /><br /><br />
 	<table>
 	<form action="" method="post">
-		<input type="hidden" name="desde" id="desde" size="10" value="<?echo $desde;?>" />
-		<input type="hidden" name="hasta" id="hasta" size="10" value="<?echo $hasta;?>" />
+		<input type="hidden" name="desde" id="desde" size="10" value="<?= $desde;?>" />
+		<input type="hidden" name="hasta" id="hasta" size="10" value="<?= $hasta;?>" />
 		<input type="submit" name="imprimirReporte" value="Imprimir Reporte" />
 	</form>
 	<?php	
@@ -75,7 +75,7 @@
 	$salda = $db->query($sql);
 	$ctasNum = mysql_num_rows($salda);
 	?>
-	<caption>CLIENTES QUE FALTARON <? echo $ctasNum; ?></caption>
+	<caption>CLIENTES QUE FALTARON <?= $ctasNum; ?></caption>
 	<thead>
 	<tr>
    	<th>Fecha Pago</th>
@@ -94,10 +94,10 @@
     ?>
 	<tbody>     
 	<tr>
-		<th width="250px" style="text-align: center;"><? echo getFecha($ln->fecha);?></th>
-			<th colspan="2" width="250px" style="text-align: center"><?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
-			<th width="250px" style="text-align: center;"><?echo "&#36;"; echo moneda($ln->pago);?></th>
-			<th colspan="3" style="text-align: center;"><a href="?pg=2e&cl=<?echo $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
+		<th width="250px" style="text-align: center;"><?= getFecha($ln->fecha);?></th>
+			<th colspan="2" width="250px" style="text-align: center"><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
+			<th width="250px" style="text-align: center;"><?= "&#36;"; echo moneda($ln->pago);?></th>
+			<th colspan="3" style="text-align: center;"><a href="?pg=2e&cl=<?= $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
 		</tr>
     <?php
         }
@@ -140,9 +140,9 @@
 	<tbody>
 		<tr>
 			<th width="150">Desde Fecha:</th>
-  	        <td><input type="text" name="desde" id="desde" size="10" value="<?echo date('Y-m-d');?>" class="dpfecha" /></td>
+  	        <td><input type="text" name="desde" id="desde" size="10" value="<?= date('Y-m-d');?>" class="dpfecha" /></td>
 			<th width="150">Hasta Fecha:</th>
-			<td><input type="text" name="hasta" id="hasta" size="10" value="<?echo date('Y-m-d');?>" class="dpfecha" /></td>
+			<td><input type="text" name="hasta" id="hasta" size="10" value="<?= date('Y-m-d');?>" class="dpfecha" /></td>
 		</tr>
 	</tbody>
 	<tfoot>
@@ -152,7 +152,7 @@
 	</tfoot>
 	</table>
 	</form>
-<?
+<?php
 }
 ?>
 <br /><br /><br />
@@ -171,7 +171,7 @@ function getNpago($cuenta, $pago){
 	}
 	return $np;
 }
-if($_POST["imprimir"]){
+if(isset($_POST["imprimir"])){
 	require_once("include/php/sys_db.class.php");
 	require_once("include/conf/Config_con.php");
     	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
@@ -217,7 +217,7 @@ if($_POST["imprimir"]){
 		sleep(1);
 	}
 }
-if($_POST["imprimirReporte"])
+if(isset($_POST["imprimirReporte"]))
 {	
 	require_once("include/php/sys_db.class.php");
 	require_once("include/conf/Config_con.php");

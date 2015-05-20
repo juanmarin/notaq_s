@@ -32,11 +32,11 @@ if(isset($_POST['enviar'])){
 		while ($ln = $db->fetchNextObject($result)){
 			?>
 			<tr>
-				<th width="250px" style="text-align: center;"><? echo getFecha($ln->fecha);?></th>
-				<th width="250px" style="text-align: center"><?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
-				<th width="250px" style="text-align: center;"><?echo $ln->direccion." ".$ln->colonia." ".$ln->telefono;?></th>
-				<th width="250px" style="text-align: center;"><?echo "&#36;"; echo moneda($ln->pago);?></th>
-				<th colspan="1" style="text-align: center;"><a href="?pg=2e&cl=<?echo $ln->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
+				<th width="250px" style="text-align: center;"><?= getFecha($ln->fecha);?></th>
+				<th width="250px" style="text-align: center"><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
+				<th width="250px" style="text-align: center;"><?= $ln->direccion." ".$ln->colonia." ".$ln->telefono;?></th>
+				<th width="250px" style="text-align: center;"><?= "&#36;"; echo moneda($ln->pago);?></th>
+				<th colspan="1" style="text-align: center;"><a href="?pg=2e&cl=<?= $ln->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
 			</tr>
 			<?php
 		}
@@ -47,9 +47,9 @@ if(isset($_POST['enviar'])){
 		<tr>
 			<th colspan="5">
 				<form method="post" action="">
-					<!--<input type="hidden" name="consulta" value="<?echo $sql;?>" />-->
-					<input type="hidden" name="del" value="<?echo $desde;?>" />
-					<input type="hidden" name="al" value="<?echo $hasta;?>" />
+					<!--<input type="hidden" name="consulta" value="<?= $sql;?>" />-->
+					<input type="hidden" name="del" value="<?= $desde;?>" />
+					<input type="hidden" name="al" value="<?= $hasta;?>" />
 					<input type="submit" name="imprimir" value="Imprimir" />
 				</form>
 			</th>
@@ -132,7 +132,7 @@ if(isset($_POST['enviar'])){
 	</tfoot>
 	</table>
 	<br />
-	<form name="repoFechas" action="<? $PHP_SELF=urlencode($PHP_SELF); ?>" method="post">
+	<form name="repoFechas" action="<?= $PHP_SELF=urlencode($PHP_SELF); ?>" method="post">
 	<table>
 	<caption>Seleccione el rango de Fechas</caption>
 	<thead>
@@ -143,9 +143,9 @@ if(isset($_POST['enviar'])){
 	<tbody>
 	<tr>
 	<th width="150">Desde Fecha:</th>
-	<td><input type="text" name="desde" id="desde" size="10" value="<?echo date('Y-m-d');?>" class="dpfecha" /></td>
+	<td><input type="text" name="desde" id="desde" size="10" value="<?= date('Y-m-d');?>" class="dpfecha" /></td>
 	<th width="150">Hasta Fecha:</th>
-	<td><input type="text" name="hasta" id="hasta" size="10" value="<?echo date('Y-m-d');?>" class="dpfecha" /></td>
+	<td><input type="text" name="hasta" id="hasta" size="10" value="<?= date('Y-m-d');?>" class="dpfecha" /></td>
 	</tr>
 	</tbody>
 	<tfoot>
@@ -155,6 +155,6 @@ if(isset($_POST['enviar'])){
 	</tfoot>
 	</table>
 	</form>
-	<?
+	<?php
 }
 ?>

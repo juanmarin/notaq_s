@@ -333,6 +333,7 @@
 					case "3d":	require_once("include/html/pg_reporte_historial_cred.php");		break;
 					case "3da":	require_once("include/html/pg_reporte_historial_cred_cl.php");		break;
 					case "3f":	require_once("include/html/pg_reporte_recargos.php");			break;
+					case "3g":	require_once("include/html/pg_reporte_excel.php");			break;
 					case "4":	require_once("include/html/pg_panel.php");				break;
 					case "4a":	require_once("include/html/pg_panel_usuarios.php");			break;
 					case "4b":	require_once("include/html/pg_panel_usuario_agregar.php");		break;
