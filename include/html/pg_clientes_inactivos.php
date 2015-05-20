@@ -19,12 +19,12 @@
 	while($r = $db->fetchNextObject($res)){
 		?>
 		<tr>
-			<td style="text-align:center"><?echo $r->id;?></td>	
-			<td style="text-align:center"><?echo $r->nombre ." ". $r->apellidop ." " .$r->apellidom;?></td>
+			<td style="text-align:center"><?php echo $r->id;?></td>	
+			<td style="text-align:center"><?php echo $r->nombre ." ". $r->apellidop ." " .$r->apellidom;?></td>
 			<td>&nbsp;</td>
-			<td width="80"><a href="?pg=2e&cl=<?echo $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
+			<td width="80"><a href="?pg=2e&cl=<?php echo $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
 		</tr>
-		<?
+		<?php
 	}
 	?>
 </tbody>
