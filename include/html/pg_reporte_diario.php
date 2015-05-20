@@ -1,5 +1,9 @@
 <?php
-    if(isset($_POST['enviar'])){
+	session_start();
+	$UserName = $_SESSION["USERNAME"];
+	$UserLevel = $_SESSION["U_NIVEL"];
+
+ if(isset($_POST['enviar'])){
         $desde = $_POST['desde'];
         $hasta = $_POST['hasta'];
 ?>
@@ -25,9 +29,10 @@
         require_once("include/conf/Config_con.php");
         $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
         $result = $db->query("SELECT clientes.id AS clientes, clientes.nombre, clientes.apellidop, clientes.apellidom, 
-        pagos.fechaPago, SUM(pagos.pago_real) AS pago_real, pagos.interes, pagos.estado 
+        clientes.c_cobrador, pagos.fechaPago, SUM(pagos.pago_real) AS pago_real, pagos.interes, pagos.estado 
         FROM clientes, pagos 
-        WHERE clientes.id = pagos.cliente 
+        WHERE clientes.id = pagos.cliente
+				AND clientes.c_cobrador = '".$UserName."' 
         			AND DATE(pagos.fechaPago) BETWEEN '".$desde."' 
         			AND '".$hasta."' AND pagos.pago_real > 0 
         			AND (pagos.estado = 1 OR pagos.estado = 3) GROUP BY clientes.id");
@@ -66,10 +71,12 @@
 	</form>
 	<?php	
 	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-	$sql="SELECT clientes.id AS clientes, clientes.nombre, clientes.apellidop, clientes.apellidom, pagos.cliente, pagos.fecha, 
+	$sql="SELECT clientes.id AS clientes, clientes.nombre, clientes.apellidop, clientes.apellidom, clientes.c_cobrador, pagos.cliente, pagos.fecha, 
 		pagos.estado, pagos.pago AS pago 
 		FROM cuentas, pagos, clientes 
-		WHERE cuentas.id=pagos.cuenta AND clientes.id=pagos.cliente 
+		WHERE cuentas.id=pagos.cuenta AND
+		clientes.c_cobrador = '".$UserName."' AND
+		clientes.id=pagos.cliente 
 		AND pagos.estado = 0 AND DATE(pagos.fecha) BETWEEN '".$desde."' AND '".$hasta."'
 		";
 	$salda = $db->query($sql);
