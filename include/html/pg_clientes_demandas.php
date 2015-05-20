@@ -14,7 +14,7 @@
 	require_once("include/php/sys_db.class.php");
 	require_once("include/conf/Config_con.php");
 	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidop, demandas.cliente_id AS id 
+	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidom, demandas.cliente_id AS id 
             FROM clientes, demandas
             WHERE
                 clientes.id = demandas.cliente_id
@@ -24,15 +24,16 @@
 	while($r = $db->fetchNextObject($res)){
 		?>
 		<tr>
-			<td style="text-align:center"> <?echo $r->id;?></td>	
-			<td style="text-align:center"><?echo $r->nombre ." ". $r->apellidop ." " .$r->apellidom;?></td>
-			<td width="80"><a href="?pg=2e&cl=<?echo $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
+			<td style="text-align:center"> <?= $r->id;?></td>	
+			<td style="text-align:center"><?= $r->nombre ." ". $r->apellidop ." " .$r->apellidom;?></td>
+			<td width="80"><a href="?pg=2e&cl=<?= $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
 			<!--
-<td width="80"><a href="include/php/sys_modelo.php?cte=<?echo $r->id;?>&cta=<?echo $r->cuenta;?>&action=recargo_elimina" class="tboton sombra esqRedondas recargos">Elimina</a></td>
--->
-
+			<?php /*
+			<td width="80"><a href="include/php/sys_modelo.php?cte=<?= $r->id;?>&cta=<?= $r->cuenta;?>&action=recargo_elimina" class="tboton sombra esqRedondas recargos">Elimina</a></td>
+			*/ ?>
+			-->
 		</tr>
-		<?
+		<?php
 	}
 	?>
 </tbody>

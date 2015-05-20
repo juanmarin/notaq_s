@@ -1,5 +1,5 @@
 <?php
-	session_start();
+	@session_start();
 	$UserName = $_SESSION["USERNAME"];
 	//echo "Nivel ".($_SESSION["U_NIVEL"])."<br/>";
 	//echo $UserName;
@@ -22,7 +22,7 @@
 	require_once("include/php/sys_db.class.php");
 	require_once("include/conf/Config_con.php");
 	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidop, clientes.demanda, cuentas.cliente, 
+	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidom, clientes.demanda, cuentas.cliente, 
 				   cuentas.cobrador, cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha, 
 				   SUM(pagos.pago) AS pago, pagos.estado
             FROM clientes, cuentas, pagos 
@@ -42,13 +42,13 @@
 		<form action="include/php/sys_modelo.php" method="post">
 		<input type="hidden" name="action" value="cliente_demandas" />
 		<tr>
-			<td style="text-align:center"> <?echo $r->id;?></td>	
-			<td style="text-align:center"><?echo $r->nombre ." ". $r->apellidop ." " .$r->apellidom;?></td>
-			<td style="text-align:center">$ <?echo moneda($r->pago);?></td>
-			<th style="text-align:center"><input type="checkbox" name="ids[]" value="<? echo $r->id; ?>" /></th>
-			<td width="80"><a href="?pg=2e&cl=<?echo $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
+			<td style="text-align:center"> <?= $r->id;?></td>	
+			<td style="text-align:center"><?= $r->nombre ." ". $r->apellidop ." " .$r->apellidom;?></td>
+			<td style="text-align:center">$ <?= moneda($r->pago);?></td>
+			<th style="text-align:center"><input type="checkbox" name="ids[]" value="<?= $r->id; ?>" /></th>
+			<td width="80"><a href="?pg=2e&cl=<?= $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
 		</tr>
-		<?
+		<?php
 	}
 	?>
 </tbody>

@@ -14,7 +14,12 @@
 	require_once("include/conf/Config_con.php");
 
 	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-	$result = $db->query("SELECT * FROM clientes WHERE activo = 1 ORDER BY nombre ASC");
+	if($_SESSION["U_NIVEL"] == 0){
+		$sql = "SELECT * FROM clientes WHERE activo = 1 ORDER BY nombre ASC";
+	} else {
+		$sql = "SELECT * FROM clientes WHERE activo = 1 AND c_cobrador = '".$_SESSION["USERNAME"]."' ORDER BY nombre ASC";
+	}
+	$result = $db->query($sql);
 	while ($ln = $db->fetchNextObject($result))
 	{
 		?>

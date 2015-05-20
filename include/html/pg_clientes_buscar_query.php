@@ -26,7 +26,6 @@ if($_SESSION["U_NIVEL"] == 0){
 	$cobrador = "AND clientes.c_cobrador = '".$_SESSION["USERNAME"]."'";
 }
 $sql = "SELECT * FROM clientes WHERE (nombre LIKE '%".$_POST["consulta"]."%' OR apellidop LIKE '%".$_POST["consulta"]."%' OR apellidom LIKE '%".$_POST["consulta"]."%') $cobrador";
-echo $sql;
 $res = $db->query($sql);
 while ($ln = $db->fetchNextObject($res))
 {
