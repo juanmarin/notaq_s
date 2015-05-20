@@ -1,3 +1,8 @@
+<?php
+	session_start();
+	$UserName = $_SESSION["USERNAME"];
+	$UserLevel = $_SESSION["U_NIVEL"];
+?>
 <p class="title">Portada &raquo; Listado de Clientes Inactivos</p>
 <table>
 <caption>CLIENTES INACTIVOS</caption>
@@ -13,7 +18,8 @@
 	require_once("include/php/sys_db.class.php");
 	require_once("include/conf/Config_con.php");
 	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-	$sql = "SELECT * FROM clientes WHERE NOT EXISTS (SELECT * FROM cuentas WHERE clientes.id = cuentas.cliente AND cuentas.estado = 0)";
+	$sql = "SELECT * FROM clientes WHERE NOT EXISTS 
+		(SELECT * FROM cuentas WHERE clientes.id = cuentas.cliente AND cuentas.estado = 0)";
 	$res = $db->query($sql);
 	$num_rows = mysql_num_rows($res);
 	while($r = $db->fetchNextObject($res)){
