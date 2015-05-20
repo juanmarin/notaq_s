@@ -1,5 +1,9 @@
 <?php
-    if(isset($_POST['enviar'])){
+	session_start();
+	$UserName = $_SESSION["USERNAME"];
+	$UserLevel = $_SESSION["U_NIVEL"];
+
+ if(isset($_POST['enviar'])){
         $desde = $_POST['desde'];
         $hasta = $_POST['hasta'];
 ?>
@@ -25,9 +29,10 @@
         require_once("include/conf/Config_con.php");
         $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
         $result = $db->query("SELECT clientes.id AS clientes, clientes.nombre, clientes.apellidop, clientes.apellidom, 
-        pagos.fechaPago, SUM(pagos.pago_real) AS pago_real, pagos.interes, pagos.estado 
+        clientes.c_cobrador, pagos.fechaPago, SUM(pagos.pago_real) AS pago_real, pagos.interes, pagos.estado 
         FROM clientes, pagos 
-        WHERE clientes.id = pagos.cliente 
+        WHERE clientes.id = pagos.cliente
+				AND clientes.c_cobrador = '".$UserName."' 
         			AND DATE(pagos.fechaPago) BETWEEN '".$desde."' 
         			AND '".$hasta."' AND pagos.pago_real > 0 
         			AND (pagos.estado = 1 OR pagos.estado = 3) GROUP BY clientes.id");
@@ -42,8 +47,13 @@
 		<th width="250px" style="text-align: center;"><?= getFecha($ln->fechaPago);?></th>
 			<th colspan="3" width="250px" style="text-align: center"><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
 			
+<<<<<<< HEAD
 			<th width="250px" style="text-align: center;"><?= "&#36;"; echo $ln->pago_real;?></th>
 			<th colspan="2" style="text-align: center;"><a href="?pg=2e&cl=<?= $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
+=======
+			<th width="250px" style="text-align: center;"><?echo "&#36;"; echo $ln->pago_real;?></th>
+			<th colspan="2" style="text-align: center;"><a href="?pg=2e&cl=<?echo $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
+>>>>>>> 8a02758a4eee9e75fb651c00a48757ab6eca133e
 		</tr>
 	</tbody>
 	<?php
@@ -66,10 +76,12 @@
 	</form>
 	<?php	
 	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-	$sql="SELECT clientes.id AS clientes, clientes.nombre, clientes.apellidop, clientes.apellidom, pagos.cliente, pagos.fecha, 
+	$sql="SELECT clientes.id AS clientes, clientes.nombre, clientes.apellidop, clientes.apellidom, clientes.c_cobrador, pagos.cliente, pagos.fecha, 
 		pagos.estado, pagos.pago AS pago 
 		FROM cuentas, pagos, clientes 
-		WHERE cuentas.id=pagos.cuenta AND clientes.id=pagos.cliente 
+		WHERE cuentas.id=pagos.cuenta AND
+		clientes.c_cobrador = '".$UserName."' AND
+		clientes.id=pagos.cliente 
 		AND pagos.estado = 0 AND DATE(pagos.fecha) BETWEEN '".$desde."' AND '".$hasta."'
 		";
 	$salda = $db->query($sql);
@@ -94,10 +106,17 @@
     ?>
 	<tbody>     
 	<tr>
+<<<<<<< HEAD
 		<th width="250px" style="text-align: center;"><?= getFecha($ln->fecha);?></th>
 			<th colspan="2" width="250px" style="text-align: center"><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
 			<th width="250px" style="text-align: center;"><?= "&#36;"; echo moneda($ln->pago);?></th>
 			<th colspan="3" style="text-align: center;"><a href="?pg=2e&cl=<?= $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
+=======
+		<th width="250px" style="text-align: center;"><? echo getFecha($ln->fecha);?></th>
+			<th colspan="2" width="250px" style="text-align: center"><?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
+			<th width="250px" style="text-align: center;"><?echo "&#36;"; echo moneda($ln->pago);?></th>
+			<th colspan="3" style="text-align: center;"><a href="?pg=2e&cl=<?echo $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
+>>>>>>> 8a02758a4eee9e75fb651c00a48757ab6eca133e
 		</tr>
     <?php
         }

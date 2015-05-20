@@ -1,3 +1,8 @@
+<?php
+	session_start();
+	$UserName = $_SESSION["USERNAME"];
+	$UserLevel = $_SESSION["U_NIVEL"];
+?>
 <p class="title">Portada &raquo; Listado de Clientes Inactivos</p>
 <table>
 <caption>CLIENTES INACTIVOS</caption>
@@ -13,16 +18,28 @@
 	require_once("include/php/sys_db.class.php");
 	require_once("include/conf/Config_con.php");
 	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
+<<<<<<< HEAD
 	$sql = "SELECT * FROM clientes WHERE NOT EXISTS (SELECT * FROM cuentas WHERE clientes.id = cuentas.cliente AND cuentas.estado = 0)";
+=======
+	$sql = "SELECT * FROM clientes WHERE NOT EXISTS 
+		(SELECT * FROM cuentas WHERE clientes.id = cuentas.cliente AND cuentas.estado = 0)";
+>>>>>>> 8a02758a4eee9e75fb651c00a48757ab6eca133e
 	$res = $db->query($sql);
 	$num_rows = mysql_num_rows($res);
 	while($r = $db->fetchNextObject($res)){
 		?>
 		<tr>
+<<<<<<< HEAD
 			<td style="text-align:center"><?= $r->id;?></td>	
 			<td style="text-align:center"><?= $r->nombre ." ". $r->apellidop ." " .$r->apellidom;?></td>
 			<td>&nbsp;</td>
 			<td width="80"><a href="?pg=2e&cl=<?= $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
+=======
+			<td style="text-align:center"><?php echo $r->id;?></td>	
+			<td style="text-align:center"><?php echo $r->nombre ." ". $r->apellidop ." " .$r->apellidom;?></td>
+			<td>&nbsp;</td>
+			<td width="80"><a href="?pg=2e&cl=<?php echo $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
+>>>>>>> 8a02758a4eee9e75fb651c00a48757ab6eca133e
 		</tr>
 		<?php
 	}

@@ -1,7 +1,7 @@
 <?php
 //INICIALIZANDO VARIABLES -------------------------------
 //define("IN_SITE", true);
-$sitio_nombre_raiz = "/";
+$sitio_nombre_raiz = "notaq_s";
 $tipo_login = 1;
 $_GET["m"] = ( isset($_GET["m"]) )? $_GET["m"] : "1";
 $msg = '<p class="suggestion">Recuerde coincidir en mayúsculas.</p>';
