@@ -10,7 +10,7 @@
 </thead>
 <tbody>
 	<?php
-    $fecha = date("Y-m-d");
+    	$fecha = date("Y-m-d");
 	require_once("include/php/sys_db.class.php");
 	require_once("include/conf/Config_con.php");
 	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
@@ -22,17 +22,17 @@
 	$res = $db->query($sql);
 	$num_rows = mysql_num_rows($res);
 	while($r = $db->fetchNextObject($res)){
-		?>
+	?>
 		<tr>
-			<td style="text-align:center"> <?echo $r->id;?></td>	
-			<td style="text-align:center"><?echo $r->nombre ." ". $r->apellidop ." " .$r->apellidom;?></td>
-			<td width="80"><a href="?pg=2e&cl=<?echo $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
+			<td style="text-align:center"> <?php echo $r->id;?></td>	
+			<td style="text-align:center"><?php echo $r->nombre ." ". $r->apellidop ." " .$r->apellidom;?></td>
+			<td width="80"><a href="?pg=2e&cl=<?php echo $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
 			<!--
 <td width="80"><a href="include/php/sys_modelo.php?cte=<?echo $r->id;?>&cta=<?echo $r->cuenta;?>&action=recargo_elimina" class="tboton sombra esqRedondas recargos">Elimina</a></td>
 -->
 
 		</tr>
-		<?
+		<?php
 	}
 	?>
 </tbody>

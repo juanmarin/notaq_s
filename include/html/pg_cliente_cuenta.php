@@ -87,12 +87,12 @@
 			<?php
 			if(!isset($_SESSION["nohaycuenta"])){
 				?>			
-				<a href="include/html/box_nota.php?width=500&height=390&cl=<?echo $_GET["cl"];?>" class="thickbox" ><img src="estilo/img/order-162.png" /></a></th>
+				<a href="include/html/box_nota.php?width=500&height=390&cl=<?php echo $_GET["cl"];?>" class="thickbox" ><img src="estilo/img/order-162.png" /></a></th>
 				<?php
 			}
 			?>
-			 <td rowspan="2" width="390"><strong>Nombre: </strong> <br /><?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
-			 <td rowspan="2" width="200"><strong>Cobrador: </strong> <br /><?echo $ln->c_cobrador;?></td>			
+			 <td rowspan="2" width="390"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
+			 <td rowspan="2" width="200"><strong>Cobrador: </strong> <br /><?php echo $ln->c_cobrador;?></td>			
 			<?php
 			/*  
 			//--- FOTOGRAFIA DEL CLIENTE ---------------------------------------------------------------------------------------
@@ -100,12 +100,12 @@
 			if(file_exists("include/jpegcam/htdocs/" . $_SESSION["idcliente"] . ".jpg")){
 				?>
 				<td rowspan="2" width="250">
-                    <a href="include/jpegcam/htdocs/test.html?keepThis=true&TB_iframe=true&height=320&width=300" class="thickbox" rel="foto" title="<?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?>"><img src="include/jpegcam/htdocs/<?php echo $_SESSION["idcliente"];?>.jpg" /></a></td>
+                    <a href="include/jpegcam/htdocs/test.html?keepThis=true&TB_iframe=true&height=320&width=300" class="thickbox" rel="foto" title="<?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?>"><img src="include/jpegcam/htdocs/<?php echo $_SESSION["idcliente"];?>.jpg" /></a></td>
 				<?php
 			}else{
 				?>
 				<td rowspan="2" width="250">
-                    <a href="include/jpegcam/htdocs/test.html?keepThis=true&TB_iframe=true&height=380&width=480" class="thickbox" rel="foto" title="<?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?>">Capturar</a></td>
+                    <a href="include/jpegcam/htdocs/test.html?keepThis=true&TB_iframe=true&height=380&width=480" class="thickbox" rel="foto" title="<?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?>">Capturar</a></td>
 				<?php
 			}
 			//--- FOTOGRAFIA DE IFE NUMERO UNO ---------------------------------------------------------------------------------
@@ -113,12 +113,12 @@
 				$exists++;
 				?>
 				<td width="220">
-                    <a href="include/jpegcam/htdocs/test_ife.html?keepThis=true&TB_iframe=true&height=350&width=480" class="thickbox" rel="ife" title="<?echo $ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>"><img src="include/jpegcam/htdocs/<?php echo $_SESSION["ifecliente"];?>.jpg" width="100" /></a></td>
+                    <a href="include/jpegcam/htdocs/test_ife.html?keepThis=true&TB_iframe=true&height=350&width=480" class="thickbox" rel="ife" title="<?php echo $ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>"><img src="include/jpegcam/htdocs/<?php echo $_SESSION["ifecliente"];?>.jpg" width="100" /></a></td>
 				<?php
 			}else{
 				?>
 				<td width="220">
-                    <a href="include/jpegcam/htdocs/test_ife.html?keepThis=true&TB_iframe=true&height=350&width=480" class="thickbox" rel="ife" title="<?echo $ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>">Capturar IFE</a></td>
+                    <a href="include/jpegcam/htdocs/test_ife.html?keepThis=true&TB_iframe=true&height=350&width=480" class="thickbox" rel="ife" title="<?php echo $ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>">Capturar IFE</a></td>
 				<?php
 			}
 			//--- FOTOGRAFIA DE IFE NUMERO DOS ---------------------------------------------------------------------------------
@@ -126,13 +126,13 @@
 				$exists++;
 				?>
 				<td width="220">
-					<a href="include/jpegcam/htdocs/test_ife2.html?keepThis=true&TB_iframe=true&height=350&width=480" class="thickbox" rel="ife" title="<?echo $ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>"><img src="include/jpegcam/htdocs/<?php echo $_SESSION["ifecliente"];?>2.jpg" width="100" /></a>
+					<a href="include/jpegcam/htdocs/test_ife2.html?keepThis=true&TB_iframe=true&height=350&width=480" class="thickbox" rel="ife" title="<?php echo $ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>"><img src="include/jpegcam/htdocs/<?php echo $_SESSION["ifecliente"];?>2.jpg" width="100" /></a>
 				</td>
 				<?php
 			}else{
 				?>
 				<td width="220">
-					<a href="include/jpegcam/htdocs/test_ife2.html?keepThis=true&TB_iframe=true&height=350&width=480" class="thickbox" rel="ife" title="<?echo $ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>">Capturar IFE</a>
+					<a href="include/jpegcam/htdocs/test_ife2.html?keepThis=true&TB_iframe=true&height=350&width=480" class="thickbox" rel="ife" title="<?php echo $ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>">Capturar IFE</a>
 				</td>
 				<?php
 			}
@@ -142,7 +142,7 @@
 			<?php
 			if($exists > 0){
 				?>
-				<a href="include/html/box_fotos.php?height=275&width=750" class="thickbox" rel="ife" title="<?echo "IFE"." ".$ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>">Ampliar IFE</a>
+				<a href="include/html/box_fotos.php?height=275&width=750" class="thickbox" rel="ife" title="<?php echo "IFE"." ".$ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>">Ampliar IFE</a>
 				<?php
 			}
 			*/
@@ -180,17 +180,17 @@
 	<tbody>
 		<tr>
 			<td><strong>Calle: </strong> </td>
-			<td><?echo $ln2->direccion;?> </td>
+			<td><?php echo $ln2->direccion;?> </td>
 		
 			<td><strong>Colonia: </strong></td>	
-			<td><?echo $ln2->colonia;?></td>	
+			<td><?php echo $ln2->colonia;?></td>	
 		</tr>
 		<tr>
 			<td><strong>Tel&eacute;fono: </strong> </td>
-			<td><?echo $ln2->telefono;?> </td>
+			<td><?php echo $ln2->telefono;?> </td>
 		
 			<td><strong>Celular: </strong></td>	
-			<td><?echo $ln2->celular;?></td>	
+			<td><?php echo $ln2->celular;?></td>	
 		</tr>
 		<table>
 			<caption>Datos del aval</caption>
@@ -198,27 +198,27 @@
 		if($ln2->Aval!=1) {	
 	?>
 		<tr>
-			<td rowspan="2" colspan="4"> No hay datos de Aval, Si desea capturar uno <a href="?pg=2db&cl=<?echo $_SESSION["clid"];?>"><b>click aqui</b></a></td>	
+			<td rowspan="2" colspan="4"> No hay datos de Aval, Si desea capturar uno <a href="?pg=2db&cl=<?php echo $_SESSION["clid"];?>"><b>click aqui</b></a></td>	
 		</tr>			
 	<?php			
 		}else {
 	?>
 			<tr>
 			<td><strong>Nombre: </strong> </td>
-			<td><?echo $ln2->R1nombre." ".$ln2->R1apellidop." ".$ln2->R1apellidom;?> </td>
+			<td><?php echo $ln2->R1nombre." ".$ln2->R1apellidop." ".$ln2->R1apellidom;?> </td>
 		
 			<td><strong>Direccion: </strong></td>	
-			<td><?echo $ln2->R1dir;?></td>	
+			<td><?php echo $ln2->R1dir;?></td>	
 		</tr>
 		<tr>
 			<td><strong>Colonia: </strong> </td>
-			<td><?echo $ln2->R1col;?> </td>
+			<td><?php echo $ln2->R1col;?> </td>
 		
 			<td><strong>Telefono: </strong></td>	
-			<td><?echo $ln2->R1tel;?></td>	
+			<td><?php echo $ln2->R1tel;?></td>	
 		</tr>	
 		<tr>
-			<td colspan="4" style="text-align:center;"><a href="include/html/box_cliente_avales.php?width=800&height=490&cl=<?echo $_GET["cl"];?>" class="thickbox" >Ver datos de avales</a></td>		
+			<td colspan="4" style="text-align:center;"><a href="include/html/box_cliente_avales.php?width=800&height=490&cl=<?php echo $_GET["cl"];?>" class="thickbox" >Ver datos de avales</a></td>		
 		</tr>		
 	<?php
 		}
@@ -253,9 +253,9 @@ if($chk == 0){
 	<tbody>
 		<tr>
 			<th width="120">Fecha:</th>
-			<td width="210"><input type="text" name="fecha" id="fecha" size="10" value="<?echo date('Y-m-d');?>" class="dpfecha" /></td>
+			<td width="210"><input type="text" name="fecha" id="fecha" size="10" value="<?php echo date('Y-m-d');?>" class="dpfecha" /></td>
 			<th width="150">Primer pago:</th>
-			<td><input type="text" name="fechapp" id="fechapp" size="10" value="<?echo date('Y-m-d');?>" class="dpfecha" /></td>
+			<td><input type="text" name="fechapp" id="fechapp" size="10" value="<?php echo date('Y-m-d');?>" class="dpfecha" /></td>
 		</tr>
 		<tr>
 			<th>Cantidad:</th>
@@ -470,8 +470,8 @@ if($chk == 0){
 				<tr>
 					<td colspan="5">
 				<a href="include/html/box_cliente_cuenta_saldar.php?width=500&height=430&c=<? echo $cuenta;?>" class="thickbox boton esqRedondas sombra">Saldar cuenta</a>
-				<a href="include/html/box_cuenta_elim.php?width=480&height=250&cte=<?echo $r->cliente;?>&cta=<?echo $cuenta;?>" class="thickbox boton esqRedondas sombra">Elim. Cuenta</a>
-				<a href="?pg=3da&cl=<?echo $cliente;?>" class="boton esqRedondas sombra">Historial</a>			
+				<a href="include/html/box_cuenta_elim.php?width=480&height=250&cte=<?php echo $r->cliente;?>&cta=<?php echo $cuenta;?>" class="thickbox boton esqRedondas sombra">Elim. Cuenta</a>
+				<a href="?pg=3da&cl=<?php echo $cliente;?>" class="boton esqRedondas sombra">Historial</a>			
 				<?php
                      #if($r->tipo_pago == 4)
                      if($tp == "MENSUAL"){
@@ -528,7 +528,7 @@ if($chk == 0){
 					$pago_acum += getPagoRedondo($r->pago);
 					if($saldo > $pago_acum){
 						?>
-							<form name="frm_<?echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
+							<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 								<input type="hidden" name="numpago" value="<? echo $i;?>" />
 								<input type="text" name="pago" value="<? echo $pago_acum;?>" size="7" />
 								<input type="hidden" name="cl" value="<? echo $_GET['cl'];?>" />
@@ -541,7 +541,7 @@ if($chk == 0){
 					}elseif(($pago_acum - $saldo) > 0){
 						$pago_acum = $saldo;
 						?>
-							<form name="frm_<?echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
+							<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 								<input type="hidden" name="numpago" value="<? echo $i;?>" />
 								<input type="text" name="pago" value="<? echo $pago_acum;?>" size="7" />
 								<input type="hidden" name="cl" value="<? echo $_GET['cl'];?>" />
@@ -554,7 +554,7 @@ if($chk == 0){
 					}else{
 						$pago_acum = $saldo;
 						?>
-							<form name="frm_<?echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
+							<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 								<input type="hidden" name="numpago" value="<? echo $i;?>" />
 								<input type="text" name="pago" value="<? echo $r->pago_real;?>" size="7" />
 								<input type="hidden" name="cl" value="<? echo $_GET['cl'];?>" />
@@ -568,7 +568,7 @@ if($chk == 0){
 				}elseif($r->estado == 1) {
 					if($r->pago == 0){
 						?>
-							<form name="frm_<?echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
+							<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 								<input type="hidden" name="numpago" value="<? echo $i;?>" />
 								<input type="hidden" name="pago" value="<? echo $pago_acum;?>" />
 								<input type="hidden" name="cl" value="<? echo $_GET['cl'];?>" />
@@ -581,7 +581,7 @@ if($chk == 0){
 						#echo '<p style="color:#4A9E41;">PAGO DE INTERES</p>';
 					}else {
 						?>
-							<form name="frm_<?echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
+							<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 								<input type="hidden" name="numpago" value="<? echo $i;?>" />
 								<input type="hidden" name="pago" value="<? echo $pago_acum;?>" />
 								<input type="hidden" name="cl" value="<? echo $_GET['cl'];?>" />
@@ -595,7 +595,7 @@ if($chk == 0){
 					}
 				}elseif($r->estado == 3) {
 						?>
-							<form name="frm_<?echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
+							<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 								<input type="hidden" name="numpago" value="<? echo $i;?>" />
 								<input type="hidden" name="pago" value="<? echo $r->pago_real;?>" />
 								<input type="hidden" name="cl" value="<? echo $_GET['cl'];?>" />
@@ -620,6 +620,6 @@ if($chk == 0){
 	</tr>
 </tfoot>
 </table>
-<?
+<?php
 }
 ?>

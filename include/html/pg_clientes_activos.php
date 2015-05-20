@@ -45,7 +45,7 @@
 			<td style="text-align:center">$ <?echo moneda($r->total);?></td>
 			<td width="80"><a href="?pg=2e&cl=<?echo $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
 		</tr>
-		<?
+		<?php
 	}
 	?>
 </tbody>
