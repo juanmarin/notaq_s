@@ -51,7 +51,7 @@
 </tbody>
 <tfoot>
 	<tr>
-		<th colspan="4">7ef9adbb850ef6d4938aa183b325f4ed446f7da3</th>
+		<th colspan="4"></th>
 	</tr>
 </tfoot>
 </table>
