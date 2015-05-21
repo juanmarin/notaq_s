@@ -577,4 +577,10 @@ function revert_tipoPago($tipo_pago){
 		}
 	return $tipo_pago;
 }
+function date_diffe($hoy, $proxpago){
+	$hoy = date("Y-m-d");
+	$dias	= (strtotime($hoy)-strtotime($proxpago))/86400;
+	$dias 	= abs($dias); $dias = floor($dias);		
+	return $dias;
+}
 ?>

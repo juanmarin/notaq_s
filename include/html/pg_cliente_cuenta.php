@@ -377,12 +377,18 @@ if($chk == 0){
         $proxpago = $r->fecha;
 		## verificando estado del pago 
 		if(getHayRecargo($proxpago) == 1) {
+			$dAtras = date_diffe($hoy, $proxpago);
+			//echo $dAtras."<br/>";
 			$sql = "SELECT * FROM recargos WHERE pago_id = ".$pago_id." AND pago = '".$proxpago."'";
 			$rec = $db->query($sql);
-			$monto = 10;
+			$monto = (10 * $dAtras);
 			if($db->numRows() == 0){
-				$sql = "INSERT INTO recargos (cuenta, cliente, pago, fecha, monto, pago_id) VALUES (".$cuenta.", ".$cliente.", '".$proxpago."', '".date("Y-m-d")."', ".$monto.", ".$pago_id.")";
+				$sql = "INSERT INTO recargos (cuenta, cliente, pago, fecha, monto, pago_id, dias_atraso) 
+				VALUES (".$cuenta.", ".$cliente.", '".$proxpago."', '".date("Y-m-d")."', ".$monto.", ".$pago_id.", ".$dAtras.")";
 				$db->execute($sql);	
+			}elseif ($db->numRows() == 1) {
+				$sql = "UPDATE recargos SET monto = ".$monto.", dias_atraso = ".$dAtras." 
+				WHERE pago = ".$proxpago." AND pago_id = ".$pago_id." ";
 			}
 		}
 	}
