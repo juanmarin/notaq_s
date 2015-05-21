@@ -163,7 +163,7 @@
 </tfoot>
 </table>
 <br />
-<form name="repoFechas" action="<? $PHP_SELF=urlencode($PHP_SELF); ?>" method="post">
+<form name="repoFechas" action="<?php $PHP_SELF=htmlentities($PHP_SELF); ?>" method="post">
 	<table>
 	<caption>Seleccione el rango de Fechas</caption>
 	<thead>
