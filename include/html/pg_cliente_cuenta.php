@@ -378,7 +378,6 @@ if($chk == 0){
 		## verificando estado del pago 
 		if(getHayRecargo($proxpago) == 1) {
 			$dAtras = date_diffe($hoy, $proxpago);
-			//echo $dAtras."<br/>";
 			$sql = "SELECT * FROM recargos WHERE pago_id = ".$pago_id." AND pago = '".$proxpago."'";
 			$rec = $db->query($sql);
 			$monto = (10 * $dAtras);
