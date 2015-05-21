@@ -58,6 +58,7 @@
 								<li><a href="?pg=3f" class="_visitas">Reporte Recargos</a></li>
 								<li><a href="?pg=3d" class="_estado">Historial Credito</a></li>
 								<li><a href="?pg=3e" class="_pagos">Control Pagos</a></li>
+								<li><a href="?pg=3g" class="_excel">Reportes en excel</a></li>
 								<?php
 							} elseif ($_SESSION["U_NIVEL"] == 3) {
 								?>
@@ -70,9 +71,9 @@
 							break;
 						case 4:
 							?>         
-								<li><a href="?pg=4" class="_usuario">Informaci&oacute;n personal</a></li>
-								<?php
-								if($_SESSION["U_NIVEL"] == 0){
+							<li><a href="?pg=4" class="_usuario">Informaci&oacute;n personal</a></li>
+							<?php
+							if($_SESSION["U_NIVEL"] == 0){
 								?>
 								<li><a href="?pg=4a" class="_todos">Lista de usuarios</a></li>
 								<li><a href="?pg=4b" class="_agregar">Agregar usuario</a></li>
