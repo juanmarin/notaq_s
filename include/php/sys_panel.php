@@ -23,9 +23,6 @@
 <link rel="stylesheet" href="estilo/themes/base/ui.all.css" type="text/css" media="all" />
 <link rel="stylesheet" href="estilo/thickbox.css" type="text/css" media="all" />
 <link rel="stylesheet" href="estilo/jquery.cleditor.css" type="text/css" media="all" />
-
-
-    
 <!--[if IE]>
 	<style>
 		@import url("estilo/IEfixes.css");
@@ -43,13 +40,9 @@
 <script type="text/javascript" src="js/global.js"></script>
 </head>
 <body>
-
 	<div id="main">
-	
 		<div id="barra" class="sombra esqRedondas_b">
-		
 			<div id="logo">NOTAq</div>
-		
 			<div id="vmenu">
 				<ul class="menul">
 					<?php
@@ -299,7 +292,7 @@
 						if ($_SESSION["hola"] == 0){
 							$_SESSION["hola"] = 1;
 							?>
-							<p class="note">Hola <?php echo $user->userData[6] . $_SESSION["bienvenida"]; ?>, bienvenido.</p>
+							<p class="note">Hola <?php echo $user->userData[6] . ((isset($_SESSION["bienvenida"]))?$_SESSION["bienvenida"]:""); ?>, bienvenido.</p>
 							<?php
 						}
 					}
@@ -309,7 +302,8 @@
 			</div>
 			<div id="contenido">
 				<?php
-				switch($_GET["pg"]){
+				$pg=(isset($_GET["pg"]))?$_GET["pg"]:"";
+				switch($pg){
 					case "2":	require_once("include/html/pg_clientes.php");				break;
 					case "2a":	require_once("include/html/pg_clientes_buscar.php");			break;
 					case "2b":	require_once("include/html/pg_clientes_editar.php");			break;
