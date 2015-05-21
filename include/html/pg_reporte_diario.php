@@ -22,7 +22,7 @@ if(isset($_POST['enviar'])){
 	$desde = $_POST['desde'];
 	$hasta = $_POST['hasta'];
 	?>
-	<p class="title">Reportes &raquo; inicio</p>
+	<p class="title">Reportes &raquo; Reporte diario</p>
 	<form action="" method="post">
 	<input type="hidden" name="desde" id="desde" size="10" value="<?= $desde;?>" />
 	<input type="hidden" name="hasta" id="hasta" size="10" value="<?= $hasta;?>" />
@@ -140,23 +140,7 @@ if(isset($_POST['enviar'])){
 	<?php
 }else{
 	?>
-	<p class="title">Reporte &raquo; Diario</p>
-	<table>
-	<caption></caption>
-	<thead>
-	<tr>
-	<th colspan="2">Reporte Diario</th>
-	</tr>
-	</thead>
-	<tbody>
-	</tbody>
-	<tfoot>
-	<tr>
-	<th colspan="3"></th>
-	</tr>
-	</tfoot>
-	</table>
-	<br />
+	<p class="title">Reportes &raquo; Reporte diario</p>
 	<form name="repoFechas" action="" method="post">
 	<table>
 	<caption>Seleccione el rango de Fechas</caption>
