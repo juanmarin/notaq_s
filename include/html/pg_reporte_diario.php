@@ -49,9 +49,12 @@ if(isset($_POST['enviar'])){
 	AND (pagos.estado = 1 OR pagos.estado = 3) 
 	$clcobrador
 	GROUP BY clientes.id";
-	echo $sql;
+	#echo $sql;
 	$result = $db->query($sql);
-	while ($ln = $db->fetchNextObject($result,$salda)){
+	$totGlobal=0;
+	$totCapCobrado=0;
+	$totIntCobrado=0;
+	while ($ln = $db->fetchNextObject($result)){
 		$intPagado = getInteresPago($ln->pago_real, $ln->interes);
 		$aboCapital = ($ln->pago_real - $intPagado);
 		$totCapCobrado += $aboCapital;
@@ -72,7 +75,7 @@ if(isset($_POST['enviar'])){
 	<tr>
 	<th colspan="4" style="text-align: left"> Totales </th>
 
-	<th colspan="3" style="text-align:center"><?= "&#36;"; echo $totSaldado + $totGlobal;?></th>
+	<th colspan="3" style="text-align:center"><?= "&#36;"; echo $totGlobal;?></th>
 	</tr>
 	</tfoot>
 	</table>
@@ -84,8 +87,9 @@ if(isset($_POST['enviar'])){
 	<input type="submit" name="imprimirReporte" value="Imprimir Reporte" />
 	</form>
 	<?php
-	$sql="SELECT clientes.id AS clientes, clientes.nombre, clientes.apellidop, clientes.apellidom, clientes.c_cobrador, pagos.cliente, pagos.fecha, 
-	pagos.estado, pagos.pago AS pago 
+	$sql="SELECT clientes.id AS clientes, clientes.nombre, clientes.apellidop, clientes.apellidom, clientes.c_cobrador
+	, pagos.cliente, pagos.fecha, pagos.estado, pagos.pago AS pago 
+	, cuentas.monto_saldado, cuentas.interes
 	FROM cuentas, pagos, clientes 
 	WHERE cuentas.id=pagos.cuenta 
 	AND clientes.id=pagos.cliente 
@@ -106,6 +110,9 @@ if(isset($_POST['enviar'])){
 	</tr>
 	</thead>
 	<?php
+	$Acum_Salda_Capital=0;
+	$Acum_Salda_Interes=0;
+	$totSaldado=0;
 	while ($ln = $db->fetchNextObject($salda)){
 		$totSaldado += $ln->monto_saldado;
 		$saldaInteres = getInteresPago($ln->monto_saldado,$ln->interes);
@@ -150,7 +157,7 @@ if(isset($_POST['enviar'])){
 	</tfoot>
 	</table>
 	<br />
-	<form name="repoFechas" action="<?php $PHP_SELF=htmlentities($PHP_SELF); ?>" method="post">
+	<form name="repoFechas" action="" method="post">
 	<table>
 	<caption>Seleccione el rango de Fechas</caption>
 	<thead>
