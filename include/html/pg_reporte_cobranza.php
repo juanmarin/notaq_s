@@ -1,4 +1,8 @@
 <?php
+/*
+*/
+?>
+<?php
 @session_start();
 require_once("include/php/sys_db.class.php");
 require_once("include/conf/Config_con.php");

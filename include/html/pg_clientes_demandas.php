@@ -1,4 +1,8 @@
 <?php
+/*
+*/ 
+?>
+<?php
 @session_start();
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];

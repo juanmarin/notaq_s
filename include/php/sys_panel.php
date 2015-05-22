@@ -1,4 +1,6 @@
 <?php @session_start();
+/*
+*/
 	//AQUI ES DONDE SE DA LA MAGIA!
 	require_once("include/php/fun_global.php"); 
 	require_once("include/php/sys_db.class.php");

@@ -1,4 +1,6 @@
 <?php
+/*
+*/
 @session_start();
 if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0 && isset($_POST)){
 	header("Content-Type:   application/vnd.ms-excel; charset=utf-8");

@@ -1,3 +1,7 @@
+<?php
+/*
+*/
+?>
 <script>
 		$("#tipo_pago").change(function(){
 			if($(this).val() == 4){

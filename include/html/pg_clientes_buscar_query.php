@@ -1,3 +1,7 @@
+<?php
+/*
+*/
+?>
 <?php @session_start(); header('Content-Type: text/html; charset=iso-8859-1'); ?>
 <script type="text/javascript" src="js/thickbox.js"></script>
 <script>

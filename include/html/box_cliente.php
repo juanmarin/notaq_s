@@ -1,3 +1,7 @@
+<?php
+/*
+*/
+?>
 <?php header('Content-Type: text/html; charset=iso-8859-1'); ?>
 <style>
 	table tbody tr th{text-align: right;}

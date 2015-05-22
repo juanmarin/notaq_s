@@ -1,4 +1,8 @@
 <?php
+/*
+*/
+?>
+<?php
 @session_start();
 if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0){
 	?>
