@@ -1,3 +1,8 @@
+<?php
+@session_start();
+$UserName = $_SESSION["USERNAME"];
+$UserLevel = $_SESSION["U_NIVEL"];
+?>
 <p class="title">Clientes &raquo; Listado de clientes</p>
 <table>
 <caption>Listado completo de clientes</caption>
