@@ -35,6 +35,7 @@ if(isset($_POST['enviar'])){
 	<th>Fecha Pago</th>
 	<th colspan="2">Nombre</th>
 	<th colspan="2">Pago Total</th>
+	<th colspan="2">Cobrador</th>
 	<th colspan="2">Acciones</th>
 	</tr>
 	</thead>
@@ -65,7 +66,8 @@ if(isset($_POST['enviar'])){
 		<th width="250px" style="text-align: center;"><?= getFecha($ln->fechaPago);?></th>
 		<th colspan="3" width="250px" style="text-align: center"><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
 		<th width="250px" style="text-align: center;"><?= "&#36;"; echo $ln->pago_real;?></th>
-		<th colspan="2" style="text-align: center;"><a href="?pg=2e&cl=<?= $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
+		<th width="250px" style="text-align: center;"><?php echo $ln->c_cobrador;?></th>
+		<th colspan="150px" style="text-align: center;"><a href="?pg=2e&cl=<?= $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
 		</tr>
 		</tbody>
 		<?php
@@ -106,6 +108,7 @@ if(isset($_POST['enviar'])){
 	<th>Fecha Pago</th>
 	<th colspan="2">Nombre</th>
 	<th colspan="2">Monto Abono</th>
+	<th colspan="2">Cobrador</th>
 	<th colspan="2">Acciones</th>
 	</tr>
 	</thead>
@@ -123,9 +126,10 @@ if(isset($_POST['enviar'])){
 		<tbody>     
 		<tr>
 		<th width="250px" style="text-align: center;"><?= getFecha($ln->fecha);?></th>
-		<th colspan="2" width="250px" style="text-align: center"><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
+		<th colspan="3" width="250px" style="text-align: center"><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
 		<th width="250px" style="text-align: center;"><?= "&#36;"; echo moneda($ln->pago);?></th>
-		<th colspan="3" style="text-align: center;"><a href="?pg=2e&cl=<?= $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
+		<th width="250px" style="text-align: center;"><?php echo $ln->c_cobrador;?></th>
+		<th colspan="150px" style="text-align: center;"><a href="?pg=2e&cl=<?= $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
 		</tr>
 		<?php
 	}

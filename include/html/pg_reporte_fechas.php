@@ -30,6 +30,7 @@ if(isset($_POST['enviar'])){
 	<th>Fecha Pago</th>
 	<th>Nombre</th>
 	<th>Pago Total</th>
+	<th>Cobrador</th>
 	<th colspan="2">Acciones</th>
 	</tr>
 	</thead>
