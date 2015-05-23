@@ -1,6 +1,4 @@
 <?php
-/*
-*/
 @session_start();
 ?>
 <html>
@@ -329,7 +327,6 @@ switch($_POST["action"]){
 			$monto2 = $_POST["monto2"]; 
 			$plazo1 = $_POST["plazo1"];
 			$plazo2 = $_POST["plazo2"];
-			
 			# mandamos llamar la funcion que nos traera los datos para crear la nueva cuenta
 			$datosPrestamo = calculamonto($cantidad, $monto1, $monto2, $plazo1, $plazo2, $tipo_pago);
 			var_dump($datosPrestamo);
@@ -343,29 +340,30 @@ switch($_POST["action"]){
 			$total = $cantidad * (( ($interes * $tiempo)  / 100 ) + 1 );
 			$npagos = $plazo1 + $plazo2;
 			$pago = $total / $npagos; 
-			if($_POST["tipo_pago"] == 4){
+			if($_POST["tipo_pago"] == 4)
+			{
 				$diasPago = substr($_POST["fechapp"], -2);
 			}else{
 				$diasPago = $_POST["dias_pago"];
 			}
-			echo "<br />Variable dias_pago: $diasPago <br />";		
+			//echo "<br />Variable dias_pago: $diasPago <br />";		
 			## creando cuenta 
 			$_cadena = "INSERT INTO cuentas (cliente, fecha, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones)
 				VALUES (
-				". $_POST["cl"] .",
+				 ". $_POST["cl"] .",
 				'". $_POST["fecha"] ."',
-				". $cantidad .",
-				". $interes .",
-				". $tiempo .",
-				". $tipo_pago .",
+				 ". $cantidad .",
+				 ". $interes .",
+				 ". $tiempo .",
+				 ". $tipo_pago .",
 				'". $diasPago ."',
-				". $total .", 
-				". $npagos .",
-				". $pago .",
-				'".$_POST["cobrador"] ."',
+				 ". $total .", 
+				 ". $npagos .",
+				 ". $pago .",
+				'". $_POST["cobrador"] ."',
 				'". $_POST["observ"]."'
 			)";
-			echo $_cadena . "<br />";
+			//echo $_cadena . "<br />";
 			$res = mysql_query($_cadena);
 			$cuenta = mysql_insert_id();
 			$cnt = 0;
@@ -378,8 +376,8 @@ switch($_POST["action"]){
 			}elseif($tipo_pago == 3) { 
 				#$fechas = getFechasQuincenas($_POST["dias_pago"], $npagos, $_POST["fechapp"]);
 				$dia = split("-", $diasPago);
-				echo "<br />Variable dias_pago: $diasPago <br />";
-				var_dump($dia);
+				//echo "<br />Variable dias_pago: $diasPago <br />";
+				//var_dump($dia);
 				#$tipo = "week";
 				#$n = 2;
 			}else{
@@ -404,7 +402,7 @@ switch($_POST["action"]){
 						if($m < 10){$m = "0".$m;}
 						if($d < 10){$d = "0".$d;}
 						$prxpago = $a . "-" . $m . "-" . $d;
-						echo $prxpago . " ~ " . $dia[0] . $dia[1] . "<br />";
+						//echo $prxpago . " ~ " . $dia[0] . $dia[1] . "<br />";
 					}else{
 						$prxpago = date('Y-m-d', strtotime($prxpago.' + '.$n.' '.$tipo));
 					}
@@ -420,56 +418,69 @@ switch($_POST["action"]){
 				".$monto1.", 
 				".($interes * $tiempo)."   
 				)";
-				echo $sql . "<br />";
+				//echo $sql . "<br />";
 				mysql_query($sql);
 				$cnt++;
 			}
 			#### INSERTANDO EL SEGUNDO MONTO A LA CUENTA ////
-			if($monto2 && $plazo2 > 0){
-			for($i=0;$i<$plazo2;$i++) {
-			if($cnt > 0){
-			if($tipo_pago == 3){
-			$a = (int)substr($prxpago, 0, -6);
-			$m = (int)substr($prxpago, 5, -3);
-			$d = (int)substr($prxpago, -2);
-			if( $d > 15 ){
-			if($m == 12){$m = 1; $a++;}else{ $m++;}
-			$d = $dia[0];
-			}else{
-			if($m == 2 && $dia[1] == 30) {
-			$d = 28;
-			}else {
-			$d = $dia[1];
-			}
-			}
-			if($m < 10){$m = "0".$m;}
-			if($d < 10){$d = "0".$d;}
-			$prxpago = $a . "-" . $m . "-" . $d;
-			echo $prxpago . " ~ " . $dia[0] . $dia[1] . "<br />";
-			}else {
-			$prxpago = date('Y-m-d', strtotime($prxpago.' + '.$n.' '.$tipo));
-			}
-			}else {
-			$prxpago = $_POST["fechapp"];
-			}
-
-			$_SESSION["pp"] = $_POST["fechapp"];
-			$sql = "INSERT INTO pagos (cliente, cuenta, fecha, pago, interes) 
-			VALUES (
-			".$_POST["cl"].",
-			".$cuenta.", 
-			'".$prxpago."',
-			".$monto2.", 
-			".($interes * $tiempo)."   
-			)";
-			//echo $sql . "<br />";
-			mysql_query($sql);
-			$cnt++;
-			}
+			if($monto2 && $plazo2 > 0)
+			{
+				for($i=0;$i<$plazo2;$i++)
+				{
+					if($cnt > 0)
+					{
+						if($tipo_pago == 3)
+						{
+							$a = (int)substr($prxpago, 0, -6);
+							$m = (int)substr($prxpago, 5, -3);
+							$d = (int)substr($prxpago, -2);
+							if( $d > 15 )
+							{
+								if($m == 12){$m = 1; $a++;}else{ $m++;}
+								$d = $dia[0];
+							}
+							else
+							{
+								if($m == 2 && $dia[1] == 30)
+								{
+									$d = 28;
+								}
+								else
+								{
+									$d = $dia[1];
+								}
+							}
+							if($m < 10){$m = "0".$m;}
+							if($d < 10){$d = "0".$d;}
+							$prxpago = $a . "-" . $m . "-" . $d;
+							echo $prxpago . " ~ " . $dia[0] . $dia[1] . "<br />";
+						}
+						else
+						{
+							$prxpago = date('Y-m-d', strtotime($prxpago.' + '.$n.' '.$tipo));
+						}
+					}
+					else
+					{
+						$prxpago = $_POST["fechapp"];
+					}
+					$_SESSION["pp"] = $_POST["fechapp"];
+					$sql = "INSERT INTO pagos (cliente, cuenta, fecha, pago, interes) 
+					VALUES (
+					".$_POST["cl"].",
+					".$cuenta.", 
+					'".$prxpago."',
+					".$monto2.", 
+					".($interes * $tiempo)."   
+					)";
+					//echo $sql . "<br />";
+					mysql_query($sql);
+					$cnt++;
+				}
 			}
 			include_once "imprimeReciboCuenta.php";
 		}
-		//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		break;
 	case "reimprimir_prestamo":
 		$dia = $POST["dia"];
@@ -479,21 +490,23 @@ switch($_POST["action"]){
 		break;
 	case "cuenta_pagar":
 		##-variables enviadas 
-		$cta = $_POST["c"];
-		$abono = $_POST["pago"];
-		$pid = $_POST["pid"];
-		$cl = $_POST["cl"];
-		$numpago = $_POST["numpago"];
+		$cta 	= $_POST["c"];
+		$abono 	= $_POST["pago"];
+		$pid 	= $_POST["pid"];
+		$cl 	= $_POST["cl"];
+		$numpago= $_POST["numpago"];
 		##-innformacion de cuenta
-		$sql = "SELECT * FROM cuentas WHERE id = ".$cta;
-		$res = mysql_query($sql);
-		$c = mysql_fetch_array($res);
-		$pago = $c["pago"];
-		$total = $c["total"];
-		$tp = $c["tipo_pago"];
-		$int = $c["interes"];
-		$np = $c["tiempo"];
-		if ( ($tp == 4) && ($np == 1) ){
+		$sql 	= "SELECT * FROM cuentas WHERE id = ".$cta;
+		$res 	= mysql_query($sql);
+		$c 	= mysql_fetch_array($res);
+		$total 	= $c["total"];
+		$tp 	= $c["tipo_pago"];
+		$int 	= $c["interes"];
+		$np 	= $c["tiempo"];
+		##-Informacion del pago
+		$pago 	= getCadena("pago","pagos","id",$pid);
+		if( ($tp == 4) && ($np == 1) )
+		{
 			##-TIPO DE PAGO MENSUAL - 
 			##-CANTIDAD A PAGAR --
 			$sql = "SELECT * FROM pagos WHERE id = ".$pid;
@@ -502,7 +515,8 @@ switch($_POST["action"]){
 			$pago = $p["pago"];
 			$fechap = $p["fecha"];
 		 	## 
-			if($pago == $abono){
+			if($pago == $abono)
+			{
 				#-CUENTA SALDADA --
 				$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
 				#echo $sql . "<br />";
@@ -510,22 +524,24 @@ switch($_POST["action"]){
 				$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
 				#echo $sql . "<br />";
 				mysql_query($sql);
-			} elseif( $abono < $pago ) {
-				#-RESTANDO PAGO --
+			} 
+			elseif( $abono < $pago )
+			{
+				#-ACTUALIZANDO PAGO --
 				$saldo = $pago - $abono;
-				$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
-				#echo $sql . "<br />";
+				$sql = "UPDATE pagos SET estado = 0, pago = ".$saldo." WHERE id = ".$pid;
 				mysql_query($sql);
-				$abono = (($int / 100) + 1) * $saldo;
-				$fecha = date("Y-m-d", strtotime($fechap." + 1 month"));
-				$sql = "UPDATE cuentas SET total = ".$abono." WHERE id = ".$cta;
-				#echo $sql . "<br />";
+				#-ACTUALIZANDO CUENTA
+				$ctasaldo = (($int / 100) + 1) * $saldo;
+				$sql = "UPDATE cuentas SET total = ".$ctasaldo." WHERE id = ".$cta;
 				mysql_query($sql);
-				$sql = "INSERT INTO pagos (cliente, cuenta, fecha, pago, interes)values(".$cl.", ".$cta.", '".$fecha."', ".$abono.", ".$int.")";
-				#echo $sql . "<br />";
+				#-INSERTANGO ABONO
+				$sql = "INSERT INTO abono (idpago, idcuenta, fecha, cargo, abono)values(".$pid.", ".$cta.", '".$fecha."', ".$pago.", ".$abono.")";
 				mysql_query($sql);
 			}
-		} else {
+		}
+		else
+		{
 			##-aplicando pago en cuenta y pagos
 			if($abono >= $pago){
 				## calculando saldo
@@ -558,10 +574,16 @@ switch($_POST["action"]){
 				$saldo = $total - $abono;
 				$sql = "UPDATE cuentas SET total = ".$saldo." WHERE id = ".$cta;
 				mysql_query($sql);
-				#-ACTUALIZAR PAGO			
+				//echo $sql . "<br />";
+				#-ACTUALIZAR PAGO		
 				$npago = $pago - $abono;
 				$sql = "UPDATE pagos SET pago = ".$npago." WHERE id = ".$pid;
 				mysql_query($sql);
+				//echo $sql . "<br />";
+				#-AGREGAR EL ABONO
+				$sql = "INSERT INTO abono (idpago, idcuenta, fecha, cargo, abono)values(".$pid.", ".$cta.", '".date("Y-m-d")."', ".$pago.", ".$abono.")";
+				mysql_query($sql);
+				//echo $sql . "<br />";
 			}
 		}
 		$sql = "SELECT total FROM cuentas WHERE id = ".$cta;
@@ -617,124 +639,144 @@ switch($_POST["action"]){
 			}
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		}
-		break;
+	break;
 	#- ELIMINA USUARIO DEL SISTEMA ----------------------------------------------------
-	#- 
 	case "usr_elimina";
-		$pas = sha1($_POST["c"]);
-		$u = $_POST["u"];
-		$usrDelete = $_POST["usr"];
-		eliminaUsuario($u, $pas, $usrDelete);
+		$pas 	= sha1($_POST["c"]);
+		$u 	= $_POST["u"];
+		$usrDel	= $_POST["usr"];
+		eliminaUsuario($u, $pas, $usrDel);
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=4a"> ';
 	break;
 
-    case "cta_elimina":
-        #- INICIAMOS VARIABLES -----------------------------------------------------------------------------------   
-        $cte = $_POST["cte"];
-        $cta = $_POST["cta"];
-        $delCte = $_POST["elimina"];
-        #- COMPROBAMOS EL USUARIO Y CONTRASEÑA -------------------------------------------------------------------
-        $pas = sha1($_POST["c"]);
-        $sql = 'SELECT username, password FROM mymvcdb_users WHERE username = "'.$_POST["u"].'" AND  password = "'.$pas.'" AND NIVEL = 0';
-        $res = mysql_query($sql);
-        if(mysql_num_rows($res) > 0){
-		if($delCte == "yes") {
-			$sqlc = "DELETE FROM clientes WHERE id = $cte";
-			$queryc = mysql_query($sqlc);
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2"> ';
-		}else {
-			#- LE DAMOS EN LA MADRE A TODO LO RELACIONADO CON ESA CUENTA Y ESE CLIENTE        
-			$sql = "DELETE FROM cuentas WHERE id = $cta";
-			$query = mysql_query($sql);
-			if($query){
-				$sql = "DELETE FROM pagos WHERE cliente = $cte AND cuenta = $cta AND estado = 0";
-				if($query){
-					$sql = "DELETE FROM recargos WHERE cliente = $cte AND cuenta = $cta";
-					if($query){
-						$sql = "DELETE FROM notas WHERE cliete = $cta";
-						if($query){
-							echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
+	case "cta_elimina":
+		#- INICIAMOS VARIABLES -----------------------------------------------------------------------------------   
+		$cte 	= $_POST["cte"];
+		$cta 	= $_POST["cta"];
+		$delCte = (isset($_POST["elimina"]))?$_POST["elimina"]:"";
+		#- COMPROBAMOS EL USUARIO Y CONTRASEÑA -------------------------------------------------------------------
+		$pas 	= sha1($_POST["c"]);
+		$sql 	= 'SELECT username, password FROM mymvcdb_users WHERE username = "'.$_POST["u"].'" AND  password = "'.$pas.'" AND NIVEL = 0';
+		$res 	= mysql_query($sql);
+		if(mysql_num_rows($res) > 0)
+		{
+			if($delCte == "yes")
+			{
+				$sqlc = "DELETE FROM clientes WHERE id = $cte";
+				$queryc = mysql_query($sqlc);
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2"> ';
+			}
+			else
+			{
+				#- LE DAMOS EN LA MADRE A TODO LO RELACIONADO CON ESA CUENTA Y ESE CLIENTE        
+				$sql = "DELETE FROM cuentas WHERE id = $cta";
+				$query = mysql_query($sql);
+				if($query)
+				{
+					$sql = "DELETE FROM pagos WHERE cliente = $cte AND cuenta = $cta AND estado = 0";
+					mysql_query($sql);
+					if($query)
+					{
+						$sql = "DELETE FROM recargos WHERE cliente = $cte AND cuenta = $cta";
+						mysql_query($sql);
+						if($query)
+						{
+							$sql = "DELETE FROM notas WHERE cliete = $cte";
+							mysql_query($sql);
+							if($query)
+							{
+								$sql = "DELETE FROM abonos WHERE idcuenta = $cta";
+								mysql_query($sql);
+								if($query)
+								{
+									echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
+								}
+							}
 						}
 					}
 				}
 			}
 		}
-	} else {
-            ?>
-                <script type="text/javascript" >
-		          alert("Permiso denegado.\nUsuario o contraseña incorrectos.\nIntente de nuevo.");
-                </script>
-            <?php
-            if($delCte == yes) {
-            	echo '<meta http-equiv="refresh" content="0;url=../../?pg=2"> ';
-            	}else {
-            	echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
-        }
-        }
-        
-		break;
-	
-	#- INICIAMOS VARIABLES -----------------------------------------------------------------------------------
-        $cte = $_GET["cte"];
-        $cta = $_GET["cta"];
-        #- LE DAMOS EN LA MADRE A TODO LO RELACIONADO CON ESA CUENTA Y ESE CLIENTE        
-        $sql = "DELETE FROM cuentas WHERE id = $cta";
-		$query = mysql_query($sql);
-        if($query){
-            $sql = "DELETE FROM pagos WHERE cliente = $cte AND cuenta = $cta AND estado = 0";
-        if($query){
-            $sql = "DELETE FROM recargos WHERE cliente = $cte AND cuenta = $cta";
-        if($query){
-            $sql = "DELETE FROM notas WHERE cliete = $cta";
-        if($query){
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_GET["cte"].'"> ';
+		else
+		{
+			?>
+			<script type="text/javascript" >
+			alert("Permiso denegado.\nUsuario o contraseña incorrectos.\nIntente de nuevo.");
+			</script>
+			<?php
+			if($delCte == yes)
+			{
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2"> ';
+			}else{
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
 			}
-       }
-      }
-     }
-		break;
-        
+		}
+	break;
+        /*
+	#- INICIAMOS VARIABLES -----------------------------------------------------------------------------------
+	$cte = $_GET["cte"];
+	$cta = $_GET["cta"];
+	#- LE DAMOS EN LA MADRE A TODO LO RELACIONADO CON ESA CUENTA Y ESE CLIENTE        
+	$sql = "DELETE FROM cuentas WHERE id = $cta";
+	$query = mysql_query($sql);
+	if($query){
+	$sql = "DELETE FROM pagos WHERE cliente = $cte AND cuenta = $cta AND estado = 0";
+	if($query){
+	$sql = "DELETE FROM recargos WHERE cliente = $cte AND cuenta = $cta";
+	if($query){
+	$sql = "DELETE FROM notas WHERE cliete = $cta";
+	if($query){
+	echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_GET["cte"].'"> ';
+	}
+	}
+	}
+	}
+	break;
+	*/
 	case "recargos":
-		if($_POST["rec_pagar"]){
+		if($_POST["rec_pagar"])
+		{
+			//showPost($_POST);
+			#-INICIANDO VARIABLES -------------------------------------------------------------------------------------------------
+			$cuenta = $_POST["c"];
+			$cliente = $_POST["cl"];
+			$pago_id = $_POST["pago_id"];
+			$abono = $_POST["recargo"];
+			$f_recargo = $_POST["fecha_recargo"];
+			#-OBTENIENDO MONTO DE RECARGOS ----------------------------------------------------------------------------------------
+			$sql = "SELECT monto FROM recargos WHERE pago_id=".$pago_id." AND cuenta = ".$cuenta;
+			//echo $sql."<br>";
+			$res = mysql_query($sql);
+			$rec = mysql_fetch_array($res);
+			$recargos = $rec[0];
+			#-VERIFICANDO SI CANTIDAD ABONADA CORRESPONDE AL TOTAL DE RECARGOS ----------------------------------------------------
+			if($abono == $recargos)
+			{
+				$sql = "UPDATE recargos SET fecha = '".date("Y-m-d")."', monto_saldado = ".$abono.", estado = 1 WHERE cliente = ".$cliente." AND pago_id = ".$pago_id."";
+				mysql_query($sql);
+				//echo $sql;
+				//$sql = "UPDATE recargos SET estado = 3 WHERE estado = 0 AND cuenta = ".$cuenta;
+				//mysql_query($sql);
+				include_once("imprimeReciboRecargo.php");
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
+			}
+		}
+		elseif($_POST["rec_reimprime"])
+		{
 			//showPost($_POST);
 			#-INICIANDO VARIABLES -----------------------------------------------------------------------------------------
 			$cuenta = $_POST["c"];
 			$cliente = $_POST["cl"];
-            	$pago_id = $_POST["pago_id"];
-			$abono = $_POST["recargo"];
-            	$f_recargo = $_POST["fecha_recargo"];
-			
-			#-OBTENIENDO MONTO DE RECARGOS --------------------------------------------------------------------------------
-			$sql = "SELECT monto FROM recargos WHERE pago_id=".$pago_id." AND cuenta = ".$cuenta;
-            //echo $sql."<br>";
-			$res = mysql_query($sql);
-			$rec = mysql_fetch_array($res);
-			$recargos = $rec[0];
-			#-VERIFICANDO SI CANTIDAD ABONADA CORRESPONDE AL TOTAL DE RECARGOS --------------------------------------------
-			if($abono == $recargos){
-				$sql = "UPDATE recargos SET fecha = '".date("Y-m-d")."', monto_saldado = ".$abono.", estado = 1 WHERE cliente = ".$cliente." AND pago_id = ".$pago_id."";
-				mysql_query($sql);
-                //echo $sql;
-				//$sql = "UPDATE recargos SET estado = 3 WHERE estado = 0 AND cuenta = ".$cuenta;
-				//mysql_query($sql);
-				include_once("imprimeReciboRecargo.php");
-                echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
-			}
-		}elseif($_POST["rec_reimprime"]) {
-			//showPost($_POST);
-            #-INICIANDO VARIABLES -----------------------------------------------------------------------------------------
-			$cuenta = $_POST["c"];
-			$cliente = $_POST["cl"];
-            	$pago_id = $_POST["pago_id"];
+			$pago_id = $_POST["pago_id"];
 			$recargos = $_POST["recargo"];
-            	$f_recargo = $_POST["fecha_recargo"];
-            	include_once("imprimeReciboRecargo.php");
-            	//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
-			}
+			$f_recargo = $_POST["fecha_recargo"];
+			include_once("imprimeReciboRecargo.php");
+			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
+		}
 		break;
+		
 	case "cuenta_solo_interes":
-		$sql = "INSERT INTO pagos (cliente, cuenta, pago_real, fechaPago, interes, estado) 
-			VALUES (".$_POST["cl"].", ".$_POST["c"].", ".$_POST["cant"].", '".date("Y-m-d")."', 0, 1)";
+		$sql = "INSERT INTO pagos (cliente,cuenta,pago_real,fechaPago,interes,estado)VALUES(".$_POST["cl"].",".$_POST["c"].",".$_POST["cant"].",'".date("Y-m-d")."',0,1)";
 		mysql_query($sql);
 		$pid = recorreFechas($_POST["c"]);
 		//echo $pid."<br>";
@@ -745,35 +787,38 @@ switch($_POST["action"]){
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		break;
 		
-		case "cliente_demandas":
-						foreach ($_POST['ids'] as $cl_id){
-							$sql = "UPDATE clientes SET 
-								demanda = 1 
-								WHERE id = ".$cl_id;
-		$res = mysql_query($sql);
-							echo $sql;
-								if($res) {
-   								$demanda = "INSERT INTO demandas (cliente_id)VALUES(".$cl_id.")";
-   								$rest = mysql_query($demanda);
-   								echo '<meta http-equiv="refresh" content="0;url=../../?pg=2c"> ';
-   					}
-} 
-				
+	case "cliente_demandas":
+		foreach ($_POST['ids'] as $cl_id)
+		{
+			$sql = "UPDATE clientes SET 
+			demanda = 1 
+			WHERE id = ".$cl_id;
+			$res = mysql_query($sql);
+			echo $sql;
+			if($res)
+			{
+				$demanda = "INSERT INTO demandas (cliente_id)VALUES(".$cl_id.")";
+				$rest = mysql_query($demanda);
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2c"> ';
+			}
+		} 
 		break;
 		
-		 case "elimina_pago":
-        foreach ($_POST['ids'] as $p_id){
-            $sql = "UPDATE pagos SET
-            pago_real =0,
-            fechaPago = 0000-00-00,
-            estado = 0
-            WHERE id = " .$p_id;
-            $res = mysql_query($sql);
-        if($res) {
-            echo '<meta http-equiv="refresh" content="0;url=../../?pg=3e">';            
-            }
-    }
+	case "elimina_pago":
+		foreach ($_POST['ids'] as $p_id){
+			$sql = "UPDATE pagos SET
+			pago_real =0,
+			fechaPago = 0000-00-00,
+			estado = 0
+			WHERE id = " .$p_id;
+			$res = mysql_query($sql);
+			if($res)
+			{
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=3e">';            
+			}
+		}
 		break;
+		
 	default:
 		//Header("Location: ". HTTP_REFERER);
 }
