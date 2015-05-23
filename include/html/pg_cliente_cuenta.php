@@ -250,75 +250,75 @@ if($chk == 0){
 	<table>
 	<caption>Abrir cuenta</caption>
 	<thead>
-		<tr>
-			<th colspan="4"></th>
-		</tr>
+	<tr>
+		<th colspan="4"></th>
+	</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<th width="120">Fecha:</th>
-			<td width="210"><input type="text" name="fecha" id="fecha" size="10" value="<?php echo date('Y-m-d');?>" class="dpfecha" /></td>
-			<th width="150">Primer pago:</th>
-			<td><input type="text" name="fechapp" id="fechapp" size="10" value="<?php echo date('Y-m-d');?>" class="dpfecha" /></td>
-		</tr>
-		<tr>
-			<th>Cantidad:</th>
-			<td>$<input type="text" name="cantidad" size="5" /></td>
-			<th>Cobrador:</th>
-			<td>
-    <?php
-            $sql = "SELECT userID, username FROM mymvcdb_users WHERE nivel = 3";
-            $rs = mysql_query($sql) or die(mysql_error());
-            echo "<select name='cobrador' id='cobrador'>";
-            echo "<option value='seleccionar'>Asignar</option>";
-            while($row = mysql_fetch_array($rs)){
-            echo "<option value='".$row["username"]."'>".$row["username"]."</option>";
-            }mysql_free_result($rs);
-    ?>
-			</select>
-            </td>
-		</tr>
-		<tr>
-            <th>Tipo de Pago:</th>
-			<td>
-				<select name="tipo_pago" id="tipo_pago">
-					<option value="nd">SELECCIONAR</option>
-					<option value="1">SEMANAL</option>
-					<option value="2">CATORCENAL</option>
-					<option value="3">QUINCENAL</option>
-					<option value="4">MENSUAL</option>
-				</select>
-			</td>
-            <th>Dias de Pago:</th>
-			<td>
-				<select name="dias_pago" id="dias_pago">
-					<option value="nd">SELECCIONAR</option>
-				</select>
-			</td>
-		</tr>
-        <tr>
-			<th>Plazo:</th>
-			<td><input type="text" name="plazo1" size="10" /></td>
-            
-			<th>Monto:</th>
-			<td>$<input type="text" name="monto1" size="10" /></td>
-        </tr>
-        <tr>
-			<th>Plazo:</th>
-			<td><input type="text" name="plazo2" size="10" /></td>
-            
-			<th>Monto:</th>
-			<td>$<input type="text" name="monto2" size="10" /></td>
-        </tr>	
-		<tr>
-			<th>Observaciones</th>
-			<td colspan="3"><textarea name="observ" id="observ" cols="48" rows="2"></textarea></td>		
-		</tr>		
+	<tr>
+		<th width="120">Fecha:</th>
+		<td width="210"><input type="text" name="fecha" id="fecha" size="10" value="<?php echo date('Y-m-d');?>" class="dpfecha" /></td>
+		<th width="150">Primer pago:</th>
+		<td><input type="text" name="fechapp" id="fechapp" size="10" value="<?php echo date('Y-m-d');?>" class="dpfecha" /></td>
+	</tr>
+	<tr>
+		<th>Cantidad:</th>
+		<td>$<input type="text" name="cantidad" size="5" /></td>
+		<th>Cobrador:</th>
+		<td>
+		<select name='cobrador' id='cobrador'>
+			<option value='seleccionar'>Asignar</option>
+			<?php
+			$sql = "SELECT userID, username FROM mymvcdb_users WHERE nivel = 3";
+			$rs = mysql_query($sql) or die(mysql_error());
+			while($row = mysql_fetch_array($rs))
+			{
+				echo "<option value='".$row["username"]."'>".$row["username"]."</option>";
+			}
+			mysql_free_result($rs);
+			?>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<th>Tipo de Pago:</th>
+		<td>
+		<select name="tipo_pago" id="tipo_pago">
+			<option value="nd">SELECCIONAR</option>
+			<option value="1">SEMANAL</option>
+			<option value="2">CATORCENAL</option>
+			<option value="3">QUINCENAL</option>
+			<option value="4">MENSUAL</option>
+		</select>
+		</td>
+		<th>Dias de Pago:</th>
+		<td>
+		<select name="dias_pago" id="dias_pago">
+		<option value="nd">SELECCIONAR</option>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<th>Plazo:</th>
+		<td><input type="text" name="plazo1" size="10" /></td>
+		<th>Monto:</th>
+		<td>$<input type="text" name="monto1" size="10" /></td>
+	</tr>
+	<tr>
+		<th>Plazo:</th>
+		<td><input type="text" name="plazo2" size="10" /></td>
+		<th>Monto:</th>
+		<td>$<input type="text" name="monto2" size="10" /></td>
+	</tr>	
+	<tr>
+		<th>Observaciones</th>
+		<td colspan="3"><textarea name="observ" id="observ" cols="48" rows="2"></textarea></td>		
+	</tr>		
 	</tbody>
-	<tfoot>
-		<tr>
-			<th colspan="4"><input type="submit" value="Abrir cuenta" /></th>
-		</tr>
+	<tfoot>	
+	<tr>
+		<th colspan="4"><input type="submit" value="Abrir cuenta" /></th>
+	</tr>
 	</tfoot>
 	</table>
 	</form>
@@ -333,13 +333,20 @@ if($chk == 0){
 	$interes = $r->interes; 
 	$fecha = $r->fecha;
 	$saldo = $r->total;
-	if($r->tipo_pago == 1) {
+	if($r->tipo_pago == 1)
+	{
 		$tp = "SEMANAL";
-	}elseif($r->tipo_pago == 2) {
+	}
+	elseif($r->tipo_pago == 2)
+	{
 		$tp = "CATORCENA";
-	}elseif($r->tipo_pago == 3) {
+	}
+	elseif($r->tipo_pago == 3)
+	{
 		$tp = "QUINCENAL";
-	}else {
+	}
+	else
+	{
 		$tp = "MENSUAL";
 	}
 	?>
@@ -462,7 +469,6 @@ if($chk == 0){
 		<?php
 	}
 	#####################################################################################################[ABONAR A LA CUENTA]
-	
 	#####################################################################################################[HISTORIAL DE PAGOS]
 	?>
 	<br />
