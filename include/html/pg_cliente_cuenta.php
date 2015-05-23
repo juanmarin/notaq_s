@@ -383,29 +383,33 @@ if($chk == 0){
 	## buscando fecha primer pago
 	$sql = "SELECT id, fecha FROM pagos WHERE estado = 0 AND cuenta = ".$cuenta."";
 	$res = $db->query($sql);
-	while($r = $db->fetchNextObject($res)){
-        $pago_id = $r->id;
-        $proxpago = $r->fecha;
+	while($r = $db->fetchNextObject($res))
+	{
+	        $pago_id = $r->id;
+	        $proxpago = $r->fecha;
 		## verificando estado del pago 
-		if(getHayRecargo($proxpago) == 1) {
+		if(getHayRecargo($proxpago) == 1)
+		{
 			$dAtras = date_diffe($hoy, $proxpago);
 			$sql = "SELECT * FROM recargos WHERE pago_id = ".$pago_id." AND pago = '".$proxpago."'";
 			$rec = $db->query($sql);
 			$monto = (10 * $dAtras);
-			if($db->numRows() == 0){
+			if($db->numRows() == 0)
+			{
 				$sql = "INSERT INTO recargos (cuenta, cliente, pago, fecha, monto, pago_id, dias_atraso) 
 				VALUES (".$cuenta.", ".$cliente.", '".$proxpago."', '".date("Y-m-d")."', ".$monto.", ".$pago_id.", ".$dAtras.")";
 				$db->execute($sql);	
-			}elseif ($db->numRows() == 1) {
-				$sql = "UPDATE recargos SET monto = ".$monto.", dias_atraso = ".$dAtras." 
-				WHERE pago = ".$proxpago." AND pago_id = ".$pago_id." ";
+			}
+			elseif ($db->numRows() == 1)
+			{
+				$sql = "UPDATE recargos SET monto = ".$monto.", dias_atraso = ".$dAtras." WHERE pago = ".$proxpago." AND pago_id = ".$pago_id." ";
 			}
 		}
 	}
 	$sql = "SELECT * FROM recargos WHERE cuenta = ".$cuenta." ORDER BY pago ASC";
-    	//echo $sql."<br>";
 	$rec = $db->query($sql);
-	if($db->numRows() > 0){
+	if($db->numRows() > 0)
+	{
 		###################################################################################################[CARGANDO RECARGOS]
 		?>
 		<table>
@@ -439,7 +443,7 @@ if($chk == 0){
 				<input type="hidden" name="recargo" value="<?= $re->monto;?>" />
 				<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
 				<input type="hidden" name="action" value="recargos" />
-				<th><center> <input type="submit" name="rec_pagar" value="Pagar Recargo" /> </center></th>
+				<th><center><input type="submit" name="rec_pagar" value="Pagar Recargo" /></center></th>
 				</form>
 				<?php
 			}else{
@@ -566,19 +570,19 @@ if($chk == 0){
 				{
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
-					<input type="hidden" name="numpago" value="<?= $i;?>" />
-					<input type="text" name="pago" value="<?= $pago_acum;?>" size="7" />
-					<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
-					<input type="hidden" name="c" value="<?= $cuenta;?>" />
-					<input type="hidden" name="pid" value="<?= $r->id;?>" />
-					<input type="hidden" name="action" value="cuenta_pagar" />
-					<input type="submit" value="ABONAR" />
+					<input type="hidden" 	name="numpago" 	value="<?= $i;?>" />
+					<input type="text" 	name="pago" 	value="<?= $pago_acum;?>" size="7" />
+					<input type="hidden" 	name="cl" 	value="<?= $_GET['cl'];?>" />
+					<input type="hidden" 	name="c" 	value="<?= $cuenta;?>" />
+					<input type="hidden" 	name="pid" 	value="<?= $r->id;?>" />
+					<input type="hidden" 	name="action" 	value="cuenta_pagar" />
+					<input type="submit" 			value="ABONAR" />
 					</form>
 					<?php
 				}
 				elseif(($pago_acum - $saldo) > 0)
 				{
-					$pago_acum = $saldo;
+					//$pago_acum = $saldo;
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="numpago" value="<?= $i;?>" />
@@ -593,7 +597,7 @@ if($chk == 0){
 				}
 				else
 				{
-					$pago_acum = $saldo;
+					//$pago_acum = $saldo;
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="numpago" value="<?= $i;?>" />
@@ -608,7 +612,7 @@ if($chk == 0){
 				}
 			}elseif($r->estado == 1){
 				if($r->pago == 0){
-					$pago_acum = $saldo;
+					//$pago_acum = $saldo;
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="numpago" value="<?= $i;?>" />
@@ -624,7 +628,7 @@ if($chk == 0){
 				}
 				else
 				{
-					$pago_acum = $saldo;
+					//$pago_acum = $saldo;
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="numpago" value="<?= $i;?>" />
@@ -636,7 +640,6 @@ if($chk == 0){
 					<input type="submit" value="REIMPRIMIR" />
 					</form>
 					<?php
-					#echo 'PAGADO';
 				}
 			}elseif($r->estado == 3)
 			{
@@ -651,7 +654,6 @@ if($chk == 0){
 				<input type="submit" value="REIMPRIMIR" />
 				</form>
 				<?php
-				#echo '<p style="color:#C65F00;">PAGO ANTICIPADO</p>';
 			}
 			?>
 			</th>
