@@ -35,7 +35,6 @@ $UserLevel = $_SESSION["U_NIVEL"];
 	while($r = $db->fetchNextObject($res)){
 		?>
 		<tr>
-			<td style="text-align:center"> <?= $i;?></td>
 			<td style="text-align:center"> <?= $r->id;?></td>
 			<td style="text-align:center"><?= $r->nombre . " ". $r->apellidop ." " .$r->apellidom;?></td>
 			<td style="text-align:center">$ <?= $r->cantidad;?></td>
