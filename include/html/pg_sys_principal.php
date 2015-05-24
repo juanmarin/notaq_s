@@ -8,7 +8,6 @@ $UserLevel = $_SESSION["U_NIVEL"];
 <caption>CUENTAS ABIERTAS</caption>
 <thead>
 	<tr>
-		<th>ID</th>
 		<th>CLIENTE</th>
 		<th>CARGOS</th>
 		<th></th>
@@ -34,7 +33,6 @@ $UserLevel = $_SESSION["U_NIVEL"];
 	$res = $db->query($sql);
 	$num_rows = mysql_num_rows($res);
 	while($r = $db->fetchNextObject($res)){
-		$i = 0;
 		?>
 		<tr>
 			<td style="text-align:center"> <?= $i;?></td>
@@ -44,7 +42,6 @@ $UserLevel = $_SESSION["U_NIVEL"];
 			<td width="80"><a href="?pg=2e&cl=<?= $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
 		</tr>
 		<?php
-		$i ++;
 	}
 	?>
 </tbody>
