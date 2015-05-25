@@ -3,7 +3,7 @@
 require_once("../php/sys_db.class.php");
 require_once("../conf/Config_con.php");
 $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-$sql = "SELECT * FROM prestamos WHERE id = ".$_GET["u"];
+$sql = "SELECT * FROM  mymvcdb_users WHERE userID = ".$_GET['u'];
 $result = $db->query($sql);
 $ln = $db->fetchNextObject($result);
 ?>
@@ -21,10 +21,6 @@ $ln = $db->fetchNextObject($result);
 	<tr>
 		<th>Departamento:</th>
 		<td><?php echo $ln->departamento;?></td>
-	</tr>
-	<tr>
-		<th>Nivel:</th>
-		<td><?php echo $ln->nivel;?></td>
 	</tr>
 	<tr>
 		<th>Correo:</th>

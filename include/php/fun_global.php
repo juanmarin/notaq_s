@@ -529,28 +529,30 @@ function dateadd($date, $dd=0, $mm=0, $yy=0, $hh=0, $mn=0, $ss=0){ ##### Funcion
      return $date_result;
 }
 function calculamonto($cantidad, $monto1, $monto2, $plazo1, $plazo2, $tipo_pago){
-	
-    $saldo = (($plazo1 * $monto1) + ($plazo2 * $monto2));
-    $int_moneda = ($saldo - $cantidad);
-    $int_tot = (($int_moneda * 100)/$cantidad);
-    
-    switch($tipo_pago){
-			case "SEMANAL":	
-					$tiempo = ceil(($plazo1 + $plazo2) / 4);
-					$interes = $int_tot / $tiempo;
+	$saldo = (($plazo1 * $monto1) + ($plazo2 * $monto2));
+	$int_moneda = ($saldo - $cantidad);
+	$int_tot = (($int_moneda * 100)/$cantidad);
+	switch($tipo_pago)
+	{
+		case "SEMANAL":	
+			$tiempo = ceil(($plazo1 + $plazo2) / 4);
+			$interes = $int_tot / $tiempo;
 			break;
-			case "QUINCENAL":
-					$tiempo = ceil(($plazo1 + $plazo2) / 2);	
-					$interes = $int_tot / $tiempo;
+		case "QUINCENAL":
+			$tiempo = ceil(($plazo1 + $plazo2) / 2);	
+			$interes = $int_tot / $tiempo;
 			break;
-            case "MENSUAL":
-					$tiempo = ceil(($plazo1 + $plazo2));
-					$interes = $int_tot / $tiempo;	
-			break;     		
-		}
-    $datosPrestamo = array('saldo'=>$saldo, 'int_moneda'=>$int_moneda, 'interes'=>$interes, 'tiempo'=>$tiempo);   
-    return $datosPrestamo;   
-      
+		case "MENSUAL":
+			$tiempo = ceil(($plazo1 + $plazo2));
+			$interes = $int_tot / $tiempo;	
+			break; 
+		case "CATORCENAL":
+			$tiempo = ceil(($plazo1 + $plazo2) / 2);	
+			$interes = $int_tot / $tiempo;
+			break;		
+	}
+	$datosPrestamo = array('saldo'=>$saldo, 'int_moneda'=>$int_moneda, 'interes'=>$interes, 'tiempo'=>$tiempo);   
+	return $datosPrestamo;
 }   
 function eliminaUsuario($u, $pas, $usr_Delete){
         $sql = 'SELECT username, password FROM mymvcdb_users WHERE username = "'.$u.'" AND  password = "'.$pas.'" AND NIVEL = 0';
@@ -576,5 +578,11 @@ function revert_tipoPago($tipo_pago){
 			break;  		
 		}
 	return $tipo_pago;
+}
+function date_diffe($hoy, $proxpago){
+	$hoy = date("Y-m-d");
+	$dias	= (strtotime($hoy)-strtotime($proxpago))/86400;
+	$dias 	= abs($dias); $dias = floor($dias);		
+	return $dias;
 }
 ?>

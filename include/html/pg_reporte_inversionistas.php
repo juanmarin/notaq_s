@@ -1,4 +1,8 @@
 <?php
+/*
+*/
+?>
+<?php
     if(isset($_POST['enviar'])){
         $desde = $_POST['desde'];
         $hasta = $_POST['hasta'];

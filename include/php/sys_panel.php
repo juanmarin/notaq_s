@@ -1,4 +1,6 @@
 <?php @session_start();
+/*
+*/
 	//AQUI ES DONDE SE DA LA MAGIA!
 	require_once("include/php/fun_global.php"); 
 	require_once("include/php/sys_db.class.php");
@@ -23,9 +25,6 @@
 <link rel="stylesheet" href="estilo/themes/base/ui.all.css" type="text/css" media="all" />
 <link rel="stylesheet" href="estilo/thickbox.css" type="text/css" media="all" />
 <link rel="stylesheet" href="estilo/jquery.cleditor.css" type="text/css" media="all" />
-
-
-    
 <!--[if IE]>
 	<style>
 		@import url("estilo/IEfixes.css");
@@ -43,13 +42,9 @@
 <script type="text/javascript" src="js/global.js"></script>
 </head>
 <body>
-
 	<div id="main">
-	
 		<div id="barra" class="sombra esqRedondas_b">
-		
 			<div id="logo">NOTAq</div>
-		
 			<div id="vmenu">
 				<ul class="menul">
 					<?php
@@ -65,6 +60,7 @@
 								<li><a href="?pg=3f" class="_visitas">Reporte Recargos</a></li>
 								<li><a href="?pg=3d" class="_estado">Historial Credito</a></li>
 								<li><a href="?pg=3e" class="_pagos">Control Pagos</a></li>
+								<li><a href="?pg=3g" class="_excel">Reportes en excel</a></li>
 								<?php
 							} elseif ($_SESSION["U_NIVEL"] == 3) {
 								?>
@@ -77,9 +73,9 @@
 							break;
 						case 4:
 							?>         
-								<li><a href="?pg=4" class="_usuario">Informaci&oacute;n personal</a></li>
-								<?php
-								if($_SESSION["U_NIVEL"] == 0){
+							<li><a href="?pg=4" class="_usuario">Informaci&oacute;n personal</a></li>
+							<?php
+							if($_SESSION["U_NIVEL"] == 0){
 								?>
 								<li><a href="?pg=4a" class="_todos">Lista de usuarios</a></li>
 								<li><a href="?pg=4b" class="_agregar">Agregar usuario</a></li>
@@ -122,7 +118,7 @@
 						require_once("include/conf/Config_con.php");
 						$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 						//- OBTENER NUMERO DE CUENTA ACTUAL --
-						$getCliente = (isset($_GET["cl"]))?$_GET["pg"]:"";
+						$getCliente = (isset($_GET["cl"]))?$_GET["cl"]:"";
 						$sql = "SELECT id FROM cuentas WHERE estado = 0 AND cliente = ".$getCliente."";
 						$res = $db->query($sql);
 						if($db->numRows() > 0){
@@ -299,17 +295,18 @@
 						if ($_SESSION["hola"] == 0){
 							$_SESSION["hola"] = 1;
 							?>
-							<p class="note">Hola <?php echo $user->userData[6] . $_SESSION["bienvenida"]; ?>, bienvenido.</p>
+							<p class="note">Hola <?php echo $user->userData[6] . ((isset($_SESSION["bienvenida"]))?$_SESSION["bienvenida"]:""); ?>, bienvenido.</p>
 							<?php
 						}
 					}
-					echo $loginmsg;
+					echo (isset($loginmsg))?$loginmsg:'';
 					?>
 				</div>
 			</div>
 			<div id="contenido">
 				<?php
-				switch($_GET["pg"]){
+				$pg=(isset($_GET["pg"]))?$_GET["pg"]:"";
+				switch($pg){
 					case "2":	require_once("include/html/pg_clientes.php");				break;
 					case "2a":	require_once("include/html/pg_clientes_buscar.php");			break;
 					case "2b":	require_once("include/html/pg_clientes_editar.php");			break;
@@ -333,6 +330,7 @@
 					case "3d":	require_once("include/html/pg_reporte_historial_cred.php");		break;
 					case "3da":	require_once("include/html/pg_reporte_historial_cred_cl.php");		break;
 					case "3f":	require_once("include/html/pg_reporte_recargos.php");			break;
+					case "3g":	require_once("include/html/pg_reporte_excel.php");			break;
 					case "4":	require_once("include/html/pg_panel.php");				break;
 					case "4a":	require_once("include/html/pg_panel_usuarios.php");			break;
 					case "4b":	require_once("include/html/pg_panel_usuario_agregar.php");		break;
