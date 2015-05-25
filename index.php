@@ -3,10 +3,10 @@
 //INICIALIZANDO VARIABLES -------------------------------
 //define("IN_SITE", true);
 */
-$sitio_nombre_raiz = "notaq_s";
+$sitio_nombre_raiz = "public_html";
 $tipo_login = 1;
 $_GET["m"] = ( isset($_GET["m"]) )? $_GET["m"] : "1";
-$msg = '<p class="suggestion">Recuerde coincidir en mayúsculas.</p>';
+$msg = '<p class="suggestion">Recuerde coincidir en mayÃºsculas.</p>';
 if ($tipo_login == 3){
 	session_start();
 	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
@@ -26,9 +26,9 @@ if ($tipo_login == 3){
 			if ( !$user->login($_POST['uname'],$_POST['pwd'],$log_remember )){
 				//Mention that we don't have to use addslashes as the class do the job
 				//echo 'Wrong username and/or password';
-				$loginmsg = '<p class="error">Usuario y/o contraseña incorrecto.</p>';
+				$loginmsg = '<p class="error">Usuario y/o contraseÃ±a incorrecto.</p>';
 				if ( $tipo_login == 1 ){
-					$msg = '<p class="error">Usuario y/o contraseña incorrectos.</p>';
+					$msg = '<p class="error">Usuario y/o contraseÃ±a incorrectos.</p>';
 					echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
 					require_once "include/html/pg_sys_login.php";
 				} else {
