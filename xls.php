@@ -31,6 +31,44 @@ if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0 && isset($_POST)){
 			ORDER BY clientes.nombre ASC
 			";
 			break;
+		case 1 :
+			$reporte="
+			SELECT 
+    clientes.id AS cliente,
+    CONCAT(clientes.nombre,
+            ' ',
+            clientes.apellidop,
+            ' ',
+            clientes.apellidom) AS NombreCliente,
+    clientes.colonia,
+    clientes.c_cobrador,
+    cuentas.id AS Contrato,
+    cuentas.cantidad,
+    cuentas.total,
+    cuentas.tiempo,
+    cuentas.tipo_pago,
+    cuentas.estado,
+    pagos.id AS PagoId,
+    pagos.cliente,
+    pagos.cuenta,
+    recargos.cuenta,
+    recargos.cliente,
+    recargos.pago,
+    recargos.dias_atraso AS DVencidos,
+    recargos.estado,
+	recargos.monto AS Recargo
+FROM
+    clientes,
+    cuentas,
+    pagos,
+    recargos
+WHERE
+    clientes.id = cuentas.cliente
+        AND cuentas.estado = 0
+        AND pagos.cuenta = cuentas.id
+		AND recargos.cuenta = cuentas.id
+GROUP BY pagos.cliente;
+			";
 	}
 	$res = mysql_query($reporte);
 	genTabla( $res, 0 );
