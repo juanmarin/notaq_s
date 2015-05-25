@@ -61,10 +61,73 @@ $r = $db->fetchNextObject($res);
 		<input type="text" name="cel" id="cel" maxlength="20" value="<?= $r->celular;?>" />
 		</td>
 		<td>
-		RFC:<br />
-		<input type="text" name="rfc" id="rfc" maxlength="20" value="<?= $r->rfc;?>" />
-		</td>
+			Sector:<br />
+			<select name="sector" id="sector">
+				<option value="<?php $r->sector; ?>" selected>Seleccione</option>
+				<option value="1">Sector 1</option>
+				<option value="2">Sector 2</option>
+				<option value="3">Sector 3</option>
+				<option value="4">Sector 4</option>
+				<option value="5">Sector 5</option>
+				<option value="6">Sector 6</option>
+			</select>
+			</td>
 	</tr>
+	<tr>
+			<td>
+				Asignar Cobrador:<br/>
+				<?php
+		            $sql = "SELECT userID, username FROM mymvcdb_users WHERE nivel = 3";
+		            $rs = mysql_query($sql) or die(mysql_error());
+		            echo "<select name='cobrador' id='cobrador'>";
+		            echo "<option value=''>Asignar</option>";
+		            while($row = mysql_fetch_array($rs)){
+		            echo "<option value='".$row["username"]."'>".$row["username"]."</option>";
+		            }mysql_free_result($rs);
+		    	?>
+			</select>
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><b>Datos Empleo<b/></td>
+		</tr>
+		<tr>
+			<td>Nombre Empleo<br/>
+				<input type="text" name="empleo" id="empleo" value="<?php echo $r->empleo;?>" maxlength="25">
+			</td>
+			<td>Direccion Empleo<br/>
+				<input type="text" name="dir_empl" id="dir_empl" value="<?php echo $r->dir_empl; ?>" maxlength="25">
+			</td>
+		</tr>
+		<tr>
+			<td>Calle Empleo<br/>
+				<input type="text" name="c_empl" id="c_empl" value="<?php echo $r->c_empl; ?>" maxlength="25">
+			</td>
+			<td>Teléfono Empleo<br/>
+				<input type="text" name="tel_empl" id="tel_empl" value="<?php echo $r->tel_empl; ?>"maxlength="25">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><b>Datos Referencias<b/></td>
+		</tr>
+		<tr>
+			<td>Referencia 1<br/>
+				<input type="text" name="ref_1" id="ref_1" value="<?php echo $r->nom_ref_1; ?>" maxlength="30">
+			</td>
+			<td>Referencia 2<br/>
+				<input type="text" name="ref_2" id="ref_2" value="<?php echo $r->nom_ref_2; ?>" maxlength="30">
+			</td>
+		</tr>
+		<tr>
+			<td>Teléfono Celular<br/>
+				<input type="text" name="cel_ref1" id="cel_ref1" value="<?php echo $r->cel_ref1; ?>" maxlength="25">
+			</td>
+			<td>Teléfono Celular<br/>
+				<input type="text" name="cel_ref2" id="cel_ref2" value="<?php echo $r->cel_ref2; ?>" maxlength="25">
+			</td>
+		</tr>
+		<tr>
 	<tr>
 		<td colspan="1">
 		Vivienda:<br />

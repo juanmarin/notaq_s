@@ -10,11 +10,11 @@
 </thead>
 <body>
 <?php
-/*
+
 	foreach($_POST as $var => $val){
 		echo $var . " => " . $val . "<br />";
 	}
-*/
+
 require_once "../conf/Config.php";
 require_once "fun_global.php";
 
@@ -55,7 +55,7 @@ switch($_POST["action"]){
 			$_SESSION["nu_ema"] = $_POST["email"]; 
 			$_SESSION["nu_tel"] = $_POST["telefono"]; 
 			$_SESSION["nu_una"] = $_POST["uname"];
-			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Las contraseñas no coinciden, asegurese de escribir correctamente la contraseña al confirmarla.</p></th></tr>';
+			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Las contraseÃ±as no coinciden, asegurese de escribir correctamente la contraseÃ±a al confirmarla.</p></th></tr>';
 			#echo $_SESSION["msg"];
 			#echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
@@ -83,7 +83,7 @@ switch($_POST["action"]){
 			unset($_SESSION["nu_ema"]); 
 			unset($_SESSION["nu_tel"]); 
 			unset($_SESSION["nu_una"]);
-			$_SESSION["msg"] = '<tr><th colspan="2"><p class="inportant">Usuario registrado con éxito.</p></th></tr>';
+			$_SESSION["msg"] = '<tr><th colspan="2"><p class="inportant">Usuario registrado con Ã©xito.</p></th></tr>';
 			#echo $_SESSION["msg"];
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
@@ -124,7 +124,9 @@ switch($_POST["action"]){
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=4"> ';
 		break;
 	case "cliente_nuevo":
-		$_cadena = "INSERT INTO clientes (nombre, apellidop, apellidom, direccion, colonia, telefono, celular, rfc, vivienda, Aval, activo, c_cobrador)
+		$_cadena = "INSERT INTO clientes (nombre, apellidop, apellidom, direccion, colonia, telefono, 
+								celular, vivienda, Aval, activo, sector, empleo, dir_empl, c_empleo,
+								tel_empl, nom_ref_1, cel_ref1, nom_ref_2, cel_ref2, c_cobrador)
 		VALUES (
 			'". $_POST["nombre"] ."',
 			'". $_POST["apellidop"] ."',
@@ -133,14 +135,22 @@ switch($_POST["action"]){
 			'". $_POST["col"] ."',
 			'". $_POST["tel"] ."',
 			'". $_POST["cel"] ."',
-			'". $_POST["rfc"] ."',
 			'". $_POST["vivienda"] ."',
 			'". $_POST["aval"] ."',
-			'".$_POST["activo"]."',
-			'".  $_POST["cobrador"]."'
+			'". $_POST["activo"] ."',
+			'". $_POST["sector"] ."',
+			'". $_POST["empleo"] ."',
+			'". $_POST["dir_empl"]."',
+			'". $_POST["c_empl"]."',
+			'". $_POST["tel_empl"]."',
+			'". $_POST["ref_1"]."',
+			'". $_POST["cel_ref1"]."',
+			'". $_POST["ref_2"]."',
+			'". $_POST["cel_ref2"]."',
+			'". $_POST["cobrador"] ."'
 		)";
 		$_query = mysql_query($_cadena);
-		//echo $_cadena;
+		echo $_cadena;
 		if($_query){
 			$_SESSION["clid"] = mysql_insert_id();
 			if($_POST["aval"] ==1){
@@ -222,7 +232,7 @@ switch($_POST["action"]){
 	}else {
 		 ?>
 		 	<script type="text/javascript" >
-		    	alert("Permiso denegado.\nUsuario o contraseña incorrectos.\nIntente de nuevo.");
+		    	alert("Permiso denegado.\nUsuario o contraseÃ±a incorrectos.\nIntente de nuevo.");
             </script>
          <?php
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
@@ -241,7 +251,17 @@ switch($_POST["action"]){
 			celular = '".$_POST["cel"]."', 
 			rfc = '".$_POST["rfc"]."', 
 			vivienda = ".$_POST["vivienda"].",
-			Aval = ".$_POST["aval_edit1"]."
+			Aval = ".$_POST["aval_edit1"].",
+			sector	=	'". $_POST["sector"] ."',
+			empleo	=	'". $_POST["empleo"] ."',
+			dir_empl	=	'". $_POST["dir_empl"]."',
+			c_empleo	=	'". $_POST["c_empl"]."',
+			tel_empl	=	'". $_POST["tel_empl"]."',
+			nom_ref_1	=	'". $_POST["ref_1"]."',
+			cel_ref1	=	'". $_POST["cel_ref1"]."',
+			nom_ref_2	=	'". $_POST["ref_2"]."',
+			cel_ref2	=	'". $_POST["cel_ref2"]."',
+			c_cobrador	=	'". $_POST["cobrador"] ."'
 			WHERE id = ".$_POST["cl"];
 		$res = mysql_query($sql);
 		if($res){
@@ -329,12 +349,10 @@ switch($_POST["action"]){
 			$plazo2 = $_POST["plazo2"];
 			# mandamos llamar la funcion que nos traera los datos para crear la nueva cuenta
 			$datosPrestamo = calculamonto($cantidad, $monto1, $monto2, $plazo1, $plazo2, $tipo_pago);
-			var_dump($datosPrestamo);
+			//var_dump($datosPrestamo);
 			$tiempo = $datosPrestamo['tiempo'];
 			$interes = $datosPrestamo['interes'];
 			$tipo_pago = revert_tipoPago($tipo_pago);
-			//echo $tipo_pago;
-			//echo $tiempo;
 
 			## calcular total
 			$total = $cantidad * (( ($interes * $tiempo)  / 100 ) + 1 );
@@ -562,7 +580,7 @@ switch($_POST["action"]){
 				mysql_query($sql);
 				##-restar a ultimo pago
 				$abono -= $sumapagos;
-				##-aplicar pago restante a demás pagos
+				##-aplicar pago restante a demÃ¡s pagos
 				setMontoRestante($cta, $abono);
 			}elseif($abono == $total){
 				$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
@@ -654,7 +672,7 @@ switch($_POST["action"]){
 		$cte 	= $_POST["cte"];
 		$cta 	= $_POST["cta"];
 		$delCte = (isset($_POST["elimina"]))?$_POST["elimina"]:"";
-		#- COMPROBAMOS EL USUARIO Y CONTRASEÑA -------------------------------------------------------------------
+		#- COMPROBAMOS EL USUARIO Y CONTRASEÃ‘A -------------------------------------------------------------------
 		$pas 	= sha1($_POST["c"]);
 		$sql 	= 'SELECT username, password FROM mymvcdb_users WHERE username = "'.$_POST["u"].'" AND  password = "'.$pas.'" AND NIVEL = 0';
 		$res 	= mysql_query($sql);
@@ -701,7 +719,7 @@ switch($_POST["action"]){
 		{
 			?>
 			<script type="text/javascript" >
-			alert("Permiso denegado.\nUsuario o contraseña incorrectos.\nIntente de nuevo.");
+			alert("Permiso denegado.\nUsuario o contraseÃ±a incorrectos.\nIntente de nuevo.");
 			</script>
 			<?php
 			if($delCte == yes)
