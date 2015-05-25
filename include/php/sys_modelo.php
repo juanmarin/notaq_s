@@ -10,11 +10,11 @@
 </thead>
 <body>
 <?php
-
+/*
 	foreach($_POST as $var => $val){
 		echo $var . " => " . $val . "<br />";
 	}
-
+*/
 require_once "../conf/Config.php";
 require_once "fun_global.php";
 
