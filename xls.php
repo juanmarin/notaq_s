@@ -34,41 +34,54 @@ if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0 && isset($_POST)){
 		case 1 :
 			$reporte="
 			SELECT 
-    clientes.id AS cliente,
-    CONCAT(clientes.nombre,
-            ' ',
-            clientes.apellidop,
-            ' ',
-            clientes.apellidom) AS NombreCliente,
-    clientes.colonia,
-    clientes.c_cobrador,
-    cuentas.id AS Contrato,
-    cuentas.cantidad,
-    cuentas.total,
-    cuentas.tiempo,
-    cuentas.tipo_pago,
-    cuentas.estado,
-    pagos.id AS PagoId,
-    pagos.cliente,
-    pagos.cuenta,
-    recargos.cuenta,
-    recargos.cliente,
-    recargos.pago,
-    recargos.dias_atraso AS DVencidos,
-    recargos.estado,
-	recargos.monto AS Recargo
-FROM
-    clientes,
-    cuentas,
-    pagos,
-    recargos
-WHERE
-    clientes.id = cuentas.cliente
-        AND cuentas.estado = 0
-        AND pagos.cuenta = cuentas.id
-		AND recargos.cuenta = cuentas.id
-GROUP BY pagos.cliente;
+				 cu.fecha 'Fecha préstamo'
+				,cu.id 'Contrato'
+				,concat(cl.apellidop,' ',cl.apellidom,' ',cl.nombre) 'Nombre del cliente'
+				,cl.colonia 'Colonia'
+				,cl.direccion 'Calle'
+				,'Dato no existe' as 'Entre calles domicilio'
+				,cl.telefono 'Teléfono domicilio directo'
+				,'Dato no existe' as 'Tel. empleo'
+				,cl.celular 'Tel. celuar'
+				,'Dato no existe' as 'Sector'
+				,cu.total 'Total adeudo'
+				,(SELECT SUM(pa.pago) FROM pagos pa WHERE pa.cuenta = cu.id AND pa.estado=0 AND pa.fecha < CURDATE()) AS 'Total vencido en pagos'
+				/* ** ----------------------------------------------------------------------------------------------------------------------------------------- ** */
+				/* ** REGARCOG SPOR RETRAZO: ------------------------------------------------------------------------------------------------------------------	** */
+				/* ** Faltaría checar el estado del recargo, que significan ----------------------------------------------------------------------------------- ** */
+				/* ** y si están bien actualizados los datos del recargo -------------------------------------------------------------------------------------- ** */
+				,(SELECT SUM(MONTO) FROM recargos re WHERE re.cuenta = cu.id) AS 'Recargos por retrazo'
+				,case cu.tipo_pago
+					when 1 then 'SEMANAL'
+					when 2 then 'CATORCENAL'
+					when 3 then 'QUINCENAL'
+					when 4 then 'MENSUAL'
+					else 'NO DEFINIDO'
+				end AS 'Frecuencia de pago'
+				,cu.npagos 'Plazo'
+				,(SELECT COUNT(*)+1 FROM pagos pa WHERE pa.cuenta = cu.id AND pa.estado=1) AS 'Pago vencido'
+				,cu.npagos 'Plazo préstamo'
+				,(SELECT COUNT(*) FROM pagos pa WHERE pa.cuenta = cu.id AND pa.estado=0 AND pa.fecha < CURDATE()) AS 'Pagos vencidos'
+				,cl.c_cobrador 'Gestor'
+				,co.nombre 'Nombre gestor'
+				/* ** ----------------------------------------------------------------------------------------------------------------------------------------- ** */
+				/* ** DIAS VENCIDOS: -------------------------------------------------------------------------------------------------------------------------- ** */
+				/* ** Faltaría validar si estan vencidos los días para evitar salga un número negativo -------------------------------------------------------- ** */
+				,(SELECT DATEDIFF(CURDATE(),pa.fecha) FROM pagos pa WHERE pa.cuenta = cu.id AND pa.estado=0 AND pa.fecha < CURDATE() ORDER BY pa.fecha ASC LIMIT 0,1) AS 'Dias vencidos'
+				,(SELECT pa.fecha FROM pagos pa WHERE pa.cuenta = cu.id AND pa.estado=1 ORDER BY pa.fecha DESC LIMIT 0,1) AS 'Fecha último pago'
+				,'Dato no existe' AS 'Colonia empleo'
+				,'Dato no existe' AS 'Nombre de empresa'
+				,cl.R1nombre 'Referencia 1'
+				,cl.R1tel 'Tel. referencia 1'
+				,cl.R2nombre 'Referencia 2'
+				,cl.R2tel 'Tel. referencia 2'
+			FROM clientes cl 
+				RIGHT JOIN cuentas cu ON cl.id=cu.cliente
+				LEFT JOIN mymvcdb_users co ON cl.c_cobrador=co.username
+			WHERE cu.estado=0
+			ORDER BY cu.fecha DESC;
 			";
+			break;
 	}
 	$res = mysql_query($reporte);
 	genTabla( $res, 0 );
