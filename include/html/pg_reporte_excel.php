@@ -19,12 +19,12 @@ if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0){
 	<th>Reporte de clientes activos a la fecha</th>
 	<th>
 		<form action="xls.php" method="post">
-		<input type="hidden" name="generar_reporte" value="0" />
+		<input type="hidden" name="generar_reporte" value="1" />
 		<input type="submit" name="Descargr       " value="Descargar" />
 		</form>
 	</th>
 	</tr>
-	<!-- REPORTE JUAN MARIN  -->
+	<!-- REPORTE JUAN MARIN  
 	<tr>
 	<th>Reporte de Juan Marin</th>
 	<th>
@@ -34,6 +34,7 @@ if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0){
 		</form>
 	</th>
 	</tr>
+	-->
 	</tbody>
 	</table>
 	<?php
