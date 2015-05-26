@@ -34,7 +34,6 @@ $UserLevel = $_SESSION["U_NIVEL"];
 	clientes.id = demandas.cliente_id
 	$cobrador
 	ORDER BY clientes.nombre ASC";
-	echo $sql;
 	$res = $db->query($sql);
 	$num_rows = mysql_num_rows($res);
 	while($r = $db->fetchNextObject($res)){

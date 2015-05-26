@@ -1,5 +1,5 @@
 <?php header('Content-Type: text/html; charset=iso-8859-1'); ?>
-<? require_once "../php/fun_global.php"; ?>
+<?php require_once "../php/fun_global.php"; ?>
 <style>
 	table tbody tr th{text-align: right;}
 </style>
@@ -28,7 +28,7 @@
 		<th>Saldo de cuenta:</th>
 		<td><input type="text" name="cant" value="<?php moneda($saldo);?>" readonly="readonly" /></td>
 	</tr>
-	<?
+	<?php
 	$sql = "SELECT SUM(monto) as monto FROM recargos WHERE estado = 0 AND cuenta = ".$_GET["c"];
 	$res = mysql_query($sql);
 	if(mysql_num_rows($res) > 0){
@@ -41,7 +41,7 @@
 	?>
 	<tr>
 		<th>Monto a pagar</th>
-		<td><input type="text" name="total" value="<?moneda($saldo + $recargos);?>" /></td>
+		<td><input type="text" name="total" value="<?php moneda($saldo + $recargos);?>" /></td>
 	</tr>
 	<tr>
 		<th colspan="2" style="text-align: center;">Autorización</th>

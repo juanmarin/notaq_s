@@ -381,7 +381,6 @@ switch($_POST["action"]){
 				'". $_POST["cobrador"] ."',
 				'". $_POST["observ"]."'
 			)";
-			//echo $_cadena . "<br />";
 			$res = mysql_query($_cadena);
 			$cuenta = mysql_insert_id();
 			$cnt = 0;
@@ -436,7 +435,6 @@ switch($_POST["action"]){
 				".$monto1.", 
 				".($interes * $tiempo)."   
 				)";
-				//echo $sql . "<br />";
 				mysql_query($sql);
 				$cnt++;
 			}
@@ -491,12 +489,11 @@ switch($_POST["action"]){
 					".$monto2.", 
 					".($interes * $tiempo)."   
 					)";
-					//echo $sql . "<br />";
 					mysql_query($sql);
 					$cnt++;
 				}
 			}
-			include_once "imprimeReciboCuenta.php";
+			//include_once "imprimeReciboCuenta.php";
 		}
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		break;
@@ -613,13 +610,14 @@ switch($_POST["action"]){
 		include_once "imprimeReciboPago.php";
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cl.'"> ';
 		break;
+
 	case "cuenta_saldar": 
-		$sql = "SELECT total FROM cuentas WHERE id = ".$_POST["c"];
+		$sql = "SELECT cliente, total FROM cuentas WHERE id = ".$_POST["c"];
 		#echo $sql . "<br />";
 		$res = mysql_query($sql);
 		$row = mysql_fetch_array($res);
 		$saldo = $row["total"];
-		$sql = "SELECT SUM(monto) FROM recargos WHERE estado = 0 AND cuenta = ".$_POST["c"];
+		$sql = "SELECT SUM(monto), cliente FROM recargos WHERE estado = 0 AND cuenta = ".$_POST["c"];
 		#echo $sql . "<br />";
 		$res = mysql_query($sql);
 		$row = mysql_fetch_array($res);
@@ -628,13 +626,18 @@ switch($_POST["action"]){
 		#echo number_format($monto, 2, ".", ",") . $_POST["total"] . "<br />";  
 		if(number_format($monto, 2, ".", ",") == $_POST["total"]){
 			$sql = "UPDATE cuentas SET estado=1, fecha_pago='".date("Y-m-d")."' WHERE id = ".$_POST["c"];
-			#echo $sql . "<br />zzz";
 			$res = mysql_query($sql);
+
 			$sql = "UPDATE pagos SET estado=1, fechaPago='".date("Y-m-d")."' WHERE estado=0 AND cuenta = ".$_POST["c"];
-			#echo $sql . "<br />";
 			$res = mysql_query($sql);
+
 			$sql = "UPDATE recargos SET estado=1, fechaPago='".date("Y-m-d")."' WHERE estado=0 AND cuenta = ".$_POST["c"];
-			#echo $sql . "<br />";
+			$res = mysql_query($sql);
+
+			$sql = "UPDATE clientes SET demanda=0 WHERE id = ".$_POST["cl"];
+			$res = mysql_query($sql);
+
+			$sql = "DELETE FROM demandas WHERE cliente_id = ".$_POST["cl"];
 			$res = mysql_query($sql);
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		}else{
