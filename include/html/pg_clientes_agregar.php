@@ -7,7 +7,7 @@
 <p class="title">Clientes &raquo; Nuevo cliente </p>
 
 <table>
-<form name="nc1" action="include/php/sys_modelo.php" method="post">
+<form name="nc1" action="include/php/sys_modelo.php" method="post" enctype="multipart/form-data">
 <input type="hidden" name="action" value="cliente_nuevo" />
 <input type="hidden" name="activo" value="1" />
 	<caption>Agregar nuevo cliente: Datos personales</caption>
@@ -79,7 +79,10 @@
 		    	?>
 			</select>
 			</td>
-			<td>&nbsp;</td>
+			<td>
+				Cargar imagen de cliente (JPG):<br />
+				<input name="image" accept="image/jpeg" type="file">
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center"><b>Datos Empleo<b/></td>
