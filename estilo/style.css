@@ -331,3 +331,10 @@ a:hover {
 .numPages:hover {
 	background:#CCCCCC;
 }
+img.fotocliente
+{
+	height:200px;
+	padding:4px;
+	background:#999;
+	border:1px solid #888;
+}
