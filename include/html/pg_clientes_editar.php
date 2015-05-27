@@ -4,7 +4,7 @@
 		
 	});
 </script>
-<p class="title">Clientes &raquo; Ediar [1/3]</p>
+<p class="title">Clientes &raquo; Ediar </p>
 
 <?php
 require_once("include/php/sys_db.class.php");
@@ -13,6 +13,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 $sql = "SELECT * FROM clientes WHERE id = ".$_GET["cl"];
 $res = $db->query($sql);
 $r = $db->fetchNextObject($res);
+$attr = 'selected="selected"';// Stributo select para los select de opcion mutiple
 ?>
 <form action="include/php/sys_modelo.php" method="post">
 <input type="hidden" name="action" value="cliente_editar_1" />
@@ -63,29 +64,29 @@ $r = $db->fetchNextObject($res);
 		<td>
 			Sector:<br />
 			<select name="sector" id="sector">
-				<option value="<?php $r->sector; ?>" selected>Seleccione</option>
-				<option value="1">Sector 1</option>
-				<option value="2">Sector 2</option>
-				<option value="3">Sector 3</option>
-				<option value="4">Sector 4</option>
-				<option value="5">Sector 5</option>
-				<option value="6">Sector 6</option>
+				<option value="1" <?php echo $r->sector == 1 ? $attr : ''; ?>>Sector 1</option>
+				<option value="2" <?php echo $r->sector == 2 ? $attr : ''; ?>>Sector 2</option>
+				<option value="3" <?php echo $r->sector == 3 ? $attr : ''; ?>>Sector 3</option>
+				<option value="4" <?php echo $r->sector == 4 ? $attr : ''; ?>>Sector 4</option>
+				<option value="5" <?php echo $r->sector == 5 ? $attr : ''; ?>>Sector 5</option>
+				<option value="6" <?php echo $r->sector == 6 ? $attr : ''; ?>>Sector 6</option>
 			</select>
 			</td>
 	</tr>
 	<tr>
 			<td>
 				Asignar Cobrador:<br/>
+				<select name="cobrador" id="cobrador">
 				<?php
-		            $sql = "SELECT userID, username FROM mymvcdb_users WHERE nivel = 3";
-		            $rs = mysql_query($sql) or die(mysql_error());
-		            echo "<select name='cobrador' id='cobrador'>";
-		            echo "<option value=''>Asignar</option>";
-		            while($row = mysql_fetch_array($rs)){
-		            echo "<option value='".$row["username"]."'>".$row["username"]."</option>";
-		            }mysql_free_result($rs);
-		    	?>
-			</select>
+		            $sql = "SELECT username FROM mymvcdb_users WHERE nivel=3";
+					$res = $db->query($sql);
+		            while( $cob = $db->fetchNextObject($res) ){ //JUan Marin
+		        ?>
+					<option value="<?php echo $cob->username;?>" <?php echo $cob->username == $r->c_cobrador? $attr : ''; ?>><?php echo $cob->username;?></option>
+				<?php
+					}
+				?>
+				</select>
 			</td>
 			<td>&nbsp;</td>
 		</tr>

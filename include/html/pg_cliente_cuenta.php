@@ -55,7 +55,7 @@
 	<?php
 	require_once("include/php/sys_db.class.php");
 	require_once("include/conf/Config_con.php");
-	
+	$attr = 'selected="selected"';// Stributo select para los select de opcion mutiple
 	function getVivienda($tipo)
 	{
 		switch($tipo)
@@ -97,64 +97,11 @@
 			?>
 			 <td rowspan="2" width="390"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
 			 <td rowspan="2" width="200"><strong>Cobrador: </strong> <br /><?php echo $ln->c_cobrador;?></td>			
-			<?php
-			/*  
-			//--- FOTOGRAFIA DEL CLIENTE ---------------------------------------------------------------------------------------
-			$exists = 0;
-			if(file_exists("include/jpegcam/htdocs/" . $_SESSION["idcliente"] . ".jpg")){
-				?>
-				<td rowspan="2" width="250">
-                    <a href="include/jpegcam/htdocs/test.html?keepThis=true&TB_iframe=true&height=320&width=300" class="thickbox" rel="foto" title="<?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?>"><img src="include/jpegcam/htdocs/<?php echo $_SESSION["idcliente"];?>.jpg" /></a></td>
-				<?php
-			}else{
-				?>
-				<td rowspan="2" width="250">
-                    <a href="include/jpegcam/htdocs/test.html?keepThis=true&TB_iframe=true&height=380&width=480" class="thickbox" rel="foto" title="<?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?>">Capturar</a></td>
-				<?php
-			}
-			//--- FOTOGRAFIA DE IFE NUMERO UNO ---------------------------------------------------------------------------------
-			if(file_exists("include/jpegcam/htdocs/" . $_SESSION["ifecliente"] . ".jpg")){
-				$exists++;
-				?>
-				<td width="220">
-                    <a href="include/jpegcam/htdocs/test_ife.html?keepThis=true&TB_iframe=true&height=350&width=480" class="thickbox" rel="ife" title="<?php echo $ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>"><img src="include/jpegcam/htdocs/<?php echo $_SESSION["ifecliente"];?>.jpg" width="100" /></a></td>
-				<?php
-			}else{
-				?>
-				<td width="220">
-                    <a href="include/jpegcam/htdocs/test_ife.html?keepThis=true&TB_iframe=true&height=350&width=480" class="thickbox" rel="ife" title="<?php echo $ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>">Capturar IFE</a></td>
-				<?php
-			}
-			//--- FOTOGRAFIA DE IFE NUMERO DOS ---------------------------------------------------------------------------------
-			if(file_exists("include/jpegcam/htdocs/" . $_SESSION['ifecliente'] . "2.jpg")){
-				$exists++;
-				?>
-				<td width="220">
-					<a href="include/jpegcam/htdocs/test_ife2.html?keepThis=true&TB_iframe=true&height=350&width=480" class="thickbox" rel="ife" title="<?php echo $ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>"><img src="include/jpegcam/htdocs/<?php echo $_SESSION["ifecliente"];?>2.jpg" width="100" /></a>
-				</td>
-				<?php
-			}else{
-				?>
-				<td width="220">
-					<a href="include/jpegcam/htdocs/test_ife2.html?keepThis=true&TB_iframe=true&height=350&width=480" class="thickbox" rel="ife" title="<?php echo $ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>">Capturar IFE</a>
-				</td>
-				<?php
-			}
-			?>
-			<tr>
-            <td colspan="2" align="center">
-			<?php
-			if($exists > 0){
-				?>
-				<a href="include/html/box_fotos.php?height=275&width=750" class="thickbox" rel="ife" title="<?php echo "IFE"." ".$ln->nombre.' '.$ln->apellidop.' '.$ln->apellidom;?>">Ampliar IFE</a>
-				<?php
-			}
-			*/
-			?>
-            </tr>
+			</tr>
 			</td>
 			</tr>
 			<?php
+			$cobrador = $ln->c_cobrador;
 			}
 			?>
 </tbody>
@@ -197,9 +144,24 @@
 			<td><?php echo $ln2->celular;?></td>	
 		</tr>
 		<table>
+			<caption>Empleo del Cliente</caption>
+			<tr>
+				<td><strong>Calle:<strong></td>
+				<td><?php echo $ln2->dir_empl;?></td>
+				<td><strong>Colonia: </strong></td>	
+				<td><?php echo $ln2->c_empleo;?></td>
+			</tr>
+			<tr>
+				<td><strong>Tel&eacute;fono: </strong> </td>
+				<td><?php echo $ln2->tel_empl;?> </td>
+				<td><strong>Empresa: </strong></td>	
+				<td><?php echo $ln2->empleo;?></td>	
+			</tr>
+		</table>	
+		<table>
 			<caption>Datos del aval</caption>
 	<?php
-		if($ln2->Aval!=1) {	
+		if($ln2->Aval!=1){	
 	?>
 		<tr>
 			<td rowspan="2" colspan="4"> No hay datos de Aval, Si desea capturar uno <a href="?pg=2db&cl=<?php echo $_SESSION["clid"];?>"><b>click aqui</b></a></td>	
@@ -264,20 +226,19 @@ if($chk == 0){
 	<tr>
 		<th>Cantidad:</th>
 		<td>$<input type="text" name="cantidad" size="5" /></td>
-		<th>Cobrador:</th>
+		<th>Cobrador: </th>
 		<td>
-		<select name='cobrador' id='cobrador'>
-			<option value='seleccionar'>Asignar</option>
-			<?php
-			$sql = "SELECT userID, username FROM mymvcdb_users WHERE nivel = 3";
-			$rs = mysql_query($sql) or die(mysql_error());
-			while($row = mysql_fetch_array($rs))
-			{
-				echo "<option value='".$row["username"]."'>".$row["username"]."</option>";
-			}
-			mysql_free_result($rs);
-			?>
-		</select>
+			<select name="cobrador" id="cobrador">
+				<?php
+		        $sql = "SELECT username FROM mymvcdb_users WHERE nivel=3";
+				$res = $db->query($sql);
+		        while( $cob = $db->fetchNextObject($res) ){
+		        ?>
+				<option value="<?php echo $cob->username;?>" <?php echo $cob->username == $cobrador? $attr : ''; ?>><?php echo $cob->username;?></option>
+				<?php
+					}
+				?>
+			</select>
 		</td>
 	</tr>
 	<tr>
