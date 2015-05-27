@@ -153,12 +153,34 @@ switch($_POST["action"]){
 		echo $_cadena;
 		if($_query){
 			$_SESSION["clid"] = mysql_insert_id();
-			if($_POST["aval"] ==1){
+			# CARGANDO IMAGEN DE CLIENTE -------------------------------------------------------------------------------------
+			// Make sure the user actually
+			// selected and uploaded a file
+			if (isset($_FILES['image']) && $_FILES['image']['size'] > 0)
+			{
+				// Temporary file name stored on the server
+				$tmpName = $_FILES['image']['tmp_name'];
+				// Read the file
+				$fp = fopen($tmpName, 'r');
+				$data = fread($fp, filesize($tmpName));
+				$data = addslashes($data);
+				fclose($fp);
+				// Create the query and insert
+				// into our database.
+				$query = "INSERT INTO clientefoto ";
+				$query .= "(idcliente,foto) VALUES (".$_SESSION["clid"].",'$data')";
+				$results = mysql_query($query);
+				// Print results
+				//print "Thank you, your file has been uploaded.";
+			}
+			if($_POST["aval"] ==1)
+			{
 				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2db"> ';			
-				}else {
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_SESSION["clid"].'"> ';
+			}
+			else{
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_SESSION["clid"].'"> ';
+			}
 		}
-	}
 		break;
 	case "cliente_nuevo2":
 		$_cadena = "UPDATE clientes SET 
