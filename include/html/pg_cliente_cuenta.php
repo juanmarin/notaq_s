@@ -60,10 +60,10 @@
 	{
 		switch($tipo)
 		{
-			case 1:	echo "Propia";	break;
-			case 2:	echo "Renta";	break;
-			case 3:	echo "Padres";	break;
-			case 4:	echo "otro";	break;
+			case 1:		echo "Propia";		break;
+			case 2:		echo "Renta";		break;
+			case 3:		echo "Padres";		break;
+			case 4:		echo "otro";		break;
 			default:	echo "No definido";	break;
 		}
 	}
@@ -71,39 +71,50 @@
 	{
 		switch($tipo)
 		{
-			case 1:	echo "Si";	break;
-			case 0:	echo "No";	break;
+			case 1:		echo "Si";		break;
+			case 0:		echo "No";		break;
 			default:	echo "No definido";	break;
 		}
 	}
 	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-	if(!isset($_GET["cl"])){
+	if(!isset($_GET["cl"]))
+	{
 		$_GET["cl"] = $_SESSION["clid"];
 	}
 	$result = $db->query("SELECT * FROM clientes WHERE id = ".$_GET["cl"]." LIMIT 0, 1");
 	$_SESSION["idcliente"] = $_GET["cl"]; 
-    $_SESSION["ifecliente"] = $_GET["cl"]."_ife";
+	$_SESSION["ifecliente"] = $_GET["cl"]."_ife";
 	while ($ln = $db->fetchNextObject($result))
 	{
 		?>
 		<tr>
-			<th rowspan="2" width="50">
+			<td rowspan="4" width="230">
+			<img src="include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET["cl"];?>" class="fotocliente" />
+			</td>
+		</tr>
+		<tr>		
+			<th>
 			<?php
-			if(!isset($_SESSION["nohaycuenta"])){
-				?>			
-				<a href="include/html/box_nota.php?width=500&height=390&cl=<?php echo $_GET["cl"];?>" class="thickbox" ><img src="estilo/img/order-162.png" /></a></th>
+			if(!isset($_SESSION["nohaycuenta"]))
+			{
+				?>	
+				<a href="include/html/box_nota.php?width=500&height=390&cl=<?php echo $_GET["cl"];?>" class="thickbox" >
+					<img src="estilo/img/order-162.png" />
+				</a>
 				<?php
 			}
 			?>
-			 <td rowspan="2" width="390"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
-			 <td rowspan="2" width="200"><strong>Cobrador: </strong> <br /><?php echo $ln->c_cobrador;?></td>			
-			</tr>
-			</td>
-			</tr>
-			<?php
-			$cobrador = $ln->c_cobrador;
-			}
-			?>
+			</th>
+		<tr>
+			<td><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
+		</tr>
+		<tr>
+			<td><strong>Cobrador: </strong> <br /><?php echo $ln->c_cobrador;?></td>
+		</tr>
+		<?php
+		$cobrador = $ln->c_cobrador;
+	}
+	?>
 </tbody>
 <tfoot>
 	<tr>
