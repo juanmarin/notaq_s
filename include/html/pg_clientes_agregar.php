@@ -33,7 +33,7 @@
 			<input type="text" name="apellidom" id="apellidom" maxlength="15" />
 			</td>
 			<td>
-			Dirección:<br />
+			Direcci&oacute;n:<br />
 			<input type="text" name="dir" id="dir" style="width:430px" maxlength="40" />
 			</td>
 		</tr>
@@ -43,13 +43,13 @@
 			<input type="text" name="col" id="col" maxlength="30" />
 			</td>
 			<td>
-			Teléfono de casa:<br />
+			Tel&eacute;fono de casa:<br />
 			<input type="text" name="tel" id="tel" maxlength="20" />
 			</td>
 		</tr>
 		<tr>
 			<td>
-			Teléfono celular:<br />
+			Tel&eacute;fono celular:<br />
 			<input type="text" name="cel" id="cel" maxlength="20" />
 			</td>
 			<td>
@@ -91,7 +91,7 @@
 			<td>Nombre Empleo<br/>
 				<input type="text" name="empleo" id="empleo" maxlength="25">
 			</td>
-			<td>Direccion Empleo<br/>
+			<td>Direcci&oacute;n Empleo<br/>
 				<input type="text" name="dir_empl" id="dir_empl" maxlength="25">
 			</td>
 		</tr>
@@ -99,7 +99,7 @@
 			<td>Calle Empleo<br/>
 				<input type="text" name="c_empl" id="c_empl" maxlength="25">
 			</td>
-			<td>Teléfono Empleo<br/>
+			<td>Tel&eacute;fono Empleo<br/>
 				<input type="text" name="tel_empl" id="tel_empl" maxlength="25">
 			</td>
 		</tr>
@@ -115,10 +115,10 @@
 			</td>
 		</tr>
 		<tr>
-			<td>Teléfono Celular<br/>
+			<td>Tel&eacute;fono Celular<br/>
 				<input type="text" name="cel_ref1" id="cel_ref1" maxlength="25">
 			</td>
-			<td>Teléfono Celular<br/>
+			<td>Tel&eacute;fono Celular<br/>
 				<input type="text" name="cel_ref2" id="cel_ref2" maxlength="25">
 			</td>
 		</tr>
