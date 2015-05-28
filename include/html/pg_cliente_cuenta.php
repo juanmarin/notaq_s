@@ -1,47 +1,43 @@
-<?php
-/*
-*/
-?>
 <script>
-		$("#tipo_pago").change(function(){
-			if($(this).val() == 4){
-				$("#dias_pago").css("display", "none");
-			}else{
-				$("#dias_pago").css("display", "inline");
-				$.post("include/php/get_diasPago.php", {tp:$(this).val(),fecha:$("#fechapp").val()}, function(data){
-					$("#dias_pago").html(data);
-				});
-			}
+$("#tipo_pago").change(function(){
+	if($(this).val() == 4){
+		$("#dias_pago").css("display", "none");
+	}else{
+		$("#dias_pago").css("display", "inline");
+		$.post("include/php/get_diasPago.php", {tp:$(this).val(),fecha:$("#fechapp").val()}, function(data){
+			$("#dias_pago").html(data);
 		});
-		$("#fechapp").change(function(){
-			fecha = $(this).val();
-			//alert(fecha);
-			a = fecha.substring(0, 4);
-			m = fecha.substring(5, 7);
-			mes = m - 1;
-			d = fecha.substring(8, 10);
-			fecha = new Date(a, mes, d);
-			dia = fecha.getDay();
-			//alert(dia + ' // ' + m);
-			if(dia > 7){
-				alert("Dia de la semana invalido.\n Seleccione otro día.");
-			}else{
-				$("#dias_pago option").removeAttr("selected");
-				$("#dias_pago option[value="+dia+"]").attr("selected", "selected");
-			}
-			if(fecha < "<?php echo date('Y-m-d');?>"){
-				alert("No puede seleccionar fechas anteriores para el primer pago");
-			}
-		});
-		$("#dias_pago").change(function(){
-			$.post("include/php/get_fechapp.php", {dp:$(this).val(),fecha:$("#fechapp").val(), tp:$("#tipo_pago").val() }, function(data){
-				if(data == ""){
-					alert("Fecha incorrecta.\nLa fecha del primer pago no coincide con las fechas seleccionadas.");
-				}else{
-					$("#fechapp").val(data);
-				}
-			});
-		});
+	}
+});
+$("#fechapp").change(function(){
+	fecha = $(this).val();
+	//alert(fecha);
+	a = fecha.substring(0, 4);
+	m = fecha.substring(5, 7);
+	mes = m - 1;
+	d = fecha.substring(8, 10);
+	fecha = new Date(a, mes, d);
+	dia = fecha.getDay();
+	//alert(dia + ' // ' + m);
+	if(dia > 7){
+		alert("Dia de la semana invalido.\n Seleccione otro día.");
+	}else{
+		$("#dias_pago option").removeAttr("selected");
+		$("#dias_pago option[value="+dia+"]").attr("selected", "selected");
+	}
+	if(fecha < "<?php echo date('Y-m-d');?>"){
+		alert("No puede seleccionar fechas anteriores para el primer pago");
+	}
+});
+$("#dias_pago").change(function(){
+	$.post("include/php/get_fechapp.php", {dp:$(this).val(),fecha:$("#fechapp").val(), tp:$("#tipo_pago").val() }, function(data){
+		if(data == ""){
+			alert("Fecha incorrecta.\nLa fecha del primer pago no coincide con las fechas seleccionadas.");
+		}else{
+			$("#fechapp").val(data);
+		}
+	});
+});
 </script>
 <p class="title">Clientes &raquo; Cuenta</p>
 <table>
@@ -88,13 +84,17 @@
 	{
 		?>
 		<tr>
-			<td rowspan="4" width="230">
+			<td rowspan="4" width="210">
 			<?php
 			$sql = "SELECT * FROM clientefoto WHERE idcliente = ".$_GET["cl"];
 			$fres= $db->query($sql);
 			if( $db->numRows($fres) > 0 ){
 				?>
-				<img src="include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET["cl"];?>" class="fotocliente" />
+				<div class="fotocliente-frame">
+				<div class="fotocliente-image" style="background:url(include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET['cl'];?>) center no-repeat;background-size:200px;">
+					<!-- <img src="include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET["cl"];?>" class="fotocliente" /> -->
+				</div>
+				</div>
 				<?php
 			}
 			else

@@ -338,3 +338,16 @@ img.fotocliente
 	background:#999;
 	border:1px solid #888;
 }
+.fotocliente-frame
+{
+	height:200px;
+	padding:4px;
+	background:#999;
+	border:1px solid #888;
+}
+.fotocliente-image
+{
+	height:192px;
+	padding:4px;
+	background:#999;
+}

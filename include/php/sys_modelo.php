@@ -158,20 +158,63 @@ switch($_POST["action"]){
 			// selected and uploaded a file
 			if (isset($_FILES['image']) && $_FILES['image']['size'] > 0)
 			{
-				// Temporary file name stored on the server
-				$tmpName = $_FILES['image']['tmp_name'];
-				// Read the file
-				$fp = fopen($tmpName, 'r');
-				$data = fread($fp, filesize($tmpName));
-				$data = addslashes($data);
-				fclose($fp);
+				$sPhotoFileName = $_FILES['image']['name']; // get client side file name 
+				if ($sPhotoFileName) // file uploaded 
+				{
+					$aFileNameParts = explode(".", $sPhotoFileName); $sFileExtension = end($aFileNameParts); // part behind last dot 
+					if($sFileExtension != "jpg" && $sFileExtension != "JPEG" && $sFileExtension != "JPG") 
+					{
+						die ("Choose a JPG for the photo"); 
+					}
+					$nPhotoSize = $_FILES['image']['size']; // size of uploaded file 
+					if($nPhotoSize == 0) 
+					{
+						die ("Sorry. The upload of $sPhotoFileName has failed. Search a photo smaller than 100K, using the button.");
+					}
+					// read photo 
+					$sTempFileName = $_FILES['image']['tmp_name']; // temporary file at server side 
+					$oTempFile = fopen($sTempFileName, "r");
+					$sBinaryPhoto = fread($oTempFile, fileSize($sTempFileName)); // Try to read image 
+					$nOldErrorReporting = error_reporting(E_ALL & ~(E_WARNING)); // ingore warnings 
+					$oSourceImage = imagecreatefromstring($sBinaryPhoto); // try to create image 
+					error_reporting($nOldErrorReporting);
+					if(!$oSourceImage) // error, image is not a valid jpg 
+					{
+						die("Sorry. It was not possible to read photo $sPhotoFileName. Choose another photo in JPG format.");
+					}
+				}
+				// CAMBIAR TAMA�O DE IMAGEN --
+				$nWidth = imagesx($oSourceImage);  // get original source image width 
+				$nHeight = imagesy($oSourceImage); // and height 
+				// create small thumbnail 
+				$minsize=400;
+				if($nWidth==$nHeight)
+				{
+					$nDestinationWidth = $minsize; 
+					$nDestinationHeight = $minsize;
+				}
+				elseif($nWidth<$nHeight){
+					$nDestinationWidth = $minsize; 
+					$nDestinationHeight= ($minsize/$nWidth)*$nHeight;
+				}else{
+					$nDestinationHeight= $minsize; 
+					$nDestinationWidth = ($minsize/$nHeight)*$nWidth;
+				}
+				$oDestinationImage = imagecreatetruecolor($nDestinationWidth, $nDestinationHeight); 
+				imagecopyresized( $oDestinationImage, $oSourceImage, 0, 0, 0, 0, $nDestinationWidth, $nDestinationHeight, $nWidth, $nHeight); // resize the image 
+				ob_start(); // /////////////////////////////// Start capturing stdout. 
+				imageJPEG($oDestinationImage); // //////////// As though output to browser. 
+				$sBinaryThumbnail = ob_get_contents(); // //// the raw jpeg image data. 
+				ob_end_clean(); // /////////////////////////// Dump the stdout so it does not screw other output.
 				// Create the query and insert
 				// into our database.
-				$query = "INSERT INTO clientefoto ";
-				$query .= "(idcliente,foto) VALUES (".$_SESSION["clid"].",'$data')";
+				$sBinaryThumbnail = addslashes($sBinaryThumbnail);
+				$query = "INSERT INTO clientefoto (idcliente,foto) VALUES (".$_SESSION["clid"].",'$sBinaryThumbnail')";
+				//echo "<br />$query";
 				$results = mysql_query($query);
-				// Print results
-				//print "Thank you, your file has been uploaded.";
+				if($results){
+					echo "<br />Checkpoint imagen</br />";
+				}
 			}
 			if($_POST["aval"] ==1)
 			{
@@ -236,30 +279,34 @@ switch($_POST["action"]){
 		if($_query){
 			if($_POST["aval3"] ==1){
 				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2da"> ';			
-				}else {
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_SESSION["clid"].'"> ';
+			}else {
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_SESSION["clid"].'"> ';
+			}
 		}
-	}
 		break;
 	case "cte_elimina":
-	# COMPROBAMOS USUARIO Y CONTRASENA
+		# COMPROBAMOS USUARIO Y CONTRASENA
 		$pas = sha1($_POST["c"]);
 		$sql= 'SELECT username, password FROM mymvcdb_users WHERE username = "'.$_POST["u"].'" AND  password = "'.$pas.'" AND NIVEL = 0';
 		$res = mysql_query($sql);
-			if(mysql_num_rows($res)>0) {	
-		$sql = "DELETE FROM clientes WHERE id = ".$_POST["c"];
-		$query = mysql_query($sql);
-		if($query){
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2"> ';
-	}else {
-		 ?>
-		 	<script type="text/javascript" >
-		    	alert("Permiso denegado.\nUsuario o contraseña incorrectos.\nIntente de nuevo.");
-            </script>
-         <?php
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
-        }
-       }
+		if(mysql_num_rows($res)>0)
+		{
+			$sql = "DELETE FROM clientes WHERE id = ".$_POST["c"];
+			$query = mysql_query($sql);
+			$sql = "DELETE FROM clientefoto WHERE idcliente = ".$_POST["c"];
+			mysql_query($sql);
+			if($query){
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2"> ';
+			}
+			else{
+				?>
+				<script type="text/javascript" >
+				alert("Permiso denegado.\nUsuario o contraseña incorrectos.\nIntente de nuevo.");
+				</script>
+				<?php
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
+			}
+		}
 		
 		break;
 	case "cliente_editar_1":
@@ -700,6 +747,7 @@ switch($_POST["action"]){
 		#- COMPROBAMOS EL USUARIO Y CONTRASEÑA -------------------------------------------------------------------
 		$pas 	= sha1($_POST["c"]);
 		$sql 	= 'SELECT username, password FROM mymvcdb_users WHERE username = "'.$_POST["u"].'" AND  password = "'.$pas.'" AND NIVEL = 0';
+		echo $sql;
 		$res 	= mysql_query($sql);
 		if(mysql_num_rows($res) > 0)
 		{
@@ -707,6 +755,8 @@ switch($_POST["action"]){
 			{
 				$sqlc = "DELETE FROM clientes WHERE id = $cte";
 				$queryc = mysql_query($sqlc);
+				$sql = "DELETE FROM clientefoto WHERE idcliente = $cte";
+				mysql_query($sql);
 				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2"> ';
 			}
 			else
@@ -718,25 +768,13 @@ switch($_POST["action"]){
 				{
 					$sql = "DELETE FROM pagos WHERE cliente = $cte AND cuenta = $cta AND estado = 0";
 					mysql_query($sql);
-					if($query)
-					{
-						$sql = "DELETE FROM recargos WHERE cliente = $cte AND cuenta = $cta";
-						mysql_query($sql);
-						if($query)
-						{
-							$sql = "DELETE FROM notas WHERE cliete = $cte";
-							mysql_query($sql);
-							if($query)
-							{
-								$sql = "DELETE FROM abonos WHERE idcuenta = $cta";
-								mysql_query($sql);
-								if($query)
-								{
-									echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
-								}
-							}
-						}
-					}
+					$sql = "DELETE FROM recargos WHERE cliente = $cte AND cuenta = $cta";
+					mysql_query($sql);
+					$sql = "DELETE FROM notas WHERE cliete = $cte";
+					mysql_query($sql);
+					$sql = "DELETE FROM abonos WHERE idcuenta = $cta";
+					mysql_query($sql);
+					//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
 				}
 			}
 		}
@@ -751,7 +789,7 @@ switch($_POST["action"]){
 			{
 				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2"> ';
 			}else{
-				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
+				//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
 			}
 		}
 	break;
