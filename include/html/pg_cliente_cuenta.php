@@ -89,7 +89,21 @@
 		?>
 		<tr>
 			<td rowspan="4" width="230">
-			<img src="include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET["cl"];?>" class="fotocliente" />
+			<?php
+			$sql = "SELECT * FROM clientefoto WHERE idcliente = ".$_GET["cl"];
+			$fres= $db->query($sql);
+			if( $db->numRows($fres) > 0 ){
+				?>
+				<img src="include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET["cl"];?>" class="fotocliente" />
+				<?php
+			}
+			else
+			{
+				?>
+				<img src="img/User-Icon.png" class="fotocliente" />
+				<?php
+			}
+			?>
 			</td>
 		</tr>
 		<tr>		
