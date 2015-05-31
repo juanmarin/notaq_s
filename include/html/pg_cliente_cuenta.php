@@ -137,92 +137,89 @@ $("#dias_pago").change(function(){
 </tfoot>
 </table>
 <br />
-	<?php
-		$db1 = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-		$result = $db->query("SELECT * FROM clientes WHERE id = ".$_GET["cl"]." LIMIT 0, 1");
-		$_SESSION["idcliente"] = $_GET["cl"]; 
-		$_SESSION["clid"] = $_GET["cl"];
-    	$_SESSION["ifecliente"] = $_GET["cl"]."_ife";
-		while ($ln2 = $db1->fetchNextObject($result))
-		{
+<?php
+$db1 = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
+$result = $db->query("SELECT * FROM clientes WHERE id = ".$_GET["cl"]." LIMIT 0, 1");
+$_SESSION["idcliente"] = $_GET["cl"]; 
+$_SESSION["clid"] = $_GET["cl"];
+$_SESSION["ifecliente"] = $_GET["cl"]."_ife";
+while ($ln2 = $db1->fetchNextObject($result))
+{
 	?>
-<table>
+	<table>
 	<caption>Direcci&oacute;n del cliente</caption>
 	<thead>
-		<tr>
-			<th colspan="4"></th>
-		</tr>
+	<tr>
+		<th colspan="4"></th>
+	</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td><strong>Calle: </strong> </td>
-			<td><?php echo $ln2->direccion;?> </td>
-		
-			<td><strong>Colonia: </strong></td>	
-			<td><?php echo $ln2->colonia;?></td>	
-		</tr>
-		<tr>
-			<td><strong>Tel&eacute;fono: </strong> </td>
-			<td><?php echo $ln2->telefono;?> </td>
-		
-			<td><strong>Celular: </strong></td>	
-			<td><?php echo $ln2->celular;?></td>	
-		</tr>
-		<table>
-			<caption>Empleo del Cliente</caption>
-			<tr>
-				<td><strong>Calle:<strong></td>
-				<td><?php echo $ln2->dir_empl;?></td>
-				<td><strong>Colonia: </strong></td>	
-				<td><?php echo $ln2->c_empleo;?></td>
-			</tr>
-			<tr>
-				<td><strong>Tel&eacute;fono: </strong> </td>
-				<td><?php echo $ln2->tel_empl;?> </td>
-				<td><strong>Empresa: </strong></td>	
-				<td><?php echo $ln2->empleo;?></td>	
-			</tr>
-		</table>	
-		<table>
-			<caption>Datos del aval</caption>
+	<tr>
+		<td><strong>Calle: </strong> </td>
+		<td><?php echo $ln2->direccion;?> </td>
+		<td><strong>Colonia: </strong></td>	
+		<td><?php echo $ln2->colonia;?></td>	
+	</tr>
+	<tr>
+		<td><strong>Tel&eacute;fono: </strong> </td>
+		<td><?php echo $ln2->telefono;?> </td>
+		<td><strong>Celular: </strong></td>	
+		<td><?php echo $ln2->celular;?></td>	
+	</tr>
+	<table>
+	<caption>Empleo del Cliente</caption>
+	<tr>
+		<td><strong>Calle:<strong></td>
+		<td><?php echo $ln2->dir_empl;?></td>
+		<td><strong>Colonia: </strong></td>	
+		<td><?php echo $ln2->c_empleo;?></td>
+	</tr>
+	<tr>
+		<td><strong>Tel&eacute;fono: </strong> </td>
+		<td><?php echo $ln2->tel_empl;?> </td>
+		<td><strong>Empresa: </strong></td>	
+		<td><?php echo $ln2->empleo;?></td>	
+	</tr>
+	</table>	
+	<table>
+	<caption>Datos del aval</caption>
 	<?php
-		if($ln2->Aval!=1){	
-	?>
+	if($ln2->Aval!=1)
+	{	
+		?>
 		<tr>
-			<td rowspan="2" colspan="4"> No hay datos de Aval, Si desea capturar uno <a href="?pg=2db&cl=<?php echo $_SESSION["clid"];?>"><b>click aqui</b></a></td>	
+		<td rowspan="2" colspan="4"> No hay datos de Aval, Si desea capturar uno <a href="?pg=2db&cl=<?php echo $_SESSION["clid"];?>"><b>click aqui</b></a></td>	
 		</tr>			
-	<?php			
-		}else {
-	?>
-			<tr>
-			<td><strong>Nombre: </strong> </td>
-			<td><?php echo $ln2->R1nombre." ".$ln2->R1apellidop." ".$ln2->R1apellidom;?> </td>
-		
-			<td><strong>Direccion: </strong></td>	
-			<td><?php echo $ln2->R1dir;?></td>	
+		<?php			
+	}else{
+		?>
+		<tr>
+		<td><strong>Nombre: </strong> </td>
+		<td><?php echo $ln2->R1nombre." ".$ln2->R1apellidop." ".$ln2->R1apellidom;?> </td>
+		<td><strong>Direccion: </strong></td>	
+		<td><?php echo $ln2->R1dir;?></td>	
 		</tr>
 		<tr>
-			<td><strong>Colonia: </strong> </td>
-			<td><?php echo $ln2->R1col;?> </td>
-		
-			<td><strong>Telefono: </strong></td>	
-			<td><?php echo $ln2->R1tel;?></td>	
+		<td><strong>Colonia: </strong> </td>
+		<td><?php echo $ln2->R1col;?> </td>
+		<td><strong>Telefono: </strong></td>	
+		<td><?php echo $ln2->R1tel;?></td>	
 		</tr>	
 		<tr>
-			<td colspan="4" style="text-align:center;"><a href="include/html/box_cliente_avales.php?width=800&height=490&cl=<?php echo $_GET["cl"];?>" class="thickbox" >Ver datos de avales</a></td>		
-		</tr>		
-	<?php
-		}
-	}
-	?>
-	</tbody>
-	<tfoot>
-	<tr>
+		<td colspan="4" style="text-align:center;"><a href="include/html/box_cliente_avales.php?width=800&height=490&cl=<?php echo $_GET["cl"];?>" class="thickbox" >Ver datos de avales</a></td>		
+		</tr>
+		</tbody>
+		<tfoot>
+		<tr>
 		<th colspan="6"></th>
-	</tr>				
-</tfoot>
-</table>
-</table>
+		</tr>				
+		</tfoot>
+		</table>
+		</table>	
+		<?php
+	}
+}
+?>
 <br>
 <form name="abrecuenta" action="include/php/sys_modelo.php" method="post">
 <input type="hidden" name="action" value="cuenta_nueva" />
@@ -231,7 +228,8 @@ $("#dias_pago").change(function(){
 $sql = "SELECT * FROM cuentas WHERE estado = 0 AND cliente = ".$_GET["cl"];
 $res = $db->query($sql);
 $chk = $db->numRows($res);
-if($chk == 0){
+if($chk == 0)
+{
 	################################################################################################[FORMULARIO ABRIR CUENTA]
 	?>
 	<table>
@@ -339,28 +337,28 @@ if($chk == 0){
 	<table>
 	<caption>DETALLES DE LA CUENTA</caption>
 	<tbody>
-		<tr>
-			<th>FECHA:</th><td colspan="3"><?php echo $r->fecha; ?></td>
-			<th>COBRADOR:</th><td colspan=""><?php echo $r->cobrador; ?></td>
-		</tr>
-		<tr>
-			<th>MONTO:</th>		<td>$&nbsp;<?php moneda($r->cantidad); ?></td>
-			<th> </th>		<td> </td>
-			<th>SALDO:</th>		<td>$&nbsp;<?php echo moneda($saldo); ?></td>
-		</tr>
-		<tr>
-			<th>TIEMPO:</th><td><?php echo $r->tiempo . " "; ?></td>
-			<th>MODO DE PAGO:</th><td><?php echo $tp; ?></td>
-			<th>DIAS DE PAGO:</th><td><?php if($r->tipo_pago < 4){getDiaSemana($r->dias_pago, $r->tipo_pago);}else{echo 'Días '.$r->dias_pago.' de cada mes.';} ?></td>
-		<tr>
-			<th>OBSERVACIONES:</th><td colspan="5" style="text-align:left;"><?php echo nl2br($r->observaciones); ?></td>		
-		</tr>
-		</tr>
+	<tr>
+		<th>FECHA:</th><td colspan="3"><?php echo $r->fecha; ?></td>
+		<th>COBRADOR:</th><td colspan=""><?php echo $r->cobrador; ?></td>
+	</tr>
+	<tr>
+		<th>MONTO:</th>		<td>$&nbsp;<?php moneda($r->cantidad); ?></td>
+		<th> </th>		<td> </td>
+		<th>SALDO:</th>		<td>$&nbsp;<?php echo moneda($saldo); ?></td>
+	</tr>
+	<tr>
+		<th>TIEMPO:</th><td><?php echo $r->tiempo . " "; ?></td>
+		<th>MODO DE PAGO:</th><td><?php echo $tp; ?></td>
+		<th>DIAS DE PAGO:</th><td><?php if($r->tipo_pago < 4){getDiaSemana($r->dias_pago, $r->tipo_pago);}else{echo 'Días '.$r->dias_pago.' de cada mes.';} ?></td>
+	<tr>
+		<th>OBSERVACIONES:</th><td colspan="5" style="text-align:left;"><?php echo nl2br($r->observaciones); ?></td>		
+	</tr>
+	</tr>
 	</tbody>
 	<tfoot>
-		<tr>
-			<th colspan="6"></th>
-		</tr>
+	<tr>
+		<th colspan="6"></th>
+	</tr>
 	</tfoot>
 	</table>
 	<br />
@@ -509,6 +507,7 @@ if($chk == 0){
 	<?php
 	$i = 0;
 	$pago_acum=0;
+	$fcnt= 0;
 	$sql = "SELECT * FROM pagos WHERE cuenta = ".$cuenta ." ORDER BY id ASC";	
 	$res = $db->query($sql);
 	while($r = $db->fetchNextObject($res))
@@ -551,18 +550,27 @@ if($chk == 0){
 			<?php
 			if($r->estado == 0)
 			{
+				if (  ($r->fecha > date("Y-m-d")) && ($fcnt > 1) )
+				{
+					$opcnpagar	= 'disabled style="background:#999;color:#777;border-color:#666;"';
+					$opcnpagarbtn	= 'style="visibility: hidden;"';
+				}else{
+					$opcnpagar 	= '';
+					$opcnpagarbtn	= '';
+				}
+				$fcnt++;
 				$pago_acum += getPagoRedondo($r->pago);
 				if($saldo > $pago_acum)
 				{
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" 	name="numpago" 	value="<?= $i;?>" />
-					<input type="text" 	name="pago" 	value="<?= $pago_acum;?>" size="7" />
+					<input type="text" 	name="pago" 	value="<?= $pago_acum;?>" size="7" <?=$opcnpagar;?> />
 					<input type="hidden" 	name="cl" 	value="<?= $_GET['cl'];?>" />
 					<input type="hidden" 	name="c" 	value="<?= $cuenta;?>" />
 					<input type="hidden" 	name="pid" 	value="<?= $r->id;?>" />
 					<input type="hidden" 	name="action" 	value="cuenta_pagar" />
-					<input type="submit" 			value="ABONAR" />
+					<input type="submit" 			value="ABONAR" <?=$opcnpagarbtn;?>  />
 					</form>
 					<?php
 				}
@@ -572,12 +580,12 @@ if($chk == 0){
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="numpago" value="<?= $i;?>" />
-					<input type="text" name="pago" value="<?= $pago_acum;?>" size="7" />
+					<input type="text" name="pago" value="<?= $pago_acum;?>" size="7" <?=$opcnpagar;?> />
 					<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
 					<input type="hidden" name="c" value="<?= $cuenta;?>" />
 					<input type="hidden" name="pid" value="<?= $r->id;?>" />
 					<input type="hidden" name="action" value="cuenta_pagar" />
-					<input type="submit" value="ABONAR" />
+					<input type="submit" value="ABONAR" <?=$opcnpagarbtn;?> />
 					</form>
 					<?php
 				}
@@ -587,16 +595,18 @@ if($chk == 0){
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="numpago" value="<?= $i;?>" />
-					<input type="text" name="pago" value="<?= $r->pago_real;?>" size="7" />
+					<input type="text" name="pago" value="<?= $r->pago_real;?>" size="7" <?=$opcnpagar;?> />
 					<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
 					<input type="hidden" name="c" value="<?= $cuenta;?>" />
 					<input type="hidden" name="pid" value="<?= $r->id;?>" />
 					<input type="hidden" name="action" value="cuenta_pagar" />
-					<input type="submit" value="ABONAR" />
+					<input type="submit" value="ABONAR" <?=$opcnpagarbtn;?> />
 					</form>
 					<?php
 				}
-			}elseif($r->estado == 1){
+			}
+			elseif($r->estado == 1)
+			{
 				if($r->pago == 0){
 					//$pago_acum = $saldo;
 					?>
@@ -627,7 +637,8 @@ if($chk == 0){
 					</form>
 					<?php
 				}
-			}elseif($r->estado == 3)
+			}
+			elseif($r->estado == 3)
 			{
 				?>
 				<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
