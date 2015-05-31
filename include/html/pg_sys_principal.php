@@ -11,6 +11,7 @@ $UserLevel = $_SESSION["U_NIVEL"];
 		<th>CLIENTE</th>
 		<th>CARGOS</th>
 		<th></th>
+		<th></th>
 	</tr>
 </thead>
 <tbody>
