@@ -1,31 +1,34 @@
-<html>
-<head>
-	<title>Inicio de sesión</title>
-	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
-	<link rel="stylesheet" href="estilo/form.css" type="text/css" media="all" />
-	<link rel="stylesheet" href="estilo/login.css" type="text/css" media="all" />
-	<link rel="stylesheet" href="estilo/alerts.css" type="text/css" media="all" />
-	<script type="text/javascript" src="js/jquery-1.4.1.min.js"></script>
-	<script type="text/javascript" >
-		$(document).ready(function(){
-			$("#usuario").focus();
-		});
-</script>
-</head>
-<body>
-		<div id="CONTENEDOR">
-			<div id="CONTENIDO">
-				<form method="post" action="" />
-						<p class="logtitle">Es necesario autentificarse</p>
-						<?php echo $msg; ?><br />
-						Nombre de usuario:<br />
-						<input type="text" name="uname" id="usuario" /><br /><br />
-						Contraseña:<br />
-						<input type="password" name="pwd" /><br />
-						Recordar mi sesión: <input type="checkbox" name="remember" value="1" /><br /><br />
-						<input type="submit" value="login" /><br />
-				</form>
-			</div>
-		</div>
-</body>
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Confianzp ... Bienvenido</title>
+        <link rel="stylesheet" href="estilo/style-login.css">
+  </head>
+  <body>
+    <div class="wrapper">
+	<div class="container">
+		<h1>Confianzp</h1>
+		<form class="form" action="" method="post">
+			<input type="text" name="uname" id="usuario" placeholder="Usuario">
+			<input type="password" name="pwd" placeholder="Contrasena">
+			<input type="submit" id="login-button" value="Entrar">
+		</form>
+	</div>
+	<ul class="bg-bubbles">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</div>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src="js/index-login.js"></script>
+  </body>
 </html>
