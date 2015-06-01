@@ -16,7 +16,7 @@ if ($tipo_login == 3){
 	$user = new flexibleAccess();
 	if ( isset($_GET['logout']) && $_GET['logout'] == '1' ){
 		##echo '<script>alert("Checkpoint");</script>';
-		$user->logout('http://'.$_SERVER['HTTP_HOST'].'/'. $sitio_nombre_raiz .'/');
+		$user->logout('http://'.$_SERVER['HTTP_HOST'].'/'. $sitio_nombre_raiz);
 		session_destroy();
 	}
 	if ( !$user->is_loaded() ){
