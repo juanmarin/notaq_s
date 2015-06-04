@@ -20,7 +20,7 @@ $("#fechapp").change(function(){
 	dia = fecha.getDay();
 	//alert(dia + ' // ' + m);
 	if(dia > 7){
-		alert("Dia de la semana invalido.\n Seleccione otro día.");
+		alert("Dia de la semana invalido.\n Seleccione otro dÃ­a.");
 	}else{
 		$("#dias_pago option").removeAttr("selected");
 		$("#dias_pago option[value="+dia+"]").attr("selected", "selected");
@@ -136,7 +136,6 @@ $("#dias_pago").change(function(){
 	</tr>				
 </tfoot>
 </table>
-<br />
 <?php
 $db1 = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 $result = $db->query("SELECT * FROM clientes WHERE id = ".$_GET["cl"]." LIMIT 0, 1");
@@ -349,7 +348,7 @@ if($chk == 0)
 	<tr>
 		<th>TIEMPO:</th><td><?php echo $r->tiempo . " "; ?></td>
 		<th>MODO DE PAGO:</th><td><?php echo $tp; ?></td>
-		<th>DIAS DE PAGO:</th><td><?php if($r->tipo_pago < 4){getDiaSemana($r->dias_pago, $r->tipo_pago);}else{echo 'Días '.$r->dias_pago.' de cada mes.';} ?></td>
+		<th>DIAS DE PAGO:</th><td><?php if($r->tipo_pago < 4){getDiaSemana($r->dias_pago, $r->tipo_pago);}else{echo 'DÃ­as '.$r->dias_pago.' de cada mes.';} ?></td>
 	<tr>
 		<th>OBSERVACIONES:</th><td colspan="5" style="text-align:left;"><?php echo nl2br($r->observaciones); ?></td>		
 	</tr>
@@ -386,7 +385,7 @@ if($chk == 0)
 			}
 			elseif ($db->numRows() == 1)
 			{
-				$sql = "UPDATE recargos SET monto = ".$monto.", dias_atraso = ".$dAtras." WHERE pago = ".$proxpago." AND pago_id = ".$pago_id." ";
+				$sql = "UPDATE recargos SET monto = ".$monto.", dias_atraso = ".$dAtras.", WHERE pago_id = ".$pago_id."";
 			}
 		}
 	}
