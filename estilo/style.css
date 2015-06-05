@@ -27,19 +27,41 @@ h1, h2, h3, h4, h5{color:#ddd;}
 	width: 300px;
 }
 #notas{
-	width: 240px;
+	width: 270px;
 	margin: 30px 10px;
-	padding:0 5px 10px 30px;
+	padding:0px;
 	background: #EBDA18;
 	font-family: "Segoe Print", sans-serif;
 	font-size: 13px;
 }
+ul.notas
+{
+	list-style-type: none;
+	margin:0px;
+}
+ul.notas li
+{
+	padding:10px;
+	margin:0px;
+	text-align:justify;
+	border-bottom:1px solid #D4C416;
+	border-top:1px solid #EFE144;
+}
+ul.notas li:hover
+{
+	background-color:#FFCC00;
+}
+ul.notas li span
+{
+	color:#FF6600;
+	font-weight:700;
+	font-size:0.9em;
+}
 #n_title{
-	width: 267px;
+	width: 260px;
 	height: 20px;
-	margin-left: -30px;
 	background: #DCBF1D;
-	padding:4px;
+	padding:5px 0 0 10px;
 	font-weight: bold;
 	font-size: 11px;
 }

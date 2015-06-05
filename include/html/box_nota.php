@@ -22,9 +22,10 @@
 		$cliente = $ln->id;
 		?>
 		<input type="hidden" name="action" value="nota_nueva" />
-		<input type="hidden" name="cl" value="<?echo $cliente; ?>" />
+		<input type="hidden" name="cl" value="<?= $cliente; ?>" />
 		<tr>
-			<th width="195">Nota para: </th><td><?echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
+			<th width="100">Nota para: </th>
+			<td><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
 		</tr>
 		<tr>
 			<td colspan="2"><textarea name="nota" cols="37" rows="10"></textarea></td>

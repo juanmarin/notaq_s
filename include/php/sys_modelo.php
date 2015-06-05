@@ -90,11 +90,12 @@ switch($_POST["action"]){
 		
 		break;
 	case "nota_nueva":
+		date_default_timezone_set('America/Hermosillo');
 		$sql = "SELECT id FROM cuentas WHERE estado = 0 AND cliente = ".$_POST["cl"];
-					$res = mysql_query($sql);
-					$cta = mysql_fetch_array($res);
-					$ncta = $cta["id"];
-		$sql = "INSERT INTO notas (cliente, nota, fecha) VALUES (".$ncta.", '".$_POST["nota"]."', '".date("Y-m-d")."')";
+		$res = mysql_query($sql);
+		$cta = mysql_fetch_array($res);
+		$ncta = $cta["id"];
+		$sql = "INSERT INTO notas (cliente, nota, fecha, hora) VALUES (".$ncta.", '".$_POST["nota"]."', '".date("Y-m-d")."', '".date("H:i:s")."')";
 		$res = mysql_query($sql);
 		if($res){
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';

@@ -111,7 +111,7 @@
 			?>
 				<div id="notas" class="sombra">
 				<div id="n_title">Notas de cliente</div>
-				<ol>
+				<ul class="notas">
 					<?php
 					if(isset($_GET["cl"])){
 						require_once("include/php/sys_db.class.php");
@@ -121,26 +121,28 @@
 						$getCliente = (isset($_GET["cl"]))?$_GET["cl"]:"";
 						$sql = "SELECT id FROM cuentas WHERE estado = 0 AND cliente = ".$getCliente."";
 						$res = $db->query($sql);
-						if($db->numRows() > 0){
+						if($db->numRows() > 0)
+						{
 							unset($_SESSION["nohaycuenta"]);
-						$cta = $db->fetchNextObject($res);
-						$ncta = $cta->id;
-						$sql = "SELECT * FROM notas WHERE cliente = ".$ncta;
-						$res = $db->query($sql);
-						if($db->numRows() > 0){
-							while($nt = $db->fetchNextObject($res)){
-								echo '<li>'.$nt->nota.'</li>';
+							$cta = $db->fetchNextObject($res);
+							$ncta = $cta->id;
+							$sql = "SELECT * FROM notas WHERE cliente = $ncta ORDER BY id DESC";
+							$res = $db->query($sql);
+							if($db->numRows() > 0){
+								while($nt = $db->fetchNextObject($res))
+								{
+									echo '<li><span>'.$nt->fecha.' '.$nt->hora.'</span><br /> '.$nt->nota.'</li>';
+								}
+							}else{
+								echo 'No hay notas para este cliente.';
 							}
-						}else{
-							echo 'No hay notas para este cliente.';
-						}
 						} else {
 							$_SESSION["nohaycuenta"] = 1;
 							echo 'Deba haber una cuenta para agregar notas';
 						}
 					}
 					?>
-				</ol>
+				</ul>
 				</div>
 				<?php
 				}elseif(isset($_GET["pg"]) && $_GET["pg"] == "5"){
