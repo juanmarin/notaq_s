@@ -131,7 +131,7 @@
 							if($db->numRows() > 0){
 								while($nt = $db->fetchNextObject($res))
 								{
-									echo '<li><span>'.$nt->fecha.' '.$nt->hora.'</span><br /> '.$nt->nota.'</li>';
+									echo '<li><span>'.$nt->fecha.'</span><br /> '.$nt->nota.'</li>';
 								}
 							}else{
 								echo 'No hay notas para este cliente.';

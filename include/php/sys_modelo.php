@@ -95,7 +95,7 @@ switch($_POST["action"]){
 		$res = mysql_query($sql);
 		$cta = mysql_fetch_array($res);
 		$ncta = $cta["id"];
-		$sql = "INSERT INTO notas (cliente, nota, fecha, hora) VALUES (".$ncta.", '".$_POST["nota"]."', '".date("Y-m-d")."', '".date("H:i:s")."')";
+		$sql = "INSERT INTO notas (cliente, nota, fecha) VALUES (".$ncta.", '".$_POST["nota"]."', '".date("Y-m-d H:i:s")."')";
 		$res = mysql_query($sql);
 		if($res){
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
