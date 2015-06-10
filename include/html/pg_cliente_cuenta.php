@@ -373,7 +373,7 @@ if($chk == 0)
 		## verificando estado del pago 
 		if(getHayRecargo($proxpago) == 1)
 		{
-			$dAtras = date_diffe($hoy, $proxpago);
+			$dAtras = date_diffe(date("Y-m-d"), $proxpago);
 			$sql = "SELECT * FROM recargos WHERE pago_id = ".$pago_id." AND pago = '".$proxpago."'";
 			$rec = $db->query($sql);
 			$monto = (10 * $dAtras);
@@ -391,6 +391,7 @@ if($chk == 0)
 	}
 	$sql = "SELECT * FROM recargos WHERE cuenta = ".$cuenta." ORDER BY pago ASC";
 	$rec = $db->query($sql);
+	$tot=0;
 	if($db->numRows() > 0)
 	{
 		###################################################################################################[CARGANDO RECARGOS]
