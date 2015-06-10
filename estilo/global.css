@@ -1,18 +1,46 @@
 /*********************************************************************
 *** GENERAL *********************************************************/
-#lst_users{
+#lst_users
+{
 	border: 1px solid #DDD;
 }
-.img-boton{
+
+.img-boton
+{
 	border:0px;
 	margin-bottom: -6px;
 }
-.img-boton:hover{
+
+.img-boton:hover
+{
 	background: #D5D5D5;
 	cursor: pointer;
 }
-.campo-error{
+
+.campo-error
+{
 	border:2px solid #c66;
 	background: #AA0101;
 	color: #fff;
+}
+
+.miniboton
+{
+	color:#8A4B08;
+	font-size:0.7em;
+	font-weight:600;
+	padding:0px 5px 0px 3px;
+	border:1px solid #FF8000;
+	border-bottom:1px solid #B43104;
+	background:#FFBF00;
+	border-radius: 4px;
+}
+.miniboton:hover
+{
+	background:#FF8000;
+	border:1px solid #B43104;
+}
+.miniboton img
+{
+	margin-bottom:-1px;
 }
