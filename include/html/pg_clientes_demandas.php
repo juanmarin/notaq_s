@@ -1,8 +1,4 @@
 <?php
-/*
-*/ 
-?>
-<?php
 @session_start();
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
@@ -100,7 +96,7 @@ $UserLevel = $_SESSION["U_NIVEL"];
 	</tbody>
 	<tfoot>
 	<tr>
-	<th colspan="4"><input type="submit" value="Mostrar Reporte" name="enviar" /></th>
+	<th colspan="4"><input type="submit" value="Mostrar Lista" name="enviar" /></th>
 	</tr>
 	</tfoot>
 	</table>
