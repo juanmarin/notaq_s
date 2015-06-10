@@ -131,7 +131,12 @@
 							if($db->numRows() > 0){
 								while($nt = $db->fetchNextObject($res))
 								{
-									echo '<li><span>'.$nt->fecha.'</span><br /> '.$nt->nota.'</li>';
+									echo '	
+									<li id="nota_'.$nt->id.'">
+										<a href="include/php/sys_modelo.php?action=borrarnota&n='.$nt->id.'&c='.$_GET["cl"].'" class="borrarnota miniboton" rel="'.$nt->id.'"><img src="estilo/_img/cross.gif" /> Borrar</a> 
+										<span>'.$nt->fecha.'</span><br />
+										'.$nt->nota.'
+									</li>';
 								}
 							}else{
 								echo 'No hay notas para este cliente.';
