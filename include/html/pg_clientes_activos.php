@@ -38,7 +38,7 @@ $UserLevel = $_SESSION["U_NIVEL"];
 			FROM clientes, cuentas 
 			WHERE clientes.id = cuentas.cliente 
 			AND cuentas.estado = 0
-			$cobrador
+			$clcobrador
 		ORDER BY clientes.nombre ASC";
 	$res = $db->query($sql);
 	$num_rows = mysql_num_rows($res);
