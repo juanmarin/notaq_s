@@ -902,9 +902,8 @@ switch($_POST["action"]){
 		break;
 		
 	case "borrarnota":
-		$sql = "DELETE FROM notas WHERE id = ".$_GET["n"];
+		$sql = "DELETE FROM notas WHERE id = ".$_POST["n"];
 		mysql_query($sql);
-		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_GET["c"].'">';
 		break;		
 		
 	default:
