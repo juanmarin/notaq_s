@@ -44,4 +44,17 @@ $(document).ready(function(){
 			},1000);
 		});
 	});
+	
+	$("#btnborranotas").click(function(){
+		$(".checkboxnota").each(function(){
+			if( $(this).is(":checked") )
+			{
+				var idn = $(this).attr("rel");
+				$("#note_"+idn).hide();
+				$.post("include/php/sys_modelo.php", {action:"borrarnota", n:idn}, function(data){
+					
+				});
+			}
+		});
+	});
 });
