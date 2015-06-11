@@ -24,23 +24,3 @@
 	color: #fff;
 }
 
-.miniboton
-{
-	color:#8A4B08;
-	font-size:0.7em;
-	font-weight:600;
-	padding:0px 5px 0px 3px;
-	border:1px solid #FF8000;
-	border-bottom:1px solid #B43104;
-	background:#FFBF00;
-	border-radius: 4px;
-}
-.miniboton:hover
-{
-	background:#FF8000;
-	border:1px solid #B43104;
-}
-.miniboton img
-{
-	margin-bottom:-1px;
-}
