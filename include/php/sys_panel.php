@@ -132,8 +132,8 @@
 								while($nt = $db->fetchNextObject($res))
 								{
 									echo '	
-									<li id="nota_'.$nt->id.'">
-										<a href="include/php/sys_modelo.php?action=borrarnota&n='.$nt->id.'&c='.$_GET["cl"].'" class="borrarnota miniboton" rel="'.$nt->id.'"><img src="estilo/_img/cross.gif" /> Borrar</a> 
+									<li id="note_'.$nt->id.'">
+										<input type="checkbox" class="checkboxnota" rel="'.$nt->id.'" />
 										<span>'.$nt->fecha.'</span><br />
 										'.$nt->nota.'
 									</li>';
@@ -148,6 +148,7 @@
 					}
 					?>
 				</ul>
+				<input type="button" id="btnborranotas" value="Borrar notas seleccionadas" style="padding:2px 20px;font-size:12px;font-weight:700;" />
 				</div>
 				<?php
 				}elseif(isset($_GET["pg"]) && $_GET["pg"] == "5"){
