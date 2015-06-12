@@ -49,6 +49,9 @@ $("#dias_pago").change(function(){
 </thead>
 <tbody>
 	<?php
+	@session_start();
+	$UserName = $_SESSION["USERNAME"];
+	$UserLevel = $_SESSION["U_NIVEL"];
 	require_once("include/php/sys_db.class.php");
 	require_once("include/conf/Config_con.php");
 	$attr = 'selected="selected"';// Stributo select para los select de opcion mutiple
@@ -618,6 +621,20 @@ if($chk == 0)
 					<input type="hidden" name="pid" value="<?= $r->id;?>" />
 					<input type="hidden" name="action" value="cuenta_pagar" />
 					<input type="submit" value="REIMPRIMIR" />
+					<?php
+					if ($UserLevel == 0) {
+					?>
+						<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
+						<input type="hidden" name="numpago" value="<?= $i;?>" />
+						<input type="hidden" name="pago" value="<?= $r->pago_real;?>" />
+						<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
+						<input type="hidden" name="c" value="<?= $cuenta;?>" />
+						<input type="hidden" name="pid" value="<?= $r->id;?>" />
+						<input type="hidden" name="action" value="pago_elimina" />
+						<input type="submit" id="pago_cancel" value="CANCELAR"/>
+					<?php
+					}
+					?>
 					</form>
 					<?php
 					#echo '<p style="color:#4A9E41;">PAGO DE INTERES</p>';
@@ -634,6 +651,20 @@ if($chk == 0)
 					<input type="hidden" name="pid" value="<?= $r->id;?>" />
 					<input type="hidden" name="action" value="cuenta_pagar" />
 					<input type="submit" value="REIMPRIMIR" />
+					<?php
+					if ($UserLevel == 0) {
+					?>
+						<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
+						<input type="hidden" name="numpago" value="<?= $i;?>" />
+						<input type="hidden" name="pago" value="<?= $r->pago_real;?>" />
+						<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
+						<input type="hidden" name="c" value="<?= $cuenta;?>" />
+						<input type="hidden" name="pid" value="<?= $r->id;?>" />
+						<input type="hidden" name="action" value="pago_elimina" />
+						<input type="submit" id="pago_cancel" value="CANCELAR"/>
+					<?php
+					}
+					?>
 					</form>
 					<?php
 				}
@@ -649,8 +680,22 @@ if($chk == 0)
 				<input type="hidden" name="pid" value="<?= $r->id;?>" />
 				<input type="hidden" name="action" value="cuenta_pagar" />
 				<input type="submit" value="REIMPRIMIR" />
-				</form>
 				<?php
+					if ($UserLevel == 0) {
+					?>
+						<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
+						<input type="hidden" name="numpago" value="<?= $i;?>" />
+						<input type="hidden" name="pago" value="<?= $r->pago_real;?>" />
+						<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
+						<input type="hidden" name="c" value="<?= $cuenta;?>" />
+						<input type="hidden" name="pid" value="<?= $r->id;?>" />
+						<input type="hidden" name="action" value="pago_elimina" />
+						<input type="submit" id="pago_cancel" value="CANCELAR"/>
+					<?php
+					}
+					?>
+					</form>
+					<?php
 			}
 			?>
 			</th>

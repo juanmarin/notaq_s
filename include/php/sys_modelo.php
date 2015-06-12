@@ -900,6 +900,25 @@ switch($_POST["action"]){
 			}
 		}
 		break;
+	case "pago_elimina":
+		$p_id = $_POST["pid"];
+		$pago = $_POST["pago"];
+		$cl = $_POST["cl"];
+		$cuenta = $_POST["c"];
+		$sql = "UPDATE pagos SET 
+			pago_real =0,
+			fechaPago = 0000-00-00,
+			estado = 0
+			WHERE id = " .$p_id;
+			$res = mysql_query($sql);
+			if($res){
+				$sql = "UPDATE cuentas SET total = (total+$pago) WHERE id = $cuenta"; 
+				$res = mysql_query($sql);          
+			}
+			if($res){
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cl.'">'; 
+			}
+		break;
 		
 	case "borrarnota":
 		$sql = "DELETE FROM notas WHERE id = ".$_POST["n"];

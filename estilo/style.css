@@ -284,6 +284,7 @@ input[type=text], input[type=password], select, textarea{
 	text-transform: uppercase;
 	border-radius: 4px;
 	padding: 4px;
+	border-radius: 5px;
 	-ms-border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -295,6 +296,20 @@ input[type=submit], input[type=button]{
 	font-size: 20px;
 	background: #BBB;
 	margin:3px;
+	border-radius: 5px;
+	-ms-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	text-shadow: 1px 1px #DDD;
+}
+#pago_cancel{
+	border: 3px solid #FA5858;
+	padding: 7px;
+	font-size: 17px;
+	background: #BBB;
+	margin:3px;
+	border-radius: 5px;
 	-ms-border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
