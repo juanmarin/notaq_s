@@ -139,7 +139,7 @@
 									</li>';
 								}
 							}else{
-								echo 'No hay notas para este cliente.';
+								echo '<li>No hay notas para este cliente.</li>';
 							}
 						} else {
 							$_SESSION["nohaycuenta"] = 1;
