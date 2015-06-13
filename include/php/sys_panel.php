@@ -140,17 +140,20 @@
 										'.$nt->nota.'
 									</li>';
 								}
+								if($_SESSION["U_NIVEL"] == 0)
+								{
+									echo '<li><input type="button" id="btnborranotas" value="Borrar notas seleccionadas" rel="'.$ncta.'" style="padding:2px 20px;font-size:12px;font-weight:700;" /></li>';
+								}
 							}else{
-								echo 'No hay notas para este cliente.';
+								echo '<li>No hay notas para este cliente.</li>';
 							}
 						} else {
 							$_SESSION["nohaycuenta"] = 1;
-							echo 'Deba haber una cuenta para agregar notas';
+							echo '<li>Deba haber una cuenta para agregar notas</li>';
 						}
 					}
 					?>
 				</ul>
-				<input type="button" id="btnborranotas" value="Borrar notas seleccionadas" style="padding:2px 20px;font-size:12px;font-weight:700;" />
 				</div>
 				<?php
 				}elseif(isset($_GET["pg"]) && $_GET["pg"] == "5"){
