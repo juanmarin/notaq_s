@@ -388,7 +388,8 @@ if($chk == 0)
 			}
 			elseif ($db->numRows() == 1)
 			{
-				$sql = "UPDATE recargos SET monto = ".$monto.", dias_atraso = ".$dAtras.", WHERE pago_id = ".$pago_id."";
+				$sql = "UPDATE recargos SET monto = ".$monto.", dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
+				$db->execute($sql);
 			}
 		}
 	}
