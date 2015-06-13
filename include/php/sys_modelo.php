@@ -1,20 +1,5 @@
 <?php
 @session_start();
-?>
-<html>
-<thead>
-	<title>Modelo</title>
-	<style>
-		<!-- body{background:#fff;} -->
-	</style>
-</thead>
-<body>
-<?php
-/*
-	foreach($_POST as $var => $val){
-		echo $var . " => " . $val . "<br />";
-	}
-*/
 require_once "../conf/Config.php";
 require_once "fun_global.php";
 
@@ -923,11 +908,12 @@ switch($_POST["action"]){
 	case "borrarnota":
 		$sql = "DELETE FROM notas WHERE id = ".$_POST["n"];
 		mysql_query($sql);
+		$sql = "SELECT * FROM notas WHERE cliente = ".$_POST["c"];
+		$res = mysql_query($sql);
+		echo mysql_num_rows($res);
 		break;		
 		
 	default:
 		//Header("Location: ". HTTP_REFERER);
 }
 ?>
-</body>
-</html>
