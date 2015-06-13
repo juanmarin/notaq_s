@@ -9,6 +9,8 @@
 	$_SESSION["U_NIVEL"] = $user->userData[10];
 	$_SESSION["DEPTO"] = $user->userData[7];
 	$_SESSION["USERNAME"] = $user->userData[1];
+	$UserName = $_SESSION["USERNAME"];
+	$UserLevel = $_SESSION["U_NIVEL"];
 	if($_SESSION["U_NIVEL"] == 0){$_SESSION["hash"] = $user->randomPass(100);}
 	//echo var_dump($user);
 ?>
@@ -54,9 +56,9 @@
 						case 3:
 							if($_SESSION["U_NIVEL"] == 0){
 								?>
-    								<li><a href="?pg=3a" class="_diario">Reporte Diario</a></li>
-    								<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
-    								<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
+    							<li><a href="?pg=3a" class="_diario">Reporte Diario</a></li>
+    							<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
+    							<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
 								<li><a href="?pg=3f" class="_visitas">Reporte Recargos</a></li>
 								<li><a href="?pg=3d" class="_estado">Historial Credito</a></li>
 								<li><a href="?pg=3e" class="_pagos">Control Pagos</a></li>
@@ -65,8 +67,8 @@
 							} elseif ($_SESSION["U_NIVEL"] == 3) {
 								?>
 								<li><a href="?pg=3a" class="_diario">Reporte Diario</a></li>
-    								<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
-    								<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
+    							<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
+    							<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
 								<li><a href="?pg=3f" class="_visitas">Reporte Recargos</a></li>
 								<?php
 							}
@@ -139,7 +141,7 @@
 									</li>';
 								}
 							}else{
-								echo '<li>No hay notas para este cliente.</li>';
+								echo 'No hay notas para este cliente.';
 							}
 						} else {
 							$_SESSION["nohaycuenta"] = 1;
@@ -268,9 +270,56 @@
 				?>
 				</div>
 				<?php
-			}
+			}elseif(isset($_GET["pg"]) && $_GET["pg"] == "1" OR $_GET["pg"] == ""){
 			?>
+				<div id="notas" class="sombra">
+				<div id="n_title"><?php echo $user->userData[6] ?></div>
+				<ol>
+			<?php
+			if ($UserLevel == 0) {
+				$clcobrador="";
+			}else{
+				$clcobrador="AND clientes.c_cobrador = '$UserName'";
+			}
+				$fecha = date("Y-m-d");
+				#Buscando los clientes asignados al cobrador
+				require_once("include/php/sys_db.class.php");
+				require_once("include/php/fun_global.php");
+				require_once("include/conf/Config_con.php");
+				$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
+				$sql = "SELECT * FROM clientes WHERE activo = 1 $clcobrador ORDER BY nombre ASC";
+				$res = $db->query($sql);
+				$mis_ctes = mysql_num_rows($res);
+
+				#Buscando el total de clientes Morosos
+				$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidop, clientes.demanda, cuentas.cliente, clientes.c_cobrador, 
+				cuentas.cobrador, cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha, 
+				SUM(pagos.pago) AS pago, pagos.estado
+				FROM clientes, cuentas, pagos 
+				WHERE
+					clientes.id = cuentas.cliente 
+					AND clientes.demanda != 1 
+					AND cuentas.id = pagos.cuenta 
+					AND cuentas.estado = 0 
+					AND pagos.estado = 0 
+					AND pagos.fecha < '".$fecha."'
+					$clcobrador
+				GROUP BY pagos.cliente 
+				ORDER BY clientes.nombre ASC";
+				$res = $db->query($sql);
+				$mis_morosos = mysql_num_rows($res);
+				$mis_corriente = ($mis_ctes - $mis_morosos);
+				$avance = ($mis_corriente/$mis_ctes)*100;
+				echo "&nbsp*&nbsp;"."<b>Total de Clientes:</b> ".$mis_ctes."</br>";
+				echo "&nbsp*&nbsp;"."<b>Clientes al Corriente:</b> ".$mis_corriente."</br>";
+				echo "&nbsp*&nbsp;"."<b id='red'>Clientes Vencidos:</b> ".$mis_morosos."</br>";
+				echo "&nbsp*&nbsp;"."<b>TOTAL AVANCE:</b> ".number_format($avance, 2)."%"."</br>";
+	?>
 		</div>
+		<?php
+		}
+	?>
+		</div>	
 		<div id="contenedor">
 			<div id="hmenu">
 				<ul class="menuh">
@@ -315,7 +364,7 @@
 				<?php
 				$pg=(isset($_GET["pg"]))?$_GET["pg"]:"";
 				switch($pg){
-					case "2":	require_once("include/html/pg_clientes.php");				break;
+					case "2":	require_once("include/html/pg_clientes.php");					break;
 					case "2a":	require_once("include/html/pg_clientes_buscar.php");			break;
 					case "2b":	require_once("include/html/pg_clientes_editar.php");			break;
 					case "2c":	require_once("include/html/pg_clientes_morosos.php");			break;
@@ -329,20 +378,20 @@
 					case "2da":	require_once("include/html/pg_clientes_agregar2.php");			break;
 					case "2db":	require_once("include/html/pg_clientes_agregar3.php");			break;
 					case "2dc":	require_once("include/html/pg_clientes_agregar4.php");			break;
-					case "2e":	require_once("include/html/pg_cliente_cuenta.php");			break;
-					case "3":	require_once("include/html/pg_reportes.php");				break;
-					case "3a":	require_once("include/html/pg_reporte_diario.php");			break;
-					case "3e":	require_once("include/html/pg_elimina_pago.php");			break;
-					case "3b":	require_once("include/html/pg_reporte_fechas.php");			break;
+					case "2e":	require_once("include/html/pg_cliente_cuenta.php");				break;
+					case "3":	require_once("include/html/pg_reportes.php");					break;
+					case "3a":	require_once("include/html/pg_reporte_diario.php");				break;
+					case "3e":	require_once("include/html/pg_elimina_pago.php");				break;
+					case "3b":	require_once("include/html/pg_reporte_fechas.php");				break;
 					case "3c":	require_once("include/html/pg_reporte_cobranza.php");			break;
 					case "3d":	require_once("include/html/pg_reporte_historial_cred.php");		break;
-					case "3da":	require_once("include/html/pg_reporte_historial_cred_cl.php");		break;
+					case "3da":	require_once("include/html/pg_reporte_historial_cred_cl.php");	break;
 					case "3f":	require_once("include/html/pg_reporte_recargos.php");			break;
-					case "3g":	require_once("include/html/pg_reporte_excel.php");			break;
-					case "4":	require_once("include/html/pg_panel.php");				break;
-					case "4a":	require_once("include/html/pg_panel_usuarios.php");			break;
+					case "3g":	require_once("include/html/pg_reporte_excel.php");				break;
+					case "4":	require_once("include/html/pg_panel.php");						break;
+					case "4a":	require_once("include/html/pg_panel_usuarios.php");				break;
 					case "4b":	require_once("include/html/pg_panel_usuario_agregar.php");		break;
-                			case "4c":	require_once("include/html/pg_panel_db_backup.php");			break;
+                	case "4c":	require_once("include/html/pg_panel_db_backup.php");			break;
 					case "4d":	require_once("include/html/pg_panel_prestamos.php");			break;
 					case "5":	require_once("include/html/pg_reporte_inversionistas.php");		break;
 					default:	//--

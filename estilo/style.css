@@ -317,6 +317,9 @@ input[type=submit], input[type=button]{
 	text-shadow: 1px 1px #DDD;
 	
 }
+#red{
+	color: #FF0000;
+}
 /*************************************************************************************/
 .boton{
 	margin:3px;
