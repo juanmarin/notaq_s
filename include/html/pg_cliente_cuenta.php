@@ -388,7 +388,7 @@ if($chk == 0)
 			}
 			elseif ($db->numRows() == 1)
 			{
-				$sql = "UPDATE recargos SET monto = ".$monto.", dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
+				$sql = "UPDATE recargos SET dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
 				$db->execute($sql);
 			}
 		}
@@ -404,10 +404,11 @@ if($chk == 0)
 		<caption>RECARGOS POR DEMORA</caption>
 		<thead>
 		<tr>
-	                <th colspan="1">#</th>
-			<th colspan="1">Fecha</th>
-	                <th colspan="1">Cantidad</th>
-	                <th colspan="1">Acciones</th>
+	                <th>#</th>
+			<th>Fecha</th>
+	                <th>Cantidad</th>
+	                <th>Abonado</th>
+	                <th>Acciones</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -420,18 +421,23 @@ if($chk == 0)
 			echo '	<th> <center>'.$i.'</center></td>';
 			echo '	<th> <center>'.$re->pago.'</center></td>';
 			echo '	<td> <center>$ '; moneda($re->monto).'</center></td>';
+			echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
 			//$monto = moneda($re->monto);
 			if($re->estado == 0){
 				$tot += $re->monto;
 				?>
 				<form name="frm_saldar" action="include/php/sys_modelo.php"  method="post">
-				<input type="hidden" name="pago_id" value="<?= $re->pago_id;?>" />
+				<input type="hidden" name="recargo_id" value="<?= $re->id;?>" />
 				<input type="hidden" name="c" value="<?= $cuenta;?>" />
 				<input type="hidden" name="cl" value="<?= $cliente;?>" />
-				<input type="hidden" name="recargo" value="<?= $re->monto;?>" />
 				<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
 				<input type="hidden" name="action" value="recargos" />
-				<th><center><input type="submit" name="rec_pagar" value="Pagar Recargo" /></center></th>
+				<th>
+				<center>
+					<input type="text" name="recargo" value="<?= $re->monto;?>" size="3" />
+					<input type="submit" name="rec_pagar" value="Pagar Recargo" />
+				</center>
+				</th>
 				</form>
 				<?php
 			}else{
@@ -454,7 +460,7 @@ if($chk == 0)
 		</tbody>
 		<tfoot>
 		<tr>
-			<th colspan="4" style="text-align: left;padding:2px 10px;">TOTAL RECARGOS POR PAGAR:  $ <?php moneda($tot);?></th>
+			<th colspan="5" style="text-align: left;padding:2px 10px;">TOTAL RECARGOS POR PAGAR:  $ <?php moneda($tot);?></th>
 		</tr>
 		</tfoot>
 		</table>
