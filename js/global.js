@@ -46,13 +46,18 @@ $(document).ready(function(){
 	});
 	
 	$("#btnborranotas").click(function(){
+		var cuenta = $(this).attr("rel");
 		$(".checkboxnota").each(function(){
 			if( $(this).is(":checked") )
 			{
 				var idn = $(this).attr("rel");
 				$("#note_"+idn).hide();
-				$.post("include/php/sys_modelo.php", {action:"borrarnota", n:idn}, function(data){
-					
+				$.post("include/php/sys_modelo.php", {action:"borrarnota", n:idn, c:cuenta}, function(data){
+					if(data==0)
+					{
+						$("#btnborranotas").hide();
+						$("ul.notas").html("<li>No hay notas para este cliente.</li>");
+					}
 				});
 			}
 		});
