@@ -51,7 +51,6 @@ if($UserLevel==0){
 	ORDER BY clientes.nombre ASC";
 	$res = $db->query($sql);
 	$num_rows = mysql_num_rows($res);
-	echo $sql;
 	while($r = $db->fetchNextObject($res)){
 	?>
 		<form action="include/php/sys_modelo.php" method="post">
