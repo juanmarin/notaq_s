@@ -807,26 +807,41 @@ switch($_POST["action"]){
 			#-INICIANDO VARIABLES -------------------------------------------------------------------------------------------------
 			$cuenta = $_POST["c"];
 			$cliente = $_POST["cl"];
-			$pago_id = $_POST["pago_id"];
+			$recargo_id = $_POST["recargo_id"];
 			$abono = $_POST["recargo"];
 			$f_recargo = $_POST["fecha_recargo"];
 			#-OBTENIENDO MONTO DE RECARGOS ----------------------------------------------------------------------------------------
-			$sql = "SELECT monto FROM recargos WHERE pago_id=".$pago_id." AND cuenta = ".$cuenta;
-			//echo $sql."<br>";
+			$sql = "SELECT monto, monto_saldado FROM recargos WHERE id=".$recargo_id;
 			$res = mysql_query($sql);
 			$rec = mysql_fetch_array($res);
 			$recargos = $rec[0];
+			$saldados = $rec[1];
 			#-VERIFICANDO SI CANTIDAD ABONADA CORRESPONDE AL TOTAL DE RECARGOS ----------------------------------------------------
-			if($abono == $recargos)
+			if($abono <= $recargos)
 			{
-				$sql = "UPDATE recargos SET fecha = '".date("Y-m-d")."', monto_saldado = ".$abono.", estado = 1 WHERE cliente = ".$cliente." AND pago_id = ".$pago_id."";
+				if($abono == $recargos)
+				{
+					$estado = 1;
+					$restante = 0;
+					$abono+=$saldados;
+				}
+				else 
+				{
+					$estado = 0;
+					$restante  = $recargos - $abono;
+					$abono+=$saldados;
+				}
+				$sql = "UPDATE recargos SET 
+					fecha 		= '".date("Y-m-d")."', 
+					monto_saldado 	= $abono, 
+					estado 		= $estado,
+					monto		= '$restante'
+					WHERE id = $recargo_id";
+				echo $sql;
 				mysql_query($sql);
-				//echo $sql;
-				//$sql = "UPDATE recargos SET estado = 3 WHERE estado = 0 AND cuenta = ".$cuenta;
-				//mysql_query($sql);
 				include_once("imprimeReciboRecargo.php");
-				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
 			}
+			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
 		}
 		elseif($_POST["rec_reimprime"])
 		{
