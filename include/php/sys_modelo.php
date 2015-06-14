@@ -555,7 +555,7 @@ switch($_POST["action"]){
 	case "reimprimir_prestamo":
 		$dia = $POST["dia"];
 		$tipo = $POST["tipo"];
-		include_once "reimprimeReciboCuenta.php";
+		//include_once "reimprimeReciboCuenta.php";
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		break;
 	case "cuenta_pagar":
@@ -662,7 +662,7 @@ switch($_POST["action"]){
 		if($s[0] == 0){
 			mysql_query("UPDATE cuentas SET estado = 1 WHERE id = ".$cta);
 		}
-		include_once "imprimeReciboPago.php";
+		//include_once "imprimeReciboPago.php";
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cl.'"> ';
 		break;
 
@@ -837,9 +837,8 @@ switch($_POST["action"]){
 					estado 		= $estado,
 					monto		= '$restante'
 					WHERE id = $recargo_id";
-				echo $sql;
 				mysql_query($sql);
-				include_once("imprimeReciboRecargo.php");
+				//include_once("imprimeReciboRecargo.php");
 			}
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
 		}
@@ -852,7 +851,7 @@ switch($_POST["action"]){
 			$pago_id = $_POST["pago_id"];
 			$recargos = $_POST["recargo"];
 			$f_recargo = $_POST["fecha_recargo"];
-			include_once("imprimeReciboRecargo.php");
+			//include_once("imprimeReciboRecargo.php");
 			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
 		}
 		break;
@@ -865,7 +864,7 @@ switch($_POST["action"]){
 		$cliente = $_POST["cl"];
 		$cuenta = $_POST["c"];
 		$cantidad = $_POST["cant"];
-		include_once 'imprimeReciboInteres.php';
+		//include_once 'imprimeReciboInteres.php';
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		break;
 		
