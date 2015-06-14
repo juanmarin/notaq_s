@@ -121,12 +121,12 @@ $("#dias_pago").change(function(){
 				<?php
 			}
 			?>
-			</th>
+			</th><td colspan="3"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
 		<tr>
-			<td><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
+			<td><strong>Calle: </strong> <br /><?php echo $ln->direccion;?></td><td><strong>Colonia: </strong> <br /><?php echo $ln->colonia;?></td><td><strong>Tel&eacute;fono: </strong> <br /><?php echo $ln->telefono;?></td>
 		</tr>
 		<tr>
-			<td><strong>Cobrador: </strong> <br /><?php echo $ln->c_cobrador;?></td>
+			<td colspan="2"><strong>Celular: </strong> <br /><?php echo $ln->celular;?></td><td><strong>Cobrador: </strong> <br /><?php echo $ln->c_cobrador;?></td>
 		</tr>
 		<?php
 		$cobrador = $ln->c_cobrador;
@@ -148,26 +148,6 @@ $_SESSION["ifecliente"] = $_GET["cl"]."_ife";
 while ($ln2 = $db1->fetchNextObject($result))
 {
 	?>
-	<table>
-	<caption>Direcci&oacute;n del cliente</caption>
-	<thead>
-	<tr>
-		<th colspan="4"></th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr>
-		<td><strong>Calle: </strong> </td>
-		<td><?php echo $ln2->direccion;?> </td>
-		<td><strong>Colonia: </strong></td>	
-		<td><?php echo $ln2->colonia;?></td>	
-	</tr>
-	<tr>
-		<td><strong>Tel&eacute;fono: </strong> </td>
-		<td><?php echo $ln2->telefono;?> </td>
-		<td><strong>Celular: </strong></td>	
-		<td><?php echo $ln2->celular;?></td>	
-	</tr>
 	<table>
 	<caption>Empleo del Cliente</caption>
 	<tr>
