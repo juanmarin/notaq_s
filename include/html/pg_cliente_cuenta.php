@@ -347,7 +347,7 @@ if($chk == 0)
 	<?php
 	###################################################################################################[COMPROBANDO RECARGOS]
 	## buscando fecha primer pago
-	$sql = "SELECT id, fecha FROM pagos WHERE estado = 0 AND cuenta = ".$cuenta."";
+	$sql = 'SELECT id, fecha FROM pagos WHERE estado = 0 AND cuenta = '.$cuenta.''; 				 	
 	$res = $db->query($sql);
 	while($r = $db->fetchNextObject($res))
 	{
@@ -364,12 +364,14 @@ if($chk == 0)
 			{
 				$sql = "INSERT INTO recargos (cuenta, cliente, pago, fecha, monto, pago_id, dias_atraso) 
 				VALUES (".$cuenta.", ".$cliente.", '".$proxpago."', '".date("Y-m-d")."', ".$monto.", ".$pago_id.", ".$dAtras.")";
+
 				$db->execute($sql);	
 			}
-			elseif ($db->numRows() == 1)
+			elseif ($db->numRows() > 0)
 			{
-				$sql = "UPDATE recargos SET dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
+				$sql = "UPDATE recargos SET monto = ".$monto.", dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
 				$db->execute($sql);
+				echo $sql."</br>";
 			}
 		}
 	}
