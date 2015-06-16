@@ -371,7 +371,6 @@ if($chk == 0)
 			{
 				$sql = "UPDATE recargos SET monto = ".$monto.", dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
 				$db->execute($sql);
-				echo $sql."</br>";
 			}
 		}
 	}
