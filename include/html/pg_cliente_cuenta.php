@@ -208,6 +208,21 @@ while ($ln2 = $db1->fetchNextObject($result))
 <input type="hidden" name="cl" value="<?php echo $_GET["cl"];?>" />
 <?php
 $sql = "SELECT * FROM cuentas WHERE estado = 0 AND cliente = ".$_GET["cl"];
+/*
+$SELECT 
+    cuentas.cliente,
+    cuentas.estado,
+    recargos.cliente,
+    recargos.estado
+FROM
+    cuentas,
+    recargos
+WHERE
+    cuentas.cliente = 22
+        AND recargos.cliente = cuentas.cliente
+        AND cuentas.estado = 0
+        AND recargos.estado = 0
+        */
 $res = $db->query($sql);
 $chk = $db->numRows($res);
 if($chk == 0)
