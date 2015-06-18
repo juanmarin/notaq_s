@@ -686,8 +686,8 @@ switch($_POST["action"]){
 			$sql = "UPDATE pagos SET estado=1, fechaPago='".date("Y-m-d")."' WHERE estado=0 AND cuenta = ".$_POST["c"];
 			$res = mysql_query($sql);
 
-			$sql = "UPDATE recargos SET estado=1, fechaPago='".date("Y-m-d")."' WHERE estado=0 AND cuenta = ".$_POST["c"];
-			$res = mysql_query($sql);
+			//$sql = "UPDATE recargos SET estado=1, fechaPago='".date("Y-m-d")."' WHERE estado=0 AND cuenta = ".$_POST["c"];
+			//$res = mysql_query($sql);
 
 			$sql = "UPDATE clientes SET demanda=0 WHERE id = ".$_POST["cl"];
 			$res = mysql_query($sql);
