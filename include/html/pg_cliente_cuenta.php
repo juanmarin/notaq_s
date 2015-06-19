@@ -207,9 +207,10 @@ while ($ln2 = $db1->fetchNextObject($result))
 <input type="hidden" name="action" value="cuenta_nueva" />
 <input type="hidden" name="cl" value="<?php echo $_GET["cl"];?>" />
 <?php
-$sql = "SELECT cuentas.id AS cuenta, cuentas.cliente, cuentas.tiempo AS tiempo, cuentas.dias_pago AS dias_pago, cuentas.tipo_pago AS tipo_pago, cuentas.observaciones AS observaciones, cuentas.cantidad AS cantidad, cuentas.fecha AS fecha, cuentas.total AS total, cuentas.estado, recargos.cliente, recargos.estado FROM cuentas, recargos 
+$sql = "SELECT * FROM cuentas WHERE estado = 0 AND cliente = ".$_GET["cl"];
+/*$sql = "SELECT cuentas.id AS cuenta, cuentas.cliente, cuentas.tiempo AS tiempo, cuentas.dias_pago AS dias_pago, cuentas.tipo_pago AS tipo_pago, cuentas.observaciones AS observaciones, cuentas.cantidad AS cantidad, cuentas.fecha AS fecha, cuentas.total AS total, cuentas.estado, recargos.cliente, recargos.estado FROM cuentas, recargos 
 WHERE recargos.cliente = cuentas.cliente AND cuentas.estado = 0 AND recargos.estado = 0 AND cuentas.cliente = ".$_GET["cl"];
-
+*/
 $res = $db->query($sql);
 $chk = $db->numRows($res);
 if($chk == 0){
@@ -294,7 +295,7 @@ if($chk == 0){
 }else{
 	#################################################################################################[DETALLES DE LA CUENTA]
 	$r = $db->fetchNextObject($res);
-	$cuenta = $r->cuenta;
+	$cuenta = $r->id;
 	$cliente = $r->cliente;
 	$cantidad = $r->cantidad;
 	$interes = $r->interes; 
