@@ -20,7 +20,7 @@ $("#fechapp").change(function(){
 	dia = fecha.getDay();
 	//alert(dia + ' // ' + m);
 	if(dia > 7){
-		alert("Dia de la semana invalido.\n Seleccione otro día.");
+		alert("Dia de la semana invalido.\n Seleccione otro dÃ­a.");
 	}else{
 		$("#dias_pago option").removeAttr("selected");
 		$("#dias_pago option[value="+dia+"]").attr("selected", "selected");
@@ -208,12 +208,20 @@ while ($ln2 = $db1->fetchNextObject($result))
 <input type="hidden" name="cl" value="<?php echo $_GET["cl"];?>" />
 <?php
 $sql = "SELECT * FROM cuentas WHERE estado = 0 AND cliente = ".$_GET["cl"];
-/*$sql = "SELECT cuentas.id AS cuenta, cuentas.cliente, cuentas.tiempo AS tiempo, cuentas.dias_pago AS dias_pago, cuentas.tipo_pago AS tipo_pago, cuentas.observaciones AS observaciones, cuentas.cantidad AS cantidad, cuentas.fecha AS fecha, cuentas.total AS total, cuentas.estado, recargos.cliente, recargos.estado FROM cuentas, recargos 
-WHERE recargos.cliente = cuentas.cliente AND cuentas.estado = 0 AND recargos.estado = 0 AND cuentas.cliente = ".$_GET["cl"];
-*/
 $res = $db->query($sql);
 $chk = $db->numRows($res);
+#### Buscando si el cliente tiene recargos sin pagar ###
+$rec = "SELECT * FROM recargos WHERE estado = 0 AND cliente = ".$_GET["cl"];
+
+$resrec = $db->query($rec);
+$chk2 = $db->numRows($resrec);
+$r2 = $db->fetchNextObject($resrec);
 if($chk == 0){
+	$cuenta = $r2->cuenta;	
+	echo "Cuenta de los recargos".$cuenta;
+	}
+
+if($chk == 0 && $chk2 == 0){
 	################################################################################################[FORMULARIO ABRIR CUENTA]
 	?>
 	<table>
@@ -333,7 +341,7 @@ if($chk == 0){
 	<tr>
 		<th>TIEMPO:</th><td><?php echo $r->tiempo . " "; ?></td>
 		<th>MODO DE PAGO:</th><td><?php echo $tp; ?></td>
-		<th>DIAS DE PAGO:</th><td><?php if($r->tipo_pago < 4){getDiaSemana($r->dias_pago, $r->tipo_pago);}else{echo 'Días '.$r->dias_pago.' de cada mes.';} ?></td>
+		<th>DIAS DE PAGO:</th><td><?php if($r->tipo_pago < 4){getDiaSemana($r->dias_pago, $r->tipo_pago);}else{echo 'Dí­as '.$r->dias_pago.' de cada mes.';} ?></td>
 	<tr>
 		<th>OBSERVACIONES:</th><td colspan="5" style="text-align:left;"><?php echo nl2br($r->observaciones); ?></td>		
 	</tr>
@@ -358,7 +366,7 @@ if($chk == 0){
 		## verificando estado del pago 
 		if(getHayRecargo($proxpago) == 1)
 		{
-			$dAtras = date_diffe(date("Y-m-d"), $proxpago);
+			$dAtras = date_diffe($hoy, $proxpago);
 			$sql = "SELECT * FROM recargos WHERE pago_id = ".$pago_id." AND pago = '".$proxpago."'";
 			$rec = $db->query($sql);
 			$monto = (10 * $dAtras);
