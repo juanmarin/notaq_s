@@ -211,6 +211,7 @@ $sql = "SELECT * FROM cuentas WHERE estado = 0 AND cliente = ".$_GET["cl"];
 $res = $db->query($sql);
 $chk = $db->numRows($res);
 #### Buscando si el cliente tiene recargos sin pagar ###
+/*
 $rec = "SELECT * FROM recargos WHERE estado = 0 AND cliente = ".$_GET["cl"];
 
 $resrec = $db->query($rec);
@@ -218,10 +219,10 @@ $chk2 = $db->numRows($resrec);
 $r2 = $db->fetchNextObject($resrec);
 if($chk == 0){
 	$cuenta = $r2->cuenta;	
-	echo "Cuenta de los recargos".$cuenta;
+	//echo "Cuenta de los recargos".$cuenta;
 	}
-
-if($chk == 0 && $chk2 == 0){
+*/
+if($chk == 0){
 	################################################################################################[FORMULARIO ABRIR CUENTA]
 	?>
 	<table>
