@@ -775,7 +775,7 @@ switch($_POST["action"]){
 			{
 				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2"> ';
 			}else{
-				//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
 			}
 		}
 	break;
@@ -917,6 +917,28 @@ switch($_POST["action"]){
 			if($res){
 				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cl.'">'; 
 			}
+		break;
+	case "abono_elimina":
+		$idabono = $_POST["idabono"];
+		$cl = $_POST["cl"];
+		$cta = $_POST["c"];
+		$pid = $_POST["idpago"];
+		$abono = $_POST["abono"];
+
+		$sql ="DELETE FROM abono WHERE idabono = $idabono";
+		$res = mysql_query($sql); 
+		if($res){
+			$sql = "UPDATE cuentas SET total = (total+$abono) WHERE id = $cta";
+			$res = mysql_query($sql);
+				
+		}
+		if($res){
+			$sql = "UPDATE pagos SET pago = (pago+$abono) WHERE id = $pid";
+			$res = mysql_query($sql);
+		}
+		if($res){
+			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cl.'">'; 
+		}
 		break;
 		
 	case "borrarnota":
