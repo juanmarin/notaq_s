@@ -59,7 +59,12 @@ if($UserLevel==0){
 			<td style="text-align:center"><?= $r->nombre ." ". $r->apellidop ." ".$r->apellidom;?></td>
 			<td style="text-align:center"> <?= $r->c_cobrador;?></td>
 			<td style="text-align:center">$ <?= moneda($r->pago);?></td>
-			<th style="text-align:center"><input type="checkbox" name="ids[]" value="<?= $r->id; ?>" /></th>
+		<?php
+			if ($UserLevel == 0) {
+				echo '<th style="text-align:center"><input type="checkbox" name="ids[]" value="<?= $r->id; ?>" /></th>';
+			}
+			
+		?>
 			<td width="80"><a href="?pg=2e&cl=<?= $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
 		</tr>
 		<?php
