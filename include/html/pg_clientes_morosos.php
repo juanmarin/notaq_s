@@ -40,8 +40,7 @@ if($UserLevel==0){
 	SUM(pagos.pago) AS pago, pagos.estado
 	FROM clientes, cuentas, pagos 
 	WHERE
-		clientes.id = cuentas.cliente 
-		AND clientes.demanda != 1 
+		clientes.id = cuentas.cliente
 		AND cuentas.id = pagos.cuenta 
 		AND cuentas.estado = 0 
 		AND pagos.estado = 0 
