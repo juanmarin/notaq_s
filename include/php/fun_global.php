@@ -380,7 +380,6 @@
         $xaux_int = substr($xcifra, 0, $xpos_punto); // obtengo el entero de la cifra a covertir
         $xdecimales = substr($xcifra . "00", $xpos_punto + 1, 2); // obtengo los valores decimales
     }
-
     $XAUX = str_pad($xaux_int, 18, " ", STR_PAD_LEFT); // ajusto la longitud de la cifra, para que sea divisible por centenas de miles (grupos de 6)
     $xcadena = "";
     for ($xz = 0; $xz < 3; $xz++) {
@@ -392,7 +391,6 @@
             if ($xi == $xlimite) { // si ya llegó al límite máximo de enteros
                 break; // termina el ciclo
             }
-
             $x3digitos = ($xlimite - $xi) * -1; // comienzo con los tres primeros digitos de la cifra, comenzando por la izquierda
             $xaux = substr($xaux, $x3digitos, abs($x3digitos)); // obtengo la centena (los tres dígitos)
             for ($xy = 1; $xy < 4; $xy++) { // ciclo para revisar centenas, decenas y unidades, en ese orden
@@ -456,13 +454,10 @@
             } // END FOR
             $xi = $xi + 3;
         } // ENDDO
-
         if (substr(trim($xcadena), -5, 5) == "ILLON") // si la cadena obtenida termina en MILLON o BILLON, entonces le agrega al final la conjuncion DE
             $xcadena.= " DE";
-
         if (substr(trim($xcadena), -7, 7) == "ILLONES") // si la cadena obtenida en MILLONES o BILLONES, entoncea le agrega al final la conjuncion DE
             $xcadena.= " DE";
-
         // ----------- esta línea la puedes cambiar de acuerdo a tus necesidades o a tu país -------
         if (trim($xaux) != "") {
             switch ($xz) {
@@ -502,7 +497,6 @@
     } // ENDFOR ($xz)
     return trim($xcadena);
 }
-
 function subfijo($xx)
 { // esta funcion regresa un subfijo para la cifra
     $xx = trim($xx);
@@ -515,9 +509,7 @@ function subfijo($xx)
     //
     return $xsub;
 }
-
 function dateadd($date, $dd=0, $mm=0, $yy=0, $hh=0, $mn=0, $ss=0){ ##### Funcion para calcular fecha de vencimiento del pagare ######
-
       $date_r = getdate(strtotime($date));
       $date_result = date("Y-m-d",
                     mktime(($date_r["hours"]+$hh),
@@ -585,4 +577,16 @@ function date_diffe($hoy, $proxpago){
 	$dias 	= abs($dias); $dias = floor($dias);		
 	return $dias;
 }
+
+function hayRecargos($cuenta, $cliente){
+	$sql = "SELECT * FROM recargos WHERE cuenta = $cuenta AND cliente = $cliente AND estado = 0";
+	$res = mysql_query($sql);
+	if(mysql_num_rows($res) > 0){
+		$recargos = 1;
+	}else{
+		$recargos = 0;
+	}
+	return $recargos;
+}
+
 ?>

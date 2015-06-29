@@ -40,7 +40,7 @@ switch($_POST["action"]){
 			$_SESSION["nu_ema"] = $_POST["email"]; 
 			$_SESSION["nu_tel"] = $_POST["telefono"]; 
 			$_SESSION["nu_una"] = $_POST["uname"];
-			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Las contraseñas no coinciden, asegurese de escribir correctamente la contraseña al confirmarla.</p></th></tr>';
+			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Las contraseÃ±as no coinciden, asegurese de escribir correctamente la contraseÃ±a al confirmarla.</p></th></tr>';
 			#echo $_SESSION["msg"];
 			#echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
@@ -68,7 +68,7 @@ switch($_POST["action"]){
 			unset($_SESSION["nu_ema"]); 
 			unset($_SESSION["nu_tel"]); 
 			unset($_SESSION["nu_una"]);
-			$_SESSION["msg"] = '<tr><th colspan="2"><p class="inportant">Usuario registrado con éxito.</p></th></tr>';
+			$_SESSION["msg"] = '<tr><th colspan="2"><p class="inportant">Usuario registrado con Ã©xito.</p></th></tr>';
 			#echo $_SESSION["msg"];
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
@@ -169,7 +169,7 @@ switch($_POST["action"]){
 						die("Sorry. It was not possible to read photo $sPhotoFileName. Choose another photo in JPG format.");
 					}
 				}
-				// CAMBIAR TAMA�O DE IMAGEN --
+				// CAMBIAR TAMAÑO DE IMAGEN --
 				$nWidth = imagesx($oSourceImage);  // get original source image width 
 				$nHeight = imagesy($oSourceImage); // and height 
 				// create small thumbnail 
@@ -287,7 +287,7 @@ switch($_POST["action"]){
 			else{
 				?>
 				<script type="text/javascript" >
-				alert("Permiso denegado.\nUsuario o contraseña incorrectos.\nIntente de nuevo.");
+				alert("Permiso denegado.\nUsuario o contraseÃ±a incorrectos.\nIntente de nuevo.");
 				</script>
 				<?php
 				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
@@ -587,13 +587,21 @@ switch($_POST["action"]){
 		 	## 
 			if($pago == $abono)
 			{
-				#-CUENTA SALDADA --
+				if (hayRecargos($cta, $cl) == 0) {
+		    	#-CUENTA SALDADA --
 				$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
 				#echo $sql . "<br />";
 				mysql_query($sql);
 				$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
 				#echo $sql . "<br />";
 				mysql_query($sql);
+				
+		    }else{
+		    	$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
+				#echo $sql . "<br />";
+				mysql_query($sql);
+		    }
+				
 			} 
 			elseif( $abono < $pago )
 			{
@@ -632,13 +640,21 @@ switch($_POST["action"]){
 				mysql_query($sql);
 				##-restar a ultimo pago
 				$abono -= $sumapagos;
-				##-aplicar pago restante a demás pagos
+				##-aplicar pago restante a demÃ¡s pagos
 				setMontoRestante($cta, $abono);
 			}elseif($abono == $total){
-				$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
-				mysql_query($sql);
-				$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
-				mysql_query($sql);
+				if (hayRecargos($cta, $cl) == 0) {
+					$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
+					echo "No hay recargos ".$sql;
+					mysql_query($sql);
+					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
+					mysql_query($sql);
+				}else{
+					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
+					mysql_query($sql);
+					echo "Si hay recargos ".$sql;
+				}
+				
 			}else{
 				#-ACTUALIZAR CUENTA
 				$saldo = $total - $abono;
@@ -659,7 +675,7 @@ switch($_POST["action"]){
 		$sql = "SELECT total FROM cuentas WHERE id = ".$cta;
 		$res = mysql_query($sql);
 		$s = mysql_fetch_array($res);
-		if($s[0] == 0){
+		if($s[0] == 0 && hayRecargos($cta, $cl) == 0){
 			mysql_query("UPDATE cuentas SET estado = 1 WHERE id = ".$cta);
 		}
 		//include_once "imprimeReciboPago.php";
@@ -730,7 +746,7 @@ switch($_POST["action"]){
 		$cte 	= $_POST["cte"];
 		$cta 	= $_POST["cta"];
 		$delCte = (isset($_POST["elimina"]))?$_POST["elimina"]:"";
-		#- COMPROBAMOS EL USUARIO Y CONTRASEÑA -------------------------------------------------------------------
+		#- COMPROBAMOS EL USUARIO Y CONTRASEÃ‘A -------------------------------------------------------------------
 		$pas 	= sha1($_POST["c"]);
 		$sql 	= 'SELECT username, password FROM mymvcdb_users WHERE username = "'.$_POST["u"].'" AND  password = "'.$pas.'" AND NIVEL = 0';
 		echo $sql;
@@ -768,7 +784,7 @@ switch($_POST["action"]){
 		{
 			?>
 			<script type="text/javascript" >
-			alert("Permiso denegado.\nUsuario o contraseña incorrectos.\nIntente de nuevo.");
+			alert("Permiso denegado.\nUsuario o contraseÃ±a incorrectos.\nIntente de nuevo.");
 			</script>
 			<?php
 			if($delCte == yes)
@@ -816,6 +832,8 @@ switch($_POST["action"]){
 			$rec = mysql_fetch_array($res);
 			$recargos = $rec[0];
 			$saldados = $rec[1];
+			echo "Recargos ".$recargos."</br>";
+			echo "Saldados ".$saldados."</br>";
 			#-VERIFICANDO SI CANTIDAD ABONADA CORRESPONDE AL TOTAL DE RECARGOS ----------------------------------------------------
 			if($abono <= $recargos)
 			{
@@ -838,9 +856,23 @@ switch($_POST["action"]){
 					monto		= '$restante'
 					WHERE id = $recargo_id";
 				mysql_query($sql);
+				##Verificando si despues del abono de recargos ya no hay mas por pagar.
+				$sql = "SELECT SUM(monto) FROM recargos WHERE cuenta= $cuenta AND cliente = $cliente AND estado = 0";
+				$res = mysql_query($sql);
+				$rec = mysql_fetch_array($res);
+				//echo "Recargos total".$rec[0];
+				$sql = "SELECT total FROM cuentas id = $cuenta AND cliente = $cliente";
+				$res1 = mysql_query($sql);
+				$cta = mysql_fetch_array($res1);
+				//echo "MONTO CUENTA ".$cta[0];
+				if ($rec[0] == 0 && $cta[0] <= 0) {
+					$sql = "UPDATE cuentas SET estado = 1 WHERE id = $cuenta";
+					$res = mysql_query($sql);
+					echo $sql;
+				}
 				//include_once("imprimeReciboRecargo.php");
 			}
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
+			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
 		}
 		elseif($_POST["rec_reimprime"])
 		{
@@ -875,7 +907,6 @@ switch($_POST["action"]){
 			demanda = 1 
 			WHERE id = ".$cl_id;
 			$res = mysql_query($sql);
-			echo $sql;
 			if($res)
 			{
 				$demanda = "INSERT INTO demandas (cliente_id)VALUES(".$cl_id.")";
