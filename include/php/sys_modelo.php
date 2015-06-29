@@ -645,14 +645,12 @@ switch($_POST["action"]){
 			}elseif($abono == $total){
 				if (hayRecargos($cta, $cl) == 0) {
 					$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
-					echo "No hay recargos ".$sql;
 					mysql_query($sql);
 					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
 					mysql_query($sql);
 				}else{
 					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
 					mysql_query($sql);
-					echo "Si hay recargos ".$sql;
 				}
 				
 			}else{
