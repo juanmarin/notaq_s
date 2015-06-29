@@ -15,9 +15,66 @@
 		echo "Interes Tot: ".$datosPrestamo['interes']."<br/>";
 		echo "Plazo Real: ".$datosPrestamo['tiempo']."<br/>";
 
-		echo var_dump($datosPrestamo);
-		$date = "2013-04-22";
-		echo "Fecha: ".date("d-m-Y", strtotime($date));
-	
+		echo var_dump($datosPrestamo)."</br>";
+		$date = "0000-00-00";
+		echo date("d-m-Y", strtotime($date))."</br>";
+?>
+<table>
+<caption>REPORTE DE COBRADORES</caption>
+<thead>
+	<tr>
+		<th>COBRADOR</th>
+		<th>C. ASIGNADOS</th>
+		<th>C. CORRIENTE</th>
+		<th>C. VENCIDOS</th>
+		<th>TOTAL AVANCE %</th>
+	</tr>
+</thead>
+<tbody>
+<?php
+
+		//// ESTADISTICOS DE COBRADORES/////
 		
+		require_once("include/php/sys_db.class.php");
+		require_once("include/php/fun_global.php");
+		require_once("include/conf/Config_con.php");
+			$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
+		    $sql = "SELECT mymvcdb_users.username AS cobrador, COUNT(clientes.c_cobrador) AS mis_ctes
+					FROM mymvcdb_users,clientes 
+					WHERE mymvcdb_users.username = clientes.c_cobrador
+					AND clientes.activo = 1
+					GROUP BY clientes.c_cobrador";
+			$res = $db->query($sql);
+			#Buscando el total de clientes Morosos
+				$sql2 = "SELECT mymvcdb_users.username, clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidop, 
+				cuentas.cliente, clientes.c_cobrador, cuentas.cobrador, cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha, 
+				SUM(pagos.pago) AS pago, pagos.estado
+				FROM mymvcdb_users,clientes, cuentas, pagos 
+				WHERE
+					mymvcdb_users.username = clientes.c_cobrador
+					AND clientes.id = cuentas.cliente
+					AND cuentas.id = pagos.cuenta 
+					AND cuentas.estado = 0 
+					AND pagos.estado = 0 
+					AND pagos.fecha < '".$fecha."'";
+				$res = $db->query($sql2);
+				while ($cob = $db->fetchNextObject($res)) {
+		    	?>
+		    	 	<tr> 
+		    			<td><?php echo $cob->cobrador;?></td>
+		    			<td> <?php echo $cob->mis_ctes; ?></td>
+		    		</tr>
+		    	<?php
+		    	
+		    }
+		  
+		    	echo $cob->cobrador."----->".$cob->mis_ctes."</br>";
+
+
+		    $cuenta = 144;
+		    $cliente = 120;
+		    if (hayRecargos($cuenta, $cliente) == 1) {
+		    	echo "tiene Recargos";
+		    }
+		    
 ?>
