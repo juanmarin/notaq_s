@@ -830,8 +830,6 @@ switch($_POST["action"]){
 			$rec = mysql_fetch_array($res);
 			$recargos = $rec[0];
 			$saldados = $rec[1];
-			echo "Recargos ".$recargos."</br>";
-			echo "Saldados ".$saldados."</br>";
 			#-VERIFICANDO SI CANTIDAD ABONADA CORRESPONDE AL TOTAL DE RECARGOS ----------------------------------------------------
 			if($abono <= $recargos)
 			{
@@ -858,19 +856,16 @@ switch($_POST["action"]){
 				$sql = "SELECT SUM(monto) FROM recargos WHERE cuenta= $cuenta AND cliente = $cliente AND estado = 0";
 				$res = mysql_query($sql);
 				$rec = mysql_fetch_array($res);
-				//echo "Recargos total".$rec[0];
-				$sql = "SELECT total FROM cuentas id = $cuenta AND cliente = $cliente";
+				$sql = "SELECT total FROM cuentas WHERE id = $cuenta AND cliente = $cliente";
 				$res1 = mysql_query($sql);
 				$cta = mysql_fetch_array($res1);
-				//echo "MONTO CUENTA ".$cta[0];
 				if ($rec[0] == 0 && $cta[0] <= 0) {
 					$sql = "UPDATE cuentas SET estado = 1 WHERE id = $cuenta";
 					$res = mysql_query($sql);
-					echo $sql;
 				}
 				//include_once("imprimeReciboRecargo.php");
 			}
-			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
+			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
 		}
 		elseif($_POST["rec_reimprime"])
 		{
