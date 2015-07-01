@@ -368,83 +368,10 @@ if($chk == 0){
 			}
 			elseif ($db->numRows() > 0)
 			{
-				$sql = "UPDATE recargos SET monto = ".$monto.", dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
+				$sql = "UPDATE recargos SET dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
 				$db->execute($sql);
 			}
 		}
-	}
-	$sql = "SELECT * FROM recargos WHERE cuenta = ".$cuenta." ORDER BY pago ASC";
-	$rec = $db->query($sql);
-	$tot=0;
-	if($db->numRows() > 0)
-	{
-		###################################################################################################[CARGANDO RECARGOS]
-		?>
-		<table>
-		<caption>RECARGOS POR DEMORA</caption>
-		<thead>
-		<tr>
-	                <th>#</th>
-					<th>Fecha</th>
-	                <th>Cantidad</th>
-	                <th>Abonado</th>
-	                <th>Acciones</th>
-		</tr>
-		</thead>
-		<tbody>
-		<?php	
-		$i = 0;
-		while($re = $db->fetchNextObject($rec))
-		{
-			$i++;
-			echo '<tr>';
-			echo '	<th> <center>'.$i.'</center></td>';
-			echo '	<th> <center>'.date("d-m-Y", strtotime($re->pago)).'</center></td>';
-			echo '	<td> <center>$ '; moneda($re->monto).'</center></td>';
-			echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
-			//$monto = moneda($re->monto);
-			if($re->estado == 0){
-				$tot += $re->monto;
-				?>
-				<form name="frm_saldar" action="include/php/sys_modelo.php"  method="post">
-				<input type="hidden" name="recargo_id" value="<?= $re->id;?>" />
-				<input type="hidden" name="c" value="<?= $cuenta;?>" />
-				<input type="hidden" name="cl" value="<?= $cliente;?>" />
-				<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
-				<input type="hidden" name="action" value="recargos" />
-				<th>
-				<center>
-					<input type="text" name="recargo" value="<?= $re->monto;?>" size="3" />
-					<input type="submit" name="rec_pagar" value="Pagar" />
-				</center>
-				</th>
-				</form>
-				<?php
-			}else{
-				?>
-				<form name="frm_re_recargo" action="include/php/sys_modelo.php"  method="post">
-				<input type="hidden" name="pago_id" value="<?= $re->pago_id;?>" />
-				<input type="hidden" name="c" value="<?= $cuenta;?>" />
-				<input type="hidden" name="cl" value="<?= $cliente;?>" />
-				<input type="hidden" name="recargo" value="<?= $re->monto;?>" />
-				<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
-				<input type="hidden" name="action" value="recargos" />
-				<th> <center> <input type="submit" name="rec_reimprime" value="Reimprimir" /> </center></th>
-				</form>
-				<?php    
-			}
-			echo '</tr>';
-			$tot;
-		}
-		?>
-		</tbody>
-		<tfoot>
-		<tr>
-			<th colspan="5" style="text-align: left;padding:2px 10px;">TOTAL RECARGOS POR PAGAR:  $ <?php moneda($tot);?></th>
-		</tr>
-		</tfoot>
-		</table>
-		<?php
 	}
 	#####################################################################################################[ABONAR A LA CUENTA]
 	#####################################################################################################[HISTORIAL DE PAGOS]
@@ -490,7 +417,9 @@ if($chk == 0){
 		<th>ABONO</th>
 		<th align="center">F. PAGO</th>
 		<th align="left"></th>
-		<th align="left"></th>
+		<th align="center">RECARGOS</th>
+		<th align="center">ABONADO</th>
+		<th align="center"></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -515,7 +444,7 @@ if($chk == 0){
 				<td>$ <?php moneda($ab->cargo); ?></td>
 				<td>$ <?php moneda($ab->abono); ?></td>
 				<td><?php echo date("d-m-Y", strtotime($ab->fecha)); ?></td>
-				<td colspan="2">
+				<td>
 					<form name="frm_<?php echo $ab->idabono;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="idpago" value="<?= $ab->idpago;?>" />
 					<input type="hidden" name="abono" value="<?= $ab->abono;?>" />
@@ -523,22 +452,25 @@ if($chk == 0){
 					<input type="hidden" name="c" value="<?= $ab->idcuenta;?>" />
 					<input type="hidden" name="action" value="abono_" />
 					<input type="submit" value="REIMPRIMIR" />
-				<?php
+					<?php
 					if ($UserLevel == 0) {
-				?>
-					<form name="frm_<?php echo $ab->idabono;?>" action="include/php/sys_modelo.php" method="post">
-					<input type="hidden" name="idpago" value="<?= $ab->idpago;?>" />
-					<input type="hidden" name="idabono" value="<?= $ab->idabono;?>" />
-					<input type="hidden" name="abono" value="<?= $ab->abono;?>" />
-					<input type="hidden" name="c" value="<?= $ab->idcuenta;?>" />
-					<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
-					<input type="hidden" name="action" value="abono_elimina" />
-					<input type="submit" id="pago_cancel" value="C. ABONO"/>
-				<?php
+						?>
+						<form name="frm_<?php echo $ab->idabono;?>" action="include/php/sys_modelo.php" method="post">
+						<input type="hidden" name="idpago" value="<?= $ab->idpago;?>" />
+						<input type="hidden" name="idabono" value="<?= $ab->idabono;?>" />
+						<input type="hidden" name="abono" value="<?= $ab->abono;?>" />
+						<input type="hidden" name="c" value="<?= $ab->idcuenta;?>" />
+						<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
+						<input type="hidden" name="action" value="abono_elimina" />
+						<input type="submit" id="pago_cancel" value="C. ABONO"/>
+						<?php
 					}
-				?>
+					?>
 					</form>
 				</td>
+				<th></th>
+				<th></th>
+				<th></th>
 			</tr>
 			<?php
 		}
@@ -583,7 +515,7 @@ if($chk == 0){
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" 	name="numpago" 	value="<?= $i;?>" />
-					<input type="text" 		name="pago" 	value="<?= $pago_acum;?>" size="7" <?=$opcnpagar;?> />
+					<input type="text" 	name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> />
 					<input type="hidden" 	name="cl" 		value="<?= $_GET['cl'];?>" />
 					<input type="hidden" 	name="c" 		value="<?= $cuenta;?>" />
 					<input type="hidden" 	name="pid" 		value="<?= $r->id;?>" />
@@ -598,7 +530,7 @@ if($chk == 0){
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="numpago" value="<?= $i;?>" />
-					<input type="text" 	name="pago" value="<?= $pago_acum;?>" size="7" <?=$opcnpagar;?> />
+					<input type="text"   name="pago" value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> />
 					<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
 					<input type="hidden" name="c" value="<?= $cuenta;?>" />
 					<input type="hidden" name="pid" value="<?= $r->id;?>" />
@@ -613,7 +545,7 @@ if($chk == 0){
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="numpago" value="<?= $i;?>" />
-					<input type="text" name="pago" value="<?= $r->pago_real;?>" size="7" <?=$opcnpagar;?> />
+					<input type="text" name="pago" value="<?= $r->pago_real;?>" style="width:70px;" <?=$opcnpagar;?> />
 					<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
 					<input type="hidden" name="c" value="<?= $cuenta;?>" />
 					<input type="hidden" name="pid" value="<?= $r->id;?>" />
@@ -638,7 +570,7 @@ if($chk == 0){
 					<input type="submit" value="REIMPRIMIR" />
 					<?php
 					if ($UserLevel == 0) {
-					?>
+						?>
 						<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 						<input type="hidden" name="numpago" value="<?= $i;?>" />
 						<input type="hidden" name="pago" value="<?= $r->pago_real;?>" />
@@ -647,7 +579,7 @@ if($chk == 0){
 						<input type="hidden" name="pid" value="<?= $r->id;?>" />
 						<input type="hidden" name="action" value="pago_elimina" />
 						<input type="submit" id="pago_cancel" value="CANCELAR"/>
-					<?php
+						<?php
 					}
 					?>
 					</form>
@@ -714,6 +646,64 @@ if($chk == 0){
 			}
 			?>
 			</th>
+			<?php
+			#-MOSTRANDO RECARGOS POR PAGO VENCIDO-#######################################################################################
+			$sql = "SELECT * FROM recargos WHERE cuenta = ".$cuenta." AND pago_id = ".$r->id." ORDER BY pago ASC";
+			$rec = $db->query($sql);
+			$tot=0;
+			if($db->numRows() > 0)
+			{
+				$i = 0;
+				while($re = $db->fetchNextObject($rec))
+				{
+					$i++;
+					echo '	<td> <center>$ '; moneda($re->monto).'</center></td>';
+					echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
+					//$monto = moneda($re->monto);
+					if($re->estado == 0){
+						$tot += $re->monto;
+						?>
+						<th>
+						<form name="frm_saldar" action="include/php/sys_modelo.php"  method="post">
+						<input type="hidden" name="recargo_id" value="<?= $re->id;?>" />
+						<input type="hidden" name="c" value="<?= $cuenta;?>" />
+						<input type="hidden" name="cl" value="<?= $cliente;?>" />
+						<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
+						<input type="hidden" name="action" value="recargos" />
+						<center>
+							<input type="text" name="recargo" value="<?= $re->monto;?>" style="width:70px;" />
+							<input type="submit" name="rec_pagar" value="Pagar" />
+						</center>
+						</form>
+						</th>
+						<?php
+					}else{
+						?>
+						<th>
+						<form name="frm_re_recargo" action="include/php/sys_modelo.php"  method="post">
+						<input type="hidden" name="pago_id" value="<?= $re->pago_id;?>" />
+						<input type="hidden" name="c" value="<?= $cuenta;?>" />
+						<input type="hidden" name="cl" value="<?= $cliente;?>" />
+						<input type="hidden" name="recargo" value="<?= $re->monto;?>" />
+						<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
+						<input type="hidden" name="action" value="recargos" />
+						<center> <input type="submit" name="rec_reimprime" value="Reimprimir" /> </center>
+						</form>
+						</th>
+						<?php    
+					}
+					$tot;
+				}
+			}
+			else
+			{
+				?>
+				<th></th>
+				<th></th>
+				<th></th>
+				<?php
+			}
+			?>
 		</tr>
 		<?php
 	}
