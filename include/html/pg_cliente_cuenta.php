@@ -38,6 +38,20 @@ $("#dias_pago").change(function(){
 		}
 	});
 });
+$("#EditarCuenta").click(function(){
+	ncuenta=$(this).attr("rel");
+	$.post("include/php/set_editarCuenta.php", {editarCuenta:ncuenta}, function(data){
+		location.reload('?pg=2e&cl='+ncuenta); 
+	});
+	return false;
+});
+$("#CancelarEditarCuenta").click(function(){
+	ncuenta=$(this).attr("rel");
+	$.post("include/php/unset_editarCuenta.php", {editarCuenta:ncuenta}, function(data){
+		location.reload('?pg=2e&cl='+ncuenta); 
+	});
+	return false;
+});
 </script>
 <p class="title">Clientes &raquo; Cuenta</p>
 <table>
@@ -114,11 +128,29 @@ $("#dias_pago").change(function(){
 			<?php
 			if(!isset($_SESSION["nohaycuenta"]))
 			{
-				?>	
+				?>
 				<a href="include/html/box_nota.php?width=500&height=390&cl=<?php echo $_GET["cl"];?>" class="thickbox" >
 					<img src="estilo/img/order-162.png" />
 				</a>
+				&nbsp;
 				<?php
+				if( $_SESSION["U_NIVEL"] == 0 )
+				{
+					?>
+					<a href="?pg=2e&cl=<?=$_GET['cl'];?>" id="EditarCuenta" title="Editar datos de cuenta" rel="<?=$ncta;?>">
+						<img src="estilo/img/notepencil32.png" />
+					</a>
+					<?php
+					if(isset($_SESSION["EDITARCUENTA"]))
+					{
+						?>
+						<a href="?pg=2e&cl=<?=$_GET['cl'];?>" id="CancelarEditarCuenta" title="Cancelar editar datos de cuenta" rel="<?=$ncta;?>">
+						<img src="estilo/_img/cerrar.png" />
+						</a>
+						<?php
+					}
+					
+				}
 			}
 			?>
 			</th><td colspan="3"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
@@ -210,7 +242,38 @@ while ($ln2 = $db1->fetchNextObject($result))
 $sql = "SELECT * FROM cuentas WHERE estado = 0 AND cliente = ".$_GET["cl"];
 $res = $db->query($sql);
 $chk = $db->numRows($res);
-if($chk == 0){
+if($chk == 0 || isset($_SESSION["EDITARCUENTA"])){
+	#[DATOS DE CUENTA SI SE VA A EDITAR]#####################################################################################
+	if (isset($_SESSION["EDITARCUENTA"]))
+	{
+	
+		$sql = "SELECT * FROM cuentas WHERE id = ".$_SESSION["EDITARCUENTA"];
+		$res = $db->query($sql);
+		$ec  = $db->fetchNextObject($res);
+		$ec_cant = $ec->total;
+		$ec_cobr = $cc->conrador;
+		$ec_tpag = $ec->tipo_pago;
+		$ec_dpag = $ec->dias_pago;
+		#[OBTENER MONTOS Y PAGOS]#
+		$sql = "select count(*) plazo,pago monto from pagos where cuenta = ".$_SESSION["EDITARCUENTA"]." group by pago ORDER BY id";
+		$res = $db->query($sql);
+		$cnt=0;
+		while($ecp = $db->fetchNextObject($res))
+		{
+			if($cnt==0)
+			{
+				$ec_pzo1 = $ecp->plazo;
+				$ec_mto1 = $ecp->monto;
+			}
+			else 
+			{
+				$ec_pzo2 = $ecp->plazo;
+				$ec_mto2 = $ecp->monto;
+			}
+			$cnt++;
+		}
+		$ec_obse = $ec->observaciones;
+	}
 	################################################################################################[FORMULARIO ABRIR CUENTA]
 	?>
 	<table>
@@ -229,19 +292,20 @@ if($chk == 0){
 	</tr>
 	<tr>
 		<th>Cantidad:</th>
-		<td>$<input type="text" name="cantidad" size="5" /></td>
+		<td>$<input type="text" name="cantidad" size="5" value="<?=$ec_cant;?>" /></td>
 		<th>Cobrador: </th>
 		<td>
 			<select name="cobrador" id="cobrador">
-				<?php
+			<?php
 		        $sql = "SELECT username FROM mymvcdb_users WHERE nivel=3";
-				$res = $db->query($sql);
-		        while( $cob = $db->fetchNextObject($res) ){
-		        ?>
+			$res = $db->query($sql);
+		        while( $cob = $db->fetchNextObject($res) )
+		        {
+		        	?>
 				<option value="<?php echo $cob->username;?>" <?php echo $cob->username == $cobrador? $attr : ''; ?>><?php echo $cob->username;?></option>
 				<?php
-					}
-				?>
+			}
+			?>
 			</select>
 		</td>
 	</tr>
@@ -250,35 +314,95 @@ if($chk == 0){
 		<td>
 		<select name="tipo_pago" id="tipo_pago">
 			<option value="nd">SELECCIONAR</option>
-			<option value="1">SEMANAL</option>
-			<option value="2">CATORCENAL</option>
-			<option value="3">QUINCENAL</option>
-			<option value="4">MENSUAL</option>
+			<option value="1" <?=((isset($_SESSION["EDITARCUENTA"]) && $ec_tpag==1)?'SELECTED':'')?>>SEMANAL</option>
+			<option value="2" <?=((isset($_SESSION["EDITARCUENTA"]) && $ec_tpag==2)?'SELECTED':'')?>>CATORCENAL</option>
+			<option value="3" <?=((isset($_SESSION["EDITARCUENTA"]) && $ec_tpag==3)?'SELECTED':'')?>>QUINCENAL</option>
+			<option value="4" <?=((isset($_SESSION["EDITARCUENTA"]) && $ec_tpag==4)?'SELECTED':'')?>>MENSUAL</option>
 		</select>
 		</td>
 		<th>Dias de Pago:</th>
 		<td>
 		<select name="dias_pago" id="dias_pago">
-		<option value="nd">SELECCIONAR</option>
+		<?php
+		if(isset($_SESSION["EDITARCUENTA"]))
+		{
+			switch($ec_tpag)
+			{
+				case 1:	
+						?>
+						<option value="nd">DIAS DE PAGO</option>
+						<option value="1"<?=($ec_dpag==1)?' selected="selected"':'';?>>LUNES</option>
+						<option value="2"<?=($ec_dpag==2)?' selected="selected"':'';?>>MARTES</option>
+						<option value="3"<?=($ec_dpag==3)?' selected="selected"':'';?>>MIERCOLES</option>
+						<option value="4"<?=($ec_dpag==4)?' selected="selected"':'';?>>JUEVES</option>
+						<option value="5"<?=($ec_dpag==5)?' selected="selected"':'';?>>VIERNES</option>
+						<option value="6"<?=($ec_dpag==6)?' selected="selected"':'';?>>SABADO</option>
+						<option value="7"<?=($ec_dpag==7)?' selected="selected"':'';?>>DOMINGO</option>
+						<?php
+						break;
+				case 2:
+						?><option value="nd">DIAS DE PAGO</option>
+						<option value="1"<?=($ec_dpag==1)?' selected="selected"':'';?>>LUNES</option>
+						<option value="2"<?=($ec_dpag==2)?' selected="selected"':'';?>>MARTES</option>
+						<option value="3"<?=($ec_dpag==3)?' selected="selected"':'';?>>MIERCOLES</option>
+						<option value="4"<?=($ec_dpag==4)?' selected="selected"':'';?>>JUEVES</option>
+						<option value="5"<?=($ec_dpag==5)?' selected="selected"':'';?>>VIERNES</option>
+						<option value="6"<?=($ec_dpag==6)?' selected="selected"':'';?>>SABADO</option>
+						<option value="7"<?=($ec_dpag==7)?' selected="selected"':'';?>>DOMINGO</option>
+						<?php
+						break;
+				case 3:
+						?>
+						<option value="nd">DIAS DE PAGO</option>
+						<option value="10-25"	<?=($ec_dpag=='10-25')?	' selected':'';?>>10 Y 25 DE CADA MES</option>
+						<option value="1-16"	<?=($ec_dpag=='1-16')?	' selected':'';?>>16 Y 1 DE CADA MES</option>
+						<option value="2-17"	<?=($ec_dpag=='2-17')?	' selected':'';?>>17 Y 2 DE CADA MES</option>
+						<option value="2-16"	<?=($ec_dpag=='2-16')?	' selected':'';?>>2 Y 16 DE CADA MES</option>
+						<option value="8-22"	<?=($ec_dpag=='8-22')?	' selected':'';?>>8 Y 22 DE CADA MES</option>
+						<option value="15-30"	<?=($ec_dpag=='15-30')?	' selected':'';?>>15 Y 30 DE CADA MES</option>
+						<option value="1-15"	<?=($ec_dpag=='1-15')?	' selected':'';?>>15 Y 1 DE CADA MES</option>
+						<option value="6-21"	<?=($ec_dpag=='6-21')?	' selected':'';?>>6 Y 21 DE CADA MES</option>
+						<option value="3-18"	<?=($ec_dpag=='3-16')?	' selected':'';?>>3 Y 18 DE CADA MES</option>
+						<option value="4-18"	<?=($ec_dpag=='4-18')?	' selected':'';?>>4 Y 18 DE CADA MES</option>
+						<?php
+						break;
+				case 4:
+						?>
+						<option value="nd">DIAS DE PAGO</option>
+						<option value="1"<?=($ec_dpag==1)?' selected="selected"':'';?>>1 DE CADA MES</option>
+						<option value="16"<?=($ec_dpag==16)?' selected="selected"':'';?>>16 DE CADA MES</option>
+						<?php
+						break;
+				default:
+						?>
+						<option value="nd">DIAS DE PAGO</option>
+						<?php
+			}
+		}
+		else
+		{
+			?><option value="nd">DIAS DE PAGO</option><?php
+		}
+		?>
 		</select>
 		</td>
 	</tr>
 	<tr>
 		<th>Plazo:</th>
-		<td><input type="text" name="plazo1" size="10" /></td>
+		<td><input type="text" name="plazo1" size="10" value="<?=$ec_pzo1;?>" /></td>
 		<th>Monto:</th>
-		<td>$<input type="text" name="monto1" size="10" /></td>
+		<td>$<input type="text" name="monto1" size="10" value="<?=$ec_mto1;?>" /></td>
 	</tr>
 	<tr>
 		<th>Plazo:</th>
-		<td><input type="text" name="plazo2" size="10" /></td>
+		<td><input type="text" name="plazo2" size="10" value="<?=$ec_pzo2;?>" /></td>
 		<th>Monto:</th>
-		<td>$<input type="text" name="monto2" size="10" /></td>
+		<td>$<input type="text" name="monto2" size="10" value="<?=$ec_mto2;?>" /></td>
 	</tr>	
 	<tr>
 		<th>Observaciones</th>
-		<td colspan="3"><textarea name="observ" id="observ" cols="48" rows="2"></textarea></td>		
-	</tr>		
+		<td colspan="3"><textarea name="observ" id="observ" cols="48" rows="2"><?=$ec_obse;?></textarea></td>		
+	</tr>	
 	</tbody>
 	<tfoot>	
 	<tr>
