@@ -387,9 +387,44 @@ switch($_POST["action"]){
 		}
 	case "cuenta_nueva":
 		#echo "dia pago: " . $_POST["dias_pago"]. "<br />";
+		
 		if((($_POST["tipo_pago"] < 4) && ($_POST["dias_pago"] == "nd")) || ($_POST["tipo_pago"] == "nd") || ($_POST["cantidad"] == "") || ($_POST["plazo1"] == "") || ($_POST["monto1"] == "")){
 			# no hacer nada porque estan mal los datos
+			echo "Información incorrecta";
+			echo '<meta http-equiv="refresh" content="1;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		}else{
+			#[PRIMERO COMPROBAR SU LA CUENTA ESTA SIENDO EDITADA]# ######################################################################
+			if(isset($_SESSION["EDITARCUENTA"]))
+			{
+				#COMPROBAR QUE NO TENGA PAGOS REALIZADOS
+				$sql = "SELECT * FROM PAGOS WHERE estado > 0 AND cuenta = ".$_SESSION["EDITARCUENTA"];
+				$res = $db->query($sql);
+				if($db->numRows == 0){
+					#SI LA CENTA ESTÁ SIENDO EDITADA Y NO HAY PAGOS ABONADOS SE BORRA Y SE CREA DE NUEVO CON LOS NUEVOS DATOS-###
+					/*
+					#- LE DAMOS EN LA MADRE A TODO LO RELACIONADO CON ESA CUENTA Y ESE CLIENTE        
+					$sql = "DELETE FROM cuentas WHERE id = $cta";
+					$query = mysql_query($sql);
+					if($query)
+					{
+						$sql = "DELETE FROM pagos WHERE cliente = $cte AND cuenta = $cta AND estado = 0";
+						mysql_query($sql);
+						$sql = "DELETE FROM recargos WHERE cliente = $cte AND cuenta = $cta";
+						mysql_query($sql);
+						$sql = "DELETE FROM notas WHERE cliete = $cte";
+						mysql_query($sql);
+						$sql = "DELETE FROM abonos WHERE idcuenta = $cta";
+						mysql_query($sql);
+						echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
+					}
+					*/
+				}
+				#-PENDIENTE, VAMOS DE VUELTA -###############################################################################
+				unset($_SESSION["EDITARCUENTA"]);
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+				//die("Parte de sitio en construcción");
+			}
+			#[YA SE VERIFICÓ QUE SERÁ DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
 			# inicializar las variables
 			switch($_POST["tipo_pago"]){
 				case 1:	$tipo_pago = "SEMANAL";		break;
