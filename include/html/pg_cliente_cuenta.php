@@ -134,7 +134,8 @@ $("#CancelarEditarCuenta").click(function(){
 				</a>
 				&nbsp;
 				<?php
-				if( !isset($_SESSION["EDITARCUENTA"]) && $_SESSION["U_NIVEL"] == 0 )
+				/*
+				if( (!isset($_SESSION["EDITARCUENTA"]) || $_SESSION["EDITARCUENTA"] != $ncta) && $_SESSION["U_NIVEL"] == 0)
 				{
 					?>
 					<a href="?pg=2e&cl=<?=$_GET['cl'];?>" id="EditarCuenta" title="Editar datos de cuenta" rel="<?=$ncta;?>">
@@ -142,6 +143,7 @@ $("#CancelarEditarCuenta").click(function(){
 					</a>
 					<?php
 				}
+				*/
 			}
 			?>
 			</th><td colspan="3"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
@@ -234,9 +236,10 @@ while ($ln2 = $db1->fetchNextObject($result))
 $sql = "SELECT * FROM cuentas WHERE estado = 0 AND cliente = ".$_GET["cl"];
 $res = $db->query($sql);
 $chk = $db->numRows($res);
-if($chk == 0 || isset($_SESSION["EDITARCUENTA"])){
+if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 	#[DATOS DE CUENTA SI SE VA A EDITAR]#####################################################################################
-	if (isset($_SESSION["EDITARCUENTA"]))
+	//echo "Cuenta: ".$ncta."<br />Session: ".$_SESSION["EDITARCUENTA"];
+	if ($_SESSION["EDITARCUENTA"]==$ncta)
 	{
 	
 		$sql = "SELECT * FROM cuentas WHERE id = ".$_SESSION["EDITARCUENTA"];

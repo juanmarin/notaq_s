@@ -588,10 +588,9 @@ switch($_POST["action"]){
 				*/
 			}
 			#-PENDIENTE, VAMOS DE VUELTA -###############################################################################
-			//unset($_SESSION["EDITARCUENTA"]);
-			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
-			//die("Parte de sitio en construcción");
+			unset($_SESSION["EDITARCUENTA"]);
 		}
+		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		break;
 	case "reimprimir_prestamo":
 		$dia = $POST["dia"];
