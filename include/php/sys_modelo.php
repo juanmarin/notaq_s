@@ -393,37 +393,6 @@ switch($_POST["action"]){
 			echo "Información incorrecta";
 			echo '<meta http-equiv="refresh" content="1;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		}else{
-			#[PRIMERO COMPROBAR SU LA CUENTA ESTA SIENDO EDITADA]# ######################################################################
-			if(isset($_SESSION["EDITARCUENTA"]))
-			{
-				#COMPROBAR QUE NO TENGA PAGOS REALIZADOS
-				$sql = "SELECT * FROM PAGOS WHERE estado > 0 AND cuenta = ".$_SESSION["EDITARCUENTA"];
-				$res = $db->query($sql);
-				if($db->numRows == 0){
-					#SI LA CENTA ESTÁ SIENDO EDITADA Y NO HAY PAGOS ABONADOS SE BORRA Y SE CREA DE NUEVO CON LOS NUEVOS DATOS-###
-					/*
-					#- LE DAMOS EN LA MADRE A TODO LO RELACIONADO CON ESA CUENTA Y ESE CLIENTE        
-					$sql = "DELETE FROM cuentas WHERE id = $cta";
-					$query = mysql_query($sql);
-					if($query)
-					{
-						$sql = "DELETE FROM pagos WHERE cliente = $cte AND cuenta = $cta AND estado = 0";
-						mysql_query($sql);
-						$sql = "DELETE FROM recargos WHERE cliente = $cte AND cuenta = $cta";
-						mysql_query($sql);
-						$sql = "DELETE FROM notas WHERE cliete = $cte";
-						mysql_query($sql);
-						$sql = "DELETE FROM abonos WHERE idcuenta = $cta";
-						mysql_query($sql);
-						echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
-					}
-					*/
-				}
-				#-PENDIENTE, VAMOS DE VUELTA -###############################################################################
-				unset($_SESSION["EDITARCUENTA"]);
-				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
-				//die("Parte de sitio en construcción");
-			}
 			#[YA SE VERIFICÓ QUE SERÁ DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
 			# inicializar las variables
 			switch($_POST["tipo_pago"]){
@@ -586,6 +555,43 @@ switch($_POST["action"]){
 			//include_once "imprimeReciboCuenta.php";
 		}
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+		break;
+	case "cuenta_editar":
+		#[PRIMERO COMPROBAR SU LA CUENTA ESTA SIENDO EDITADA]# ######################################################################
+		if(isset($_SESSION["EDITARCUENTA"]))
+		{
+			foreach($_POST as $var => $val)
+			{
+				echo $var . " => " . $val . "<br />";
+			}
+			#COMPROBAR QUE NO TENGA PAGOS REALIZADOS
+			$sql = "SELECT * FROM PAGOS WHERE estado > 0 AND cuenta = ".$_SESSION["EDITARCUENTA"];
+			$res = $db->query($sql);
+			if($db->numRows == 0){
+				#SI LA CENTA ESTÁ SIENDO EDITADA Y NO HAY PAGOS ABONADOS SE BORRA Y SE CREA DE NUEVO CON LOS NUEVOS DATOS-###
+				/*
+				#- LE DAMOS EN LA MADRE A TODO LO RELACIONADO CON ESA CUENTA Y ESE CLIENTE        
+				$sql = "DELETE FROM cuentas WHERE id = $cta";
+				$query = mysql_query($sql);
+				if($query)
+				{
+					$sql = "DELETE FROM pagos WHERE cliente = $cte AND cuenta = $cta AND estado = 0";
+					mysql_query($sql);
+					$sql = "DELETE FROM recargos WHERE cliente = $cte AND cuenta = $cta";
+					mysql_query($sql);
+					$sql = "DELETE FROM notas WHERE cliete = $cte";
+					mysql_query($sql);
+					$sql = "DELETE FROM abonos WHERE idcuenta = $cta";
+					mysql_query($sql);
+					echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
+				}
+				*/
+			}
+			#-PENDIENTE, VAMOS DE VUELTA -###############################################################################
+			//unset($_SESSION["EDITARCUENTA"]);
+			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+			//die("Parte de sitio en construcción");
+		}
 		break;
 	case "reimprimir_prestamo":
 		$dia = $POST["dia"];

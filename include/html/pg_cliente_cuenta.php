@@ -130,26 +130,17 @@ $("#CancelarEditarCuenta").click(function(){
 			{
 				?>
 				<a href="include/html/box_nota.php?width=500&height=390&cl=<?php echo $_GET["cl"];?>" class="thickbox" >
-					<img src="estilo/img/order-162.png" />
+				<img src="estilo/img/order-162.png" />
 				</a>
 				&nbsp;
 				<?php
-				if( $_SESSION["U_NIVEL"] == 0 )
+				if( !isset($_SESSION["EDITARCUENTA"]) && $_SESSION["U_NIVEL"] == 0 )
 				{
 					?>
 					<a href="?pg=2e&cl=<?=$_GET['cl'];?>" id="EditarCuenta" title="Editar datos de cuenta" rel="<?=$ncta;?>">
-						<img src="estilo/img/notepencil32.png" />
+					<img src="estilo/img/notepencil32.png" />
 					</a>
 					<?php
-					if(isset($_SESSION["EDITARCUENTA"]))
-					{
-						?>
-						<a href="?pg=2e&cl=<?=$_GET['cl'];?>" id="CancelarEditarCuenta" title="Cancelar editar datos de cuenta" rel="<?=$ncta;?>">
-						<img src="estilo/_img/cerrar.png" />
-						</a>
-						<?php
-					}
-					
 				}
 			}
 			?>
@@ -236,7 +227,8 @@ while ($ln2 = $db1->fetchNextObject($result))
 ?>
 <br>
 <form name="abrecuenta" action="include/php/sys_modelo.php" method="post">
-<input type="hidden" name="action" value="cuenta_nueva" />
+<?php $frmcuenta = (isset($_SESSION["EDITARCUENTA"]))?"cuenta_editar":"cuenta_nueva"; ?>
+<input type="hidden" name="action" value="<?=$frmcuenta;?>" />
 <input type="hidden" name="cl" value="<?php echo $_GET["cl"];?>" />
 <?php
 $sql = "SELECT * FROM cuentas WHERE estado = 0 AND cliente = ".$_GET["cl"];
@@ -406,7 +398,22 @@ if($chk == 0 || isset($_SESSION["EDITARCUENTA"])){
 	</tbody>
 	<tfoot>	
 	<tr>
-		<th colspan="4"><input type="submit" value="Abrir cuenta" /></th>
+		<?php
+		if (isset($_SESSION["EDITARCUENTA"])){
+			?>
+			<th colspan="4">
+			<input type="button" value="Cancelar" id="CancelarEditarCuenta" title="Cancelar editar datos de cuenta" rel="<?=$ncta;?>" />
+			<input type="submit" value="Editar cuenta" />
+			</th>
+			<?php
+		}
+		else
+		{
+			?>
+			<th colspan="4"><input type="submit" value="Abrir cuenta" /></th>
+			<?php
+		}
+		?>
 	</tr>
 	</tfoot>
 	</table>
