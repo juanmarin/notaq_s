@@ -133,6 +133,7 @@ $("#CancelarEditarCuenta").click(function(){
 				<img src="estilo/img/order-162.png" />
 				</a>
 				&nbsp;
+				
 				<?php
 				/*
 				if( (!isset($_SESSION["EDITARCUENTA"]) || $_SESSION["EDITARCUENTA"] != $ncta) && $_SESSION["U_NIVEL"] == 0)

@@ -569,6 +569,7 @@ switch($_POST["action"]){
 			$res = $db->query($sql);
 			if($db->numRows == 0){
 				#SI LA CENTA ESTÁ SIENDO EDITADA Y NO HAY PAGOS ABONADOS SE BORRA Y SE CREA DE NUEVO CON LOS NUEVOS DATOS-###
+				
 				/*
 				#- LE DAMOS EN LA MADRE A TODO LO RELACIONADO CON ESA CUENTA Y ESE CLIENTE        
 				$sql = "DELETE FROM cuentas WHERE id = $cta";
