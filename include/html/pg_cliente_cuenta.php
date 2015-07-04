@@ -135,7 +135,6 @@ $("#CancelarEditarCuenta").click(function(){
 				&nbsp;
 				
 				<?php
-				/*
 				if( (!isset($_SESSION["EDITARCUENTA"]) || $_SESSION["EDITARCUENTA"] != $ncta) && $_SESSION["U_NIVEL"] == 0)
 				{
 					?>
@@ -144,7 +143,6 @@ $("#CancelarEditarCuenta").click(function(){
 					</a>
 					<?php
 				}
-				*/
 			}
 			?>
 			</th><td colspan="3"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
@@ -230,7 +228,7 @@ while ($ln2 = $db1->fetchNextObject($result))
 ?>
 <br>
 <form name="abrecuenta" action="include/php/sys_modelo.php" method="post">
-<?php $frmcuenta = (isset($_SESSION["EDITARCUENTA"]))?"cuenta_editar":"cuenta_nueva"; ?>
+<?php $frmcuenta = (isset($_SESSION["EDITARCUENTA"]))?"cuenta_nueva":"cuenta_nueva"; ?>
 <input type="hidden" name="action" value="<?=$frmcuenta;?>" />
 <input type="hidden" name="cl" value="<?php echo $_GET["cl"];?>" />
 <?php
@@ -245,6 +243,8 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 		$sql = "SELECT * FROM cuentas WHERE id = ".$_SESSION["EDITARCUENTA"];
 		$res = $db->query($sql);
 		$ec  = $db->fetchNextObject($res);
+		$ec_fech = $ec->fecha;
+		$ec_fepa = $ec->fecha_pago;
 		$ec_cant = $ec->total;
 		$ec_cobr = $cc->conrador;
 		$ec_tpag = $ec->tipo_pago;
@@ -280,10 +280,19 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 	</thead>
 	<tbody>
 	<tr>
+		<?php
+		if( isset($_SESSION["EDITARCUENTA"]) ){
+			$frmfe=$ec_fech;
+			$frmfp=($ec_fepa=='0000-00-00')?date('Y-m-d'):$ec_fepa;
+		}else{
+			$frmfe=date('Y-m-d');
+			$frmfp=date('Y-m-d');
+		}
+		?>
 		<th width="120">Fecha:</th>
-		<td width="210"><input type="text" name="fecha" id="fecha" size="10" value="<?php echo date('Y-m-d');?>" class="dpfecha" /></td>
+		<td width="210"><input type="text" name="fecha" id="fecha" size="10" value="<?=$frmfe;?>" class="dpfecha" /></td>
 		<th width="150">Primer pago:</th>
-		<td><input type="text" name="fechapp" id="fechapp" size="10" value="<?php echo date('Y-m-d');?>" class="dpfecha" /></td>
+		<td><input type="text" name="fechapp" id="fechapp" size="10" value="<?=$frmfp;?>" class="dpfecha" /></td>
 	</tr>
 	<tr>
 		<th>Cantidad:</th>
@@ -497,12 +506,11 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 			{
 				$sql = "INSERT INTO recargos (cuenta, cliente, pago, fecha, monto, pago_id, dias_atraso) 
 				VALUES (".$cuenta.", ".$cliente.", '".$proxpago."', '".date("Y-m-d")."', ".$monto.", ".$pago_id.", ".$dAtras.")";
-
 				$db->execute($sql);	
 			}
 			elseif ($db->numRows() > 0)
 			{
-				$sql = "UPDATE recargos SET monto = $monto, dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
+				$sql = "UPDATE recargos SET dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
 				$db->execute($sql);
 			}
 		}

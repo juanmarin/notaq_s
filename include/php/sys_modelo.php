@@ -245,10 +245,10 @@ switch($_POST["action"]){
 		if($_query){
 			if($_POST["aval2"] ==1){
 				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2dc"> ';			
-				}else {
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_SESSION["clid"].'"> ';
+			}else {
+				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_SESSION["clid"].'"> ';
+			}
 		}
-	}
 		break;
 	case "cliente_nuevo4":
 		$_cadena = "UPDATE clientes SET 
@@ -387,11 +387,14 @@ switch($_POST["action"]){
 		}
 	case "cuenta_nueva":
 		#echo "dia pago: " . $_POST["dias_pago"]. "<br />";
-		
-		if((($_POST["tipo_pago"] < 4) && ($_POST["dias_pago"] == "nd")) || ($_POST["tipo_pago"] == "nd") || ($_POST["cantidad"] == "") || ($_POST["plazo1"] == "") || ($_POST["monto1"] == "")){
+		foreach($_POST as $var => $val)
+		{
+			//echo $var . " => " . $val . "<br />";
+		}
+		if((($_POST["tipo_pago"] > 4) && ($_POST["dias_pago"] == "nd")) || ($_POST["tipo_pago"] == "nd") || ($_POST["cantidad"] == "") || ($_POST["plazo1"] == "") || ($_POST["monto1"] == "")){
 			# no hacer nada porque estan mal los datos
 			echo "Información incorrecta";
-			echo '<meta http-equiv="refresh" content="1;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		}else{
 			#[YA SE VERIFICÓ QUE SERÁ DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
 			# inicializar las variables
@@ -423,25 +426,90 @@ switch($_POST["action"]){
 			}else{
 				$diasPago = $_POST["dias_pago"];
 			}
-			//echo "<br />Variable dias_pago: $diasPago <br />";		
-			## creando cuenta 
-			$_cadena = "INSERT INTO cuentas (cliente, fecha, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones)
-				VALUES (
-				 ". $_POST["cl"] .",
-				'". $_POST["fecha"] ."',
-				 ". $cantidad .",
-				 ". $interes .",
-				 ". $tiempo .",
-				 ". $tipo_pago .",
-				'". $diasPago ."',
-				 ". $total .", 
-				 ". $npagos .",
-				 ". $pago .",
-				'". $_POST["cobrador"] ."',
-				'". $_POST["observ"]."'
-			)";
-			$res = mysql_query($_cadena);
-			$cuenta = mysql_insert_id();
+			//echo "<br />Variable dias_pago: $diasPago <br />";	
+			if(isset($_SESSION["EDITARCUENTA"]))
+			{	
+				## comprobar datos anteriores de cuenta
+				$sql = "SELECT * FROM cuenta WHERE id=".$_SESSION["EDITARCUENTA"];
+				echo $sql;
+				$res = mysql_query($sql);
+				$pre = mysql_fetch_array($res);
+				$pre_canti = $pre["cantidad"];
+				$pre_tipop = $pre["tipo_pago"];
+				$pre_diasp = $pre["dias_pago"];
+				$sql = "select count(*) plazo,pago monto from pagos where cuenta = ".$_SESSION["EDITARCUENTA"]." group by pago ORDER BY id";
+				$res = mysql_query($sql);
+				$cnt=0;
+				while($ecp = mysql_fetch_array($res))
+				{
+					if($cnt==0)
+					{
+						$pre_pzo1 = $ecp["plazo"];
+						$pre_mto1 = $ecp["monto"];
+					}
+					else 
+					{
+						$pre_pzo2 = $ecp["plazo"];
+						$pre_mto2 = $ecp["monto"];
+					}
+					$cnt++;
+				}
+				## editando cuenta 
+				$_cadena = "UPDATE cuentas SET
+					fecha 		= '". $_POST["fecha"] ."',
+					fecha_pago	= '". $_POST["fechapp"] ."',
+					cantidad	=  ". $cantidad .",
+					tiempo		=  ". $tiempo .",
+					tipo_pago	=  ". $tipo_pago .",
+					dias_pago	= '". $diasPago ."',
+					total		=  ". $cantidad .", 
+					npagos		=  ". $npagos .",
+					cobrador	= '". $_POST["cobrador"] ."',
+					observaciones	= '". $_POST["observ"]."'
+					WHERE id = ".$_SESSION["EDITARCUENTA"];
+				//echo $_cadena;
+				$res = mysql_query($_cadena);
+				if($res){echo"ok";}else{echo"falla en update";}
+				$cuenta = $_SESSION["EDITARCUENTA"];
+				if( ($cantidad==$pre_canti) && ($tipo_pago==$pre_tipop) && ($diasPago==$pre_diasp) && ($monto1==$pre_nto1) && ($monto2==$pre_mto2) && ($plazo1==$pre_pzo1) && ($plazo2==$pre_pzo2) )
+				{
+					## NO SE HACE NADA AQUI, NO SE HICIERON CAMBIOS EN LOS PAGOS
+					//echo "No hay cambios";
+					unset($_SESSION["EDITARCUENTA"]);
+					echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+					//exit();
+				}
+				else
+				{
+					## BORRAR PAGOS PENDIENTES, DEJANDO SOLO LOS QUE ESTÉN SALDADOS
+					$sql = "DELETE FROM pagos WHERE cuenta=$cuenta AND estado=0 AND id NOT IN(SELECT pago_id FROM recargos WHERE estado>0);";
+					mysql_query($sql);
+					## BORRAR RECARGOS QUE NO HAN SIDO SALDADOS
+					$sql = "DELETE FROM recargos WHERE cuenta=$cuenta AND estado=0";
+					mysql_query($sql);
+				}
+				unset($_SESSION["EDITARCUENTA"]);
+			}else{
+				## creando cuenta 
+				$_cadena = "INSERT INTO cuentas (cliente, fecha, fecha_pago, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones)
+					VALUES (
+					 ". $_POST["cl"] .",
+					'". $_POST["fecha"] ."',
+					'". $_POST["fechapp"] ."',
+					 ". $cantidad .",
+					 ". $interes .",
+					 ". $tiempo .",
+					 ". $tipo_pago .",
+					'". $diasPago ."',
+					 ". $total .", 
+					 ". $npagos .",
+					 ". $pago .",
+					'". $_POST["cobrador"] ."',
+					'". $_POST["observ"]."'
+				)";
+				$res = mysql_query($_cadena);
+				$cuenta = mysql_insert_id();
+			}
 			$cnt = 0;
 			$n = 1;
 			if($tipo_pago == 1){
@@ -528,7 +596,7 @@ switch($_POST["action"]){
 							if($m < 10){$m = "0".$m;}
 							if($d < 10){$d = "0".$d;}
 							$prxpago = $a . "-" . $m . "-" . $d;
-							echo $prxpago . " ~ " . $dia[0] . $dia[1] . "<br />";
+							//echo $prxpago . " ~ " . $dia[0] . $dia[1] . "<br />";
 						}
 						else
 						{
@@ -548,51 +616,16 @@ switch($_POST["action"]){
 					".$monto2.", 
 					".($interes * $tiempo)."   
 					)";
+					echo $sql . "<br />";
 					mysql_query($sql);
 					$cnt++;
 				}
 			}
 			//include_once "imprimeReciboCuenta.php";
 		}
-		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+		echo '<meta http-equiv="refresh" content="1;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		break;
-	case "cuenta_editar":
-		#[PRIMERO COMPROBAR SU LA CUENTA ESTA SIENDO EDITADA]# ######################################################################
-		if(isset($_SESSION["EDITARCUENTA"]))
-		{
-			foreach($_POST as $var => $val)
-			{
-				echo $var . " => " . $val . "<br />";
-			}
-			#COMPROBAR QUE NO TENGA PAGOS REALIZADOS
-			$sql = "SELECT * FROM PAGOS WHERE estado > 0 AND cuenta = ".$_SESSION["EDITARCUENTA"];
-			$res = $db->query($sql);
-			if($db->numRows == 0){
-				#SI LA CENTA ESTÁ SIENDO EDITADA Y NO HAY PAGOS ABONADOS SE BORRA Y SE CREA DE NUEVO CON LOS NUEVOS DATOS-###
-				
-				/*
-				#- LE DAMOS EN LA MADRE A TODO LO RELACIONADO CON ESA CUENTA Y ESE CLIENTE        
-				$sql = "DELETE FROM cuentas WHERE id = $cta";
-				$query = mysql_query($sql);
-				if($query)
-				{
-					$sql = "DELETE FROM pagos WHERE cliente = $cte AND cuenta = $cta AND estado = 0";
-					mysql_query($sql);
-					$sql = "DELETE FROM recargos WHERE cliente = $cte AND cuenta = $cta";
-					mysql_query($sql);
-					$sql = "DELETE FROM notas WHERE cliete = $cte";
-					mysql_query($sql);
-					$sql = "DELETE FROM abonos WHERE idcuenta = $cta";
-					mysql_query($sql);
-					echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
-				}
-				*/
-			}
-			#-PENDIENTE, VAMOS DE VUELTA -###############################################################################
-			unset($_SESSION["EDITARCUENTA"]);
-		}
-		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
-		break;
+	
 	case "reimprimir_prestamo":
 		$dia = $POST["dia"];
 		$tipo = $POST["tipo"];
