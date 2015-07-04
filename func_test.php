@@ -39,6 +39,7 @@
 		require_once("include/php/fun_global.php");
 		require_once("include/conf/Config_con.php");
 			$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
+			/*
 		    $sql = "SELECT mymvcdb_users.username AS cobrador, COUNT(clientes.c_cobrador) AS mis_ctes
 					FROM mymvcdb_users,clientes 
 					WHERE mymvcdb_users.username = clientes.c_cobrador
@@ -59,6 +60,7 @@
 					AND pagos.fecha < '".$fecha."'";
 				$res = $db->query($sql2);
 				while ($cob = $db->fetchNextObject($res)) {
+					*/
 		    	?>
 		    	 	<tr> 
 		    			<td><?php echo $cob->cobrador;?></td>
@@ -66,30 +68,44 @@
 		    		</tr>
 		    	<?php
 		    	
-		    }
+		    //}
 		  
 		    	echo $cob->cobrador."----->".$cob->mis_ctes."</br>";
 
 
 		    $cuenta = 144;
-		    $cliente = 120;
+		    $cliente = 120;/*
 		    if (hayRecargos($cuenta, $cliente) == 1) {
 		    	echo "tiene Recargos";
 		    }
 
+				*/
+				
+		    $sql = "SELECT clientes.c_cobrador, mymvcdb_users.nombre, mymvcdb_users.username, count( clientes.id )
+				FROM `clientes`
+				JOIN mymvcdb_users ON mymvcdb_users.username = clientes.c_cobrador
+				AND mymvcdb_users.nivel =3
+				GROUP BY clientes.c_cobrador
+				ORDER BY mymvcdb_users.nombre";
+				$res = $db->query($sql);
+				while ($cob = $db->fetchNextObject($res)) {
+				var_dump($cob);
+}
+         echo "//////////////////////////////////////////////////////////////////////////////////////////////////////////";
+         
+         
+				$sql2 = "SELECT clientes.c_cobrador, mymvcdb_users.nombre, mymvcdb_users.username, count( DISTINCT(clientes.id) )
+				FROM `clientes`
+				JOIN mymvcdb_users ON mymvcdb_users.username = clientes.c_cobrador AND mymvcdb_users.nivel =3
+				JOIN pagos ON pagos.cliente = clientes.id AND pagos.estado =0 AND pagos.fecha <= '2015-07-03'
+				GROUP BY clientes.c_cobrador
+				ORDER BY mymvcdb_users.nombre";
+				$res2 = $db->query($sql2);
+				while ($cob2 = $db->fetchNextObject($res2)) {
+				var_dump($cob2);
+}
 
-		    SELECT clientes.c_cobrador, mymvcdb_users.nombre, mymvcdb_users.username, count( clientes.id )
-FROM `clientes`
-LEFT JOIN mymvcdb_users ON mymvcdb_users.username = clientes.c_cobrador
-AND mymvcdb_users.nivel =3
-WHERE demanda !=1
-GROUP BY clientes.c_cobrador
-ORDER BY mymvcdb_users.nombre
-
-
-
-
-
+/*
 Para los morosos cala este query porfa carnal a ver si te da lo que necesitas
 SELECT clientes.c_cobrador, mymvcdb_users.nombre, mymvcdb_users.username, count( DISTINCT (
 clientes.id
@@ -112,5 +128,6 @@ JOIN pagos ON pagos.cliente = clientes.id AND pagos.estado =0 AND pagos.fecha < 
 WHERE demanda !=1
 GROUP BY clientes.c_cobrador
 ORDER BY mymvcdb_users.nombre
+*/
 		    
 ?>
