@@ -109,7 +109,6 @@ $("#CancelarEditarCuenta").click(function(){
 				?>
 				<div class="fotocliente-frame">
 				<div class="fotocliente-image" style="background:url(include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET['cl'];?>) center no-repeat;background-size:200px;">
-					<!-- <img src="include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET["cl"];?>" class="fotocliente" /> -->
 				</div>
 				</div>
 				<?php
@@ -228,8 +227,7 @@ while ($ln2 = $db1->fetchNextObject($result))
 ?>
 <br>
 <form name="abrecuenta" action="include/php/sys_modelo.php" method="post">
-<?php $frmcuenta = (isset($_SESSION["EDITARCUENTA"]))?"cuenta_nueva":"cuenta_nueva"; ?>
-<input type="hidden" name="action" value="<?=$frmcuenta;?>" />
+<input type="hidden" name="action" value="cuenta_nueva" />
 <input type="hidden" name="cl" value="<?php echo $_GET["cl"];?>" />
 <?php
 $sql = "SELECT * FROM cuentas WHERE estado = 0 AND cliente = ".$_GET["cl"];

@@ -386,11 +386,6 @@ switch($_POST["action"]){
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2bd&cl='.$_POST["cl"].'"> ';
 		}
 	case "cuenta_nueva":
-		#echo "dia pago: " . $_POST["dias_pago"]. "<br />";
-		foreach($_POST as $var => $val)
-		{
-			//echo $var . " => " . $val . "<br />";
-		}
 		if((($_POST["tipo_pago"] > 4) && ($_POST["dias_pago"] == "nd")) || ($_POST["tipo_pago"] == "nd") || ($_POST["cantidad"] == "") || ($_POST["plazo1"] == "") || ($_POST["monto1"] == "")){
 			# no hacer nada porque estan mal los datos
 			echo "Información incorrecta";
@@ -425,8 +420,7 @@ switch($_POST["action"]){
 				$diasPago = substr($_POST["fechapp"], -2);
 			}else{
 				$diasPago = $_POST["dias_pago"];
-			}
-			//echo "<br />Variable dias_pago: $diasPago <br />";	
+			}	
 			if(isset($_SESSION["EDITARCUENTA"]))
 			{	
 				## comprobar datos anteriores de cuenta
@@ -474,10 +468,8 @@ switch($_POST["action"]){
 				if( ($cantidad==$pre_canti) && ($tipo_pago==$pre_tipop) && ($diasPago==$pre_diasp) && ($monto1==$pre_nto1) && ($monto2==$pre_mto2) && ($plazo1==$pre_pzo1) && ($plazo2==$pre_pzo2) )
 				{
 					## NO SE HACE NADA AQUI, NO SE HICIERON CAMBIOS EN LOS PAGOS
-					//echo "No hay cambios";
 					unset($_SESSION["EDITARCUENTA"]);
 					echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
-					//exit();
 				}
 				else
 				{
