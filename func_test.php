@@ -81,7 +81,7 @@
 
 				*/
 				
-		    $sql = "SELECT clientes.c_cobrador, mymvcdb_users.nombre, mymvcdb_users.username, count( clientes.id )
+		    $sql = "SELECT COUNT(clientes.c_cobrador) AS cobradores, mymvcdb_users.nombre, mymvcdb_users.username, count( clientes.id )
 				FROM `clientes`
 				JOIN mymvcdb_users ON mymvcdb_users.username = clientes.c_cobrador
 				AND mymvcdb_users.nivel =3
@@ -89,7 +89,7 @@
 				ORDER BY mymvcdb_users.nombre";
 				$res = $db->query($sql);
 				while ($cob = $db->fetchNextObject($res)) {
-				var_dump($cob);
+				echo $cob->username."----->".$cob->cobradores."</br>";
 }
          echo "//////////////////////////////////////////////////////////////////////////////////////////////////////////";
          
@@ -106,20 +106,7 @@
 }
 
 /*
-Para los morosos cala este query porfa carnal a ver si te da lo que necesitas
-SELECT clientes.c_cobrador, mymvcdb_users.nombre, mymvcdb_users.username, count( DISTINCT (
-clientes.id
-) ) 
-FROM `clientes` 
-JOIN mymvcdb_users ON mymvcdb_users.username = clientes.c_cobrador
-JOIN pagos ON pagos.cliente = clientes.id
-AND pagos.estado =0
-AND pagos.fecha < '2015-06-01'
-AND mymvcdb_users.nivel =3
-WHERE demanda !=1
-GROUP BY clientes.c_cobrador
-ORDER BY mymvcdb_users.nombre
-agunatame
+
 ESTE ULTIMO
 SELECT clientes.c_cobrador, mymvcdb_users.nombre, mymvcdb_users.username, count( DISTINCT(clientes.id) )
 FROM `clientes`
