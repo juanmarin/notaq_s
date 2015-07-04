@@ -240,9 +240,8 @@ $chk = $db->numRows($res);
 if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 	#[DATOS DE CUENTA SI SE VA A EDITAR]#####################################################################################
 	//echo "Cuenta: ".$ncta."<br />Session: ".$_SESSION["EDITARCUENTA"];
-	if (isset($_SESSION["EDITARCUENTA"]) && ($_SESSION["EDITARCUENTA"]==$ncta))
+	if ( isset($_SESSION["EDITARCUENTA"]) && ($_SESSION["EDITARCUENTA"]==$ncta) )
 	{
-	
 		$sql = "SELECT * FROM cuentas WHERE id = ".$_SESSION["EDITARCUENTA"];
 		$res = $db->query($sql);
 		$ec  = $db->fetchNextObject($res);
