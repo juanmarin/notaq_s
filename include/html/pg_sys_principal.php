@@ -62,8 +62,8 @@ if ($UserLevel == 0) {
 					<?php
 					}	
 				?>
-			<td align="center"><?php echo $corriente;?></td>
-			<td style="background-color: #FA5858;" align="center"><?php echo $morosos;?></td>
+			<td style="background-color: #7DB77B"align="center"><?php echo $corriente;?></td>
+			<td style="background-color: #F78181;" align="center"><?php echo $morosos;?></td>
 			<td align="right"><?php echo number_format($avance, 2)."%";?></td>
 			</tr>
 		    	<?php
