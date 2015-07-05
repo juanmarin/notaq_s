@@ -20,7 +20,7 @@
 		$date = "0000-00-00";
 		echo date("d-m-Y", strtotime($date))."</br>";
 ?>
-<table>
+<table border="1">
 <caption>REPORTE DE COBRADORES</caption>
 <thead>
 	<tr>
@@ -33,9 +33,7 @@
 </thead>
 <tbody>
 <?php
-
 		//// ESTADISTICOS DE COBRADORES/////
-		
 		require_once("include/php/sys_db.class.php");
 		require_once("include/php/fun_global.php");
 		require_once("include/conf/Config_con.php");
@@ -47,13 +45,12 @@
 			AND clientes.activo = 1
 			GROUP BY clientes.c_cobrador";
 		$res = $db->query($sql);
-		while($est=$db->fetchNextObject($sql))
+		while($cob=$db->fetchNextObject($res))
 		{
 			?>
-			<tr> 
-		    		<td><?php echo $cob->cobrador;?></td>
-		    		<td> <?php echo $cob->mis_ctes; ?></td>
-				<td><!-- C. Corriente --></td>
+			<tr>
+				<td><?php echo $cob->cobrador;?></td>
+				<td> <?php echo $cob->mis_ctes; ?></td>
 				<?php
 				#Buscando el total de clientes Morosos
 				/*
@@ -62,24 +59,26 @@
 				SUM(pagos.pago) AS pago, pagos.estado
 				FROM mymvcdb_users,clientes, cuentas, pagos 
 				WHERE
-					mymvcdb_users.username = clientes.c_cobrador
-					AND clientes.id = cuentas.cliente
-					AND cuentas.id = pagos.cuenta 
-					AND cuentas.estado = 0 
-					AND pagos.estado = 0 
-					AND pagos.fecha < '".$fecha."'";
+				mymvcdb_users.username = clientes.c_cobrador
+				AND clientes.id = cuentas.cliente
+				AND cuentas.id = pagos.cuenta 
+				AND cuentas.estado = 0 
+				AND pagos.estado = 0 
+				AND pagos.fecha < '".$fecha."'";
 				*/
 				$sql2=" SELECT count(*) morosos FROM cuentas c LEFT JOIN pagos p ON c.id=p.id 
-					WHERE c.estado = 0 AND c.cobrador='".$cob->cobrador."' AND p.estado=0 AND p.fecha <= '$hoy'";
+				WHERE c.estado = 0 AND c.cobrador='".$cob->cobrador."' AND p.estado=0 AND p.fecha <= '$hoy'";
 				$res2 = $db->query($sql2);
 				while ($mor = $db->fetchNextObject($res2))
 				{
+					$corriente=$cob->mis_ctes-$mor->morosos;
 					?>
+					<td><?=$corriente;?></td>
 					<td><?=$mor->morosos;?></td>
+					<td align="right"><?=moneda(($corriente/$cob->mis_ctes)*100);?></td>
 					<?php
-				}
+				}	
 				?>
-				<td><!-- Total avance % --></td>
 			</tr>
 		    	<?php
 		}
