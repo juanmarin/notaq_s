@@ -38,20 +38,6 @@ $("#dias_pago").change(function(){
 		}
 	});
 });
-$("#EditarCuenta").click(function(){
-	ncuenta=$(this).attr("rel");
-	$.post("include/php/set_editarCuenta.php", {editarCuenta:ncuenta}, function(data){
-		location.reload('?pg=2e&cl='+ncuenta); 
-	});
-	return false;
-});
-$("#CancelarEditarCuenta").click(function(){
-	ncuenta=$(this).attr("rel");
-	$.post("include/php/unset_editarCuenta.php", {editarCuenta:ncuenta}, function(data){
-		location.reload('?pg=2e&cl='+ncuenta); 
-	});
-	return false;
-});
 </script>
 <p class="title">Clientes &raquo; Cuenta</p>
 <table>
@@ -109,6 +95,7 @@ $("#CancelarEditarCuenta").click(function(){
 				?>
 				<div class="fotocliente-frame">
 				<div class="fotocliente-image" style="background:url(include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET['cl'];?>) center no-repeat;background-size:200px;">
+					<!-- <img src="include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET["cl"];?>" class="fotocliente" /> -->
 				</div>
 				</div>
 				<?php
@@ -127,21 +114,11 @@ $("#CancelarEditarCuenta").click(function(){
 			<?php
 			if(!isset($_SESSION["nohaycuenta"]))
 			{
-				?>
+				?>	
 				<a href="include/html/box_nota.php?width=500&height=390&cl=<?php echo $_GET["cl"];?>" class="thickbox" >
-				<img src="estilo/img/order-162.png" />
+					<img src="estilo/img/order-162.png" />
 				</a>
-				&nbsp;
-				
 				<?php
-				if( (!isset($_SESSION["EDITARCUENTA"]) || $_SESSION["EDITARCUENTA"] != $ncta) && $_SESSION["U_NIVEL"] == 0)
-				{
-					?>
-					<a href="?pg=2e&cl=<?=$_GET['cl'];?>" id="EditarCuenta" title="Editar datos de cuenta" rel="<?=$ncta;?>">
-					<img src="estilo/img/notepencil32.png" />
-					</a>
-					<?php
-				}
 			}
 			?>
 			</th><td colspan="3"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
@@ -233,40 +210,6 @@ while ($ln2 = $db1->fetchNextObject($result))
 $sql = "SELECT * FROM cuentas WHERE estado = 0 AND cliente = ".$_GET["cl"];
 $res = $db->query($sql);
 $chk = $db->numRows($res);
-if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
-	#[DATOS DE CUENTA SI SE VA A EDITAR]#####################################################################################
-	//echo "Cuenta: ".$ncta."<br />Session: ".$_SESSION["EDITARCUENTA"];
-	if ( isset($_SESSION["EDITARCUENTA"]) && ($_SESSION["EDITARCUENTA"]==$ncta) )
-	{
-		$sql = "SELECT * FROM cuentas WHERE id = ".$_SESSION["EDITARCUENTA"];
-		$res = $db->query($sql);
-		$ec  = $db->fetchNextObject($res);
-		$ec_fech = $ec->fecha;
-		$ec_fepa = $ec->fecha_pago;
-		$ec_cant = $ec->total;
-		$ec_cobr = $cc->conrador;
-		$ec_tpag = $ec->tipo_pago;
-		$ec_dpag = $ec->dias_pago;
-		#[OBTENER MONTOS Y PAGOS]#
-		$sql = "select count(*) plazo,pago monto from pagos where cuenta = ".$_SESSION["EDITARCUENTA"]." group by pago ORDER BY id";
-		$res = $db->query($sql);
-		$cnt=0;
-		while($ecp = $db->fetchNextObject($res))
-		{
-			if($cnt==0)
-			{
-				$ec_pzo1 = $ecp->plazo;
-				$ec_mto1 = $ecp->monto;
-			}
-			else 
-			{
-				$ec_pzo2 = $ecp->plazo;
-				$ec_mto2 = $ecp->monto;
-			}
-			$cnt++;
-		}
-		$ec_obse = $ec->observaciones;
-	}
 	################################################################################################[FORMULARIO ABRIR CUENTA]
 	?>
 	<table>
@@ -278,36 +221,26 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 	</thead>
 	<tbody>
 	<tr>
-		<?php
-		if( isset($_SESSION["EDITARCUENTA"]) ){
-			$frmfe=$ec_fech;
-			$frmfp=($ec_fepa=='0000-00-00')?date('Y-m-d'):$ec_fepa;
-		}else{
-			$frmfe=date('Y-m-d');
-			$frmfp=date('Y-m-d');
-		}
-		?>
 		<th width="120">Fecha:</th>
-		<td width="210"><input type="text" name="fecha" id="fecha" size="10" value="<?=$frmfe;?>" class="dpfecha" /></td>
+		<td width="210"><input type="text" name="fecha" id="fecha" size="10" value="<?php echo date('Y-m-d');?>" class="dpfecha" /></td>
 		<th width="150">Primer pago:</th>
-		<td><input type="text" name="fechapp" id="fechapp" size="10" value="<?=$frmfp;?>" class="dpfecha" /></td>
+		<td><input type="text" name="fechapp" id="fechapp" size="10" value="<?php echo date('Y-m-d');?>" class="dpfecha" /></td>
 	</tr>
 	<tr>
 		<th>Cantidad:</th>
-		<td>$<input type="text" name="cantidad" size="5" value="<?=$ec_cant;?>" /></td>
+		<td>$<input type="text" name="cantidad" size="5" /></td>
 		<th>Cobrador: </th>
 		<td>
 			<select name="cobrador" id="cobrador">
-			<?php
+				<?php
 		        $sql = "SELECT username FROM mymvcdb_users WHERE nivel=3";
-			$res = $db->query($sql);
-		        while( $cob = $db->fetchNextObject($res) )
-		        {
-		        	?>
+				$res = $db->query($sql);
+		        while( $cob = $db->fetchNextObject($res) ){
+		        ?>
 				<option value="<?php echo $cob->username;?>" <?php echo $cob->username == $cobrador? $attr : ''; ?>><?php echo $cob->username;?></option>
 				<?php
-			}
-			?>
+					}
+				?>
 			</select>
 		</td>
 	</tr>
@@ -316,114 +249,39 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 		<td>
 		<select name="tipo_pago" id="tipo_pago">
 			<option value="nd">SELECCIONAR</option>
-			<option value="1" <?=((isset($_SESSION["EDITARCUENTA"]) && $ec_tpag==1)?'SELECTED':'')?>>SEMANAL</option>
-			<option value="2" <?=((isset($_SESSION["EDITARCUENTA"]) && $ec_tpag==2)?'SELECTED':'')?>>CATORCENAL</option>
-			<option value="3" <?=((isset($_SESSION["EDITARCUENTA"]) && $ec_tpag==3)?'SELECTED':'')?>>QUINCENAL</option>
-			<option value="4" <?=((isset($_SESSION["EDITARCUENTA"]) && $ec_tpag==4)?'SELECTED':'')?>>MENSUAL</option>
+			<option value="1">SEMANAL</option>
+			<option value="2">CATORCENAL</option>
+			<option value="3">QUINCENAL</option>
+			<option value="4">MENSUAL</option>
 		</select>
 		</td>
 		<th>Dias de Pago:</th>
 		<td>
 		<select name="dias_pago" id="dias_pago">
-		<?php
-		if(isset($_SESSION["EDITARCUENTA"]))
-		{
-			switch($ec_tpag)
-			{
-				case 1:	
-						?>
-						<option value="nd">DIAS DE PAGO</option>
-						<option value="1"<?=($ec_dpag==1)?' selected="selected"':'';?>>LUNES</option>
-						<option value="2"<?=($ec_dpag==2)?' selected="selected"':'';?>>MARTES</option>
-						<option value="3"<?=($ec_dpag==3)?' selected="selected"':'';?>>MIERCOLES</option>
-						<option value="4"<?=($ec_dpag==4)?' selected="selected"':'';?>>JUEVES</option>
-						<option value="5"<?=($ec_dpag==5)?' selected="selected"':'';?>>VIERNES</option>
-						<option value="6"<?=($ec_dpag==6)?' selected="selected"':'';?>>SABADO</option>
-						<option value="7"<?=($ec_dpag==7)?' selected="selected"':'';?>>DOMINGO</option>
-						<?php
-						break;
-				case 2:
-						?><option value="nd">DIAS DE PAGO</option>
-						<option value="1"<?=($ec_dpag==1)?' selected="selected"':'';?>>LUNES</option>
-						<option value="2"<?=($ec_dpag==2)?' selected="selected"':'';?>>MARTES</option>
-						<option value="3"<?=($ec_dpag==3)?' selected="selected"':'';?>>MIERCOLES</option>
-						<option value="4"<?=($ec_dpag==4)?' selected="selected"':'';?>>JUEVES</option>
-						<option value="5"<?=($ec_dpag==5)?' selected="selected"':'';?>>VIERNES</option>
-						<option value="6"<?=($ec_dpag==6)?' selected="selected"':'';?>>SABADO</option>
-						<option value="7"<?=($ec_dpag==7)?' selected="selected"':'';?>>DOMINGO</option>
-						<?php
-						break;
-				case 3:
-						?>
-						<option value="nd">DIAS DE PAGO</option>
-						<option value="10-25"	<?=($ec_dpag=='10-25')?	' selected':'';?>>10 Y 25 DE CADA MES</option>
-						<option value="1-16"	<?=($ec_dpag=='1-16')?	' selected':'';?>>16 Y 1 DE CADA MES</option>
-						<option value="2-17"	<?=($ec_dpag=='2-17')?	' selected':'';?>>17 Y 2 DE CADA MES</option>
-						<option value="2-16"	<?=($ec_dpag=='2-16')?	' selected':'';?>>2 Y 16 DE CADA MES</option>
-						<option value="8-22"	<?=($ec_dpag=='8-22')?	' selected':'';?>>8 Y 22 DE CADA MES</option>
-						<option value="15-30"	<?=($ec_dpag=='15-30')?	' selected':'';?>>15 Y 30 DE CADA MES</option>
-						<option value="1-15"	<?=($ec_dpag=='1-15')?	' selected':'';?>>15 Y 1 DE CADA MES</option>
-						<option value="6-21"	<?=($ec_dpag=='6-21')?	' selected':'';?>>6 Y 21 DE CADA MES</option>
-						<option value="3-18"	<?=($ec_dpag=='3-16')?	' selected':'';?>>3 Y 18 DE CADA MES</option>
-						<option value="4-18"	<?=($ec_dpag=='4-18')?	' selected':'';?>>4 Y 18 DE CADA MES</option>
-						<?php
-						break;
-				case 4:
-						?>
-						<option value="nd">DIAS DE PAGO</option>
-						<option value="1"<?=($ec_dpag==1)?' selected="selected"':'';?>>1 DE CADA MES</option>
-						<option value="16"<?=($ec_dpag==16)?' selected="selected"':'';?>>16 DE CADA MES</option>
-						<?php
-						break;
-				default:
-						?>
-						<option value="nd">DIAS DE PAGO</option>
-						<?php
-			}
-		}
-		else
-		{
-			?><option value="nd">DIAS DE PAGO</option><?php
-		}
-		?>
+		<option value="nd">SELECCIONAR</option>
 		</select>
 		</td>
 	</tr>
 	<tr>
 		<th>Plazo:</th>
-		<td><input type="text" name="plazo1" size="10" value="<?=$ec_pzo1;?>" /></td>
+		<td><input type="text" name="plazo1" size="10" /></td>
 		<th>Monto:</th>
-		<td>$<input type="text" name="monto1" size="10" value="<?=$ec_mto1;?>" /></td>
+		<td>$<input type="text" name="monto1" size="10" /></td>
 	</tr>
 	<tr>
 		<th>Plazo:</th>
-		<td><input type="text" name="plazo2" size="10" value="<?=$ec_pzo2;?>" /></td>
+		<td><input type="text" name="plazo2" size="10" /></td>
 		<th>Monto:</th>
-		<td>$<input type="text" name="monto2" size="10" value="<?=$ec_mto2;?>" /></td>
+		<td>$<input type="text" name="monto2" size="10" /></td>
 	</tr>	
 	<tr>
 		<th>Observaciones</th>
-		<td colspan="3"><textarea name="observ" id="observ" cols="48" rows="2"><?=$ec_obse;?></textarea></td>		
-	</tr>	
+		<td colspan="3"><textarea name="observ" id="observ" cols="48" rows="2"></textarea></td>		
+	</tr>		
 	</tbody>
 	<tfoot>	
 	<tr>
-		<?php
-		if (isset($_SESSION["EDITARCUENTA"])){
-			?>
-			<th colspan="4">
-			<input type="button" value="Cancelar" id="CancelarEditarCuenta" title="Cancelar editar datos de cuenta" rel="<?=$ncta;?>" />
-			<input type="submit" value="Editar cuenta" />
-			</th>
-			<?php
-		}
-		else
-		{
-			?>
-			<th colspan="4"><input type="submit" value="Abrir cuenta" /></th>
-			<?php
-		}
-		?>
+		<th colspan="4"><input type="submit" value="Abrir cuenta" /></th>
 	</tr>
 	</tfoot>
 	</table>
@@ -504,6 +362,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 			{
 				$sql = "INSERT INTO recargos (cuenta, cliente, pago, fecha, monto, pago_id, dias_atraso) 
 				VALUES (".$cuenta.", ".$cliente.", '".$proxpago."', '".date("Y-m-d")."', ".$monto.", ".$pago_id.", ".$dAtras.")";
+
 				$db->execute($sql);	
 			}
 			elseif ($db->numRows() > 0)
@@ -512,6 +371,79 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 				$db->execute($sql);
 			}
 		}
+	}
+	$sql = "SELECT * FROM recargos WHERE cuenta = ".$cuenta." ORDER BY pago ASC";
+	$rec = $db->query($sql);
+	$tot=0;
+	if($db->numRows() > 0)
+	{
+		###################################################################################################[CARGANDO RECARGOS]
+		?>
+		<table>
+		<caption>RECARGOS POR DEMORA</caption>
+		<thead>
+		<tr>
+	                <th>#</th>
+					<th>Fecha</th>
+	                <th>Cantidad</th>
+	                <th>Abonado</th>
+	                <th>Acciones</th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php	
+		$i = 0;
+		while($re = $db->fetchNextObject($rec))
+		{
+			$i++;
+			echo '<tr>';
+			echo '	<th> <center>'.$i.'</center></td>';
+			echo '	<th> <center>'.date("d-m-Y", strtotime($re->pago)).'</center></td>';
+			echo '	<td> <center>$ '; moneda($re->monto).'</center></td>';
+			echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
+			//$monto = moneda($re->monto);
+			if($re->estado == 0){
+				$tot += $re->monto;
+				?>
+				<form name="frm_saldar" action="include/php/sys_modelo.php"  method="post">
+				<input type="hidden" name="recargo_id" value="<?= $re->id;?>" />
+				<input type="hidden" name="c" value="<?= $cuenta;?>" />
+				<input type="hidden" name="cl" value="<?= $cliente;?>" />
+				<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
+				<input type="hidden" name="action" value="recargos" />
+				<th>
+				<center>
+					<input type="text" name="recargo" value="<?= $re->monto;?>" size="3" />
+					<input type="submit" name="rec_pagar" value="Pagar" />
+				</center>
+				</th>
+				</form>
+				<?php
+			}else{
+				?>
+				<form name="frm_re_recargo" action="include/php/sys_modelo.php"  method="post">
+				<input type="hidden" name="pago_id" value="<?= $re->pago_id;?>" />
+				<input type="hidden" name="c" value="<?= $cuenta;?>" />
+				<input type="hidden" name="cl" value="<?= $cliente;?>" />
+				<input type="hidden" name="recargo" value="<?= $re->monto;?>" />
+				<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
+				<input type="hidden" name="action" value="recargos" />
+				<th> <center> <input type="submit" name="rec_reimprime" value="Reimprimir" /> </center></th>
+				</form>
+				<?php    
+			}
+			echo '</tr>';
+			$tot;
+		}
+		?>
+		</tbody>
+		<tfoot>
+		<tr>
+			<th colspan="5" style="text-align: left;padding:2px 10px;">TOTAL RECARGOS POR PAGAR:  $ <?php moneda($tot);?></th>
+		</tr>
+		</tfoot>
+		</table>
+		<?php
 	}
 	#####################################################################################################[ABONAR A LA CUENTA]
 	#####################################################################################################[HISTORIAL DE PAGOS]
@@ -553,13 +485,11 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 	<tr>
 		<th></th>
 		<th align="left">FECHA</th>
-		<th align="left">F. PAGO</th>
+		<th align="left">CARGO</th>
 		<th>ABONO</th>
-		<th align="center">CARGO</th>
+		<th align="center">F. PAGO</th>
 		<th align="left"></th>
-		<th align="center">RECARGOS</th>
-		<th align="center">ABONADO</th>
-		<th align="center"></th>
+		<th align="left"></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -581,37 +511,33 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 			<tr>
 				<td><?= $i; ?></td>
 				<td><?php echo date("d-m-Y", strtotime($r->fecha)); ?></td>
-				<td><?php echo date("d-m-Y", strtotime($ab->fecha)); ?></td>	
 				<td>$ <?php moneda($ab->cargo); ?></td>
 				<td>$ <?php moneda($ab->abono); ?></td>
-				
-				<td>
+				<td><?php echo date("d-m-Y", strtotime($ab->fecha)); ?></td>
+				<td colspan="2">
 					<form name="frm_<?php echo $ab->idabono;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="idpago" value="<?= $ab->idpago;?>" />
 					<input type="hidden" name="abono" value="<?= $ab->abono;?>" />
 					<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
 					<input type="hidden" name="c" value="<?= $ab->idcuenta;?>" />
 					<input type="hidden" name="action" value="abono_" />
-					<input type="submit" value="REIMP" />
-					<?php
+					<input type="submit" value="REIMPRIMIR" />
+				<?php
 					if ($UserLevel == 0) {
-						?>
-						<form name="frm_<?php echo $ab->idabono;?>" action="include/php/sys_modelo.php" method="post">
-						<input type="hidden" name="idpago" value="<?= $ab->idpago;?>" />
-						<input type="hidden" name="idabono" value="<?= $ab->idabono;?>" />
-						<input type="hidden" name="abono" value="<?= $ab->abono;?>" />
-						<input type="hidden" name="c" value="<?= $ab->idcuenta;?>" />
-						<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
-						<input type="hidden" name="action" value="abono_elimina" />
-						<input type="submit" id="pago_cancel" value="C. ABONO"/>
-						<?php
+				?>
+					<form name="frm_<?php echo $ab->idabono;?>" action="include/php/sys_modelo.php" method="post">
+					<input type="hidden" name="idpago" value="<?= $ab->idpago;?>" />
+					<input type="hidden" name="idabono" value="<?= $ab->idabono;?>" />
+					<input type="hidden" name="abono" value="<?= $ab->abono;?>" />
+					<input type="hidden" name="c" value="<?= $ab->idcuenta;?>" />
+					<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
+					<input type="hidden" name="action" value="abono_elimina" />
+					<input type="submit" id="pago_cancel" value="C. ABONO"/>
+				<?php
 					}
-					?>
+				?>
 					</form>
 				</td>
-				<th></th>
-				<th></th>
-				<th></th>
 			</tr>
 			<?php
 		}
@@ -634,10 +560,9 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 			}
 			?>
 			</td>
-			<td><?php echo $r->fechaPago;?></td>
 			<td>$ <?php moneda($r->pago); ?></td>
 			<td>$ <?php moneda($r->pago_real); ?></td>
-			
+			<td><?php echo $r->fechaPago;?></td>
 			<th style="text-align: center;">
 			<?php
 			if($r->estado == 0)
@@ -657,7 +582,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" 	name="numpago" 	value="<?= $i;?>" />
-					<input type="text" 	name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> />
+					<input type="text" 		name="pago" 	value="<?= $pago_acum;?>" size="7" <?=$opcnpagar;?> />
 					<input type="hidden" 	name="cl" 		value="<?= $_GET['cl'];?>" />
 					<input type="hidden" 	name="c" 		value="<?= $cuenta;?>" />
 					<input type="hidden" 	name="pid" 		value="<?= $r->id;?>" />
@@ -672,7 +597,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="numpago" value="<?= $i;?>" />
-					<input type="text"   name="pago" value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> />
+					<input type="text" 	name="pago" value="<?= $pago_acum;?>" size="7" <?=$opcnpagar;?> />
 					<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
 					<input type="hidden" name="c" value="<?= $cuenta;?>" />
 					<input type="hidden" name="pid" value="<?= $r->id;?>" />
@@ -687,7 +612,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="numpago" value="<?= $i;?>" />
-					<input type="text" name="pago" value="<?= $r->pago_real;?>" style="width:70px;" <?=$opcnpagar;?> />
+					<input type="text" name="pago" value="<?= $r->pago_real;?>" size="7" <?=$opcnpagar;?> />
 					<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
 					<input type="hidden" name="c" value="<?= $cuenta;?>" />
 					<input type="hidden" name="pid" value="<?= $r->id;?>" />
@@ -709,10 +634,10 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					<input type="hidden" name="c" value="<?= $cuenta;?>" />
 					<input type="hidden" name="pid" value="<?= $r->id;?>" />
 					<input type="hidden" name="action" value="cuenta_pagar" />
-					<input type="submit" value="REIMP" />
+					<input type="submit" value="REIMPRIMIR" />
 					<?php
 					if ($UserLevel == 0) {
-						?>
+					?>
 						<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 						<input type="hidden" name="numpago" value="<?= $i;?>" />
 						<input type="hidden" name="pago" value="<?= $r->pago_real;?>" />
@@ -721,7 +646,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="hidden" name="pid" value="<?= $r->id;?>" />
 						<input type="hidden" name="action" value="pago_elimina" />
 						<input type="submit" id="pago_cancel" value="CANCELAR"/>
-						<?php
+					<?php
 					}
 					?>
 					</form>
@@ -739,7 +664,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					<input type="hidden" name="c" value="<?= $cuenta;?>" />
 					<input type="hidden" name="pid" value="<?= $r->id;?>" />
 					<input type="hidden" name="action" value="cuenta_pagar" />
-					<input type="submit" value="REIMP" />
+					<input type="submit" value="REIMPRIMIR" />
 					<?php
 					if ($UserLevel == 0) {
 					?>
@@ -768,7 +693,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 				<input type="hidden" name="c" value="<?= $cuenta;?>" />
 				<input type="hidden" name="pid" value="<?= $r->id;?>" />
 				<input type="hidden" name="action" value="cuenta_pagar" />
-				<input type="submit" value="REIMP" />
+				<input type="submit" value="REIMPRIMIR" />
 				<?php
 					if ($UserLevel == 0) {
 					?>
@@ -788,62 +713,6 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 			}
 			?>
 			</th>
-			<?php
-			#-MOSTRANDO RECARGOS POR PAGO VENCIDO-#######################################################################################
-			$sql = "SELECT * FROM recargos WHERE cuenta = ".$cuenta." AND pago_id = ".$r->id." ORDER BY pago ASC";
-			$rec = $db->query($sql);
-			$tot=0;
-			if($db->numRows() > 0)
-			{
-				while($re = $db->fetchNextObject($rec))
-				{
-					echo '	<td> <center>$ '; moneda($re->monto).'</center></td>';
-					echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
-					//$monto = moneda($re->monto);
-					if($re->estado == 0){
-						$tot += $re->monto;
-						?>
-						<th>
-						<form name="frm_saldar" action="include/php/sys_modelo.php"  method="post">
-						<input type="hidden" name="recargo_id" value="<?= $re->id;?>" />
-						<input type="hidden" name="c" value="<?= $cuenta;?>" />
-						<input type="hidden" name="cl" value="<?= $cliente;?>" />
-						<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
-						<input type="hidden" name="action" value="recargos" />
-						<center>
-							<input type="text" name="recargo" value="<?= $re->monto;?>" style="width:70px;" />
-							<input type="submit" name="rec_pagar" value="Pagar" />
-						</center>
-						</form>
-						</th>
-						<?php
-					}else{
-						?>
-						<th>
-						<form name="frm_re_recargo" action="include/php/sys_modelo.php"  method="post">
-						<input type="hidden" name="pago_id" value="<?= $re->pago_id;?>" />
-						<input type="hidden" name="c" value="<?= $cuenta;?>" />
-						<input type="hidden" name="cl" value="<?= $cliente;?>" />
-						<input type="hidden" name="recargo" value="<?= $re->monto;?>" />
-						<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
-						<input type="hidden" name="action" value="recargos" />
-						<center> <input type="submit" name="rec_reimprime" value="REIMP" /> </center>
-						</form>
-						</th>
-						<?php    
-					}
-					$tot;
-				}
-			}
-			else
-			{
-				?>
-				<th></th>
-				<th></th>
-				<th></th>
-				<?php
-			}
-			?>
 		</tr>
 		<?php
 	}
