@@ -580,7 +580,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 			?>
 			<tr>
 				<td><?= $i; ?></td>
-				<td><?php echo date("d-m-Y", strtotime($r->fecha)); ?>yyyy</td>
+				<td><?php echo date("d-m-Y", strtotime($r->fecha)); ?></td>
 				<td><?php echo date("d-m-Y", strtotime($ab->fecha)); ?></td>	
 				<td>$ <?php moneda($ab->cargo); ?></td>
 				<td>$ <?php moneda($ab->abono); ?></td>
