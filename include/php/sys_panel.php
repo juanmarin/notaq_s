@@ -46,7 +46,7 @@
 <body>
 	<div id="main">
 		<div id="barra" class="sombra esqRedondas_b">
-			<div id="logo">NOTAq</div>
+			<div id="logo">CONFIANZP</div>
 			<div id="vmenu">
 				<ul class="menul">
 					<?php
