@@ -16,7 +16,7 @@
 ?>
 <html>
 <head>
-<title>NOTAq</title>
+<title>Confian</title>
 <meta name="author" content="Juan Marin" />
 <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
 <meta http-equiv="content-style-type" content="text/css" />
@@ -46,7 +46,7 @@
 <body>
 	<div id="main">
 		<div id="barra" class="sombra esqRedondas_b">
-			<div id="logo">CONFIANZP</div>
+			<div id="logo">CONFIAN</div>
 			<div id="vmenu">
 				<ul class="menul">
 					<?php
