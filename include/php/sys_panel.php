@@ -136,7 +136,7 @@
 									echo '	
 									<li id="note_'.$nt->id.'">
 										<input type="checkbox" class="checkboxnota" rel="'.$nt->id.'" />
-										<span>'.$nt->fecha.'</span><br />
+										<span>'.date("d-m-Y H:i:s", strtotime($nt->fecha)).'</span><br />
 										'.$nt->nota.'
 									</li>';
 								}
