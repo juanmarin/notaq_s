@@ -284,7 +284,7 @@
 			}else{
 				$clcobrador="AND clientes.c_cobrador = '$UserName'";
 			}
-				$fecha = "2015-07-05";
+				$fecha = date("Y-m-d");
 				#Buscando los clientes asignados al cobrador
 				require_once("include/php/sys_db.class.php");
 				require_once("include/php/fun_global.php");
