@@ -22,7 +22,7 @@ if ($UserLevel == 0) {
 		require_once("include/php/sys_db.class.php");
 		require_once("include/php/fun_global.php");
 		require_once("include/conf/Config_con.php");
-		$fecha = date("Y-m-d");
+		$fecha = "2015-07-05";
 		$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 		$sql = "SELECT mymvcdb_users.username AS cobrador, COUNT(clientes.c_cobrador) AS mis_ctes
 			FROM mymvcdb_users,clientes 
