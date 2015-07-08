@@ -508,7 +508,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 			}
 			elseif ($db->numRows() > 0)
 			{
-				$sql = "UPDATE recargos SET monto = ".$monto.", dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
+				$sql = "UPDATE recargos SET dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
 				$db->execute($sql);
 			}
 		}
