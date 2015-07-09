@@ -2,8 +2,11 @@
 @session_start();
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
+?>
+<p class="title">Portada &raquo; Cuadro de Avance</p>
+<?php
 if ($UserLevel == 0) {
-	$qcobrador = "";
+	$clcobrador = "";
 ?>
 <table>
 <caption>REPORTE DE COBRADORES</caption>
@@ -74,45 +77,107 @@ if ($UserLevel == 0) {
 
 <?php
 } else {
-	$qcobrador = "AND c_cobrador = '$UserName'";
+	$clcobrador = "AND c_cobrador = '$UserName'";
 ?>
-<p class="title">Portada &raquo; Listado de clientes</p>
 <table>
-<caption>CUENTAS ABIERTAS</caption>
+<caption>COBRADOR: &nbsp; <b><?php echo $user->userData[6];?></b></caption>
 <thead>
 	<tr>
-		<th>CLIENTE</th>
-		<th>CARGOS</th>
-		<th></th>
-		<th></th>
+		<th>C. ASIGNADOS</th>
+		<th>C. CORRIENTE</th>
+		<th>C. VENCIDOS</th>
+		<th>TOTAL AVANCE %</th>
 	</tr>
 </thead>
 <tbody>
 	<?php
-	require_once("include/php/sys_db.class.php");
-	require_once("include/conf/Config_con.php");
-	$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, 
-					clientes.apellidom, clientes.c_cobrador, cuentas.cantidad 
-					FROM clientes, cuentas 
-					WHERE clientes.id = cuentas.cliente 
-					$qcobrador
-					AND cuentas.estado = 0 
-					ORDER BY clientes.id ASC";
-	$res = $db->query($sql);
-	$num_rows = mysql_num_rows($res);
-	while($r = $db->fetchNextObject($res)){
+	$fecha = date("Y-m-d");
+		#Buscando los clientes asignados al cobrador
+		require_once("include/php/sys_db.class.php");
+		require_once("include/php/fun_global.php");
+		require_once("include/conf/Config_con.php");
+			$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
+			$sql = "SELECT * FROM clientes WHERE activo = 1 $clcobrador ORDER BY nombre ASC";
+			$res = $db->query($sql);
+			$mis_ctes = mysql_num_rows($res);
+
+		#Buscando el total de clientes Morosos
+			$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidop, clientes.demanda, cuentas.cliente, clientes.c_cobrador, 
+			cuentas.cobrador, cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha, 
+			SUM(pagos.pago) AS pago, pagos.estado
+			FROM clientes, cuentas, pagos 
+			WHERE
+			clientes.id = cuentas.cliente 
+			AND clientes.demanda != 1 
+			AND cuentas.id = pagos.cuenta 
+			AND cuentas.estado = 0 
+			AND pagos.estado = 0 
+			AND pagos.fecha < '".$fecha."'
+				$clcobrador
+			GROUP BY pagos.cliente 
+			ORDER BY clientes.nombre ASC";
+			$res = $db->query($sql);
+			$mis_morosos = mysql_num_rows($res);
+			$mis_corriente = ($mis_ctes - $mis_morosos);
+			$avance = ($mis_corriente/$mis_ctes)*100;
+
 		?>
 		<tr>
-			<td style="text-align:center"> <?= $r->id;?></td>
-			<td style="text-align:center"><?= $r->nombre . " ". $r->apellidop ." " .$r->apellidom;?></td>
-			<td style="text-align:center">$ <?= $r->cantidad;?></td>
-			<td width="80"><a href="?pg=2e&cl=<?= $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
+			<td style="text-align:center"> <?php echo $mis_ctes;?></td>
+			<td style="background-color: #7DB77B"align="center"><?php echo $mis_corriente;?></td>
+			<td style="background-color: #F78181;" align="center"><?php echo $mis_morosos;?></td>
+			<td align="right"><?php echo number_format($avance, 2)."%";?></td>
 		</tr>
-		<?php
-	}
-
-	?>
+</tbody>
+<tfoot>
+	<tr>
+		<th colspan="4"></th>
+	</tr>
+</tfoot>
+</table>
+<br/>
+<br/>
+<table>
+<caption>COBROS PARA EL DIA : <b><?php echo date("d-m-Y", strtotime($fecha)); ?></b> </caption>
+<thead>
+	<tr>
+		<th>C. POR COBRAR</th>
+		<th>C. REALIZADOS</th>
+		<th>AVANCE DEL DIA %</th>
+	</tr>
+</thead>
+<tbody>
+	<?php
+		#Buscando los clientes asignados al cobrador
+		require_once("include/php/sys_db.class.php");
+		require_once("include/php/fun_global.php");
+		require_once("include/conf/Config_con.php");
+			$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
+		#Buscando el total de clientes a visitar hoy
+			$sql = "SELECT clientes.id, clientes.c_cobrador, pagos.id, pagos.cliente, pagos.cuenta, pagos.fecha, pagos.estado 
+			FROM clientes, pagos 
+			WHERE clientes.id = pagos.cliente 
+			AND pagos.fecha = '".$fecha."' 
+			AND pagos.estado = 0
+			$clcobrador";
+			$res = $db->query($sql);
+			$x_visitar = mysql_num_rows($res);
+		#Buscando el total de clientes a visitados hoy
+			$sql = "SELECT clientes.id, clientes.c_cobrador, pagos.id, pagos.cliente, pagos.cuenta, pagos.fecha, pagos.estado 
+			FROM clientes, pagos 
+			WHERE clientes.id = pagos.cliente 
+			AND pagos.fechaPago = '".$fecha."' 
+			AND pagos.estado = 1
+			$clcobrador";
+			$res = $db->query($sql);
+			$visitados = mysql_num_rows($res);
+			$avanced = ($visitados/$x_visitar)*100;
+		?>
+		<tr>
+			<td style="text-align:center"> <?php echo $x_visitar;?></td>
+			<td style="background-color: "align="center"><?php echo $visitados;?></td>
+			<td align="right"><?php echo number_format($avanced, 2)."%";?></td>
+		</tr>
 </tbody>
 <tfoot>
 	<tr>

@@ -273,54 +273,7 @@
 				?>
 				</div>
 				<?php
-			}elseif(isset($_GET["pg"]) && $_GET["pg"] == "1" OR $_GET["pg"] == ""){
-			?>
-				<div id="notas" class="sombra">
-				<div id="n_title"><?php echo $user->userData[6] ?></div>
-				<ol>
-			<?php
-			if ($UserLevel == 0) {
-				$clcobrador="";
-			}else{
-				$clcobrador="AND clientes.c_cobrador = '$UserName'";
 			}
-				$fecha = date("Y-m-d");
-				#Buscando los clientes asignados al cobrador
-				require_once("include/php/sys_db.class.php");
-				require_once("include/php/fun_global.php");
-				require_once("include/conf/Config_con.php");
-				$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-				$sql = "SELECT * FROM clientes WHERE activo = 1 $clcobrador ORDER BY nombre ASC";
-				$res = $db->query($sql);
-				$mis_ctes = mysql_num_rows($res);
-
-				#Buscando el total de clientes Morosos
-				$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidop, clientes.demanda, cuentas.cliente, clientes.c_cobrador, 
-				cuentas.cobrador, cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha, 
-				SUM(pagos.pago) AS pago, pagos.estado
-				FROM clientes, cuentas, pagos 
-				WHERE
-					clientes.id = cuentas.cliente 
-					AND clientes.demanda != 1 
-					AND cuentas.id = pagos.cuenta 
-					AND cuentas.estado = 0 
-					AND pagos.estado = 0 
-					AND pagos.fecha < '".$fecha."'
-					$clcobrador
-				GROUP BY pagos.cliente 
-				ORDER BY clientes.nombre ASC";
-				$res = $db->query($sql);
-				$mis_morosos = mysql_num_rows($res);
-				$mis_corriente = ($mis_ctes - $mis_morosos);
-				$avance = ($mis_corriente/$mis_ctes)*100;
-				echo "&nbsp*&nbsp;"."<b>Total de Clientes:</b> ".$mis_ctes."</br>";
-				echo "&nbsp*&nbsp;"."<b>Clientes al Corriente:</b> ".$mis_corriente."</br>";
-				echo "&nbsp*&nbsp;"."<b id='red'>Clientes Vencidos:</b> ".$mis_morosos."</br>";
-				echo "&nbsp*&nbsp;"."<b>TOTAL AVANCE:</b> ".number_format($avance, 2)."%"."</br>";
-	?>
-		</div>
-		<?php
-		}
 	?>
 		</div>	
 		<div id="contenedor">
