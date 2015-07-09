@@ -508,7 +508,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 			}
 			elseif ($db->numRows() > 0)
 			{
-				$sql = "UPDATE recargos SET dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
+				$sql = "UPDATE recargos SET monto = $monto, dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
 				$db->execute($sql);
 			}
 		}
@@ -576,10 +576,10 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 		$rab = $db->query($sql);
 		while($ab = $db->fetchNextObject($rab))
 		{
-			$i++;
+			//$i++;
 			?>
 			<tr>
-				<td><?= $i; ?></td>
+				<td><!-- <?= $i; ?> --></td>
 				<td><?php echo date("d-m-Y", strtotime($r->fecha)); ?></td>
 				<td><?php echo date("d-m-Y", strtotime($ab->fecha)); ?></td>	
 				<td>$ <?php moneda($ab->cargo); ?></td>
@@ -658,9 +658,9 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" 	name="numpago" 	value="<?= $i;?>" />
 					<input type="text" 	name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> />
-					<input type="hidden" 	name="cl" 		value="<?= $_GET['cl'];?>" />
-					<input type="hidden" 	name="c" 		value="<?= $cuenta;?>" />
-					<input type="hidden" 	name="pid" 		value="<?= $r->id;?>" />
+					<input type="hidden" 	name="cl" 	value="<?= $_GET['cl'];?>" />
+					<input type="hidden" 	name="c" 	value="<?= $cuenta;?>" />
+					<input type="hidden" 	name="pid" 	value="<?= $r->id;?>" />
 					<input type="hidden" 	name="action" 	value="cuenta_pagar" />
 					<input type="submit" 	value="ABONAR" <?=$opcnpagarbtn;?>  />
 					</form>
@@ -671,12 +671,12 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					//$pago_acum = $saldo;
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
-					<input type="hidden" name="numpago" value="<?= $i;?>" />
-					<input type="text"   name="pago" value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> />
-					<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
-					<input type="hidden" name="c" value="<?= $cuenta;?>" />
-					<input type="hidden" name="pid" value="<?= $r->id;?>" />
-					<input type="hidden" name="action" value="cuenta_pagar" />
+					<input type="hidden" name="numpago"	value="<?= $i;?>" />
+					<input type="text"   name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> />
+					<input type="hidden" name="cl" 		value="<?= $_GET['cl'];?>" />
+					<input type="hidden" name="c"		value="<?= $cuenta;?>" />
+					<input type="hidden" name="pid"		value="<?= $r->id;?>" />
+					<input type="hidden" name="action"	value="cuenta_pagar" />
 					<input type="submit" value="ABONAR" <?=$opcnpagarbtn;?> />
 					</form>
 					<?php
@@ -686,12 +686,12 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					//$pago_acum = $saldo;
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
-					<input type="hidden" name="numpago" value="<?= $i;?>" />
-					<input type="text" name="pago" value="<?= $r->pago_real;?>" style="width:70px;" <?=$opcnpagar;?> />
-					<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
-					<input type="hidden" name="c" value="<?= $cuenta;?>" />
-					<input type="hidden" name="pid" value="<?= $r->id;?>" />
-					<input type="hidden" name="action" value="cuenta_pagar" />
+					<input type="hidden" name="numpago"	value="<?= $i;?>" />
+					<input type="text" name="pago"		value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> />
+					<input type="hidden" name="cl"		value="<?= $_GET['cl'];?>" />
+					<input type="hidden" name="c"		value="<?= $cuenta;?>" />
+					<input type="hidden" name="pid"		value="<?= $r->id;?>" />
+					<input type="hidden" name="action"	value="cuenta_pagar" />
 					<input type="submit" value="ABONAR" <?=$opcnpagarbtn;?> />
 					</form>
 					<?php
@@ -797,7 +797,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 			{
 				while($re = $db->fetchNextObject($rec))
 				{
-					echo '	<td> <center>$ '; moneda($re->monto).'</center></td>';
+					echo '	<td> <center>$ '; moneda($re->monto-$re->monto_saldado).'</center></td>';
 					echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
 					//$monto = moneda($re->monto);
 					if($re->estado == 0){
@@ -811,7 +811,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
 						<input type="hidden" name="action" value="recargos" />
 						<center>
-							<input type="text" name="recargo" value="<?= $re->monto;?>" style="width:70px;" />
+							<input type="text" name="recargo" value="<?= $re->monto-$re->monto_saldado;?>" style="width:70px;" />
 							<input type="submit" name="rec_pagar" value="Pagar" />
 						</center>
 						</form>
@@ -824,7 +824,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="hidden" name="pago_id" value="<?= $re->pago_id;?>" />
 						<input type="hidden" name="c" value="<?= $cuenta;?>" />
 						<input type="hidden" name="cl" value="<?= $cliente;?>" />
-						<input type="hidden" name="recargo" value="<?= $re->monto;?>" />
+						<input type="hidden" name="recargo" value="<?= $re->monto-$re->monto_saldado;?>" />
 						<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
 						<input type="hidden" name="action" value="recargos" />
 						<center> <input type="submit" name="rec_reimprime" value="REIMP" /> </center>
