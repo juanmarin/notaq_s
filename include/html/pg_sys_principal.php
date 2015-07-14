@@ -177,6 +177,7 @@ if ($UserLevel == 0) {
 			$sql = "SELECT clientes.id, clientes.c_cobrador, pagos.id, pagos.cliente, pagos.cuenta, pagos.fecha, pagos.estado 
 			FROM clientes, pagos 
 			WHERE clientes.id = pagos.cliente 
+			AND pagos.fecha = '".$fecha."' 
 			AND pagos.fechaPago = '".$fecha."' 
 			AND pagos.estado = 1
 			$clcobrador";
@@ -199,6 +200,6 @@ if ($UserLevel == 0) {
 	</tr>
 </tfoot>
 </table>
-<?php
+<?php 
 }
 ?>
