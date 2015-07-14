@@ -60,10 +60,14 @@ if ($UserLevel == 0) {
 					{
 						$corriente=$cob->mis_ctes-$morosos;
 						$avance = ($corriente/$cob->mis_ctes)*100;
-						?>
+					?>
 						
 					<?php
-					}	
+					}
+					$tot_asi += $cob->mis_ctes;
+					$tot_corr += $corriente;
+					$tot_mor += $morosos;	
+					$tot_avance = ($tot_corr/$tot_asi)*100;
 				?>
 			<td style="background-color: #7DB77B"align="center"><?php echo $corriente;?></td>
 			<td style="background-color: #F78181;" align="center"><?php echo $morosos;?></td>
@@ -72,6 +76,13 @@ if ($UserLevel == 0) {
 		    	<?php
 		}
 ?>
+	<tr style="font-weight: bold;">
+		<td>Totales</td>
+		<td align="center"><?php echo $tot_asi ?></td>
+		<td style="background-color: #7DB77B"align="center"><?php echo $tot_corr;?></td>
+		<td style="background-color: #F78181;" align="center"><?php echo $tot_mor;?></td>
+		<td align="right"><?php echo number_format($tot_avance, 2)."%";?></td>
+	</tr>
 </tbody>
 </table>
 
@@ -138,7 +149,7 @@ if ($UserLevel == 0) {
 <br/>
 <br/>
 <table>
-<caption>COBROS PARA EL DIA : <b><?php echo date("d-m-Y", strtotime($fecha)); ?></b> </caption>
+<caption>COBROS PARA EL DIA :<b><?php echo date("d-m-Y", strtotime($fecha)); ?></b> </caption>
 <thead>
 	<tr>
 		<th>C. POR COBRAR</th>
@@ -172,11 +183,14 @@ if ($UserLevel == 0) {
 			$res = $db->query($sql);
 			$visitados = mysql_num_rows($res);
 			$avanced = ($visitados/$x_visitar)*100;
+			$tbl_color = semaforo(number_format($avanced, 2));
+
+
 		?>
-		<tr>
+		<tr style="font-weight: bold;">
 			<td style="text-align:center"> <?php echo $x_visitar;?></td>
 			<td style="background-color: "align="center"><?php echo $visitados;?></td>
-			<td align="right"><?php echo number_format($avanced, 2)."%";?></td>
+			<td style="background-color:<?php echo $tbl_color;?>" align="right"><?php echo number_format($avanced, 2)."%";?></td>
 		</tr>
 </tbody>
 <tfoot>

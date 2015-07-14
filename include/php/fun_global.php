@@ -588,5 +588,19 @@ function hayRecargos($cuenta, $cliente){
 	}
 	return $recargos;
 }
+function semaforo($avanced){
+
+	if ($avanced <= 33.33) {
+		$color = "#F78181";
+	} elseif ($avanced > 33.33 && $avanced <= 66.66) {
+		$color = "#E6E650";
+	}elseif ($avanced > 66.66 && $avanced <= 100.00) {
+		$color = "#7DB77B";
+	}{
+		
+	}
+	return $color;
+	
+}
 
 ?>
