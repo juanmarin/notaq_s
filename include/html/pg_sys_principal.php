@@ -55,7 +55,7 @@ if ($UserLevel == 0) {
 					AND pagos.estado = 0 
 					AND pagos.fecha < '".$fecha."'
 					AND clientes.c_cobrador='".$cob->cobrador."'
-					GROUP BY pagos.cliente";
+					GROUP BY pagos.cliente ";
 					$res2 = $db->query($sql2);
 					$morosos = mysql_num_rows($res2);
 					while ($mor = $db->fetchNextObject($res2))
@@ -108,19 +108,24 @@ if ($UserLevel == 0) {
 <tbody>
 	<?php
 	$fecha = date("Y-m-d");
-		#Buscando los clientes asignados al cobrador
 		require_once("include/php/sys_db.class.php");
 		require_once("include/php/fun_global.php");
 		require_once("include/conf/Config_con.php");
 			$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-			$sql = "SELECT * FROM clientes WHERE activo = 1 $clcobrador ORDER BY nombre ASC";
+		#Buscando los clientes asignados al cobrador con cuentas abiertas
+			$sql = "SELECT clientes.id, clientes.activo, clientes.c_cobrador, cuentas.cliente, cuentas.estado 
+			FROM clientes, cuentas 
+			WHERE activo = 1
+			$clcobrador
+			AND clientes.id = cuentas.cliente 
+			AND cuentas.estado = 0";
 			$res = $db->query($sql);
 			$mis_ctes = mysql_num_rows($res);
 
 		#Buscando el total de clientes Morosos
-			$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidop, clientes.demanda, cuentas.cliente, clientes.c_cobrador, 
-			cuentas.cobrador, cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha, 
-			SUM(pagos.pago) AS pago, pagos.estado
+			$sql = "SELECT clientes.id, clientes.demanda, cuentas.cliente, clientes.c_cobrador, 
+			cuentas.cobrador, cuentas.estado, 
+			pagos.cuenta, pagos.cliente, pagos.fecha, pagos.estado
 			FROM clientes, cuentas, pagos 
 			WHERE
 			clientes.id = cuentas.cliente 
@@ -188,7 +193,7 @@ if ($UserLevel == 0) {
 			$clcobrador";
 			$res = $db->query($sql);
 			$visitados = mysql_num_rows($res);
-			$avanced = ($visitados/$x_visitar)*100;
+			$avanced = ($visitados/($x_visitar+$visitados))*100;
 			$tbl_color = semaforo(number_format($avanced, 2));
 
 
