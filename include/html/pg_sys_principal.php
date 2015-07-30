@@ -28,11 +28,12 @@ if ($UserLevel == 0) {
 		require_once("include/conf/Config_con.php");
 		$fecha = date("Y-m-d");
 		$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-		$sql = "SELECT mymvcdb_users.username AS cobrador, mymvcdb_users.nombre, COUNT(clientes.c_cobrador) AS mis_ctes
-			FROM mymvcdb_users,clientes 
+		$sql = "SELECT mymvcdb_users.username AS cobrador, mymvcdb_users.nombre, clientes.id, COUNT(clientes.c_cobrador) AS mis_ctes, cuentas.cliente, cuentas.estado
+			FROM mymvcdb_users,clientes,cuentas
 			WHERE mymvcdb_users.username = clientes.c_cobrador
-			AND clientes.activo = 1
-			GROUP BY clientes.c_cobrador";
+			AND clientes.id = cuentas.cliente
+			AND cuentas.estado = 0
+			GROUP BY mymvcdb_users.username";
 		$res = $db->query($sql);
 		while($cob=$db->fetchNextObject($res))
 		{
@@ -42,9 +43,9 @@ if ($UserLevel == 0) {
 				<td style="font-size:small;"><?php echo $cob->cobrador;?></td>
 				<td style="font-size:small;" align="center"> <?php echo $cob->mis_ctes; ?></td>
 				<?php
-					$sql2="SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidop, clientes.demanda, cuentas.cliente, clientes.c_cobrador, 
-				cuentas.cobrador, cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha, 
-				SUM(pagos.pago) AS pago, pagos.estado
+					$sql2="SELECT clientes.id, clientes.demanda, cuentas.cliente, clientes.c_cobrador, 
+				cuentas.cobrador, cuentas.estado, 
+				pagos.cuenta, pagos.cliente, pagos.fecha, pagos.estado
 				FROM clientes, cuentas, pagos 
 				WHERE
 					clientes.id = cuentas.cliente 
@@ -54,8 +55,7 @@ if ($UserLevel == 0) {
 					AND pagos.estado = 0 
 					AND pagos.fecha < '".$fecha."'
 					AND clientes.c_cobrador='".$cob->cobrador."'
-					GROUP BY pagos.cliente 
-					ORDER BY clientes.nombre ASC";
+					GROUP BY pagos.cliente";
 					$res2 = $db->query($sql2);
 					$morosos = mysql_num_rows($res2);
 					while ($mor = $db->fetchNextObject($res2))
