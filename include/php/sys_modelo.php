@@ -1,5 +1,7 @@
 <?php
 @session_start();
+$UserName = $_SESSION["USERNAME"];
+$UserLevel = $_SESSION["U_NIVEL"];
 require_once "../conf/Config.php";
 require_once "fun_global.php";
 
@@ -631,6 +633,7 @@ switch($_POST["action"]){
 		$pid 	= $_POST["pid"];
 		$cl 	= $_POST["cl"];
 		$numpago= $_POST["numpago"];
+		$userapp= $_POST["UserName"];
 		##-innformacion de cuenta
 		$sql 	= "SELECT * FROM cuentas WHERE id = ".$cta;
 		$res 	= mysql_query($sql);
@@ -658,12 +661,12 @@ switch($_POST["action"]){
 				$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
 				#echo $sql . "<br />";
 				mysql_query($sql);
-				$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
+				$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono.", aplicado_x = ".$UserName." WHERE id = ".$pid;
 				#echo $sql . "<br />";
 				mysql_query($sql);
 				
 		    }else{
-		    	$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
+		    	$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono.", aplicado_x = ".$UserName." WHERE id = ".$pid;
 				#echo $sql . "<br />";
 				mysql_query($sql);
 		    }
@@ -673,14 +676,14 @@ switch($_POST["action"]){
 			{
 				#-ACTUALIZANDO PAGO --
 				$saldo = $pago - $abono;
-				$sql = "UPDATE pagos SET estado = 0, pago = ".$saldo." WHERE id = ".$pid;
+				$sql = "UPDATE pagos SET estado = 0, pago = ".$saldo.", aplicado_x = ".$UserName." WHERE id = ".$pid;
 				mysql_query($sql);
 				#-ACTUALIZANDO CUENTA
 				$ctasaldo = (($int / 100) + 1) * $saldo;
 				$sql = "UPDATE cuentas SET total = ".$ctasaldo." WHERE id = ".$cta;
 				mysql_query($sql);
 				#-INSERTANGO ABONO
-				$sql = "INSERT INTO abono (idpago, idcuenta, fecha, cargo, abono)values(".$pid.", ".$cta.", '".$fecha."', ".$pago.", ".$abono.")";
+				$sql = "INSERT INTO abono (idpago, idcuenta, fecha, cargo, abono, aplicado_x)values(".$pid.", ".$cta.", '".$fecha."', ".$pago.", ".$abono.", ".$UserName.")";
 				mysql_query($sql);
 			}
 		}
@@ -699,10 +702,10 @@ switch($_POST["action"]){
 				$sql = "UPDATE cuentas SET total = ".$saldo." WHERE id = ".$cta;
 				mysql_query($sql);
 				## CARGAR EL ABONO EN LOS PAGOS 
-				$sql = "UPDATE pagos SET estado = 1, fechaPago = '".date("Y-m-d")."', pago_real = ".$abono." WHERE id = ".$pid;
+				$sql = "UPDATE pagos SET estado = 1, fechaPago = '".date("Y-m-d")."', pago_real = ".$abono.", aplicado_x = ".$UserName." WHERE id = ".$pid;
 				mysql_query($sql);
 				## ACTUALIZAR EL ESTADO DE LOS APGOS SALDADOS 
-				$sql = "UPDATE pagos SET estado = 3, fechaPago = '".date("Y-m-d")."', pago_real = 0 WHERE cuenta = ".$cta." AND estado = 0 AND  id < ".$pid;
+				$sql = "UPDATE pagos SET estado = 3, fechaPago = '".date("Y-m-d")."', pago_real = 0, aplicado_x = ".$UserName." WHERE cuenta = ".$cta." AND estado = 0 AND  id < ".$pid;
 				mysql_query($sql);
 				##-restar a ultimo pago
 				$abono -= $sumapagos;
@@ -712,10 +715,10 @@ switch($_POST["action"]){
 				if (hayRecargos($cta, $cl) == 0) {
 					$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
 					mysql_query($sql);
-					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
+					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono.", aplicado_x = '".$UserName."' WHERE id = ".$pid;
 					mysql_query($sql);
 				}else{
-					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono." WHERE id = ".$pid;
+					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono.", aplicado_x = '".$UserName."' WHERE id = ".$pid;
 					mysql_query($sql);
 				}
 				
@@ -727,11 +730,11 @@ switch($_POST["action"]){
 				//echo $sql . "<br />";
 				#-ACTUALIZAR PAGO		
 				$npago = $pago - $abono;
-				$sql = "UPDATE pagos SET pago = ".$npago." WHERE id = ".$pid;
+				$sql = "UPDATE pagos SET pago = ".$npago.", aplicado_x = '".$UserName."' WHERE id = ".$pid;
 				mysql_query($sql);
 				//echo $sql . "<br />";
 				#-AGREGAR EL ABONO
-				$sql = "INSERT INTO abono (idpago, idcuenta, fecha, cargo, abono)values(".$pid.", ".$cta.", '".date("Y-m-d")."', ".$pago.", ".$abono.")";
+				$sql = "INSERT INTO abono (idpago, idcuenta, fecha, cargo, abono, aplicado_x)values(".$pid.", ".$cta.", '".date("Y-m-d")."', ".$pago.", ".$abono.", '".$UserName."')";
 				mysql_query($sql);
 				//echo $sql . "<br />";
 			}
@@ -763,7 +766,7 @@ switch($_POST["action"]){
 			$sql = "UPDATE cuentas SET estado=1, fecha_pago='".date("Y-m-d")."' WHERE id = ".$_POST["c"];
 			$res = mysql_query($sql);
 
-			$sql = "UPDATE pagos SET estado=1, fechaPago='".date("Y-m-d")."' WHERE estado=0 AND cuenta = ".$_POST["c"];
+			$sql = "UPDATE pagos SET estado=1, fechaPago='".date("Y-m-d")."', aplicado_x = '".$UserName."' WHERE estado=0 AND cuenta = ".$_POST["c"];
 			$res = mysql_query($sql);
 
 			//$sql = "UPDATE recargos SET estado=1, fechaPago='".date("Y-m-d")."' WHERE estado=0 AND cuenta = ".$_POST["c"];
@@ -848,7 +851,7 @@ switch($_POST["action"]){
 		{
 			?>
 			<script type="text/javascript" >
-			alert("Permiso denegado.\nUsuario o contraseÃ±a incorrectos.\nIntente de nuevo.");
+			alert("Permiso denegado.\nUsuario o contrasena incorrectos.\nIntente de nuevo.");
 			</script>
 			<?php
 			if($delCte == yes)
@@ -916,6 +919,7 @@ switch($_POST["action"]){
 					monto_saldado 	= $abono, 
 					estado 		= $estado,
 					monto		= '$restante'
+					aplicado_x = '".$UserName."';
 					WHERE id = $recargo_id";
 				mysql_query($sql);
 				##Verificando si despues del abono de recargos ya no hay mas por pagar.
