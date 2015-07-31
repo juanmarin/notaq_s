@@ -656,34 +656,34 @@ switch($_POST["action"]){
 		 	## 
 			if($pago == $abono)
 			{
-				if (hayRecargos($cta, $cl) == 0) {
-		    	#-CUENTA SALDADA --
-				$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
-				#echo $sql . "<br />";
-				mysql_query($sql);
-				$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono.", aplicado_x = ".$UserName." WHERE id = ".$pid;
-				#echo $sql . "<br />";
-				mysql_query($sql);
-				
-		    }else{
-		    	$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono.", aplicado_x = ".$UserName." WHERE id = ".$pid;
-				#echo $sql . "<br />";
-				mysql_query($sql);
-		    }
+				if (hayRecargos($cta, $cl) == 0) 
+				{
+			    		#-CUENTA SALDADA --
+					$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
+					#echo $sql . "<br />";
+					mysql_query($sql);
+					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono.", aplicado_x = '".$UserName."' WHERE id = ".$pid;
+					#echo $sql . "<br />";
+					mysql_query($sql);
+				}else{
+					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono.", aplicado_x = '".$UserName."' WHERE id = ".$pid;
+					#echo $sql . "<br />";
+					mysql_query($sql);
+				}
 				
 			} 
 			elseif( $abono < $pago )
 			{
 				#-ACTUALIZANDO PAGO --
 				$saldo = $pago - $abono;
-				$sql = "UPDATE pagos SET estado = 0, pago = ".$saldo.", aplicado_x = ".$UserName." WHERE id = ".$pid;
+				$sql = "UPDATE pagos SET estado = 0, pago = ".$saldo.", aplicado_x = '".$UserName."' WHERE id = ".$pid;
 				mysql_query($sql);
 				#-ACTUALIZANDO CUENTA
 				$ctasaldo = (($int / 100) + 1) * $saldo;
 				$sql = "UPDATE cuentas SET total = ".$ctasaldo." WHERE id = ".$cta;
 				mysql_query($sql);
 				#-INSERTANGO ABONO
-				$sql = "INSERT INTO abono (idpago, idcuenta, fecha, cargo, abono, aplicado_x)values(".$pid.", ".$cta.", '".$fecha."', ".$pago.", ".$abono.", ".$UserName.")";
+				$sql = "INSERT INTO abono (idpago, idcuenta, fecha, cargo, abono, aplicado_x)values(".$pid.", ".$cta.", '".$fecha."', ".$pago.", ".$abono.", '".$UserName."')";
 				mysql_query($sql);
 			}
 		}
@@ -702,10 +702,10 @@ switch($_POST["action"]){
 				$sql = "UPDATE cuentas SET total = ".$saldo." WHERE id = ".$cta;
 				mysql_query($sql);
 				## CARGAR EL ABONO EN LOS PAGOS 
-				$sql = "UPDATE pagos SET estado = 1, fechaPago = '".date("Y-m-d")."', pago_real = ".$abono.", aplicado_x = ".$UserName." WHERE id = ".$pid;
+				$sql = "UPDATE pagos SET estado = 1, fechaPago = '".date("Y-m-d")."', pago_real = ".$abono.", aplicado_x = '".$UserName."' WHERE id = ".$pid;
 				mysql_query($sql);
 				## ACTUALIZAR EL ESTADO DE LOS APGOS SALDADOS 
-				$sql = "UPDATE pagos SET estado = 3, fechaPago = '".date("Y-m-d")."', pago_real = 0, aplicado_x = ".$UserName." WHERE cuenta = ".$cta." AND estado = 0 AND  id < ".$pid;
+				$sql = "UPDATE pagos SET estado = 3, fechaPago = '".date("Y-m-d")."', pago_real = 0, aplicado_x = '".$UserName."' WHERE cuenta = ".$cta." AND estado = 0 AND  id < ".$pid;
 				mysql_query($sql);
 				##-restar a ultimo pago
 				$abono -= $sumapagos;
@@ -918,9 +918,9 @@ switch($_POST["action"]){
 					fecha 		= '".date("Y-m-d")."', 
 					monto_saldado 	= $abono, 
 					estado 		= $estado,
-					monto		= '$restante'
-					aplicado_x = '".$UserName."';
-					WHERE id = $recargo_id";
+					monto		= '$restante',
+					aplicado_x 	= '".$UserName."'
+					WHERE id 	= $recargo_id";
 				mysql_query($sql);
 				##Verificando si despues del abono de recargos ya no hay mas por pagar.
 				$sql = "SELECT SUM(monto) FROM recargos WHERE cuenta= $cuenta AND cliente = $cliente AND estado = 0";
@@ -931,6 +931,11 @@ switch($_POST["action"]){
 				$cta = mysql_fetch_array($res1);
 				if ($rec[0] == 0 && $cta[0] <= 0) {
 					$sql = "UPDATE cuentas SET estado = 1 WHERE id = $cuenta";
+					$res = mysql_query($sql);
+				}
+				# VERIFICANDO SI EL ABONO SALDA EL RECARGO PENDIENTE
+				if ($abono == $recargos) {
+					$sql = "UPDATE recargos SET estado = 1 WHERE id = $recargo_id";
 					$res = mysql_query($sql);
 				}
 				//include_once("imprimeReciboRecargo.php");

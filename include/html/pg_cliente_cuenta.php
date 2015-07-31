@@ -799,7 +799,6 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 				{
 					echo '	<td> <center>$ '; moneda($re->monto-$re->monto_saldado).'</center></td>';
 					echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
-					//$monto = moneda($re->monto);
 					if($re->estado == 0){
 						$tot += $re->monto;
 						?>
