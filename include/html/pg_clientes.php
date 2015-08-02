@@ -32,11 +32,16 @@ $UserLevel = $_SESSION["U_NIVEL"];
 			<th style="text-transform: uppercase;"><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></th>
 			<td width="80"><a href="?pg=2e&cl=<?= $ln->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
 			<td width="80"><a href="include/html/box_cliente.php?width=700&height=530&cl=<?= $ln->id;?>" class="thickbox tboton sombra esqRedondas detalles" title="Detalles de cliente">Detalles</a></td>
-			<td width="80"><a href="?pg=2b&cl=<?= $ln->id;?>" rel="<?= $ln->id;?>" class="tboton sombra esqRedondas editar">Editar</a></td>
-			<td width="80"><a href="include/html/box_cliente_elim.php?width=480&height=250&cl=<?= $ln->id;?>" class="thickbox tboton sombra esqRedondas eliminar" title="Eliminar cliente">Eliminar</a></td>
-		</tr>
 		<?php
-	}
+			if ($UserLevel == 0) {
+		
+			echo '<td width="80"><a href="?pg=2b&cl=<?= $ln->id;?>" rel="<?= $ln->id;?>" class="tboton sombra esqRedondas editar">Editar</a></td>';
+			echo '<td width="80"><a href="include/html/box_cliente_elim.php?width=480&height=250&cl=<?= $ln->id;?>" class="thickbox tboton sombra esqRedondas eliminar" title="Eliminar cliente">Eliminar</a></td>';
+		
+			}
+		
+		echo "</tr>";
+		}
 	$db->close();
 	?>
 </tbody>
