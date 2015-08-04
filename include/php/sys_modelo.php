@@ -426,7 +426,7 @@ switch($_POST["action"]){
 			if(isset($_SESSION["EDITARCUENTA"]))
 			{	
 				## comprobar datos anteriores de cuenta
-				$sql = "SELECT * FROM cuenta WHERE id=".$_SESSION["EDITARCUENTA"];
+				$sql = "SELECT * FROM cuentas WHERE id=".$_SESSION["EDITARCUENTA"];
 				echo $sql;
 				$res = mysql_query($sql);
 				$pre = mysql_fetch_array($res);
@@ -456,7 +456,7 @@ switch($_POST["action"]){
 					fecha_pago	= '". $_POST["fechapp"] ."',
 					cantidad	=  ". $cantidad .",
 					tiempo		=  ". $tiempo .",
-					tipo_pago	=  ". $tipo_pago .",
+					tipo_pago	=  ". $_POST["tipo_pago"] .",
 					dias_pago	= '". $diasPago ."',
 					total		=  ". $cantidad .", 
 					npagos		=  ". $npagos .",
@@ -465,7 +465,7 @@ switch($_POST["action"]){
 					WHERE id = ".$_SESSION["EDITARCUENTA"];
 				//echo $_cadena;
 				$res = mysql_query($_cadena);
-				if($res){echo"ok";}else{echo"falla en update";}
+				//if($res){echo"ok";}else{echo"falla en update";}
 				$cuenta = $_SESSION["EDITARCUENTA"];
 				if( ($cantidad==$pre_canti) && ($tipo_pago==$pre_tipop) && ($diasPago==$pre_diasp) && ($monto1==$pre_nto1) && ($monto2==$pre_mto2) && ($plazo1==$pre_pzo1) && ($plazo2==$pre_pzo2) )
 				{
@@ -527,7 +527,7 @@ switch($_POST["action"]){
 						$a = (int)substr($prxpago, 0, -6);
 						$m = (int)substr($prxpago, 5, -3);
 						$d = (int)substr($prxpago, -2);
-						if( $d >= 15 ){
+						if( $d >= 16 ){
 							if($m == 12){$m = 1; $a++;}else{ $m++;}
 							$d = $dia[0];
 						}else{
@@ -571,7 +571,7 @@ switch($_POST["action"]){
 							$a = (int)substr($prxpago, 0, -6);
 							$m = (int)substr($prxpago, 5, -3);
 							$d = (int)substr($prxpago, -2);
-							if( $d >= 15 )
+							if( $d >= 16 )
 							{
 								if($m == 12){$m = 1; $a++;}else{ $m++;}
 								$d = $dia[0];
