@@ -145,8 +145,8 @@ else
 		{
 			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEÑO, VENDEDOR Y TOTAL COBRADO
 			echo'<tr>';
-			echo'<td>'.$rd->cobrador.'</td>';
-			echo'<td>'.$rd->total.'</td>';
+			echo'<td align="center">'.$rd->cobrador.'</td>';
+			echo'<td align="center">'.$rd->total.'</td>';
 
 			#BUSCANDO COBROS EN FECHA
 			$sql="SELECT count(*) cobrosef
@@ -157,7 +157,7 @@ else
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
-				echo'<td>'.$get->cobrosef.'</td>';
+				echo'<td align="center">'.$get->cobrosef.'</td>';
 			}
 
 			#BUSCANDO COBROS FUERA DE FECHA
@@ -169,7 +169,7 @@ else
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
-				echo'<td>'.$get->cobrosff.'</td>';
+				echo'<td align="center">'.$get->cobrosff.'</td>';
 			}
 
 			#BUSCANDO COBROS PENDIENTES
@@ -180,7 +180,7 @@ else
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
-				echo'<td>'.$get->cobrospc.'</td>';
+				echo'<td align="center">'.$get->cobrospc.'</td>';
 			}
 			echo'</tr>';
 		}
