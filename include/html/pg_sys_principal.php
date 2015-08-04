@@ -90,8 +90,176 @@ if ($UserLevel == 0) {
 <br/>
 <br/>
 <!-- REPORTE DE PUNTUALIDAD POR COBRADOR -->
-
 <?php
+if(!isset($_POST["desempxtiempo"]))
+{
+	#FORMULARIO PARA GENERAR REPROTE DE DESEMPEÑO
+	?>
+	<form action="" method="post">
+	<table>
+	<caption>Generar reporte de desempeño</caption>
+	<tbody>
+	<tr>
+		<td>Seleccionar rango de fechas:</td>
+	</tr>
+	<tr>
+		<td>Desde: <input type="text" name="fi" class="dpfecha" /></td>
+	</tr>
+	<tr>
+		<td>Hasta: <input type="text" name="ff" class="dpfecha" value="<?=date('Y-m-d')?>" /></td>
+	</tr>
+	</tbody>
+	<tfoot>
+	<tr>
+		<td><input type="submit" name="desempxtiempo" value="Generar reporte" /></td>
+	</tr>
+	</tfoot>
+	</table>
+	</form>
+	<?php
+}
+else
+{
+	?>
+	<table>
+	<thead>
+		<tr>
+			<th>COBRADOR</th>
+			<th>TOTAL</th>
+			<th>COBROS EN FECHA</th>
+			<th>COBROS FUERA DE FECHA</th>
+			<th>POR COBRAR</th>
+			<!-- <th>AVANCE</th> PENDIENDE DE VER COMO SE SACARÍA ESTA COLUMNA -->
+		</tr>
+	</thead>
+	<tbody>
+		<?php
+		$sql="SELECT cu.cobrador, count(pa.id) total 
+			FROM cuentas cu, pagos pa 
+			WHERE cu.id=pa.cuenta AND cu.estado=0  AND pa.estado<2
+			AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			GROUP BY cu.cobrador ORDER BY cu.cobrador";
+		//echo $sql;
+		$res=$db->query($sql);
+		while($rd=$db->fetchNextObject($res))
+		{
+			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEÑO, VENDEDOR Y TOTAL COBRADO
+			echo'<tr>';
+			echo'<td>'.$rd->cobrador.'</td>';
+			echo'<td>'.$rd->total.'</td>';
+
+			#BUSCANDO COBROS EN FECHA
+			$sql="SELECT count(*) cobrosef
+			FROM cuentas cu, pagos pa
+			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=1 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			AND cu.cobrador='".$rd->cobrador."'
+			AND pa.fechaPago<=pa.fecha";
+			$re2=$db->query($sql);
+			while($get=$db->fetchNextObject($re2))
+			{
+				echo'<td>'.$get->cobrosef.'</td>';
+			}
+
+			#BUSCANDO COBROS FUERA DE FECHA
+			$sql="SELECT count(*) cobrosff
+			FROM cuentas cu, pagos pa
+			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=1 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			AND cu.cobrador='".$rd->cobrador."'
+			AND pa.fechaPago>pa.fecha";
+			$re2=$db->query($sql);
+			while($get=$db->fetchNextObject($re2))
+			{
+				echo'<td>'.$get->cobrosff.'</td>';
+			}
+
+			#BUSCANDO COBROS PENDIENTES
+			$sql="SELECT count(*) cobrospc
+			FROM cuentas cu, pagos pa
+			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=0 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			AND cu.cobrador='".$rd->cobrador."'";
+			$re2=$db->query($sql);
+			while($get=$db->fetchNextObject($re2))
+			{
+				echo'<td>'.$get->cobrospc.'</td>';
+			}
+			echo'</tr>';
+		}
+		?>
+	</tbody>
+	</table>
+
+<!-- reporte monetario 
+	<br />
+	
+	<table>
+	<thead>
+		<tr>
+			<th>COBRADOR</th>
+			<th>TOTAL</th>
+			<th>COBROS EN FECHA</th>
+			<th>COBROS FUERA DE FECHA</th>
+			<th>POR COBRAR</th>
+			<th>AVANCE</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php
+		$sql="SELECT cu.cobrador, SUM(pa.pago_real) total
+			FROM cuentas cu, pagos pa 
+			WHERE cu.id=pa.cuenta AND cu.estado=0  AND pa.estado<2
+			AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			GROUP BY cu.cobrador ORDER BY cu.cobrador";
+		//echo $sql;
+		$res=$db->query($sql);
+		while($rd=$db->fetchNextObject($res))
+		{
+			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEÑO, VENDEDOR Y TOTAL COBRADO
+			echo'<tr>';
+			echo'<td>'.$rd->cobrador.'</td>';
+			echo'<td>'.$rd->total.'</td>';
+
+			#BUSCANDO COBROS EN FECHA
+			$sql="SELECT SUM(pa.pago_real) cobrosef
+			FROM cuentas cu, pagos pa
+			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=1 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			AND cu.cobrador='".$rd->cobrador."'
+			AND pa.fechaPago<=pa.fecha";
+			$re2=$db->query($sql);
+			while($get=$db->fetchNextObject($re2))
+			{
+				echo'<td>'.$get->cobrosef.'</td>';
+			}
+
+			#BUSCANDO COBROS FUERA DE FECHA
+			$sql="SELECT SUM(pa.pago_real) cobrosff
+			FROM cuentas cu, pagos pa
+			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=1 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			AND cu.cobrador='".$rd->cobrador."'
+			AND pa.fechaPago>pa.fecha";
+			$re2=$db->query($sql);
+			while($get=$db->fetchNextObject($re2))
+			{
+				echo'<td>'.$get->cobrosff.'</td>';
+			}
+
+			#BUSCANDO COBROS PENDIENTES
+			$sql="SELECT SUM(pa.pago) cobrospc
+			FROM cuentas cu, pagos pa
+			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=0 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			AND cu.cobrador='".$rd->cobrador."'";
+			$re2=$db->query($sql);
+			while($get=$db->fetchNextObject($re2))
+			{
+				echo'<td>'.$get->cobrospc.'</td>';
+			}
+			echo'</tr>';
+		}
+		?>
+	</tbody>
+	</table>
+	-->
+	<?php	
+}
 } else {
 	$clcobrador = "AND c_cobrador = '$UserName'";
 ?>
