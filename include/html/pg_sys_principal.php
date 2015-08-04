@@ -22,7 +22,7 @@ if ($UserLevel == 0) {
 </thead>
 <tbody>
 <?php
-		//// ESTADISTICOS DE COBRADORES/////
+		//// ESTADISTICOS DE COBRADORES///
 		require_once("include/php/sys_db.class.php");
 		require_once("include/php/fun_global.php");
 		require_once("include/conf/Config_con.php");

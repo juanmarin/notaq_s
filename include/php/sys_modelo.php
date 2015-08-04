@@ -11,8 +11,7 @@ if(isset($_GET["action"])){
 switch($_POST["action"]){
 	## CREAR USUARIO NUEVO EN EL SISTEMA -------------------------------------------
 	case "usr_nuevo":
-	## DEFINIMOS NIVEL   ----------------------------------------
-
+	## DEFINIMOS NIVEL   ------------------------------
 		if($_POST["puesto"] == "COBRADOR"){
 			$_POST["nivel"] = 3;
 		}elseif($_POST["puesto"] == "ADMINISTRADOR"){
