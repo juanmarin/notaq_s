@@ -529,7 +529,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 	<tbody>
 	<tr>
 		<td colspan="5">
-		<a href="include/html/box_cliente_cuenta_saldar.php?width=500&height=430&c=<?= $cuenta;?>" class="thickbox boton esqRedondas sombra">Saldar cuenta</a>
+		<a href="include/html/box_cliente_cuenta_saldar.php?width=500&height=430&c=<?= $cuenta;?>" class="thickbox boton esqRedondas sombra">Sald. Cta.</a>
 		<a href="include/html/box_cuenta_elim.php?width=480&height=250&cte=<?= $cliente;?>&cta=<?= $cuenta;?>" class="thickbox boton esqRedondas sombra">Elim. Cuenta</a>
 		<a href="?pg=3da&cl=<?php echo $cliente;?>" class="boton esqRedondas sombra">Historial</a>			
 		<?php
@@ -541,9 +541,10 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 			<?php
 		}
 		?>
-		<a href="include/html/box_cliente_cuenta_pagare.php?height=500&width=400&c=<?php echo $cuenta;?>&cl=<?php echo $cliente; ?>" class="thickbox boton esqRedondas sombra">Imp. Pagare</a>
+		<a href="include/html/box_cliente_cuenta_pagare.php?height=500&width=400&c=<?php echo $cuenta;?>&cl=<?php echo $cliente; ?>" class="thickbox boton esqRedondas sombra">Pagare</a>
 		<a href="include/html/box_cliente_reimprime_cuenta.php?width=500&height=430&c=<?= $cuenta;?>" class="thickbox boton esqRedondas sombra">Re. Prestamo</a>
 		<a href="include/html/box_pagos_elim.php?width=500&height=420&cta=<?=$cuenta;?>&cte=<?=$cliente;?>" class="thickbox boton esqRedondas sombra">C. Pagos</a>
+		<a href="include/html/box_recargos_elim.php?width=500&height=420&cta=<?=$cuenta;?>&cte=<?=$cliente;?>" class="thickbox boton esqRedondas sombra">Rec.Cond</a>
 		</td>
 	</tr>		
 	</table>	
