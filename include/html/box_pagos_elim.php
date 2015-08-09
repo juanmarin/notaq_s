@@ -33,7 +33,7 @@ $(document).ready(function(){
 	});
 });
 </script>
-<form action="include/php/sys_modelo.php" method="post">
+
 <table>
 <caption>Cancelar Pagos</caption>
 <thead>
@@ -42,7 +42,6 @@ $(document).ready(function(){
 		<th align="center">Fecha</th>
 		<th align="center">F.Pago</th>
 		<th align="center">Monto</th>	
-		<th align="center">Aplicado</th>
 		<th align="center">Acciones</th>
 	</tr>
 </thead>
@@ -59,40 +58,21 @@ $(document).ready(function(){
 		<tr>
 		<td align="center"><?php echo $i; ?></td>
 		<td align="center"><?php echo date("d-m-Y", strtotime($ln->fecha)); ?></td>
-<<<<<<< HEAD
 		<td align="center"><?php echo date("d-m-Y", strtotime($ln->fechaPago)); ?></td>
-		<td align="center"><?php echo "$".number_format($ln->pago, 2); ?></td>
-		<td align="center"><input type="checkbox" name="ids[]" value="<?= $ln->id; ?>" rel="<?= $ln->id; ?>" ref="<?= $ln->pago; ?>" class="pagoacancelar"></td>
+		<td align="right"><?php echo "$".number_format($ln->pago_real, 2); ?></td>
+		<td align="center"><input type="checkbox" name="ids[]" value="<?= $ln->id; ?>" rel="<?= $ln->id; ?>" ref="<?= $ln->pago_real; ?>" class="pagoacancelar"></td>
 		</tr>
 		<?php
-=======
-        <td align="center"><?php echo date("d-m-Y", strtotime($ln->fechaPago)); ?></td>
-        <td align="center"><?php echo "$".number_format($ln->pago, 2); ?></td>
-        <td align="center"><?php echo $ln->aplicado_x; ?></td>
-        <td align="center"><input type="checkbox" name="ids[]" value="<?= $ln->id; ?>"></td>
-	</tr>
-	<?php
->>>>>>> 76cb956071b95f6bdb05ad1c23d63e33a562d787
 	}
 	?>
 </tbody>
-
 <tfoot>
 	<tr>
-<<<<<<< HEAD
 		<th colspan="5">
 		<input type="hidden" name="cte" id="cte" value="<?php echo $_GET['cte']; ?>" />
 		<input type="hidden" name="cta" id="cta" value="<?php echo $_GET['cta']; ?>" />
-=======
-		<th colspan="6">
-		<input type="hidden" name="cte" value="<?php echo $_GET['cte']; ?>" />
-		<input type="hidden" name="cta" value="<?php echo $_GET['cta']; ?>" />
-		<input type="hidden" name="pago" value="<?php echo $ln->pago; ?>" />
->>>>>>> 76cb956071b95f6bdb05ad1c23d63e33a562d787
-		<input type="hidden" name="action" value="pago_elimina" />
 		<input type="button" id="cancelar_pagos" value="Cancelar Pago(s)" />
 		</th>
 	</tr>				
 </tfoot>
-<table>
-</form>
+</table>
