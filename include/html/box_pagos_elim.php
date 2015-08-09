@@ -45,7 +45,7 @@
 		<input type="hidden" name="cta" value="<?php echo $_GET['cta']; ?>" />
 		<input type="hidden" name="pago" value="<?php echo $ln->pago; ?>" />
 		<input type="hidden" name="action" value="pago_elimina" />
-		<input type="submit" name="eliminar_cuenta" value="Cancelar" />
+		<input type="submit" name="eliminar_cuenta" value="Cancelar Pago(s)" />
 		</th>
 	</tr>				
 </tfoot>
