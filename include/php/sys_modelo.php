@@ -1029,9 +1029,6 @@ switch($_POST["action"]){
 				$sql = "UPDATE cuentas SET total = (total+$pago) WHERE id = $cuenta"; 
 				$res = mysql_query($sql);          
 			}
-			if($res){
-				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cl.'">'; 
-			}
 		break;
 	case "abono_elimina":
 		$idabono = $_POST["idabono"];
