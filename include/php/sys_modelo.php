@@ -297,27 +297,36 @@ switch($_POST["action"]){
 		
 		break;
 	case "cliente_editar_1":
+		# Actualizar el cobrador en caso que haya cambiado--
+		# esto solo para las cuentas que aun esten abiertas
+		$cl_cobrador = getCadena("c_cobrador","clientes","id",$_POST["cl"]);
+		if($cl_cobrador != $_POST["cobrador"])
+		{
+			$sql = "UPDATE cuentas SET cobrador = '".$_POST["cobrador"]."' WHERE estado = 0 AND cliente = ".$_POST["cl"];
+			echo $sql;
+			mysql_query($sql);
+		}
 		$sql = "UPDATE clientes SET 
-			nombre = '".$_POST["nombre"]."', 
-			apellidop = '".$_POST["apellidop"]."', 
-			apellidom = '".$_POST["apellidom"]."', 
-			direccion = '".$_POST["dir"]."', 
-			colonia = '".$_POST["col"]."', 
-			telefono = '".$_POST["tel"]."', 
-			celular = '".$_POST["cel"]."', 
-			rfc = '".$_POST["rfc"]."', 
-			vivienda = ".$_POST["vivienda"].",
-			Aval = ".$_POST["aval_edit1"].",
-			sector	=	'". $_POST["sector"] ."',
-			empleo	=	'". $_POST["empleo"] ."',
-			dir_empl	=	'". $_POST["dir_empl"]."',
-			c_empleo	=	'". $_POST["c_empl"]."',
-			tel_empl	=	'". $_POST["tel_empl"]."',
-			nom_ref_1	=	'". $_POST["ref_1"]."',
-			cel_ref1	=	'". $_POST["cel_ref1"]."',
-			nom_ref_2	=	'". $_POST["ref_2"]."',
-			cel_ref2	=	'". $_POST["cel_ref2"]."',
-			c_cobrador	=	'". $_POST["cobrador"] ."'
+			nombre 		= '".$_POST["nombre"]."', 
+			apellidop 	= '".$_POST["apellidop"]."', 
+			apellidom 	= '".$_POST["apellidom"]."', 
+			direccion 	= '".$_POST["dir"]."', 
+			colonia 	= '".$_POST["col"]."', 
+			telefono 	= '".$_POST["tel"]."', 
+			celular 	= '".$_POST["cel"]."', 
+			rfc 		= '".$_POST["rfc"]."', 
+			vivienda 	=  ".$_POST["vivienda"].",
+			Aval 		=  ".$_POST["aval_edit1"].",
+			sector		= '".$_POST["sector"] ."',
+			empleo		= '".$_POST["empleo"] ."',
+			dir_empl	= '".$_POST["dir_empl"]."',
+			c_empleo	= '".$_POST["c_empl"]."',
+			tel_empl	= '".$_POST["tel_empl"]."',
+			nom_ref_1	= '".$_POST["ref_1"]."',
+			cel_ref1	= '".$_POST["cel_ref1"]."',
+			nom_ref_2	= '".$_POST["ref_2"]."',
+			cel_ref2	= '".$_POST["cel_ref2"]."',
+			c_cobrador	= '".$_POST["cobrador"] ."'
 			WHERE id = ".$_POST["cl"];
 		$res = mysql_query($sql);
 		if($res){
@@ -613,6 +622,14 @@ switch($_POST["action"]){
 					mysql_query($sql);
 					$cnt++;
 				}
+			}
+			# Actualizar el cobrador en caso que haya cambiado--
+			$cl_cobrador = getCadena("c_cobrador","clientes","id",$_POST["cl"]);
+			if($cl_cobrador != $_POST["cobrador"])
+			{
+				$sql = "UPDATE clientes SET c_cobrador = '".$_POST["cobrador"]."' WHERE id = ".$_POST["cl"];
+				echo $sql;
+				mysql_query($sql);
 			}
 			//include_once "imprimeReciboCuenta.php";
 		}
