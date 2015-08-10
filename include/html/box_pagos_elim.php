@@ -39,7 +39,7 @@ $(document).ready(function(){
 					idpago	: $(this).attr("rel"),
 					abono	: $(this).attr("ref")
 				}, function(data){
-					alert(data);
+					//alert(data);
 				});
 			}	
 		});
@@ -89,7 +89,7 @@ $(document).ready(function(){
 		$pagoestado=($ln->estado==0)?'style="color:#666;"':'';
 		?>
 		<tr>
-		<td <?=$pagoestado?> align="center"><?php echo $ln->estado; ?></td>
+		<td <?=$pagoestado?> align="center"><?php echo $i; ?></td>
 		<td <?=$pagoestado?> align="center"><?php echo date("d-m-Y", strtotime($ln->fecha)); ?></td>
 		<td <?=$pagoestado?> align="center"><?php echo date("d-m-Y", strtotime($ln->fechaPago)); ?></td>
 		<td <?=$pagoestado?> align="right"><?php echo "$".number_format($ln->pago_real, 2); ?></td>
