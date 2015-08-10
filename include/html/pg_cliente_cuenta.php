@@ -544,7 +544,10 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 		<a href="include/html/box_cliente_cuenta_pagare.php?height=500&width=400&c=<?php echo $cuenta;?>&cl=<?php echo $cliente; ?>" class="thickbox boton esqRedondas sombra">Pagare</a>
 		<a href="include/html/box_cliente_reimprime_cuenta.php?width=500&height=430&c=<?= $cuenta;?>" class="thickbox boton esqRedondas sombra">Re. Prestamo</a>
 		<a href="include/html/box_pagos_elim.php?width=500&height=420&cta=<?=$cuenta;?>&cte=<?=$cliente;?>" class="thickbox boton esqRedondas sombra">C. Pagos</a>
+		<!--
+		####### Boton para condonar recargos #########
 		<a href="include/html/box_recargos_elim.php?width=500&height=420&cta=<?=$cuenta;?>&cte=<?=$cliente;?>" class="thickbox boton esqRedondas sombra">Rec.Cond</a>
+		-->
 		</td>
 	</tr>		
 	</table>	
@@ -605,7 +608,9 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="hidden" name="c" value="<?= $ab->idcuenta;?>" />
 						<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
 						<input type="hidden" name="action" value="abono_elimina" />
+						<!--
 						<input type="submit" id="pago_cancel" value="C. ABONO"/>
+					-->
 						<?php
 					}
 					?>
@@ -722,7 +727,9 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="hidden" name="c" value="<?= $cuenta;?>" />
 						<input type="hidden" name="pid" value="<?= $r->id;?>" />
 						<input type="hidden" name="action" value="pago_elimina" />
+						<!--
 						<input type="submit" id="pago_cancel" value="CANCELAR"/>
+					-->
 						<?php
 					}
 					?>
@@ -752,7 +759,9 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="hidden" name="c" value="<?= $cuenta;?>" />
 						<input type="hidden" name="pid" value="<?= $r->id;?>" />
 						<input type="hidden" name="action" value="pago_elimina" />
+						<!--
 						<input type="submit" id="pago_cancel" value="CANCELAR"/>
+					-->
 					<?php
 					}
 					?>
@@ -781,7 +790,9 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="hidden" name="c" value="<?= $cuenta;?>" />
 						<input type="hidden" name="pid" value="<?= $r->id;?>" />
 						<input type="hidden" name="action" value="pago_elimina" />
+						<!--
 						<input type="submit" id="pago_cancel" value="CANCELAR"/>
+					-->
 					<?php
 					}
 					?>
