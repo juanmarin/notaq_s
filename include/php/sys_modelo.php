@@ -1038,18 +1038,17 @@ switch($_POST["action"]){
 		$abono = $_POST["abono"];
 
 		$sql ="DELETE FROM abono WHERE idabono = $idabono";
+		echo "$sql \n";
 		$res = mysql_query($sql); 
 		if($res){
 			$sql = "UPDATE cuentas SET total = (total+$abono) WHERE id = $cta";
+			echo "$sql \n";
 			$res = mysql_query($sql);
-				
 		}
 		if($res){
 			$sql = "UPDATE pagos SET pago = (pago+$abono) WHERE id = $pid";
+			echo "$sql \n";
 			$res = mysql_query($sql);
-		}
-		if($res){
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cl.'">'; 
 		}
 		break;
 		
