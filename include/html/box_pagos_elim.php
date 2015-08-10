@@ -44,6 +44,7 @@ $(document).ready(function(){
 			}	
 		});
 		if(contador > 0){
+			alert("Los cambios se han realizado correctamente");
 			location.reload();
 		} else {
 			alert("No se seleccionaron pagos ni abonos para cancelar");

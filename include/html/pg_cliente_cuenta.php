@@ -508,7 +508,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 			}
 			elseif ($db->numRows() > 0)
 			{
-				$sql = "UPDATE recargos SET monto = $monto, dias_atraso = ".$dAtras." WHERE pago_id = ".$pago_id."";
+				$sql = "UPDATE recargos SET monto = $monto, dias_atraso = ".$dAtras." WHERE estado = 0 AND pago_id = ".$pago_id."";
 				$db->execute($sql);
 			}
 		}
@@ -544,10 +544,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 		<a href="include/html/box_cliente_cuenta_pagare.php?height=500&width=400&c=<?php echo $cuenta;?>&cl=<?php echo $cliente; ?>" class="thickbox boton esqRedondas sombra">Pagare</a>
 		<a href="include/html/box_cliente_reimprime_cuenta.php?width=500&height=430&c=<?= $cuenta;?>" class="thickbox boton esqRedondas sombra">Re. Prestamo</a>
 		<a href="include/html/box_pagos_elim.php?width=500&height=420&cta=<?=$cuenta;?>&cte=<?=$cliente;?>" class="thickbox boton esqRedondas sombra">C. Pagos</a>
-		<!--
-		####### Boton para condonar recargos #########
 		<a href="include/html/box_recargos_elim.php?width=500&height=420&cta=<?=$cuenta;?>&cte=<?=$cliente;?>" class="thickbox boton esqRedondas sombra">Rec.Cond</a>
-		-->
 		</td>
 	</tr>		
 	</table>	
@@ -608,9 +605,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="hidden" name="c" value="<?= $ab->idcuenta;?>" />
 						<input type="hidden" name="cl" value="<?= $_GET['cl'];?>" />
 						<input type="hidden" name="action" value="abono_elimina" />
-						<!--
 						<input type="submit" id="pago_cancel" value="C. ABONO"/>
-					-->
 						<?php
 					}
 					?>
@@ -727,9 +722,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="hidden" name="c" value="<?= $cuenta;?>" />
 						<input type="hidden" name="pid" value="<?= $r->id;?>" />
 						<input type="hidden" name="action" value="pago_elimina" />
-						<!--
 						<input type="submit" id="pago_cancel" value="CANCELAR"/>
-					-->
 						<?php
 					}
 					?>
@@ -759,9 +752,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="hidden" name="c" value="<?= $cuenta;?>" />
 						<input type="hidden" name="pid" value="<?= $r->id;?>" />
 						<input type="hidden" name="action" value="pago_elimina" />
-						<!--
 						<input type="submit" id="pago_cancel" value="CANCELAR"/>
-					-->
 					<?php
 					}
 					?>
@@ -790,9 +781,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="hidden" name="c" value="<?= $cuenta;?>" />
 						<input type="hidden" name="pid" value="<?= $r->id;?>" />
 						<input type="hidden" name="action" value="pago_elimina" />
-						<!--
 						<input type="submit" id="pago_cancel" value="CANCELAR"/>
-					-->
 					<?php
 					}
 					?>
@@ -803,16 +792,16 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 			</th>
 			<?php
 			#-MOSTRANDO RECARGOS POR PAGO VENCIDO-#######################################################################################
-			$sql = "SELECT * FROM recargos WHERE cuenta = ".$cuenta." AND pago_id = ".$r->id." ORDER BY pago ASC";
+			$sql = "SELECT * FROM recargos WHERE cuenta = ".$cuenta." AND pago_id = ".$r->id." AND estado<2 ORDER BY pago ASC";
 			$rec = $db->query($sql);
 			$tot=0;
 			if($db->numRows() > 0)
 			{
 				while($re = $db->fetchNextObject($rec))
 				{
-					echo '	<td> <center>$ '; moneda($re->monto-$re->monto_saldado).'</center></td>';
-					echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
 					if($re->estado == 0){
+						echo '	<td> <center>$ '; moneda($re->monto-$re->monto_saldado).'</center></td>';
+						echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
 						$tot += $re->monto;
 						?>
 						<th>
@@ -830,16 +819,18 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						</th>
 						<?php
 					}else{
+						echo '	<td> <center>$ '; moneda($re->monto).'</center></td>';
+						echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
 						?>
 						<th>
 						<form name="frm_re_recargo" action="include/php/sys_modelo.php"  method="post">
 						<input type="hidden" name="pago_id" value="<?= $re->pago_id;?>" />
 						<input type="hidden" name="c" value="<?= $cuenta;?>" />
 						<input type="hidden" name="cl" value="<?= $cliente;?>" />
-						<input type="hidden" name="recargo" value="<?= $re->monto-$re->monto_saldado;?>" />
+						<input type="hidden" name="recargo" value="<?= $re->monto;?>" />
 						<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
 						<input type="hidden" name="action" value="recargos" />
-						<center> <input type="submit" name="rec_reimprime" value="REIMP" /> </center>
+						<center><input type="submit" name="rec_reimprime" value="REIMP" /> </center>
 						</form>
 						</th>
 						<?php    

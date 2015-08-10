@@ -4,7 +4,33 @@
 <style>
 	table tbody tr th td {text-align: center;}
 </style>
-<form action="include/php/sys_modelo.php" method="post">
+<script>
+$(document).ready(function(){
+	$("#condonar_recargo").click(function(){
+		var contador = 0;
+		//-CONDONANDO RECARGOS
+		$(".condonarecargo").each(function(){
+			if( $(this).is(":checked") )
+			{
+				contador++;
+				$.post("include/php/sys_modelo.php",{
+					action	: "recargo_condonar",
+					idr	: $(this).val()
+				}, function(data){
+					//alert(data);
+				});
+			}	
+		});
+		if(contador > 0){
+			alert("Los cambios se han realizado correctamente");
+			location.reload();
+		} else {
+			alert("No se seleccionaron recargos para condonar");
+		}
+	});
+});
+</script>
+
 <table>
 <caption>Condonar Recargos</caption>
 <thead>
@@ -29,11 +55,11 @@
 ?>
 
 	<tr>
-		<td align="center"><?php echo $i; ?></td>
-		<td align="center"><?php echo date("d-m-Y", strtotime($ln->pago)); ?></td>
+	<td align="center"><?php echo $i; ?></td>
+	<td align="center"><?php echo date("d-m-Y", strtotime($ln->pago)); ?></td>
         <td align="center"><?php echo $ln->dias_atraso; ?></td>
         <td align="center"><?php echo "$".number_format($ln->monto, 2); ?></td>
-        <td align="center"><input type="checkbox" name="ids[]" value="<?= $ln->id; ?>"></td>
+        <td align="center"><input type="checkbox" name="ids[]" value="<?= $ln->id; ?>" class="condonarecargo"></td>
 	</tr>
 	<?php
 	}
@@ -42,14 +68,9 @@
 
 <tfoot>
 	<tr>
-		<th colspan="6">
-		<input type="hidden" name="cte" value="<?php echo $_GET['cte']; ?>" />
-		<input type="hidden" name="cta" value="<?php echo $_GET['cta']; ?>" />
-		<input type="hidden" name="pago" value="<?php echo $ln->pago; ?>" />
-		<input type="hidden" name="action" value="pago_elimina" />
-		<input type="submit" name="eliminar_cuenta" value="Condonar Recargo(s)" />
+		<th colspan="5">
+		<input type="submit" id="condonar_recargo" value="Condonar Recargo(s)" />
 		</th>
 	</tr>				
 </tfoot>
-<table>
-</form>
+</table>
