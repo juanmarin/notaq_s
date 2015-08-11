@@ -132,13 +132,14 @@
 	function getDiaSemana($dia, $tipo){
 		if($tipo < 3){
 			switch($dia) {
-				case 1:	echo "LUNES";			break;
-				case 2:	echo "MARTES";			break;
-				case 3:	echo "MIERCOLES";			break;
-				case 4:	echo "JUEVES";			break;
-				case 5:	echo "VIERNES";			break;
-				case 6:	echo "SABADO";			break;
-				default:	echo "NO DEFINIDO";
+				case 1	:		echo "LUNES";			break;
+				case 2	:		echo "MARTES";			break;
+				case 3	:		echo "MIERCOLES";		break;
+				case 4	:		echo "JUEVES";			break;
+				case 5	:		echo "VIERNES";			break;
+				case 6	:		echo "SABADO";			break;
+				case 7	:		echo "DOMINGO";			break;
+				default	:		echo "NO DEFINIDO";
 			}
 		}elseif($tipo==3) {
 			switch($dia) {
@@ -146,50 +147,51 @@
 				case "2-17"	:	echo "DIAS 17 Y 2 DE CADA MES";		break;
 				case "2-16"	:	echo "DIAS 2 Y 16 DE CADA MES";		break;
 				case "8-22"	:	echo "DIAS 8 Y 22 DE CADA MES";		break;
-				case "15-30":	echo "DIAS 15 Y 30 DE CADA MES";		break;
+				case "15-30"	:	echo "DIAS 15 Y 30 DE CADA MES";	break;
 				case "1-15"	:	echo "DIAS 15 Y 1 DE CADA MES";		break;
 				case "6-21"	:	echo "DIAS 6 Y 21 DE CADA MES";		break;
 				case "3-18"	:	echo "DIAS 3 Y 18 DE CADA MES";		break;
 				case "4-18"	:	echo "DIAS 4 Y 18 DE CADA MES";		break;
-				default:	echo "NO DEFINIDO";
+				default		:	echo "NO DEFINIDO";
 			}
 		}else {
 			switch($dia) {
 				case "1"	:	echo "DIA 1 DE CADA MES";		break;
 				case "16"	:	echo "DIA 16 CADA MES";			break;
-				default	:	echo "NO DEFINIDO";
+				default		:	echo "NO DEFINIDO";
 			}	
 		}
 	}
 	function getDiaSemana_($dia, $tipo){
 		if($tipo < 3){
 			switch($dia) {
-				case 1:	return "LUNES";			break;
-				case 2:	return "MARTES";			break;
-				case 3:	return "MIERCOLES";		break;
-				case 4:	return "JUEVES";			break;
-				case 5:	return "VIERNES";			break;
-				case 6:	return "SABADO";			break;
-				default:	return "NO DEFINIDO";
+				case 1	:	return "LUNES";					break;
+				case 2	:	return "MARTES";				break;
+				case 3	:	return "MIERCOLES";				break;
+				case 4	:	return "JUEVES";				break;
+				case 5	:	return "VIERNES";				break;
+				case 6	:	return "SABADO";				break;
+				case 7	:	return "DOMINGO";				break;
+				default	:	return "NO DEFINIDO";
 			}
 		}elseif($tipo==3) {
 			switch($dia) {
-				case "1-16"	:	return "DIAS 16 Y 1 DE CADA MES";		break;
-				case "2-17"	:	return "DIAS 17 Y 2 DE CADA MES";		break;
-				case "2-16"	:	return "DIAS 2 Y 16 DE CADA MES";		break;
-				case "8-22"	:	return "DIAS 8 Y 22 DE CADA MES";		break;
-				case "15-30":	return "DIAS 15 Y 30 DE CADA MES";		break;
-				case "1-15"	:	return "DIAS 15 Y 1 DE CADA MES";		break;
-				case "6-21"	:	return "DIAS 6 Y 21 DE CADA MES";		break;
-				case "3-18"	:	return "DIAS 3 Y 18 DE CADA MES";		break;
-				case "4-18"	:	return "DIAS 4 Y 18 DE CADA MES";		break;
+				case "1-16"	:	return "DIAS 16 Y 1 DE CADA MES";	break;
+				case "2-17"	:	return "DIAS 17 Y 2 DE CADA MES";	break;
+				case "2-16"	:	return "DIAS 2 Y 16 DE CADA MES";	break;
+				case "8-22"	:	return "DIAS 8 Y 22 DE CADA MES";	break;
+				case "15-30"	:	return "DIAS 15 Y 30 DE CADA MES";	break;
+				case "1-15"	:	return "DIAS 15 Y 1 DE CADA MES";	break;
+				case "6-21"	:	return "DIAS 6 Y 21 DE CADA MES";	break;
+				case "3-18"	:	return "DIAS 3 Y 18 DE CADA MES";	break;
+				case "4-18"	:	return "DIAS 4 Y 18 DE CADA MES";	break;
 				default:		return "NO DEFINIDO";
 			}
 		}else {
 			switch($dia) {
-				case "1"	:	return "DIA 1 DE CADA MES";	break;
-				case "16"	:	return "DIA 16 CADA MES";			break;
-				default	:	return "NO DEFINIDO";
+				case "1"	:	return "DIA 1 DE CADA MES";		break;
+				case "16"	:	return "DIA 16 CADA MES";		break;
+				default		:	return "NO DEFINIDO";
 			}	
 		}
 	}
