@@ -129,7 +129,7 @@ else
 			<th>COBROS EN FECHA</th>
 			<th>COBROS FUERA DE FECHA</th>
 			<th>POR COBRAR</th>
-			<!-- <th>AVANCE</th> PENDIENDE DE VER COMO SE SACARÍA ESTA COLUMNA -->
+			<th>AVANCE</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -147,6 +147,7 @@ else
 			echo'<tr>';
 			echo'<td align="center">'.$rd->cobrador.'</td>';
 			echo'<td align="center">'.$rd->total.'</td>';
+			$totalavance = $rd->total;
 
 			#BUSCANDO COBROS EN FECHA
 			$sql="SELECT count(*) cobrosef
@@ -157,6 +158,7 @@ else
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
+				$cobrosenfecha = $get->cobrosef;
 				echo'<td align="center">'.$get->cobrosef.'</td>';
 			}
 
@@ -182,6 +184,11 @@ else
 			{
 				echo'<td align="center">'.$get->cobrospc.'</td>';
 			}
+			
+			#CALCULANDO EL PORCCENTAJE DE AVANCE
+			$pavance = ( $totalavance / $cobrosenfecha ) * 100;
+			?><td align='right'><?php moneda($pavance);?> %</td><?php
+			
 			echo'</tr>';
 		}
 		?>
