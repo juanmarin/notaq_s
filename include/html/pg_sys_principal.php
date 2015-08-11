@@ -186,7 +186,7 @@ else
 			}
 			
 			#CALCULANDO EL PORCCENTAJE DE AVANCE
-			$pavance = ( $totalavance / $cobrosenfecha ) * 100;
+			$pavance = ( $cobrosenfecha / $totalavance ) * 100;
 			?><td align='right'><?php moneda($pavance);?> %</td><?php
 			
 			echo'</tr>';
