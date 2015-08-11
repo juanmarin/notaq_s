@@ -91,36 +91,34 @@ if ($UserLevel == 0) {
 <br/>
 <!-- REPORTE DE PUNTUALIDAD POR COBRADOR -->
 <?php
-if(!isset($_POST["desempxtiempo"]))
-{
-	#FORMULARIO PARA GENERAR REPROTE DE DESEMPEÑO
-	?>
-	<form action="" method="post">
-	<table>
-	<caption>Generar reporte de desempeño</caption>
-	<tbody>
-	<tr>
-		<td>Seleccionar rango de fechas:</td>
-	</tr>
-	<tr>
-		<td>Desde: <input type="text" name="fi" class="dpfecha" /></td>
-	</tr>
-	<tr>
-		<td>Hasta: <input type="text" name="ff" class="dpfecha" value="<?=date('Y-m-d')?>" /></td>
-	</tr>
-	</tbody>
-	<tfoot>
-	<tr>
-		<td><input type="submit" name="desempxtiempo" value="Generar reporte" /></td>
-	</tr>
-	</tfoot>
-	</table>
-	</form>
-	<?php
-}
-else
+#FORMULARIO PARA GENERAR REPROTE DE DESEMPEÑO
+?>
+<form action="" method="post">
+<table>
+<caption>Generar reporte de desempeño</caption>
+<tbody>
+<tr>
+	<td>Seleccionar rango de fechas:</td>
+</tr>
+<tr>
+	<td>Desde: <input type="text" name="fi" class="dpfecha" value="<?=$_POST['fi'];?>" /></td>
+</tr>
+<tr>
+	<td>Hasta: <input type="text" name="ff" class="dpfecha" value="<?=date('Y-m-d')?>" /></td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+	<td><input type="submit" name="desempxtiempo" value="Generar reporte" /></td>
+</tr>
+</tfoot>
+</table>
+</form>
+<?php
+if(isset($_POST["desempxtiempo"]))
 {
 	?>
+	<br />
 	<table>
 	<thead>
 		<tr>
