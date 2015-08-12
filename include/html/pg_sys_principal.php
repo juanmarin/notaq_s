@@ -95,7 +95,7 @@ if ($UserLevel == 0) {
 ?>
 <form action="" method="post">
 <table>
-<caption>Generar reporte de desempeño</caption>
+<caption>Generar reporte de desempe&nacute;o</caption>
 <tbody>
 <tr>
 	<td>Seleccionar rango de fechas:</td>
@@ -185,14 +185,16 @@ if(isset($_POST["desempxtiempo"]))
 			
 			#CALCULANDO EL PORCCENTAJE DE AVANCE
 			$pavance = ( $cobrosenfecha / $totalavance ) * 100;
-			?><td align='right'><?php moneda($pavance);?> %</td><?php
+			$tbl_color = semaforo(number_format($pavance, 2));
+			?><td style='background-color:<?php echo $tbl_color;?>' align='right'><?php moneda($pavance);?> %</td><?php
 			
 			echo'</tr>';
 		}
 		?>
 	</tbody>
 	</table>
-
+	<br />
+	<br />
 <!-- reporte monetario 
 	<br />
 	
