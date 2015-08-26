@@ -13,6 +13,7 @@
 	$res = $db->query($sql);
 	if($db->numRows() > 0){
 		while($nt = $db->fetchNextObject($res)){
+			echo '<li>'.date("d-m-Y H:i:s", strtotime($nt->fecha)).'</li>';
 			echo '<li>'.$nt->nota.'</li>';
 		}
 	}else{
