@@ -52,6 +52,13 @@ $("#CancelarEditarCuenta").click(function(){
 	});
 	return false;
 });
+$(".validarpago").keyup(function(){
+	var pago = $(this).attr("rel");
+	if( parseInt($(this).val()) > parseInt(pago) ){
+		alert("No se permiten cantidades mayores ("+$(this).val()+") al pago asignado ("+pago+").\nAun se aceptan pagos adelantados en el siguiente pago.");
+		$(this).val(pago);
+	}
+});
 </script>
 <p class="title">Clientes &raquo; Cuenta</p>
 <table>
@@ -661,7 +668,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" 	name="numpago" 	value="<?= $i;?>" />
-					<input type="text" 	name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> />
+					<input type="text" 	name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> class="validarpago" rel="<?= $pago_acum;?>" />
 					<input type="hidden" 	name="cl" 	value="<?= $_GET['cl'];?>" />
 					<input type="hidden" 	name="c" 	value="<?= $cuenta;?>" />
 					<input type="hidden" 	name="pid" 	value="<?= $r->id;?>" />
@@ -676,7 +683,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="numpago"	value="<?= $i;?>" />
-					<input type="text"   name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> />
+					<input type="text"   name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> class="validarpago" rel="<?= $pago_acum;?>" />
 					<input type="hidden" name="cl" 		value="<?= $_GET['cl'];?>" />
 					<input type="hidden" name="c"		value="<?= $cuenta;?>" />
 					<input type="hidden" name="pid"		value="<?= $r->id;?>" />
