@@ -596,6 +596,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					<input type="hidden" name="action" value="abono_" />
 					<input type="submit" value="REIMP" />
 					<?php
+					/*
 					if ($UserLevel == 0) {
 						?>
 						<form name="frm_<?php echo $ab->idabono;?>" action="include/php/sys_modelo.php" method="post">
@@ -608,6 +609,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="submit" id="pago_cancel" value="C. ABONO"/>
 						<?php
 					}
+					*/
 					?>
 					</form>
 				</td>
@@ -713,6 +715,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					<input type="hidden" name="action" value="cuenta_pagar" />
 					<input type="submit" value="REIMP" />
 					<?php
+					/*
 					if ($UserLevel == 0) {
 						?>
 						<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
@@ -725,6 +728,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="submit" id="pago_cancel" value="CANCELAR"/>
 						<?php
 					}
+					*/
 					?>
 					</form>
 					<?php
@@ -743,6 +747,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 					<input type="hidden" name="action" value="cuenta_pagar" />
 					<input type="submit" value="REIMP" />
 					<?php
+					/*
 					if ($UserLevel == 0) {
 					?>
 						<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
@@ -755,6 +760,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="submit" id="pago_cancel" value="CANCELAR"/>
 					<?php
 					}
+					*/
 					?>
 					</form>
 					<?php
@@ -772,6 +778,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 				<input type="hidden" name="action" value="cuenta_pagar" />
 				<input type="submit" value="REIMP" />
 				<?php
+					/*
 					if ($UserLevel == 0) {
 					?>
 						<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
@@ -784,6 +791,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 						<input type="submit" id="pago_cancel" value="CANCELAR"/>
 					<?php
 					}
+					*/
 					?>
 					</form>
 					<?php
