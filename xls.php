@@ -74,7 +74,7 @@ if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0 && isset($_POST)){
 				,cl.nom_ref_1 'Referencia 1'
 				,cl.cel_ref1 'Tel. referencia 1'
 				,cl.nom_ref_2 'Referencia 2'
-				,cl.cel_ref1 'Tel. referencia 2'
+				,cl.cel_ref2 'Tel. referencia 2'
 			FROM clientes cl 
 				RIGHT JOIN cuentas cu ON cl.id=cu.cliente
 				LEFT JOIN mymvcdb_users co ON cl.c_cobrador=co.username
