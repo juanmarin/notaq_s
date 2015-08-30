@@ -59,6 +59,15 @@ $(".validarpago").keyup(function(){
 		$(this).val(pago);
 	}
 });
+$("#mapacliente").click(function(){
+	if($("#mapacontenedor").text() == ""){
+		$.post("include/html/pg_cliente_cuenta_mapa.php",{c:$(this).attr("rel")}, function(data){
+			$("#mapacontenedor").html(data);
+		});
+	} else {
+		$("#mapacontenedor").text()
+	}
+});
 </script>
 <p class="title">Clientes &raquo; Cuenta</p>
 <table>
@@ -148,7 +157,14 @@ $(".validarpago").keyup(function(){
 					<img src="estilo/img/notepencil32.png" />
 					</a>
 					<?php
-				}
+				}/*
+				?>
+				&nbsp;
+				<a href="#MostrarMapa" id="mapacliente" rel="<?php echo $_GET['cl'];?>">
+					<img src="img/map_.png" />
+				</a>
+				<?php
+				*/
 			}
 			?>
 			</th><td colspan="3"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
@@ -240,7 +256,7 @@ while ($ln2 = $db1->fetchNextObject($result))
 $sql = "SELECT * FROM cuentas WHERE estado = 0 AND cliente = ".$_GET["cl"];
 $res = $db->query($sql);
 $chk = $db->numRows($res);
-if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
+if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$ncta)){
 	#[DATOS DE CUENTA SI SE VA A EDITAR]#####################################################################################
 	//echo "Cuenta: ".$ncta."<br />Session: ".$_SESSION["EDITARCUENTA"];
 	if ( isset($_SESSION["EDITARCUENTA"]) && ($_SESSION["EDITARCUENTA"]==$ncta) )
@@ -490,7 +506,32 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 	</tr>
 	</tfoot>
 	</table>
+	
+	<!-- ###################################################################################################[MAPA - MOSTRANDO MAPA] -->
+	<!--
+	<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script src="http://www.wimagguc.com/projects/jquery-latitude-longitude-picker-gmaps/js/jquery-gmaps-latlon-picker.js"></script>
+	<div id="mapacontenedor"></div>
+	-->
 	<br />
+	<table class="formato">
+	<caption>Localización geográfica</caption>
+	<thead>
+		<tr>
+			<th>Mueva el marcados para cambiar la localización del cliente.</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+	 		<iframe src="include/html/pg_cliente_cuenta_mapa.php?c=<?php echo $_GET['cl'];?>" style="width:100%;border:0px;min-width:400px;height:480px;"></iframe> 
+	 		</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr><th></th></tr>
+	</tfoot>
+	</table>
 	<?php
 	###################################################################################################[COMPROBANDO RECARGOS]
 	## buscando fecha primer pago
@@ -500,6 +541,7 @@ if($chk == 0 || $_SESSION["EDITARCUENTA"]==$ncta){
 	{
 	        $pago_id = $r->id;
 	        $proxpago = $r->fecha;
+	        $hoy = date("Y-m-d");
 		## verificando estado del pago 
 		if(getHayRecargo($proxpago) == 1)
 		{
