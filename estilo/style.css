@@ -5,6 +5,7 @@ h1, h2, h3, h4, h5{color:#ddd;}
 #main{
 	width: 1200px;
 	margin: auto;
+	font-weight:bold;
 }
 #barra{
 	width: 300px;
@@ -214,13 +215,13 @@ table tbody tr th{
 	color: #224373;
 	font-size: 16px;
 	text-align: left;
-	background: #B1B1B1 url(img/tr.png) repeat-x bottom;
+	background: #dadada url(img/tr.png) repeat-x bottom;
 	text-shadow: 1px 1px #DDD;
 }
 table tbody tr td{
 	font-size: 16px;
 	padding: 6px; 
-	background: #B2B2B2 url(img/tr.png) repeat-x bottom;
+	background: #ddd url(img/tr.png) repeat-x bottom;
 	text-shadow: 1px 1px #E5E5E5;
 }
 
