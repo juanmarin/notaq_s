@@ -55,7 +55,7 @@ if ($UserLevel == 0) {
 					AND pagos.estado = 0 
 					AND pagos.fecha < '".$fecha."'
 					AND clientes.c_cobrador='".$cob->cobrador."'
-					GROUP BY pagos.cliente ";
+					GROUP BY pagos.cliente";
 					$res2 = $db->query($sql2);
 					$morosos = mysql_num_rows($res2);
 					while ($mor = $db->fetchNextObject($res2))
@@ -87,6 +87,25 @@ if ($UserLevel == 0) {
 	</tr>
 </tbody>
 </table>
+<br />
+	<table class="formato">
+	<caption>Localización geográfica</caption>
+	<thead>
+		<tr>
+			<th>Mueva el marcados para cambiar la localización del cliente.</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+	 		<iframe src="include/html/pg_cliente_cuenta_mapa_marcas.php" style="width:100%;border:0px;min-width:400px;height:480px;"></iframe> 
+	 		</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr><th></th></tr>
+	</tfoot>
+	</table>
 <br/>
 <br/>
 <!-- REPORTE DE PUNTUALIDAD POR COBRADOR -->
