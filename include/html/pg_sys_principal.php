@@ -98,7 +98,7 @@ if ($UserLevel == 0) {
 	<tbody>
 		<tr>
 			<td>
-	 		<iframe src="include/html/pg_cliente_cuenta_mapa_marcas.php" style="width:100%;border:0px;min-width:400px;height:480px;"></iframe> 
+	 		<iframe src="include/html/pg_cliente_cuenta_mapa_marcas.php" style="width:100%;border:0px;min-width:400px;height:420px;"></iframe> 
 	 		</td>
 		</tr>
 	</tbody>
