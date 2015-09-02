@@ -13,6 +13,9 @@
 	$UserLevel = $_SESSION["U_NIVEL"];
 	if($_SESSION["U_NIVEL"] == 0){$_SESSION["hash"] = $user->randomPass(100);}
 	//echo var_dump($user);
+	/*
+	/*Agregando encoding UTF-8
+	*/
 	header("Content-Type: text/html;charset=utf-8");
 ?>
 <html>
