@@ -1071,13 +1071,13 @@ switch($_POST["action"]){
 	
 	case "corte_caja":
 		$hoy 		= date("Y-m-d");
-		$cobrador 	= ($_POST["cobrador"]==0)?"":"AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
-		$supervisor 	= $_POST["supervisor"];
+		//$cobrador 	= ($_POST["cobrador"]==0)?"":"AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
+		$cobrador = $_POST["cobrador"];
 		$totales 	= $_POST["totales"];
 		$consulta 	= $_POST["consulta"];	
 		//echo $consulta;
 		$corte_c 	= "INSERT INTO corte_caja (cobrador, recibido_x, totales) VALUES ('".$cobrador."', '".$UserName."', ".$totales." )";
-		echo "<br />$corte_c";
+		//echo "<br />$corte_c";
 		$rest 		= mysql_query($corte_c);
 		$ccaj_id	= mysql_insert_id();
 		##SACANDO LOS REGISTROS PARA INSERTAR EN EL DETALLE DEL CORTE DE CAJA
@@ -1100,9 +1100,10 @@ switch($_POST["action"]){
 				AND pagos.pago_real > 0
 				AND (pagos.estado = 1 OR pagos.estado = 3)
 				AND pagos.reportado = 0
-				$cobrador"
-		;
-		echo "<br />$sql";
+				AND clientes.c_cobrador ='".$cobrador."'";
+		/*
+		/* Creando el registro en el detallado de la tabla
+		*/				
 		$result = mysql_query($sql);
 		while($ln = mysql_fetch_array($result)){
 			$cc_detail = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, pago_id, pago_importe) VALUES (
@@ -1114,9 +1115,18 @@ switch($_POST["action"]){
 				'".$ln["pago_real"]."'
 				)
 			";
-			//echo $ln->clientes."<br />";
-			echo "<br />$cc_detail";
-			mysql_query($cc_detail);
+			//echo "<br />$cc_detail";
+			$rest = mysql_query($cc_detail);
+			///Actualizando la columna de los pagos "reportado = 1" 
+			/*
+			/*Para que no aparezcan en los futuros reportes
+			*/
+			if ($rest) {
+				$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
+				//echo "<br />$sql";
+				mysql_query($sql);
+			}
+
 		}
 				
 	//}
