@@ -62,7 +62,7 @@ $pdf=new PDF();
 $header=array('#','CLIENTE','F. PAGO','F. COBRO', 'CANTIDAD', 'ABONOS', 'RECARGOS');
 //Data loading
 //*** Load MySQL Data ***//
-$objConnect = mysql_connect("localhost","root","root") or die("Error Connect to Database");
+$objConnect = mysql_connect("localhost","confian1_notaq","99_shamp00") or die("Error Connect to Database");
 $objDB = mysql_select_db("notaq");
 $strSQL = "SELECT clientes.id AS clientes, CONCAT(clientes.nombre, ' ' ,clientes.apellidop, ' ' ,clientes.apellidom) AS cte_nom, 
 	clientes.c_cobrador, pagos.fecha AS fpago, pagos.fechaPago AS fcobro, pagos.pago_real AS pago_real, pagos.estado, pagos.reportado 
@@ -92,5 +92,5 @@ $pdf->Ln(10);
 $pdf->Cell(200,10,'REPORTE DE PAGOS RECIBIDOS',0,0,'C');
 $pdf->Ln(8);
 $pdf->BasicTable($header,$resultData);
-$titulo = "/var/www/html/notaq_s/include/fpdf/reportes/c_caja_".$cobrador."_".date("Y-m-d_H:m:s").".pdf";
+$titulo = "/public_html/include/fpdf/reportes/c_caja_".$cobrador."_".date("Y-m-d_H:m:s").".pdf";
 $pdf->Output($titulo, "F");?>
