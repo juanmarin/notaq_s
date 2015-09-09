@@ -2,6 +2,7 @@
 @session_start();
 require('fpdf.php');
 $hoy = date("Y-m-d");
+$cobrador = "cob3";
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
 class PDF extends FPDF
@@ -91,5 +92,5 @@ $pdf->Ln(10);
 $pdf->Cell(200,10,'REPORTE DE PAGOS RECIBIDOS',0,0,'C');
 $pdf->Ln(8);
 $pdf->BasicTable($header,$resultData);
-$titulo = "/var/www/html/notaq_s/include/fpdf/reportes/REPORTE_".date("Y-m-d_H:m:s").".pdf";
+$titulo = "/var/www/html/notaq_s/include/fpdf/reportes/c_caja_".$cobrador."_".date("Y-m-d_H:m:s").".pdf";
 $pdf->Output($titulo, "F");?>
