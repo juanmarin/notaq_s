@@ -16,7 +16,7 @@
 	/*
 	/*Agregando encoding UTF-8
 	*/
-	header("Content-Type: text/html;charset=utf-8");
+	//header("Content-Type: text/html;charset=utf-8");
 ?>
 <html>
 <head>
@@ -325,36 +325,36 @@
 				$pg=(isset($_GET["pg"]))?$_GET["pg"]:"";
 				switch($pg){
 					case "2":	require_once("include/html/pg_clientes.php");					break;
-					case "2a":	require_once("include/html/pg_clientes_buscar.php");			break;
-					case "2b":	require_once("include/html/pg_clientes_editar.php");			break;
-					case "2c":	require_once("include/html/pg_clientes_morosos.php");			break;
-					case "2ca":	require_once("include/html/pg_clientes_inactivos.php");			break;
-					case "2cb":	require_once("include/html/pg_clientes_activos.php");			break;
-					case "2cc":	require_once("include/html/pg_clientes_demandas.php");			break;
-					case "2ba":	require_once("include/html/pg_clientes_editar2.php");			break;
-					case "2bc":	require_once("include/html/pg_clientes_editar3.php");			break;
-					case "2bd":	require_once("include/html/pg_clientes_editar4.php");			break;
-					case "2d":	require_once("include/html/pg_clientes_agregar.php");			break;
-					case "2da":	require_once("include/html/pg_clientes_agregar2.php");			break;
-					case "2db":	require_once("include/html/pg_clientes_agregar3.php");			break;
-					case "2dc":	require_once("include/html/pg_clientes_agregar4.php");			break;
+					case "2a":	require_once("include/html/pg_clientes_buscar.php");				break;
+					case "2b":	require_once("include/html/pg_clientes_editar.php");				break;
+					case "2c":	require_once("include/html/pg_clientes_morosos.php");				break;
+					case "2ca":	require_once("include/html/pg_clientes_inactivos.php");				break;
+					case "2cb":	require_once("include/html/pg_clientes_activos.php");				break;
+					case "2cc":	require_once("include/html/pg_clientes_demandas.php");				break;
+					case "2ba":	require_once("include/html/pg_clientes_editar2.php");				break;
+					case "2bc":	require_once("include/html/pg_clientes_editar3.php");				break;
+					case "2bd":	require_once("include/html/pg_clientes_editar4.php");				break;
+					case "2d":	require_once("include/html/pg_clientes_agregar.php");				break;
+					case "2da":	require_once("include/html/pg_clientes_agregar2.php");				break;
+					case "2db":	require_once("include/html/pg_clientes_agregar3.php");				break;
+					case "2dc":	require_once("include/html/pg_clientes_agregar4.php");				break;
 					case "2e":	require_once("include/html/pg_cliente_cuenta.php");				break;
 					case "3":	require_once("include/html/pg_reportes.php");					break;
 					case "3a":	require_once("include/html/pg_reporte_diario.php");				break;
 					//case "3a":	require_once("include/html/pg_reporte_pre-corte.php");				break;
 					case "3e":	require_once("include/html/pg_elimina_pago.php");				break;
 					case "3b":	require_once("include/html/pg_reporte_fechas.php");				break;
-					case "3c":	require_once("include/html/pg_reporte_cobranza.php");			break;
-					case "3d":	require_once("include/html/pg_reporte_historial_cred.php");		break;
-					case "3da":	require_once("include/html/pg_reporte_historial_cred_cl.php");	break;
-					case "3f":	require_once("include/html/pg_reporte_recargos.php");			break;
+					case "3c":	require_once("include/html/pg_reporte_cobranza.php");				break;
+					case "3d":	require_once("include/html/pg_reporte_historial_cred.php");			break;
+					case "3da":	require_once("include/html/pg_reporte_historial_cred_cl.php");			break;
+					case "3f":	require_once("include/html/pg_reporte_recargos.php");				break;
 					case "3g":	require_once("include/html/pg_reporte_excel.php");				break;
-					case "4":	require_once("include/html/pg_panel.php");						break;
+					case "4":	require_once("include/html/pg_panel.php");					break;
 					case "4a":	require_once("include/html/pg_panel_usuarios.php");				break;
-					case "4b":	require_once("include/html/pg_panel_usuario_agregar.php");		break;
-                	case "4c":	require_once("include/html/pg_panel_db_backup.php");			break;
-					case "4d":	require_once("include/html/pg_panel_prestamos.php");			break;
-					case "5":	require_once("include/html/pg_reporte_inversionistas.php");		break;
+					case "4b":	require_once("include/html/pg_panel_usuario_agregar.php");			break;
+                			case "4c":	require_once("include/html/pg_panel_db_backup.php");				break;
+					case "4d":	require_once("include/html/pg_panel_prestamos.php");				break;
+					case "5":	require_once("include/html/pg_reporte_inversionistas.php");			break;
 					default:	//--
 							if($user->is_loaded()){
 								require_once("include/html/pg_sys_principal.php");

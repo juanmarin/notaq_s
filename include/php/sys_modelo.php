@@ -653,7 +653,7 @@ switch($_POST["action"]){
 		##-innformacion de cuenta
 		$sql 	= "SELECT * FROM cuentas WHERE id = ".$cta;
 		$res 	= mysql_query($sql);
-		$c 	= mysql_fetch_array($res);
+		$c 		= mysql_fetch_array($res);
 		$total 	= $c["total"];
 		$tp 	= $c["tipo_pago"];
 		$int 	= $c["interes"];
@@ -664,17 +664,17 @@ switch($_POST["action"]){
 		{
 			##-TIPO DE PAGO MENSUAL - 
 			##-CANTIDAD A PAGAR --
-			$sql = "SELECT * FROM pagos WHERE id = ".$pid;
-			$res = mysql_query($sql);
-			$p = mysql_fetch_array($res);
-			$pago = $p["pago"];
+			$sql 	= "SELECT * FROM pagos WHERE id = ".$pid;
+			$res 	= mysql_query($sql);
+			$p 		= mysql_fetch_array($res);
+			$pago 	= $p["pago"];
 			$fechap = $p["fecha"];
 		 	## 
 			if($pago == $abono)
 			{
 				if (hayRecargos($cta, $cl) == 0) 
 				{
-			    		#-CUENTA SALDADA --
+			    	#-CUENTA SALDADA --
 					$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
 					#echo $sql . "<br />";
 					mysql_query($sql);

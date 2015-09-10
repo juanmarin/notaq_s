@@ -35,8 +35,8 @@ $UserLevel = $_SESSION["U_NIVEL"];
 		<?php
 			if ($UserLevel == 0) {
 		
-			echo '<td width="80"><a href="?pg=2b&cl=<?= $ln->id;?>" rel="<?= $ln->id;?>" class="tboton sombra esqRedondas editar">Editar</a></td>';
-			echo '<td width="80"><a href="include/html/box_cliente_elim.php?width=480&height=250&cl=<?= $ln->id;?>" class="thickbox tboton sombra esqRedondas eliminar" title="Eliminar cliente">Eliminar</a></td>';
+			echo '<td width="80"><a href="?pg=2b&cl='.$ln->id.'" rel="'.$ln->id.'" class="tboton sombra esqRedondas editar">Editar</a></td>';
+			echo '<td width="80"><a href="include/html/box_cliente_elim.php?width=480&height=250&cl='.$ln->id.'" class="thickbox tboton sombra esqRedondas eliminar" title="Eliminar cliente">Eliminar</a></td>';
 		
 			}
 		

@@ -17,86 +17,100 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 	
   <script type="text/javascript">
     var colors = [
-    	'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-    	'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
-    	'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-    	'http://maps.google.com/mapfiles/ms/icons/purple-dot.png'
+    	'../../img/green-dot.png',
+    	'../../img/yellow-dot.png',
+    	'../../img/red-dot.png',
+    	'../../img/purple-dot.png'
     ];
     var locations = [
     	<?php
-    	//- VERDE - CLIENTES DE 0 A 7 DÃAS VENCIDOS
-    	$sql1 = "select * from (
-    			select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre 
-			,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
-			,co.latitud latitud, co.longitud longitud, co.zoom zoom
-			from cuentas cu 
-			left join clientes cl on cl.id=cu.cliente 
-			left join pagos pa on pa.cuenta=cu.id 
-			right join coordenadas co on co.cliente=pa.cliente
-			where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
-    		where fecha between '".date('Y-m-d' , strtotime('- 7 days'))."' and '".date("Y-m-d")."'";
-    	$res = $db->query($sql1);
-    	$coma = '';
-    	$cont = 1;
-    	while($co = $db->fetchNextObject($res))
+    	//-VERIFICAR SI EL USUARIO ES COBRADOR
+    	$ftrcobrador = ($_SESSION["U_NIVEL"]==3)?"AND cobrador = '".$_SESSION["USERNAME"]."'":"";
+    	//- VERDE - CLIENTES DE 0 A 7 DÍAS VENCIDOS
+    	if(!isset($_GET["marks"]) || $_GET["marks"]==1)
     	{
-    		echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[0]]";
-    		$coma = ",";
-    		$cont++;
+			$sql1 = "select * from (
+				select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
+				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha
+				,co.latitud latitud, co.longitud longitud, co.zoom zoom
+				from cuentas cu 
+				left join clientes cl on cl.id=cu.cliente 
+				left join pagos pa on pa.cuenta=cu.id 
+				right join coordenadas co on co.cliente=pa.cliente
+				where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
+				where fecha between '".date('Y-m-d' , strtotime('- 7 days'))."' and '".date("Y-m-d")."' $ftrcobrador";
+			$res = $db->query($sql1);
+			$coma = '';
+			$cont = 1;
+			while($co = $db->fetchNextObject($res))
+			{
+				echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[0]]";
+				$coma = ",";
+				$cont++;
+			}
     	}
-    	//- AMARILLO - CLIENTES DE 8 A 30 DÃAS VENCIDOS
-    	$sql2 = "select * from (
-    			select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre 
-			,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
-			,co.latitud latitud, co.longitud longitud, co.zoom zoom
-			from cuentas cu 
-			left join clientes cl on cl.id=cu.cliente 
-			left join pagos pa on pa.cuenta=cu.id 
-			right join coordenadas co on co.cliente=pa.cliente
-			where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
-    		where fecha between '".date('Y-m-d' , strtotime('- 30 days'))."' and '".date('Y-m-d' , strtotime('- 8 days'))."'";
-    	$res = $db->query($sql2);
-    	while($co = $db->fetchNextObject($res))
+    	//- AMARILLO - CLIENTES DE 8 A 30 DÍAS VENCIDOS
+    	if(!isset($_GET["marks"]) || $_GET["marks"]==2)
     	{
-    		echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[1]]";
-    		$coma = ",";
-    		$cont++;
+			$sql2 = "select * from (
+					select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
+				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
+				,co.latitud latitud, co.longitud longitud, co.zoom zoom
+				from cuentas cu 
+				left join clientes cl on cl.id=cu.cliente 
+				left join pagos pa on pa.cuenta=cu.id 
+				right join coordenadas co on co.cliente=pa.cliente
+				where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
+				where fecha between '".date('Y-m-d' , strtotime('- 30 days'))."' and '".date('Y-m-d' , strtotime('- 8 days'))."' $ftrcobrador";
+			$res = $db->query($sql2);
+			while($co = $db->fetchNextObject($res))
+			{
+				echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[1]]";
+				$coma = ",";
+				$cont++;
+			}
     	}
-    	//- ROJO - CLIENTES DE 31 A 60 DÃAS VENCIDOS
-    	$sql3 = "select * from (
-    			select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre 
-			,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
-			,co.latitud latitud, co.longitud longitud, co.zoom zoom
-			from cuentas cu 
-			left join clientes cl on cl.id=cu.cliente 
-			left join pagos pa on pa.cuenta=cu.id 
-			right join coordenadas co on co.cliente=pa.cliente
-			where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
-    		where fecha between '".date('Y-m-d' , strtotime('- 60 days'))."' and '".date('Y-m-d' , strtotime('- 31 days'))."'";
-    	$res = $db->query($sql3);
-    	while($co = $db->fetchNextObject($res))
+    	//- ROJO - CLIENTES DE 31 A 60 DÍAS VENCIDOS
+    	if(!isset($_GET["marks"]) || $_GET["marks"]==3)
     	{
-    		echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[2]]";
-    		$coma = ",";
-    		$cont++;
+			$sql3 = "select * from (
+					select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
+				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
+				,co.latitud latitud, co.longitud longitud, co.zoom zoom
+				from cuentas cu 
+				left join clientes cl on cl.id=cu.cliente 
+				left join pagos pa on pa.cuenta=cu.id 
+				right join coordenadas co on co.cliente=pa.cliente
+				where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
+				where fecha between '".date('Y-m-d' , strtotime('- 60 days'))."' and '".date('Y-m-d' , strtotime('- 31 days'))."' $ftrcobrador";
+			$res = $db->query($sql3);
+			while($co = $db->fetchNextObject($res))
+			{
+				echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[2]]";
+				$coma = ",";
+				$cont++;
+			}
     	}
-    	//- PURPURA - CLIENTES DE MAS DE 61 DÃAS VENCIDOS
-    	$sql4 = "select * from (
-    			select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre 
-			,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
-			,co.latitud latitud, co.longitud longitud, co.zoom zoom
-			from cuentas cu 
-			left join clientes cl on cl.id=cu.cliente 
-			left join pagos pa on pa.cuenta=cu.id 
-			right join coordenadas co on co.cliente=pa.cliente
-			where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
-    		where fecha < '".date('Y-m-d' , strtotime('- 61 days'))."'";
-    	$res = $db->query($sql4);
-    	while($co = $db->fetchNextObject($res))
+    	//- PURPURA - CLIENTES DE MAS DE 61 DÍAS VENCIDOS
+    	if(!isset($_GET["marks"]) || $_GET["marks"]==4)
     	{
-    		echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[3]]";
-    		$coma = ",";
-    		$cont++;
+			$sql4 = "select * from (
+					select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
+				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
+				,co.latitud latitud, co.longitud longitud, co.zoom zoom
+				from cuentas cu 
+				left join clientes cl on cl.id=cu.cliente 
+				left join pagos pa on pa.cuenta=cu.id 
+				right join coordenadas co on co.cliente=pa.cliente
+				where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
+				where fecha < '".date('Y-m-d' , strtotime('- 61 days'))."' $ftrcobrador";
+			$res = $db->query($sql4);
+			while($co = $db->fetchNextObject($res))
+			{
+				echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[3]]";
+				$coma = ",";
+				$cont++;
+			}
     	}
     	?>
     ];

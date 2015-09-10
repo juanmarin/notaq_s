@@ -88,17 +88,34 @@ if ($UserLevel == 0) {
 </tbody>
 </table>
 <br />
+	<script>
+	$("#filtromapas").change(function(){
+		$("#mapa").attr("src",$(this).val());
+	});
+	</script>
 	<table class="formato">
 	<caption>Localización geográfica</caption>
 	<thead>
 		<tr>
-			<th>Mueva el marcados para cambiar la localización del cliente.</th>
+			<th>Mueva el marcador para cambiar la localización del cliente.</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 			<td>
-	 		<iframe src="include/html/pg_cliente_cuenta_mapa_marcas.php" style="width:100%;border:0px;min-width:400px;height:420px;"></iframe> 
+	 		Filtrar marcadores: 
+	 		<select name="filtromapas" id="filtromapas">
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÍAS VENCIDOS</option>
+	 		</select>
+	 		</td>
+		</tr>
+		<tr>
+			<td>
+	 		<iframe name="mapa" id="mapa" src="include/html/pg_cliente_cuenta_mapa_marcas.php" style="width:100%;border:0px;min-width:400px;height:420px;border:none;"></iframe> 
 	 		</td>
 		</tr>
 	</tbody>
@@ -404,6 +421,43 @@ if(isset($_POST["desempxtiempo"]))
 	</tr>
 </tfoot>
 </table>
+<br />
+	<script>
+	$("#filtromapas").change(function(){
+		$("#mapa").attr("src",$(this).val());
+	});
+	</script>
+	<table class="formato">
+	<caption>Localización geográfica</caption>
+	<thead>
+		<tr>
+			<th>Mueva el marcador para cambiar la localización del cliente.</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+	 		Filtrar marcadores: 
+	 		<select name="filtromapas" id="filtromapas">
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÍAS VENCIDOS</option>
+	 		</select>
+	 		</td>
+		</tr>
+		<tr>
+			<td>
+	 		<iframe name="mapa" id="mapa" src="include/html/pg_cliente_cuenta_mapa_marcas.php" style="width:100%;border:0px;min-width:400px;height:420px;border:none;"></iframe> 
+	 		</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr><th></th></tr>
+	</tfoot>
+	</table>
+<br/>
 <?php 
 }
 ?>

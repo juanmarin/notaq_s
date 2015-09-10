@@ -20,7 +20,7 @@ $("#fechapp").change(function(){
 	dia = fecha.getDay();
 	//alert(dia + ' // ' + m);
 	if(dia > 7){
-		alert("Dia de la semana invalido.\n Seleccione otro dÃƒÂ­a.");
+		alert("Dia de la semana invalido.\n Seleccione otro día.");
 	}else{
 		$("#dias_pago option").removeAttr("selected");
 		$("#dias_pago option[value="+dia+"]").attr("selected", "selected");
@@ -157,14 +157,14 @@ $("#mapacliente").click(function(){
 					<img src="estilo/img/notepencil32.png" />
 					</a>
 					<?php
-				}/*
+				}
+				$lnkmap=(isset($_GET["mapa"]))?"?pg=2e&cl=".$_GET['cl']:"?pg=2e&cl=".$_GET['cl']."&mapa=1";
 				?>
 				&nbsp;
-				<a href="#MostrarMapa" id="mapacliente" rel="<?php echo $_GET['cl'];?>">
+				<a href="<?php echo $lnkmap;?>">
 					<img src="img/map_.png" />
 				</a>
 				<?php
-				*/
 			}
 			?>
 			</th><td colspan="3"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
@@ -494,7 +494,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	<tr>
 		<th>TIEMPO:</th><td><?php echo $r->tiempo . " "; ?></td>
 		<th>MODO DE PAGO:</th><td><?php echo $tp; ?></td>
-		<th>DIAS DE PAGO:</th><td><?php if($r->tipo_pago < 4){getDiaSemana($r->dias_pago, $r->tipo_pago);}else{echo 'DÃ­Â­as '.$r->dias_pago.' de cada mes.';} ?></td>
+		<th>DIAS DE PAGO:</th><td><?php if($r->tipo_pago < 4){getDiaSemana($r->dias_pago, $r->tipo_pago);}else{echo 'Dí­as '.$r->dias_pago.' de cada mes.';} ?></td>
 	<tr>
 		<th>OBSERVACIONES:</th><td colspan="5" style="text-align:left;"><?php echo nl2br($r->observaciones); ?></td>		
 	</tr>
@@ -508,31 +508,33 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	</table>
 	
 	<!-- ###################################################################################################[MAPA - MOSTRANDO MAPA] -->
-	<!--
-	<script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-	<script src="http://www.wimagguc.com/projects/jquery-latitude-longitude-picker-gmaps/js/jquery-gmaps-latlon-picker.js"></script>
-	<div id="mapacontenedor"></div>
-	-->
-	<br />
-	<table class="formato">
-	<caption>LocalizaciÃ³n geogrÃ¡fica</caption>
-	<thead>
-		<tr>
-			<th>Mueva el marcados para cambiar la localizaciÃ³n del cliente.</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>
-	 		<iframe src="include/html/pg_cliente_cuenta_mapa.php?c=<?php echo $_GET['cl'];?>" style="width:100%;border:0px;min-width:400px;height:480px;"></iframe> 
-	 		</td>
-		</tr>
-	</tbody>
-	<tfoot>
-		<tr><th></th></tr>
-	</tfoot>
-	</table>
 	<?php
+	$sql = "SELECT idcoord FROM coordenadas WHERE cliente = $cliente";
+	$res = $db->query($sql);
+	if($db->numRows()==0 || isset($_GET["mapa"]))
+	{
+		?>
+		<br />
+		<table class="formato">
+		<caption>Localización geográfica</caption>
+		<thead>
+			<tr>
+				<th>Mueva el marcador para cambiar la localización del cliente.</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+		 		<iframe src="include/html/pg_cliente_cuenta_mapa.php?c=<?php echo $_GET['cl'];?>" style="width:100%;border:0px;min-width:400px;height:480px;"></iframe> 
+		 		</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr><th></th></tr>
+		</tfoot>
+		</table>
+		<?php
+	}
 	###################################################################################################[COMPROBANDO RECARGOS]
 	## buscando fecha primer pago
 	$sql = 'SELECT id, fecha FROM pagos WHERE estado = 0 AND cuenta = '.$cuenta.''; 				 	
