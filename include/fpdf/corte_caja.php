@@ -1,8 +1,10 @@
 <?php
 @session_start();
 require('fpdf.php');
+require_once("../php/sys_db.class.php");
+require_once("../conf/Config_con.php");
 $hoy = date("Y-m-d");
-$cobrador = "cob3";
+//$cobrador = "cob3";
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
 class PDF extends FPDF
@@ -32,7 +34,6 @@ function BasicTable($header,$data)
 		$this->Ln();
 		$row ++;
 		$pagos+= $eachResult["pago_real"];
-		//date ("d-m-Y", strtotime($r->fecha))
 	}
 	//$this->Cell(150,6,"$ ".number_format($pagos,2),1,0,'R');
 	$this->Cell(78,6,"SUBTOTALES : ",0,0,'R');
@@ -42,6 +43,17 @@ function BasicTable($header,$data)
 	$this->Ln(5);
 	$this->Cell(78,6,"TOTAL A ENTREGAR : ",0,0,'R');
 	$this->Cell(62,6,''."$ ".number_format($pagos,2).'',0,0,'R');
+	$this->Ln(90);
+	//$this->Ln();
+	$this->Cell(60,5,'___________________________',0,0,'C');
+	$this->Cell(180,5,'___________________________',0,0,'C');
+	$this->Ln();
+	$this->Cell(60,5,'SUPERVISOR',0,0,'C');
+	$this->Cell(180,5,'ENTREGO',0,0,'C');
+	$this->Ln();
+	$this->Cell(60,5,'',0,0,'C');
+	$this->Cell(180,5,'COBRADOR',0,0,'C');
+
 }
 
     function Footer()
@@ -62,8 +74,7 @@ $pdf=new PDF();
 $header=array('#','CLIENTE','F. PAGO','F. COBRO', 'CANTIDAD', 'ABONOS', 'RECARGOS');
 //Data loading
 //*** Load MySQL Data ***//
-$objConnect = mysql_connect("localhost","confian1_notaq","99_shamp00") or die("Error Connect to Database");
-$objDB = mysql_select_db("notaq");
+$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 $strSQL = "SELECT clientes.id AS clientes, CONCAT(clientes.nombre, ' ' ,clientes.apellidop, ' ' ,clientes.apellidom) AS cte_nom, 
 	clientes.c_cobrador, pagos.fecha AS fpago, pagos.fechaPago AS fcobro, pagos.pago_real AS pago_real, pagos.estado, pagos.reportado 
 	FROM clientes, pagos 
@@ -92,5 +103,9 @@ $pdf->Ln(10);
 $pdf->Cell(200,10,'REPORTE DE PAGOS RECIBIDOS',0,0,'C');
 $pdf->Ln(8);
 $pdf->BasicTable($header,$resultData);
-$titulo = "/public_html/include/fpdf/reportes/c_caja_".$cobrador."_".date("Y-m-d_H:m:s").".pdf";
-$pdf->Output($titulo, "F");?>
+$titulo = "/home/confian1/public_html/include/fpdf/reportes/c_caja_".$cobrador."_".date("Y-m-d_H:i:s").".pdf";
+//$titulo = "/var/www/html/notaq_s/include/fpdf/reportes/c_caja_".$cobrador."_".date("Y-m-d_H:i:s").".pdf";
+$pdf->Output($titulo, "F");
+echo $pdf->Output();
+
+?>
