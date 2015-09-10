@@ -34,7 +34,6 @@ function BasicTable($header,$data)
 		$this->Ln();
 		$row ++;
 		$pagos+= $eachResult["pago_real"];
-		//date ("d-m-Y", strtotime($r->fecha))
 	}
 	//$this->Cell(150,6,"$ ".number_format($pagos,2),1,0,'R');
 	$this->Cell(78,6,"SUBTOTALES : ",0,0,'R');
@@ -44,6 +43,17 @@ function BasicTable($header,$data)
 	$this->Ln(5);
 	$this->Cell(78,6,"TOTAL A ENTREGAR : ",0,0,'R');
 	$this->Cell(62,6,''."$ ".number_format($pagos,2).'',0,0,'R');
+	$this->Ln(90);
+	//$this->Ln();
+	$this->Cell(60,5,'___________________________',0,0,'C');
+	$this->Cell(180,5,'___________________________',0,0,'C');
+	$this->Ln();
+	$this->Cell(60,5,'SUPERVISOR',0,0,'C');
+	$this->Cell(180,5,'ENTREGO',0,0,'C');
+	$this->Ln();
+	$this->Cell(60,5,'',0,0,'C');
+	$this->Cell(180,5,'COBRADOR',0,0,'C');
+
 }
 
     function Footer()
@@ -93,7 +103,8 @@ $pdf->Ln(10);
 $pdf->Cell(200,10,'REPORTE DE PAGOS RECIBIDOS',0,0,'C');
 $pdf->Ln(8);
 $pdf->BasicTable($header,$resultData);
-$titulo = "/home/confian1/public_html/include/fpdf/reportes/c_caja_".$cobrador."_".date("Y-m-d_H:i:s").".pdf";
+//$titulo = "/home/confian1/public_html/include/fpdf/reportes/c_caja_".$cobrador."_".date("Y-m-d_H:i:s").".pdf";
+$titulo = "/var/www/html/notaq_s/include/fpdf/reportes/c_caja_".$cobrador."_".date("Y-m-d_H:i:s").".pdf";
 $pdf->Output($titulo, "F");
 echo $pdf->Output();
 
