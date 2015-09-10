@@ -4,7 +4,7 @@ require('fpdf.php');
 require_once("../php/sys_db.class.php");
 require_once("../conf/Config_con.php");
 $hoy = date("Y-m-d");
-$cobrador = "cob3";
+//$cobrador = "cob3";
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
 class PDF extends FPDF
