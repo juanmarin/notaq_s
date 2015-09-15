@@ -1117,14 +1117,20 @@ switch($_POST["action"]){
 			";
 			//echo "<br />$cc_detail";
 			$rest = mysql_query($cc_detail);
-			///Actualizando la columna de los pagos "reportado = 1" 
+			//Actualizando la columna de los pagos "reportado = 1" 
 			/*
 			/*Para que no aparezcan en los futuros reportes
 			*/
 			if ($rest) {
-				$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
+				include_once("../fpdf/corte_caja.php");
+				//$attachment = substr($titulo, 44);
+				$attachment = "c_caja_bmx_2015-09-11_00:04:30.pdf";
+				echo $attachment."<br />";
+				echo $path;
+				include_once("../fpdf/reportes/index.php");
+				//$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
 				//echo "<br />$sql";
-				mysql_query($sql);
+				//mysql_query($sql);
 			}
 
 		}

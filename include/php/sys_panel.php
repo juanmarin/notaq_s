@@ -66,6 +66,7 @@
 								<li><a href="?pg=3f" class="_visitas">Reporte Recargos</a></li>
 								<li><a href="?pg=3d" class="_estado">Historial Credito</a></li>
 								<li><a href="?pg=3e" class="_pagos">Control Pagos</a></li>
+								<li><a href="?pg=3h" class="_diario">Corte Caja</a></li>
 								<li><a href="?pg=3g" class="_excel">Reportes en excel</a></li>
 								<?php
 							} elseif ($_SESSION["U_NIVEL"] == 3) {
@@ -341,7 +342,7 @@
 					case "2e":	require_once("include/html/pg_cliente_cuenta.php");				break;
 					case "3":	require_once("include/html/pg_reportes.php");					break;
 					case "3a":	require_once("include/html/pg_reporte_diario.php");				break;
-					//case "3a":	require_once("include/html/pg_reporte_pre-corte.php");				break;
+					case "3h":	require_once("include/html/pg_reporte_pre_corte.php");				break;
 					case "3e":	require_once("include/html/pg_elimina_pago.php");				break;
 					case "3b":	require_once("include/html/pg_reporte_fechas.php");				break;
 					case "3c":	require_once("include/html/pg_reporte_cobranza.php");				break;
