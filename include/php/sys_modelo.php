@@ -1127,24 +1127,20 @@ switch($_POST["action"]){
 				".$a.",
 				".$r."
 				)
-			";
-			
-			$rest = mysql_query($cc_detail);
+			";			
+		}
+		$rest = mysql_query($cc_detail);
 			echo "<br />".$cc_detail;
 			//Actualizando la columna de los pagos "reportado = 1" 
 			/*Para que no aparezcan en los futuros reportes */
-			//include_once("../fpdf/corte_caja.php");
+			include_once("../fpdf/corte_caja.php");
 			echo $attachment."<br />";
 			echo $path;
-			if ($rest) {
 				$attachment = substr($titulo, 44);
 				include_once("../fpdf/reportes/index.php");
 				//$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
 				//echo "<br />$sql";
 				//mysql_query($sql);
-			}
-			
-		}
 				
 	//}
 	#echo $sql;
