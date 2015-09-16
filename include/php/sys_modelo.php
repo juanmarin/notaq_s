@@ -1132,9 +1132,7 @@ switch($_POST["action"]){
 			$rest = mysql_query($cc_detail);
 			echo "<br />".$cc_detail;
 			//Actualizando la columna de los pagos "reportado = 1" 
-			/*
-			/*Para que no aparezcan en los futuros reportes 
-			
+			/*Para que no aparezcan en los futuros reportes */
 			include_once("../fpdf/corte_caja.php");
 			echo $attachment."<br />";
 			echo $path;
@@ -1147,8 +1145,7 @@ switch($_POST["action"]){
 				//echo "<br />$sql";
 				//mysql_query($sql);
 			}
-			*/
-
+			
 		}
 				
 	//}
