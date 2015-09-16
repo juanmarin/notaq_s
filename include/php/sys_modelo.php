@@ -1133,11 +1133,13 @@ switch($_POST["action"]){
 			/*
 			/*Para que no aparezcan en los futuros reportes
 			*/
+			include_once("../fpdf/corte_caja.php");
+			echo $attachment."<br />";
+			echo $path;
 			if ($rest) {
-				include_once("../fpdf/corte_caja.php");
+				
 				$attachment = substr($titulo, 44);
-				echo $attachment."<br />";
-				echo $path;
+				
 				include_once("../fpdf/reportes/index.php");
 				//$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
 				//echo "<br />$sql";
