@@ -43,16 +43,16 @@ if(isset($_POST['enviar']))
 		<?php
 		
 		$sql = "SELECT 
-			cliente, nombre, fechacob, fecha, pagos, abonos, recargos 
+			cliente, nombre, cobrador, cta_id, p_id, fechacob, fecha, pagos, abonos, recargos 
 			FROM
 			(SELECT 
 			cl.id cliente, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
-			, pa.fecha fechacob, pa.fechaPago fecha, pa.pago_real pagos, pa.estado ep, pa.reportado rp
-			, ab.fecha fechaabono, ab.abono abonos, ab.reportado ra
+			, pa.id p_id, pa.cuenta cta_id, pa.fecha fechacob, pa.fechaPago fecha, pa.pago_real pagos, pa.estado ep, pa.reportado rp
+			, ab.idpago, ab.fecha fechaabono, ab.abono abonos, ab.reportado ra
 			, re.fecha fecharecargo, re.monto_saldado recargos, re.estado er, re.reportado rr
 			FROM cuentas cu
 			left join clientes cl on cl.id=cu.cliente
-			left join pagos pa on pa.cuenta=cu.id 
+			left join pagos pa on pa.cuenta=cu.id
 			left join abono ab on ab.idpago=pa.id
 			left join recargos re on re.pago_id=pa.id
 			WHERE cu.estado=0) AS cobros
@@ -60,23 +60,14 @@ if(isset($_POST['enviar']))
 			OR (fechaabono is not null AND fechaabono <= '".$hoy."' AND ra=0) 
 			OR (er!=0 and fecharecargo <='".$hoy."' and rr=0))
 			$clcobrador";
-		/***********
-		$sql = "SELECT clientes.id AS clientes, CONCAT(clientes.nombre, ' ' ,clientes.apellidop, ' ' ,clientes.apellidom) AS cte_nom, 
-		clientes.c_cobrador, pagos.fechaPago, pagos.pago_real AS pagos, pagos.interes, pagos.estado, pagos.reportado 
-		FROM clientes, pagos 
-		WHERE clientes.id = pagos.cliente 
-		AND DATE(pagos.fechaPago) <= '".$hoy."'
-		AND pagos.pago_real > 0 
-		AND (pagos.estado = 1 OR pagos.estado = 3) 
-		AND pagos.reportado = 0
-		$clcobrador";
-		*/
+	
 		$result = $db->query($sql);
 		$totGlobal=0;
 		while ($ln = $db->fetchNextObject($result)){
-			$totPagos += $ln->pagos;
-			$totAbonos += $ln->abonos;
-			$totRec += $ln->recargos;
+			$totpagos += $ln->pagos;
+			$totabonos += $ln->abonos;
+			$totrecargos += $ln->recargos;
+		
 			if ($ln->abonos == "") {
 				$ln->abonos = 0.00;
 			}
@@ -87,6 +78,9 @@ if(isset($_POST['enviar']))
 			?>
 			<tr>
 			<th colspan="3" width="250px" style="text-align: center"><?= strtoupper($ln->nombre) ;?></th>
+			<!--
+			<th colspan="3" width="250px" style="text-align: center"><?= strtoupper($ln->cobrador) ;?></th>
+			-->
 			<th width="100px" style="text-align: center;"><?= $ln->fechacob;?></th>
 			<th width="100px" style="text-align: center;"><?= $ln->fecha;?></th>
 			<th width="100px" style="text-align: center;"><?= "&#36;"; echo number_format($ln->pagos,2);?></th>
@@ -95,19 +89,35 @@ if(isset($_POST['enviar']))
 			</tr>
 			<?php
 		}
+			$totGlobal = ($totpagos+$totabonos+$totrecargos);
 		?>
 	</tbody>
 	<tfoot>
 	<tr>
-	<th style="text-align:left" colspan="3">Total a entregar</th>
-	<th style="text-align:center" colspan="2">$ <?=moneda($totPagos);?></th>
+	<th style="text-align:left" colspan="3">Total Pagos </th>
+	<th style="text-align:center" colspan="2">$ <?=moneda($totpagos);?></th>
+	</tr>
+	<tr>
+	<th style="text-align:left" colspan="3">Total Abonos </th>
+	<th style="text-align:center" colspan="2">$ <?=moneda($totabonos);?></th>
+	</tr>
+	<tr>
+	<th style="text-align:left" colspan="3">Total Recargos </th>
+	<th style="text-align:center" colspan="2">$ <?=moneda($totrecargos);?></th>
+	</tr>
+	<tr>
+	<th style="text-align:left" colspan="3">Total Global </th>
+	<th style="text-align:center" colspan="2">$ <?=moneda($totGlobal);?></th>
 	</tr>
 	<tr>
 		<form action="include/php/sys_modelo.php" method="post">
 			<input type="hidden" name="action" value="corte_caja">
 			<input type="hidden" name="cobrador" value="<?php echo $_POST["cobrador"]; ?>">
 			<input type="hidden" name="supervisor" value="<?php echo $UserName; ?>" />
-			<input type="hidden" name="totales" value="<?php echo $totGlobal;?>" />
+			<input type="hidden" name="totpagos" value="<?php echo $totpagos;?>" />
+			<input type="hidden" name="totabonos" value="<?php echo $totabonos;?>" />
+			<input type="hidden" name="totrecargos" value="<?php echo $totrecargos;?>" />
+			<input type="hidden" name="totGlobal" value="<?php echo $totGlobal;?>" />
 			<input type="hidden" name="consulta" value="<?php echo $sql;?>" />
 			<th colspan="5"><input type="submit" value="Realizar corte" name="enviar" /></th>
 		</form>
