@@ -1113,17 +1113,19 @@ switch($_POST["action"]){
 		*/
 		echo $sql;				
 		$result = mysql_query($sql);
-		
 		while($ln = mysql_fetch_array($result)){
+			$p=($ln["pagos"]>0)?$ln["pagos"]:0;
+			$a=($ln["abonos"]>0)?$ln["abonos"]:0;
+			$r=($ln["recargos"]>0)?$ln["recargos"]:0;
 			$cc_detail = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, pago_id, pago_importe, abono_importe, recarg_importe) VALUES (
 				".$ccaj_id.", 
 				".$ln["cliente"].", 
 				'".$ln["nombre"]."',
 				".$ln["cta_id"].",
 				".$ln["p_id"].",
-				".$ln["pagos"].",
-				".$ln["abonos"].",
-				".$ln["recargos"]."
+				".$p.",
+				".$a.",
+				".$r."
 				)
 			";
 			
@@ -1131,7 +1133,7 @@ switch($_POST["action"]){
 			echo "<br />".$cc_detail;
 			//Actualizando la columna de los pagos "reportado = 1" 
 			/*
-			/*Para que no aparezcan en los futuros reportes
+			/*Para que no aparezcan en los futuros reportes */
 			
 			include_once("../fpdf/corte_caja.php");
 			echo $attachment."<br />";
@@ -1145,7 +1147,7 @@ switch($_POST["action"]){
 				//echo "<br />$sql";
 				//mysql_query($sql);
 			}
-			*/
+			
 
 		}
 				
