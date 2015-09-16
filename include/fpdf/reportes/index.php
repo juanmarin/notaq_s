@@ -38,7 +38,7 @@ $mail->From = "juan.marin@confianzp.com";
 	$mail->Subject = "Enviar Mail con PHPMailer desde local";
 	$mail->AltBody = "";
 	$mail->MsgHTML("<h1>Test Mail Messages Attached!</h1>");
-$mail->AddAttachment("c_caja_bmx_2015-09-11_00:04:30.pdf");
+$mail->AddAttachment("$attachment");
 //$mail->AddAttachment("adjunto.txt");
 
 $mail->AddAddress("jmarincastro34@gmail.com", "Juan Mairin");

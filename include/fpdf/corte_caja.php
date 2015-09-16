@@ -33,16 +33,18 @@ function BasicTable($header,$data)
 		$this->Cell(21,6,"$ ".number_format($eachResult["recargos"],2),1,0,'R');
 		$this->Ln();
 		$row ++;
-		$pagos+= $eachResult["pagos"];
+		$totpagos+= $eachResult["pagos"];
+		$totabonos+= $eachResult["abonos"];
+		$totrecargos+= $eachResult["recargos"];
 	}
 	//$this->Cell(150,6,"$ ".number_format($pagos,2),1,0,'R');
 	$this->Cell(78,6,"SUBTOTALES : ",0,0,'R');
-	$this->Cell(62,6,''."$ ".number_format($pagos,2).'',0,0,'R');
-	$this->Cell(20,6,''."$ ".number_format($pagos,2).'',0,0,'R');
-	$this->Cell(21	,6,''."$ ".number_format($pagos,2).'',0,0,'R');
+	$this->Cell(62,6,''."$ ".number_format($totpagos,2).'',0,0,'R');
+	$this->Cell(20,6,''."$ ".number_format($totabonos,2).'',0,0,'R');
+	$this->Cell(21	,6,''."$ ".number_format($totrecargos,2).'',0,0,'R');
 	$this->Ln(5);
 	$this->Cell(78,6,"TOTAL A ENTREGAR : ",0,0,'R');
-	$this->Cell(62,6,''."$ ".number_format($pagos,2).'',0,0,'R');
+	$this->Cell(62,6,''."$ ".number_format($totpagos+$totrecargos+$totabonos,2).'',0,0,'R');
 	$this->Ln(90);
 	//$this->Ln();
 	$this->Cell(60,5,'___________________________',0,0,'C');

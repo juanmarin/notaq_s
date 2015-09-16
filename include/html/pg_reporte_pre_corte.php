@@ -67,7 +67,7 @@ if(isset($_POST['enviar']))
 			$totpagos += $ln->pagos;
 			$totabonos += $ln->abonos;
 			$totrecargos += $ln->recargos;
-		
+
 			if ($ln->abonos == "") {
 				$ln->abonos = 0.00;
 			}
@@ -91,24 +91,26 @@ if(isset($_POST['enviar']))
 		}
 			$totGlobal = ($totpagos+$totabonos+$totrecargos);
 		?>
+	
+	
+	<tr>
+	<th style="text-align:left" colspan="4">Total Pagos </th>
+	<th style="text-align:right" colspan="4">$ <?=number_format($totpagos,2);?></th>
+	</tr>
+	<tr>
+	<th style="text-align:left" colspan="4">Total Abonos </th>
+	<th style="text-align:right" colspan="4">$ <?=number_format($totabonos,2);?></th>
+	</tr>
+	<tr>
+	<th style="text-align:left" colspan="4">Total Recargos </th>
+	<th style="text-align:right" colspan="4">$ <?=number_format($totrecargos,2);?></th>
+	</tr>
+	<tr>
+	<th style="text-align:left" colspan="4">Total a Entregar </th>
+	<th style="text-align:right" colspan="4">$ <?=number_format($totGlobal,2);?></th>
+	</tr>
 	</tbody>
 	<tfoot>
-	<tr>
-	<th style="text-align:left" colspan="3">Total Pagos </th>
-	<th style="text-align:center" colspan="2">$ <?=moneda($totpagos);?></th>
-	</tr>
-	<tr>
-	<th style="text-align:left" colspan="3">Total Abonos </th>
-	<th style="text-align:center" colspan="2">$ <?=moneda($totabonos);?></th>
-	</tr>
-	<tr>
-	<th style="text-align:left" colspan="3">Total Recargos </th>
-	<th style="text-align:center" colspan="2">$ <?=moneda($totrecargos);?></th>
-	</tr>
-	<tr>
-	<th style="text-align:left" colspan="3">Total Global </th>
-	<th style="text-align:center" colspan="2">$ <?=moneda($totGlobal);?></th>
-	</tr>
 	<tr>
 		<form action="include/php/sys_modelo.php" method="post">
 			<input type="hidden" name="action" value="corte_caja">
@@ -119,7 +121,7 @@ if(isset($_POST['enviar']))
 			<input type="hidden" name="totrecargos" value="<?php echo $totrecargos;?>" />
 			<input type="hidden" name="totGlobal" value="<?php echo $totGlobal;?>" />
 			<input type="hidden" name="consulta" value="<?php echo $sql;?>" />
-			<th colspan="5"><input type="submit" value="Realizar corte" name="enviar" /></th>
+			<th colspan="8"><input type="submit" value="Realizar corte" name="enviar" /></th>
 		</form>
 	</tr>
 	</tfoot>
