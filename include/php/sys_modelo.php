@@ -1075,10 +1075,10 @@ switch($_POST["action"]){
 	case "corte_caja":
 		$hoy 		= date("Y-m-d");
 		//$cobrador 	= ($_POST["cobrador"]==0)?"":"AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
-		$cobrador = $_POST["cobrador"];
-		$totpagos = $_POST["totpagos"];
-		$totabonos = $_POST["totabonos"];
-		$totrecargos = $_POST["totrecargos"];
+		$cobrador 	= $_POST["cobrador"];
+		$totpagos 	= $_POST["totpagos"];
+		$totabonos	= $_POST["totabonos"];
+		$totrecargos 	= $_POST["totrecargos"];
 		$totGlobal 	= $_POST["totGlobal"];
 		$consulta 	= $_POST["consulta"];	
 		//echo $consulta;
