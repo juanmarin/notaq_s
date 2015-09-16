@@ -1088,32 +1088,11 @@ switch($_POST["action"]){
 		$rest 		= mysql_query($corte_c);
 		$ccaj_id	= mysql_insert_id();
 		##SACANDO LOS REGISTROS PARA INSERTAR EN EL DETALLE DEL CORTE DE CAJA
-		$sql = "$consulta";
-		/*
-		$sql = "SELECT 
-			cliente, nombre, cobrador, cta_id, p_id, fechacob, fecha, pagos, abonos, recargos 
-			FROM
-			(SELECT 
-			cl.id cliente, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
-			, pa.id p_id, pa.cuenta cta_id, pa.fecha fechacob, pa.fechaPago fecha, pa.pago_real pagos, pa.estado ep, pa.reportado rp
-			, ab.idpago, ab.fecha fechaabono, ab.abono abonos, ab.reportado ra
-			, re.fecha fecharecargo, re.monto_saldado recargos, re.estado er, re.reportado rr
-			FROM cuentas cu
-			left join clientes cl on cl.id=cu.cliente
-			left join pagos pa on pa.cuenta=cu.id
-			left join abono ab on ab.idpago=pa.id
-			left join recargos re on re.pago_id=pa.id
-			WHERE cu.estado=0) AS cobros
-			WHERE ((ep=1 AND fecha <='".$hoy."' AND rp=0) 
-			OR (fechaabono is not null AND fechaabono <= '".$hoy."' AND ra=0) 
-			OR (er!=0 and fecharecargo <='".$hoy."' and rr=0))
-			AND cobrador = '".$cobrador."'";
-		/*
-		/* Creando el registro en el detallado de la tabla
-		*/
-		echo $sql;				
+		$sql = $consulta;
+		echo "<br />".$sql."<br />";				
 		$result = mysql_query($sql);
-		while($ln = mysql_fetch_array($result)){
+		while($ln = mysql_fetch_array($result))
+		{
 			$p=($ln["pagos"]>0)?$ln["pagos"]:0;
 			$a=($ln["abonos"]>0)?$ln["abonos"]:0;
 			$r=($ln["recargos"]>0)?$ln["recargos"]:0;
@@ -1129,21 +1108,21 @@ switch($_POST["action"]){
 				)
 			";
 			$rest = mysql_query($cc_detail);
-			echo "<br />".$cc_detail;
+			echo "<br />".$cc_detail."<br />";
 		}
-			//Actualizando la columna de los pagos "reportado = 1" 
-			/*Para que no aparezcan en los futuros reportes */
-			include_once("../fpdf/corte_caja.php");
-			echo $attachment."<br />";
-			echo $path;
-				$attachment = substr($titulo, 44);
-				include_once("../fpdf/reportes/index.php");
-				//$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
-				//echo "<br />$sql";
-				//mysql_query($sql);
-				
-	//}
-	#echo $sql;
+		//Actualizando la columna de los pagos "reportado = 1" 
+		/*Para que no aparezcan en los futuros reportes */
+		/*
+		include_once("../fpdf/corte_caja.php");
+		echo "<br />".$attachment."<br />";
+		echo $path;
+		$attachment = substr($titulo, 44);
+		include_once("../fpdf/reportes/index.php");
+		//$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
+		//echo "<br />$sql";
+		//mysql_query($sql);
+		*/
+		break;
 	
 	default:
 		//Header("Location: ". HTTP_REFERER);
