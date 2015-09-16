@@ -1,5 +1,8 @@
 <?php
 @session_start();
+foreach($_POST as $var => $val){
+		echo $var . " => " . $val . "<br />";
+	}
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
 require_once "../conf/Config.php";
@@ -1073,58 +1076,66 @@ switch($_POST["action"]){
 		$hoy 		= date("Y-m-d");
 		//$cobrador 	= ($_POST["cobrador"]==0)?"":"AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
 		$cobrador = $_POST["cobrador"];
-		$totales 	= $_POST["totales"];
+		$totpagos = $_POST["totpagos"];
+		$totabonos = $_POST["totabonos"];
+		$totrecargos = $_POST["totrecargos"];
+		$totGlobal 	= $_POST["totGlobal"];
 		$consulta 	= $_POST["consulta"];	
 		//echo $consulta;
-		$corte_c 	= "INSERT INTO corte_caja (cobrador, recibido_x, totales) VALUES ('".$cobrador."', '".$UserName."', ".$totales." )";
-		//echo "<br />$corte_c";
+		$corte_c 	= "INSERT INTO corte_caja (cobrador, recibido_x, totpagos, totabonos, totrecargos, totglobal) 
+		VALUES ('".$cobrador."', '".$UserName."', ".$totpagos.", ".$totabonos.", ".$totrecargos.", ".$totGlobal.")";
+		echo "<br />$corte_c";
 		$rest 		= mysql_query($corte_c);
 		$ccaj_id	= mysql_insert_id();
 		##SACANDO LOS REGISTROS PARA INSERTAR EN EL DETALLE DEL CORTE DE CAJA
+		$sql = "$consulta";
+		/*
 		$sql = "SELECT 
-				clientes.id AS clientes,
-				CONCAT(clientes.nombre,' ',clientes.apellidop,' ',clientes.apellidom) AS cte_nom,
-				clientes.c_cobrador,
-				cuentas.id AS cta_id,
-				cuentas.cliente,
-				pagos.id AS p_id,
-				pagos.fechaPago AS fecha_pago,
-				pagos.pago_real AS pago_real,
-				pagos.estado,
-				pagos.reportado
-			FROM clientes,cuentas,pagos
-			WHERE
-				clientes.id = cuentas.cliente
-				AND cuentas.cliente = pagos.cliente
-				AND DATE(pagos.fechaPago) <= '".$hoy."'
-				AND pagos.pago_real > 0
-				AND (pagos.estado = 1 OR pagos.estado = 3)
-				AND pagos.reportado = 0
-				AND clientes.c_cobrador ='".$cobrador."'";
+			cliente, nombre, cobrador, cta_id, p_id, fechacob, fecha, pagos, abonos, recargos 
+			FROM
+			(SELECT 
+			cl.id cliente, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
+			, pa.id p_id, pa.cuenta cta_id, pa.fecha fechacob, pa.fechaPago fecha, pa.pago_real pagos, pa.estado ep, pa.reportado rp
+			, ab.idpago, ab.fecha fechaabono, ab.abono abonos, ab.reportado ra
+			, re.fecha fecharecargo, re.monto_saldado recargos, re.estado er, re.reportado rr
+			FROM cuentas cu
+			left join clientes cl on cl.id=cu.cliente
+			left join pagos pa on pa.cuenta=cu.id
+			left join abono ab on ab.idpago=pa.id
+			left join recargos re on re.pago_id=pa.id
+			WHERE cu.estado=0) AS cobros
+			WHERE ((ep=1 AND fecha <='".$hoy."' AND rp=0) 
+			OR (fechaabono is not null AND fechaabono <= '".$hoy."' AND ra=0) 
+			OR (er!=0 and fecharecargo <='".$hoy."' and rr=0))
+			AND cobrador = '".$cobrador."'";
 		/*
 		/* Creando el registro en el detallado de la tabla
-		*/				
+		*/
+		echo $sql;				
 		$result = mysql_query($sql);
+		
 		while($ln = mysql_fetch_array($result)){
-			$cc_detail = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, pago_id, pago_importe) VALUES (
+			$cc_detail = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, pago_id, pago_importe, abono_importe, recarg_importe) VALUES (
 				".$ccaj_id.", 
-				".$ln["clientes"].", 
-				'".$ln["cte_nom"]."',
+				".$ln["cliente"].", 
+				'".$ln["nombre"]."',
 				".$ln["cta_id"].",
 				".$ln["p_id"].",
-				'".$ln["pago_real"]."'
+				".$ln["pagos"].",
+				".$ln["abonos"].",
+				".$ln["recargos"]."
 				)
 			";
-			//echo "<br />$cc_detail";
+			
 			$rest = mysql_query($cc_detail);
+			echo "<br />".$cc_detail;
 			//Actualizando la columna de los pagos "reportado = 1" 
 			/*
 			/*Para que no aparezcan en los futuros reportes
 			*/
 			if ($rest) {
 				include_once("../fpdf/corte_caja.php");
-				//$attachment = substr($titulo, 44);
-				$attachment = "c_caja_bmx_2015-09-11_00:04:30.pdf";
+				$attachment = substr($titulo, 44);
 				echo $attachment."<br />";
 				echo $path;
 				include_once("../fpdf/reportes/index.php");

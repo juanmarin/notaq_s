@@ -112,7 +112,6 @@ $pdf->Ln(10);
 $pdf->Cell(200,10,'REPORTE DE PAGOS RECIBIDOS',0,0,'C');
 $pdf->Ln(8);
 $pdf->BasicTable($header,$resultData);
-$path = "/var/www/html/notaq_s/include/fpdf/reportes/";
 //$titulo = "/home/confian1/public_html/include/fpdf/reportes/c_caja_".$cobrador."_".date("Y-m-d_H:i:s").".pdf";
 $titulo = "/var/www/html/notaq_s/include/fpdf/reportes/c_caja_".$cobrador."_".date("Y-m-d_H:i:s").".pdf";
 $pdf->Output($titulo, "F");
