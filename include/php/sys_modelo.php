@@ -1,8 +1,10 @@
 <?php
 @session_start();
+/*
 foreach($_POST as $var => $val){
 		echo $var . " => " . $val . "<br />";
 	}
+	*/
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
 require_once "../conf/Config.php";
@@ -1084,12 +1086,12 @@ switch($_POST["action"]){
 		//echo $consulta;
 		$corte_c 	= "INSERT INTO corte_caja (cobrador, recibido_x, totpagos, totabonos, totrecargos, totglobal) 
 		VALUES ('".$cobrador."', '".$UserName."', ".$totpagos.", ".$totabonos.", ".$totrecargos.", ".$totGlobal.")";
-		echo "<br />$corte_c";
+		//echo "<br />$corte_c";
 		$rest 		= mysql_query($corte_c);
 		$ccaj_id	= mysql_insert_id();
 		##SACANDO LOS REGISTROS PARA INSERTAR EN EL DETALLE DEL CORTE DE CAJA
 		$sql = $consulta;
-		echo "<br />".$sql."<br />";				
+		//echo "<br />".$sql."<br />";				
 		$result = mysql_query($sql);
 		while($ln = mysql_fetch_array($result))
 		{
@@ -1108,13 +1110,13 @@ switch($_POST["action"]){
 				)
 			";
 			$rest = mysql_query($cc_detail);
-			echo "<br />".$cc_detail."<br />";
+			//echo "<br />".$cc_detail."<br />";
 		}
 		//Actualizando la columna de los pagos "reportado = 1" 
 		/*Para que no aparezcan en los futuros reportes */
 		include_once("../fpdf/corte_caja.php");
-		echo "<br />".$attachment."<br />";
-		echo $path;
+		//echo "<br />".$attachment."<br />";
+		//echo $path;
 		$attachment = substr($titulo, 44);
 		include_once("../fpdf/reportes/index.php");
 		//$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
