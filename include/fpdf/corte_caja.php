@@ -33,18 +33,15 @@ function BasicTable($header,$data)
 		$this->Cell(21,6,"$ ".number_format($eachResult["recargos"],2),1,0,'R');
 		$this->Ln();
 		$row ++;
-		$totpagos+= $eachResult["pagos"];
-		$totabonos+= $eachResult["abonos"];
-		$totrecargos+= $eachResult["recargos"];
 	}
 	//$this->Cell(150,6,"$ ".number_format($pagos,2),1,0,'R');
 	$this->Cell(78,6,"SUBTOTALES : ",0,0,'R');
-	$this->Cell(62,6,''."$ ".number_format($totpagos,2).'',0,0,'R');
-	$this->Cell(20,6,''."$ ".number_format($totabonos,2).'',0,0,'R');
-	$this->Cell(21	,6,''."$ ".number_format($totrecargos,2).'',0,0,'R');
+	$this->Cell(62,6,''."$ ".number_format($eachResult["totpagos"],2).'',0,0,'R');
+	$this->Cell(20,6,''."$ ".number_format($eachResult["totabonos"],2).'',0,0,'R');
+	$this->Cell(21	,6,''."$ ".number_format($eachResult["totrecargos"],2).'',0,0,'R');
 	$this->Ln(5);
 	$this->Cell(78,6,"TOTAL A ENTREGAR : ",0,0,'R');
-	$this->Cell(62,6,''."$ ".number_format($totpagos+$totrecargos+$totabonos,2).'',0,0,'R');
+	$this->Cell(62,6,''."$ ".number_format($eachResult["totglobal"],2).'',0,0,'R');
 	$this->Ln(90);
 	//$this->Ln();
 	$this->Cell(60,5,'___________________________',0,0,'C');
@@ -73,28 +70,15 @@ function BasicTable($header,$data)
 $pdf=new PDF();
 
 //Column titles
-$header=array('#','CLIENTE','F. PAGO','F. COBRO', 'CANTIDAD', 'ABONOS', 'RECARGOS');
+$header=array('#','CLIENTE','F. PAGO','F. COBRO', 'PAGOS', 'ABONOS', 'RECARGOS');
 //Data loading
 //*** Load MySQL Data ***//
-//$db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
-$strSQL = "SELECT 
-			cliente, nombre, fechacob, fecha, pagos, abonos, recargos 
-			FROM
-			(SELECT 
-			cl.id cliente, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
-			, pa.fecha fechacob, pa.fechaPago fecha, pa.pago_real pagos, pa.estado ep, pa.reportado rp
-			, ab.fecha fechaabono, ab.abono abonos, ab.reportado ra
-			, re.fecha fecharecargo, re.monto_saldado recargos, re.estado er, re.reportado rr
-			FROM cuentas cu
-			left join clientes cl on cl.id=cu.cliente
-			left join pagos pa on pa.cuenta=cu.id 
-			left join abono ab on ab.idpago=pa.id
-			left join recargos re on re.pago_id=pa.id
-			WHERE cu.estado=0) AS cobros
-			WHERE ((ep=1 AND fecha <='".$hoy."' AND rp=0) 
-			OR (fechaabono is not null AND fechaabono <= '".$hoy."' AND ra=0) 
-			OR (er!=0 and fecharecargo <='".$hoy."' and rr=0))
-			AND cobrador = '".$cobrador."'";
+$strSQL = "SELECT cc.id, cc.cobrador AS cobrador, cc.recibido_x AS supervisor, cc.created_at AS fechar, cc.totpagos AS totpagos, 
+cc.totabonos AS totabonos, cc.totrecargos AS totrecargos, cc.totglobal AS totglobal, ccd.cocaj_id, ccd.client_id, ccd.client_nom AS nombre, 
+ccd.fechaPago AS fechacob, ccd.fechacobro AS fecha, ccd.pago_importe AS pagos, ccd.abono_importe AS abonos, ccd.recarg_importe AS recargos 
+FROM corte_caja cc, corte_caja_detail ccd
+WHERE cc.id = ".$ccaj_id." 
+AND ccd.cocaj_id = cc.id";
 $objQuery = mysql_query($strSQL);
 $resultData = array();
 for ($i=0;$i<mysql_num_rows($objQuery);$i++) {

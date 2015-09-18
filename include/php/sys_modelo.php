@@ -46,7 +46,7 @@ switch($_POST["action"]){
 			$_SESSION["nu_ema"] = $_POST["email"]; 
 			$_SESSION["nu_tel"] = $_POST["telefono"]; 
 			$_SESSION["nu_una"] = $_POST["uname"];
-			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Las contraseÃ±as no coinciden, asegurese de escribir correctamente la contraseÃ±a al confirmarla.</p></th></tr>';
+			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Las contrase&nacute;as no coinciden, asegurese de escribir correctamente la contraseÃ±a al confirmarla.</p></th></tr>';
 			#echo $_SESSION["msg"];
 			#echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
@@ -1098,11 +1098,14 @@ switch($_POST["action"]){
 			$p=($ln["pagos"]>0)?$ln["pagos"]:0;
 			$a=($ln["abonos"]>0)?$ln["abonos"]:0;
 			$r=($ln["recargos"]>0)?$ln["recargos"]:0;
-			$cc_detail = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, pago_id, pago_importe, abono_importe, recarg_importe) VALUES (
+			$cc_detail = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaPago, fechaCobro, pago_id, pago_importe, abono_importe, recarg_importe) 
+			VALUES (
 				".$ccaj_id.", 
 				".$ln["cliente"].", 
 				'".$ln["nombre"]."',
 				".$ln["cta_id"].",
+				'".$ln["fechacob"]."',
+				'".$ln["fecha"]."',
 				".$ln["p_id"].",
 				".$p.",
 				".$a.",
@@ -1115,14 +1118,19 @@ switch($_POST["action"]){
 		//Actualizando la columna de los pagos "reportado = 1" 
 		/*Para que no aparezcan en los futuros reportes */
 		include_once("../fpdf/corte_caja.php");
-		//echo "<br />".$attachment."<br />";
-		//echo $path;
-		$attachment = substr($titulo, 44);
-		include_once("../fpdf/reportes/index.php");
+		
+		if (file_exists($titulo)) {
+			include_once("../fpdf/reportes/index.php");
+		}else{
+			Echo "<h1>No se encontro el archivo en el servidor</h1>";
+		}
+		
 		//$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
 		//echo "<br />$sql";
 		//mysql_query($sql);
+		echo '<meta http-equiv="refresh" content="0;url=../../?pg=3h"> ';
 		break;
+
 	
 	default:
 		//Header("Location: ". HTTP_REFERER);

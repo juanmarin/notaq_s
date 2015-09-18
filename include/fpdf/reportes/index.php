@@ -34,14 +34,19 @@ $mail->Username = "juan.marin@confianzp.com";
 $mail->Password = "V1ct0r1a";
 
 $mail->From = "juan.marin@confianzp.com";
-	$mail->FromName = "Juan Mairin";
-	$mail->Subject = "Enviar Mail con PHPMailer desde local";
+	$mail->FromName = "Juan Marin";
+	$mail->Subject = "Reporte de cobros realizados ";
 	$mail->AltBody = "";
-	$mail->MsgHTML("<h1>Test Mail Messages Attached!</h1>");
-$mail->AddAttachment("$attachment");
-//$mail->AddAttachment("adjunto.txt");
+	$mail->MsgHTML("<h1>Reporte de cobros realizados por cobrador: $cobrador !</h1>");
+$mail->AddAttachment("$titulo");
 
-$mail->AddAddress("jmarincastro34@gmail.com", "Juan Mairin");
+$mail->AddAddress("jmarincastro34@gmail.com", "Juan Marin");
+$mail->AddAddress("alfonso.nv@gmail.com", "Alfonso Nunez");
 $mail->IsHTML(true);
-$mail->Send();
+if (!$mail->Send()) {
+	echo "Error: No se pudo enviar el correo.
+	Favor de intenar mas tarde";
+	# code...
+}
+//$mail->Send();
 ?>
