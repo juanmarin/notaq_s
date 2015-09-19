@@ -9,6 +9,7 @@
 	$_SESSION["U_NIVEL"] = $user->userData[10];
 	$_SESSION["DEPTO"] = $user->userData[7];
 	$_SESSION["USERNAME"] = $user->userData[1];
+	$_SESSION["UNOMBRE"] = $user->userData[6];
 	$UserName = $_SESSION["USERNAME"];
 	$UserLevel = $_SESSION["U_NIVEL"];
 	if($_SESSION["U_NIVEL"] == 0){$_SESSION["hash"] = $user->randomPass(100);}

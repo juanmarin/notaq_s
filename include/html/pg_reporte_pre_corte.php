@@ -43,13 +43,13 @@ if(isset($_POST['enviar']))
 		<?php
 		
 		$sql = "SELECT 
-			cliente, nombre, cobrador, cta_id, p_id, fechacob, fecha, pagos, abonos, recargos 
+			cliente, nombre, cobrador, cta_id, p_id, fechacob, fecha, pagos, abo_id, abonos, rec_id, recargos 
 			FROM
 			(SELECT 
 			cl.id cliente, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
 			, pa.id p_id, pa.cuenta cta_id, pa.fecha fechacob, pa.fechaPago fecha, pa.pago_real pagos, pa.estado ep, pa.reportado rp
-			, ab.idpago, ab.fecha fechaabono, ab.abono abonos, ab.reportado ra
-			, re.fecha fecharecargo, re.monto_saldado recargos, re.estado er, re.reportado rr
+			, ab.idabono abo_id, ab.idpago, ab.fecha fechaabono, ab.abono abonos, ab.reportado ra
+			, re.id rec_id, re.fecha fecharecargo, re.monto_saldado recargos, re.estado er, re.reportado rr
 			FROM cuentas cu
 			left join clientes cl on cl.id=cu.cliente
 			left join pagos pa on pa.cuenta=cu.id

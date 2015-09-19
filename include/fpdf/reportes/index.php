@@ -30,23 +30,21 @@ $mail->SMTPAuth = true;
 //$mail->SMTPSecure = "ssl";
 $mail->Host = "mail.confianzp.com";
 $mail->Port = 25;
-$mail->Username = "juan.marin@confianzp.com";
+$mail->Username = "reportes@confianzp.com";
 $mail->Password = "V1ct0r1a";
 
-$mail->From = "juan.marin@confianzp.com";
-	$mail->FromName = "Juan Marin";
-	$mail->Subject = "Reporte de cobros realizados ";
+$mail->From = "reportes@confianzp.com";
+	$mail->FromName = "Corte de Caja";
+	$mail->Subject = "Reporte de cobros realizados al dia: date("d-m-Y")  ";
 	$mail->AltBody = "";
 	$mail->MsgHTML("<h1>Reporte de cobros realizados por cobrador: $cobrador !</h1>");
 $mail->AddAttachment("$titulo");
 
 $mail->AddAddress("jmarincastro34@gmail.com", "Juan Marin");
-$mail->AddAddress("alfonso.nv@gmail.com", "Alfonso Nunez");
+$mail->AddAddress("pacozozaya@gmail.com ", "Francisco Zozaya");
 $mail->IsHTML(true);
 if (!$mail->Send()) {
 	echo "Error: No se pudo enviar el correo.
 	Favor de intenar mas tarde";
-	# code...
 }
-//$mail->Send();
 ?>

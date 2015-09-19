@@ -4,6 +4,7 @@ require('fpdf.php');
 require_once("../php/sys_db.class.php");
 require_once("../conf/Config_con.php");
 $hoy = date("Y-m-d");
+
 //$cobrador = "cob3";
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
@@ -42,16 +43,20 @@ function BasicTable($header,$data)
 	$this->Ln(5);
 	$this->Cell(78,6,"TOTAL A ENTREGAR : ",0,0,'R');
 	$this->Cell(62,6,''."$ ".number_format($eachResult["totglobal"],2).'',0,0,'R');
-	$this->Ln(90);
+	$this->Ln(70);
 	//$this->Ln();
+	$sql = "SELECT nombre FROM mymvcdb_users WHERE username = '".$eachResult["cobrador"]."'";
+	$res = mysql_query($sql);
+	$rec = mysql_fetch_array($res);
+
 	$this->Cell(60,5,'___________________________',0,0,'C');
 	$this->Cell(180,5,'___________________________',0,0,'C');
 	$this->Ln();
 	$this->Cell(60,5,'SUPERVISOR',0,0,'C');
 	$this->Cell(180,5,'ENTREGO',0,0,'C');
 	$this->Ln();
-	$this->Cell(60,5,'',0,0,'C');
-	$this->Cell(180,5,'COBRADOR',0,0,'C');
+	$this->Cell(60,5,''.$_SESSION["UNOMBRE"].'',0,0,'C');
+	$this->Cell(180,5,''.$rec["0"].'',0,0,'C');
 
 }
 
@@ -76,9 +81,10 @@ $header=array('#','CLIENTE','F. PAGO','F. COBRO', 'PAGOS', 'ABONOS', 'RECARGOS')
 $strSQL = "SELECT cc.id, cc.cobrador AS cobrador, cc.recibido_x AS supervisor, cc.created_at AS fechar, cc.totpagos AS totpagos, 
 cc.totabonos AS totabonos, cc.totrecargos AS totrecargos, cc.totglobal AS totglobal, ccd.cocaj_id, ccd.client_id, ccd.client_nom AS nombre, 
 ccd.fechaPago AS fechacob, ccd.fechacobro AS fecha, ccd.pago_importe AS pagos, ccd.abono_importe AS abonos, ccd.recarg_importe AS recargos 
-FROM corte_caja cc, corte_caja_detail ccd
-WHERE cc.id = ".$ccaj_id." 
-AND ccd.cocaj_id = cc.id";
+FROM corte_caja cc
+INNER JOIN corte_caja_detail ccd 
+ON cc.id = ccd.cocaj_id
+WHERE cc.id = ".$ccaj_id." ";
 $objQuery = mysql_query($strSQL);
 $resultData = array();
 for ($i=0;$i<mysql_num_rows($objQuery);$i++) {
@@ -95,7 +101,7 @@ $pdf->AddPage();
 //$pdf->Cell(80);
 $pdf->Cell(200,10,'CONFIANZP',0,0,'C');
 $pdf->Ln(10);
-$pdf->Cell(200,10,'REPORTE DE PAGOS RECIBIDOS',0,0,'C');
+$pdf->Cell(200,10,"REPORTE DE PAGOS RECIBIDOS HASTA EL DIA ".date("d-m-Y")."",0,0,'C');
 $pdf->Ln(8);
 $pdf->BasicTable($header,$resultData);
 $titulo = "/home/confian1/public_html/include/fpdf/reportes/c_caja_".$cobrador."_".date("Y-m-d_H:i:s").".pdf";

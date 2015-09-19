@@ -4,7 +4,7 @@
 foreach($_POST as $var => $val){
 		echo $var . " => " . $val . "<br />";
 	}
-	*/
+*/
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
 require_once "../conf/Config.php";
@@ -1051,12 +1051,12 @@ switch($_POST["action"]){
 		$res = mysql_query($sql); 
 		if($res){
 			$sql = "UPDATE cuentas SET total = (total+$abono) WHERE id = $cta";
-			echo "$sql \n";
+			//echo "$sql \n";
 			$res = mysql_query($sql);
 		}
 		if($res){
 			$sql = "UPDATE pagos SET pago = (pago+$abono) WHERE id = $pid";
-			echo "$sql \n";
+			//echo "$sql \n";
 			$res = mysql_query($sql);
 		}
 		break;
@@ -1098,7 +1098,10 @@ switch($_POST["action"]){
 			$p=($ln["pagos"]>0)?$ln["pagos"]:0;
 			$a=($ln["abonos"]>0)?$ln["abonos"]:0;
 			$r=($ln["recargos"]>0)?$ln["recargos"]:0;
-			$cc_detail = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaPago, fechaCobro, pago_id, pago_importe, abono_importe, recarg_importe) 
+			$abo_id=($ln["abo_id"]>0)?$ln["abo_id"]:0;
+			$rec_id=($ln["rec_id"]>0)?$ln["rec_id"]:0;
+			$cc_detail = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaPago, fechaCobro, 
+									pago_id, pago_importe, abono_id, abono_importe, recarg_id, recarg_importe) 
 			VALUES (
 				".$ccaj_id.", 
 				".$ln["cliente"].", 
@@ -1108,15 +1111,28 @@ switch($_POST["action"]){
 				'".$ln["fecha"]."',
 				".$ln["p_id"].",
 				".$p.",
+				".$abo_id.",
 				".$a.",
+				".$rec_id.",
 				".$r."
 				)
 			";
 			$rest = mysql_query($cc_detail);
-			//echo "<br />".$cc_detail."<br />";
-		}
+			if ($rest) {
 		//Actualizando la columna de los pagos "reportado = 1" 
 		/*Para que no aparezcan en los futuros reportes */
+				$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
+				mysql_query($sql);
+				if ($abo_id > 0) {
+					$absql = "UPDATE abono SET reportado = 1 WHERE idabono = ".$abo_id."";
+					mysql_query($absql);
+				}
+				if ($rec_id > 0) {
+					$recsql = "UPDATE recargos SET reportado = 1 WHERE id = ".$rec_id."";
+					mysql_query($recsql);
+				}
+			}
+		}
 		include_once("../fpdf/corte_caja.php");
 		
 		if (file_exists($titulo)) {
@@ -1124,10 +1140,6 @@ switch($_POST["action"]){
 		}else{
 			Echo "<h1>No se encontro el archivo en el servidor</h1>";
 		}
-		
-		//$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
-		//echo "<br />$sql";
-		//mysql_query($sql);
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=3h"> ';
 		break;
 
