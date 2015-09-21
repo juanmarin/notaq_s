@@ -35,7 +35,7 @@ $mail->Password = "V1ct0r1a";
 
 $mail->From = "reportes@confianzp.com";
 	$mail->FromName = "Corte de Caja";
-	$mail->Subject = "Reporte de cobros realizados al dia: date("d-m-Y")  ";
+	$mail->Subject = "Reporte de cobros realizados al dia";
 	$mail->AltBody = "";
 	$mail->MsgHTML("<h1>Reporte de cobros realizados por cobrador: $cobrador !</h1>");
 $mail->AddAttachment("$titulo");

@@ -1089,6 +1089,11 @@ switch($_POST["action"]){
 		//echo "<br />$corte_c";
 		$rest 		= mysql_query($corte_c);
 		$ccaj_id	= mysql_insert_id();
+		##buscando la fecha y hora en la que se creo el registro para agrgarla al nombre del archivo pdf
+		$sql = "SELECT created_at FROM corte_caja WHERE id = ".$ccaj_id."";
+			$res = mysql_query($sql);
+			$created_at = mysql_fetch_array($res);
+			$created = str_replace(" ", "_", $created_at[0]);
 		##SACANDO LOS REGISTROS PARA INSERTAR EN EL DETALLE DEL CORTE DE CAJA
 		$sql = $consulta;
 		//echo "<br />".$sql."<br />";				
@@ -1134,7 +1139,6 @@ switch($_POST["action"]){
 			}
 		}
 		include_once("../fpdf/corte_caja.php");
-		
 		if (file_exists($titulo)) {
 			include_once("../fpdf/reportes/index.php");
 		}else{
@@ -1142,8 +1146,6 @@ switch($_POST["action"]){
 		}
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=3h"> ';
 		break;
-
-	
 	default:
 		//Header("Location: ". HTTP_REFERER);
 }
