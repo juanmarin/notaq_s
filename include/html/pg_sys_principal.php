@@ -453,4 +453,38 @@ if(isset($_POST["desempxtiempo"]))
 <br/>
 <?php 
 }
+#MOSTRANDO TABLA DE DESEMPEÑO ---
+$cobrador=($UserLevel>1)?"AND cobrador='$UserName'":"";
+$sql = "SELECT * FROM desempeno WHERE year=".date("Y")." AND semana=".date("W")." $cobrador";
+$res = $db->query($sql);
 ?>
+<table>
+<caption>Desempeño semanal (Semana actual: <?=date("W");?></caption>
+<thead>
+	<tr>
+		<th>COBRADOR</th>
+		<th>TOTAL</th>
+		<th>EN FECHA</th>
+		<th>FUERA DE FECHA</th>
+		<th>POR COBRAR</th>
+		<th>AVANCE</th>
+	</tr>
+</thead>
+<tbody>
+<?php
+while($d=$db->fetchNextObject($res))
+{
+	echo"
+	<tr>
+		<td>".$d->cobrador."</td>
+		<td>".$d->total."</td>
+		<td>".$d->en_fecha."</td>
+		<td>".$d->fuera_fecha."</td>
+		<td>".$d->por_cobar."</td>
+		<td>".((($d->en_fecha+$d->fuera_fecha)/$d->total)*100)."</td>
+	</tr>
+	";
+}
+?>
+</tbody>
+</table>

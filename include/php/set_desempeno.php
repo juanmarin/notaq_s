@@ -12,35 +12,29 @@ CREATE TABLE `desempeno` (
   PRIMARY KEY  (`Iddes`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*-----------------------------------------------trigger-
-DELIMITER //
-DROP TRIGGER IF EXISTS `updatedesempeno_pagos` //
-CREATE TRIGGER `updatedesempeno_pagos` 
-AFTER UPDATE ON `pagos`
-FOR EACH ROW
 BEGIN
 	IF OLD.estado = 0 AND NEW.estado > 0 THEN
 		IF NEW.fechaPago <= OLD.fecha THEN
 			UPDATE desempeno 
 			SET en_fecha = en_fecha + 1, por_cobrar = por_cobrar - 1
-			WHERE semana=WEEK(NOW(),3) AND cobrador=NEW.aplicado_x;
+			WHERE semana=WEEK(NOW(),3) AND year=YEAR(CURDATE()) AND cobrador=NEW.aplicado_x;
 		ELSEIF NEW.fechaPago > OLD.fecha THEN
 			UPDATE desempeno 
 			SET fuera_fecha = fuera_fecha + 1, por_cobrar = por_cobrar - 1
-			WHERE semana=WEEK(NOW(),3) AND cobrador=NEW.aplicado_x;
+			WHERE semana=WEEK(NOW(),3) AND year=YEAR(CURDATE()) AND cobrador=NEW.aplicado_x;
 		END IF;
 	ELSEIF OLD.estado > 0 AND NEW.estado = 0 THEN
 		IF OLD.fechaPago <= OLD.fecha THEN
 			UPDATE desempeno 
 			SET en_fecha = en_fecha - 1, por_cobrar = por_cobrar + 1
-			WHERE semana=WEEK(NOW(),3) AND cobrador=NEW.aplicado_x;
+			WHERE semana=WEEK(NOW(),3) AND year=YEAR(CURDATE()) AND cobrador=NEW.aplicado_x;
 		ELSEIF OLD.fechaPago > OLD.fecha THEN
 			UPDATE desempeno 
 			SET fuera_fecha = fuera_fecha - 1, por_cobrar = por_cobrar + 1
-			WHERE semana=WEEK(NOW(),3) AND cobrador=NEW.aplicado_x;
+			WHERE semana=WEEK(NOW(),3) AND year=YEAR(CURDATE()) AND cobrador=NEW.aplicado_x;
 		END IF;
 	END IF;
-END;//
-DELIMITER ;
+END
 ---------------------------------------------------------*/
 //////////////////////////////////////////////////////////////////////////////////////////////////
 require_once("sys_db.class.php");
@@ -102,8 +96,8 @@ if($db->numRows()==0)
 		{
 			$cobrosporcobr = $get->cobrospc;
 		}		
-		$sql = "INSERT INTO desempeno (semana,cobrador,total, en_fecha, fuera_fecha, por_cobrar)
-			VALUES(".date("W").", '$dcobra', $dtotal, $cobrosenfecha, $cobrosfufecha, $cobrosporcobr)";
+		$sql = "INSERT INTO desempeno (semana,cobrador,total, en_fecha, fuera_fecha, por_cobrar, year)
+			VALUES(".date("W").", '$dcobra', $dtotal, $cobrosenfecha, $cobrosfufecha, $cobrosporcobr, ".date("Y").")";
 		echo "<br />$sql<br />";
 		$db->execute($sql);
 	}
