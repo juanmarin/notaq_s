@@ -477,11 +477,11 @@ while($d=$db->fetchNextObject($res))
 	echo"
 	<tr>
 		<td>".$d->cobrador."</td>
-		<td>".$d->total."</td>
-		<td>".$d->en_fecha."</td>
-		<td>".$d->fuera_fecha."</td>
-		<td>".$d->por_cobar."</td>
-		<td>".moneda((($d->en_fecha+$d->fuera_fecha)/$d->total)*100)." %</td>
+		<td align='center'>".$d->total."</td>
+		<td align='center'>".$d->en_fecha."</td>
+		<td align='center'>".$d->fuera_fecha."</td>
+		<td align='center'>".$d->por_cobrar."</td>
+		<td align='right'>".number_format(((($d->en_fecha+$d->fuera_fecha)/$d->total)*100),2,".",",")." %</td>
 	</tr>
 	";
 }
