@@ -456,13 +456,15 @@ if(isset($_POST["desempxtiempo"]))
 }
 #MOSTRANDO TABLA DE DESEMPEÑO ---
 $cobrador=($UserLevel>1)?"AND cobrador='$UserName'":"";
-$sql = "SELECT * FROM desempeno WHERE year=".date("Y")." AND semana=".date("W")." $cobrador";
+$semana = 
+$sql = "SELECT * FROM desempeno WHERE year=".date("Y")." AND semana>".(date("W")-5)." $cobrador ORDER BY semana DESC, cobrador ASC";
 $res = $db->query($sql);
 ?>
 <table>
 <caption>Desempeño semanal (Semana actual: <?=date("W");?>)</caption>
 <thead>
 	<tr>
+		<th>SEMANA</th>
 		<th>COBRADOR</th>
 		<th>TOTAL</th>
 		<th>EN FECHA</th>
@@ -473,16 +475,31 @@ $res = $db->query($sql);
 </thead>
 <tbody>
 <?php
+$sem=0;
+$con=0;
 while($d=$db->fetchNextObject($res))
 {
+	if($sem!=$d->semana)
+	{
+		$sem=$d->semana;
+		if($con==0)
+		{
+			$con=1;
+			$fondo='style="background:#eee;border-bottom:1px solid #ddd;"';
+		}else{
+			$con=0;
+			$fondo='style="background:#ddd;border-bottom:1px solid #ccc;"';
+		}
+	}	
 	echo"
 	<tr>
-		<td>".$d->cobrador."</td>
-		<td align='center'>".$d->total."</td>
-		<td align='center'>".$d->en_fecha."</td>
-		<td align='center'>".$d->fuera_fecha."</td>
-		<td align='center'>".$d->por_cobrar."</td>
-		<td align='right'>".number_format(((($d->en_fecha+$d->fuera_fecha)/$d->total)*100),2,".",",")." %</td>
+		<td $fondo align='center'>".$d->semana."</td>
+		<td $fondo>".$d->cobrador."</td>
+		<td $fondo align='center'>".$d->total."</td>
+		<td $fondo align='center'>".$d->en_fecha."</td>
+		<td $fondo align='center'>".$d->fuera_fecha."</td>
+		<td $fondo align='center'>".$d->por_cobrar."</td>
+		<td $fondo align='right'>".number_format(((($d->en_fecha+$d->fuera_fecha)/$d->total)*100),2,".",",")." %</td>
 	</tr>
 	";
 }
