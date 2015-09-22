@@ -91,10 +91,10 @@ if ($UserLevel == 0) {
 	});
 	</script>
 	<table class="formato">
-	<caption>Localizaci贸n geogr谩fica</caption>
+	<caption>Localizaci髇 geogr醘ica</caption>
 	<thead>
 		<tr>
-			<th>Mueva el marcador para cambiar la localizaci贸n del cliente.</th>
+			<th>Mueva el marcador para cambiar la localizaci髇 del cliente.</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -103,10 +103,10 @@ if ($UserLevel == 0) {
 	 		Filtrar marcadores: 
 	 		<select name="filtromapas" id="filtromapas">
 				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 D脥AS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 D脥AS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 D脥AS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 D脥AS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 D虯S VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 D虯S VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 D虯S VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 D虯S VENCIDOS</option>
 	 		</select>
 	 		</td>
 		</tr>
@@ -124,7 +124,7 @@ if ($UserLevel == 0) {
 <br/>
 <!-- REPORTE DE PUNTUALIDAD POR COBRADOR -->
 <?php
-#FORMULARIO PARA GENERAR REPROTE DE DESEMPE脩O
+#FORMULARIO PARA GENERAR REPROTE DE DESEMPE袿
 ?>
 <form action="" method="post">
 <table>
@@ -174,7 +174,7 @@ if(isset($_POST["desempxtiempo"]))
 		$res=$db->query($sql);
 		while($rd=$db->fetchNextObject($res))
 		{
-			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPE脩O, VENDEDOR Y TOTAL COBRADO
+			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPE袿, VENDEDOR Y TOTAL COBRADO
 			echo'<tr>';
 			echo'<td align="center">'.$rd->cobrador.'</td>';
 			echo'<td align="center">'.$rd->total.'</td>';
@@ -253,7 +253,7 @@ if(isset($_POST["desempxtiempo"]))
 		$res=$db->query($sql);
 		while($rd=$db->fetchNextObject($res))
 		{
-			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPE脩O, VENDEDOR Y TOTAL COBRADO
+			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPE袿, VENDEDOR Y TOTAL COBRADO
 			echo'<tr>';
 			echo'<td>'.$rd->cobrador.'</td>';
 			echo'<td>'.$rd->total.'</td>';
@@ -421,10 +421,10 @@ if(isset($_POST["desempxtiempo"]))
 	});
 	</script>
 	<table class="formato">
-	<caption>Localizaci贸n geogr谩fica</caption>
+	<caption>Localizaci髇 geogr醘ica</caption>
 	<thead>
 		<tr>
-			<th>Mueva el marcador para cambiar la localizaci贸n del cliente.</th>
+			<th>Mueva el marcador para cambiar la localizaci髇 del cliente.</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -433,10 +433,10 @@ if(isset($_POST["desempxtiempo"]))
 	 		Filtrar marcadores: 
 	 		<select name="filtromapas" id="filtromapas">
 				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 D脥AS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 D脥AS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 D脥AS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 D脥AS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 D虯S VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 D虯S VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 D虯S VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 D虯S VENCIDOS</option>
 	 		</select>
 	 		</td>
 		</tr>
@@ -453,13 +453,13 @@ if(isset($_POST["desempxtiempo"]))
 <br/>
 <?php 
 }
-#MOSTRANDO TABLA DE DESEMPE脩O ---
+#MOSTRANDO TABLA DE DESEMPE袿 ---
 $cobrador=($UserLevel>1)?"AND cobrador='$UserName'":"";
 $sql = "SELECT * FROM desempeno WHERE year=".date("Y")." AND semana=".date("W")." $cobrador";
 $res = $db->query($sql);
 ?>
 <table>
-<caption>Desempe帽o semanal (Semana actual: <?=date("W");?></caption>
+<caption>Desempe駉 semanal (Semana actual: <?=date("W");?>)</caption>
 <thead>
 	<tr>
 		<th>COBRADOR</th>
@@ -481,7 +481,7 @@ while($d=$db->fetchNextObject($res))
 		<td>".$d->en_fecha."</td>
 		<td>".$d->fuera_fecha."</td>
 		<td>".$d->por_cobar."</td>
-		<td>".((($d->en_fecha+$d->fuera_fecha)/$d->total)*100)."</td>
+		<td>".moneda((($d->en_fecha+$d->fuera_fecha)/$d->total)*100)." %</td>
 	</tr>
 	";
 }
