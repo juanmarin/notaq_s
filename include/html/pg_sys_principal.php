@@ -1,5 +1,6 @@
 <?php
 @session_start();
+header('Content-Type: text/html; charset=iso-8859-1');
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
 ?>
