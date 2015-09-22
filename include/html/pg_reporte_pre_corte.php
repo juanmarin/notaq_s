@@ -62,37 +62,38 @@ if(isset($_POST['enviar']))
 			$clcobrador";
 	
 		$result = $db->query($sql);
+		$num_rows = mysql_num_rows($result);
 		$totGlobal=0;
-		while ($ln = $db->fetchNextObject($result)){
-			$totpagos += $ln->pagos;
-			$totabonos += $ln->abonos;
-			$totrecargos += $ln->recargos;
+		if ($num_rows > 0) {
+			while ($ln = $db->fetchNextObject($result)){
+				$totpagos += $ln->pagos;
+				$totabonos += $ln->abonos;
+				$totrecargos += $ln->recargos;
 
-			if ($ln->abonos == "") {
-				$ln->abonos = 0.00;
+				if ($ln->abonos == "") {
+					$ln->abonos = 0.00;
+				}
+				if ($ln->recargos == "") {
+					$ln->recargos = 0.00;
+				}
+				
+				?>
+				<tr>
+				<th colspan="3" width="250px" style="text-align: center"><?= strtoupper($ln->nombre) ;?></th>
+				<!--
+				<th colspan="3" width="250px" style="text-align: center"><?= strtoupper($ln->cobrador) ;?></th>
+				-->
+				<th width="100px" style="text-align: center;"><?= date("d-m-Y", strtotime($ln->fechacob));?></th>
+				<th width="100px" style="text-align: center;"><?= date("d-m-Y", strtotime($ln->fecha));?></th>
+				<th width="100px" style="text-align: center;"><?= "&#36;"; echo number_format($ln->pagos,2);?></th>
+				<th width="100px" style="text-align: center;"><?= "&#36;"; echo number_format($ln->abonos,2);?></th>
+				<th width="100px" style="text-align: center;"><?= "&#36;"; echo number_format($ln->recargos,2);?></th>
+				</tr>
+				<?php
 			}
-			if ($ln->recargos == "") {
-				$ln->recargos = 0.00;
-			}
-			
-			?>
-			<tr>
-			<th colspan="3" width="250px" style="text-align: center"><?= strtoupper($ln->nombre) ;?></th>
-			<!--
-			<th colspan="3" width="250px" style="text-align: center"><?= strtoupper($ln->cobrador) ;?></th>
-			-->
-			<th width="100px" style="text-align: center;"><?= $ln->fechacob;?></th>
-			<th width="100px" style="text-align: center;"><?= $ln->fecha;?></th>
-			<th width="100px" style="text-align: center;"><?= "&#36;"; echo number_format($ln->pagos,2);?></th>
-			<th width="100px" style="text-align: center;"><?= "&#36;"; echo number_format($ln->abonos,2);?></th>
-			<th width="100px" style="text-align: center;"><?= "&#36;"; echo number_format($ln->recargos,2);?></th>
-			</tr>
-			<?php
-		}
+		
 			$totGlobal = ($totpagos+$totabonos+$totrecargos);
-		?>
-	
-	
+		?>	
 	<tr>
 	<th style="text-align:left" colspan="4">Total Pagos </th>
 	<th style="text-align:right" colspan="4">$ <?=number_format($totpagos,2);?></th>
@@ -127,6 +128,13 @@ if(isset($_POST['enviar']))
 	</tfoot>
 	<table>
 <?php
+}else{
+?>
+	<tr align="center">
+		<th colspan="8">POR EL MOMENTO NO SE ENCONTRARON REGISTROS PARA MOSTRAR</th>
+	</tr>
+<?php
+}
 }else{
 	?>
 	<p class="title">Reportes &raquo; Corte de caja</p>

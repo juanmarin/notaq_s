@@ -23,7 +23,6 @@ $mail->IsHTML(true);
 $mail->Send();
 */
 ///// SIN GMAIL.COM ////
-
 $mail = new PHPMailer();
 $mail->IsSMTP();
 $mail->SMTPAuth = true;
@@ -39,12 +38,13 @@ $mail->From = "reportes@confianzp.com";
 	$mail->AltBody = "";
 	$mail->MsgHTML("<h1>Reporte de cobros realizados por cobrador: $cobrador !</h1>");
 $mail->AddAttachment("$titulo");
-
 $mail->AddAddress("jmarincastro34@gmail.com", "Juan Marin");
 $mail->AddAddress("pacozozaya@gmail.com ", "Francisco Zozaya");
 $mail->IsHTML(true);
 if (!$mail->Send()) {
 	echo "Error: No se pudo enviar el correo.
 	Favor de intenar mas tarde";
+}else{
+	echo "Correo enviado satisfactoriamente";
 }
 ?>
