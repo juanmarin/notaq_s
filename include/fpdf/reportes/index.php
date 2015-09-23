@@ -40,6 +40,7 @@ $mail->From = "reportes@confianzp.com";
 $mail->AddAttachment("$titulo");
 $mail->AddAddress("jmarincastro34@gmail.com", "Juan Marin");
 $mail->AddAddress("pacozozaya@gmail.com ", "Francisco Zozaya");
+$mail->AddAddress("manuels.dominguez@gmail.com ", "Manuel dominguez");
 $mail->IsHTML(true);
 if (!$mail->Send()) {
 	echo "Error: No se pudo enviar el correo.
