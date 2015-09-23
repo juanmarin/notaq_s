@@ -39,7 +39,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				left join pagos pa on pa.cuenta=cu.id 
 				right join coordenadas co on co.cliente=pa.cliente
 				where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
-				where fecha between '".date('Y-m-d' , strtotime('- 7 days'))."' and '".date("Y-m-d")."' $ftrcobrador";
+				where fecha between '".date('Y-m-d' , strtotime('- 7 days'))."' and '".date('Y-m-d' , strtotime('- 1 days'))."' $ftrcobrador";
 			$res = $db->query($sql1);
 			$coma = '';
 			$cont = 1;
@@ -109,6 +109,27 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			while($co = $db->fetchNextObject($res))
 			{
 				echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[3]]";
+				$coma = ",";
+				$cont++;
+			}
+    	}
+    	//- AZUL - CLIENTES DEL DÍA
+    	if(!isset($_GET["marks"]) || $_GET["marks"]==5)
+    	{
+			$sql4 = "select * from (
+					select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
+				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
+				,co.latitud latitud, co.longitud longitud, co.zoom zoom
+				from cuentas cu 
+				left join clientes cl on cl.id=cu.cliente 
+				left join pagos pa on pa.cuenta=cu.id 
+				right join coordenadas co on co.cliente=pa.cliente
+				where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
+				where fecha = '".date('Y-m-d')."' $ftrcobrador";
+			$res = $db->query($sql4);
+			while($co = $db->fetchNextObject($res))
+			{
+				echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[4]]";
 				$coma = ",";
 				$cont++;
 			}
