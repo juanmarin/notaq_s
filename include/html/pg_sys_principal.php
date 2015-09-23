@@ -459,38 +459,33 @@ $cobrador=($UserLevel>1)?"AND cobrador='$UserName'":"";
 $semana = 
 $sql = "SELECT * FROM desempeno WHERE year=".date("Y")." AND semana>".(date("W")-5)." $cobrador ORDER BY semana DESC, cobrador ASC";
 $res = $db->query($sql);
-?>
-<table>
-<caption>Desempeño semanal (Semana actual: <?=date("W");?>)</caption>
-<thead>
-	<tr>
-		<th>SEMANA</th>
-		<th>COBRADOR</th>
-		<th>TOTAL</th>
-		<th>EN FECHA</th>
-		<th>FUERA DE FECHA</th>
-		<th>POR COBRAR</th>
-		<th>AVANCE</th>
-	</tr>
-</thead>
-<tbody>
-<?php
 $sem=0;
 $con=0;
+$separador="";
 while($d=$db->fetchNextObject($res))
 {
 	if($sem!=$d->semana)
 	{
 		$sem=$d->semana;
-		if($con==0)
-		{
-			$con=1;
-			$fondo='style="background:#eee;border-bottom:1px solid #ddd;"';
-		}else{
-			$con=0;
-			$fondo='style="background:#ddd;border-bottom:1px solid #ccc;"';
-		}
-	}	
+		$separador="</tbody></table><br />";
+		if($cnt==0){echo $separador;}
+		echo"
+		<table>
+		<caption>Desempeño semanal (Semana actual: $sem)</caption>
+		<thead>
+			<tr>
+				<th>SEMANA</th>
+				<th>COBRADOR</th>
+				<th>TOTAL</th>
+				<th>EN FECHA</th>
+				<th>FUERA DE FECHA</th>
+				<th>POR COBRAR</th>
+				<th>AVANCE</th>
+			</tr>
+		</thead>
+		<tbody>";
+		$con++;
+	}
 	echo"
 	<tr>
 		<td $fondo align='center'>".$d->semana."</td>

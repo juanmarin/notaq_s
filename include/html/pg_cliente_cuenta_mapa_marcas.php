@@ -20,7 +20,8 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
     	'../../img/green-dot.png',
     	'../../img/yellow-dot.png',
     	'../../img/red-dot.png',
-    	'../../img/purple-dot.png'
+    	'../../img/purple-dot.png',
+    	'../../img/blue-dot.png'
     ];
     var locations = [
     	<?php
