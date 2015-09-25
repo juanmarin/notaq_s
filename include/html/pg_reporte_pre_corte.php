@@ -54,7 +54,8 @@ if(isset($_POST['enviar']))
 			left join clientes cl on cl.id=cu.cliente
 			left join pagos pa on pa.cuenta=cu.id
 			left join abono ab on ab.idpago=pa.id
-			left join recargos re on re.pago_id=pa.id) AS cobros
+			left join recargos re on re.pago_id=pa.id
+			WHERE cu.estado=0) AS cobros
 			WHERE ((ep=1 AND fecha <='".$hoy."' AND rp=0) 
 			OR (fechaabono is not null AND fechaabono <= '".$hoy."' AND ra=0) 
 			OR (er!=0 and fecharecargo <='".$hoy."' and rr=0))
