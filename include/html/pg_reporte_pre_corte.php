@@ -24,9 +24,6 @@ if(isset($_POST['enviar']))
 	$hoy = date("Y-m-d");
 	?>
 	<p class="title">Reportes &raquo; Reporte diario</p>
-	<form action="" method="post">
-	
-	</form>
 	<table>
 	<caption>Reporte hasta el dia : <?php echo getFecha($hoy); ?> </caption>
 	<thead>
@@ -43,22 +40,23 @@ if(isset($_POST['enviar']))
 		<?php
 		
 		$sql = "SELECT 
-			cliente, nombre, cobrador, cta_id, p_id, fechacob, fecha, pagos, abo_id, abonos, rec_id, recargos 
+			cliente, nombre, cobrador, cta_id, p_id, fechacob, fecha, if(rp=0,pagos,0) pagos, abo_id, abonos, rec_id, recargos
+
 			FROM
-			(SELECT 
-			cl.id cliente, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
-			, pa.id p_id, pa.cuenta cta_id, pa.fecha fechacob, pa.fechaPago fecha, pa.pago_real pagos, pa.estado ep, pa.reportado rp
-			, ab.idabono abo_id, ab.idpago, ab.fecha fechaabono, ab.abono abonos, ab.reportado ra
-			, re.id rec_id, re.fecha fecharecargo, re.monto_saldado recargos, re.estado er, re.reportado rr
-			FROM cuentas cu
-			left join clientes cl on cl.id=cu.cliente
-			left join pagos pa on pa.cuenta=cu.id
-			left join abono ab on ab.idpago=pa.id
-			left join recargos re on re.pago_id=pa.id
-			WHERE cu.estado=0) AS cobros
-			WHERE ((ep=1 AND fecha <='".$hoy."' AND rp=0) 
-			OR (fechaabono is not null AND fechaabono <= '".$hoy."' AND ra=0) 
-			OR (er!=0 and fecharecargo <='".$hoy."' and rr=0))
+				(SELECT 
+				cl.id cliente, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
+				, pa.id p_id, pa.cuenta cta_id, pa.fecha fechacob, pa.fechaPago fecha, pa.pago_real pagos, pa.estado ep, pa.reportado rp
+				, ab.idabono abo_id, ab.idpago, ab.fecha fechaabono, ab.abono abonos, ab.reportado ra
+				, re.id rec_id, re.fecha fecharecargo, re.monto_saldado recargos, re.estado er, re.reportado rr
+				FROM cuentas cu
+				left join clientes cl on cl.id=cu.cliente
+				left join pagos pa on pa.cuenta=cu.id
+				left join abono ab on ab.idpago=pa.id
+				left join recargos re on re.pago_id=pa.id
+				WHERE cu.estado=0 OR cu.fecha_pago='".$hoy."') AS cobros
+			WHERE ((ep=1 AND fecha <='".$hoy."' AND rp=0 and pagos>0) 
+			OR (fechaabono is not null AND fechaabono <= '".$hoy."' AND ra=0 and abonos>0) 
+			OR (er!=0 and fecharecargo <='".$hoy."' and rr=0) and recargos > 0)
 			$clcobrador";
 	
 		$result = $db->query($sql);

@@ -726,13 +726,13 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 					//$pago_acum = $saldo;
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
-					<input type="hidden" name="numpago"	value="<?= $i;?>" />
-					<input type="text"   name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> class="validarpago" rel="<?= $pago_acum;?>" />
-					<input type="hidden" name="cl" 		value="<?= $_GET['cl'];?>" />
-					<input type="hidden" name="c"		value="<?= $cuenta;?>" />
-					<input type="hidden" name="pid"		value="<?= $r->id;?>" />
-					<input type="hidden" name="action"	value="cuenta_pagar" />
-					<input type="submit" value="ABONAR" <?=$opcnpagarbtn;?> />
+					<input type="hidden"	name="numpago"	value="<?= $i;?>" />
+					<input type="text"		name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> class="validarpago" rel="<?= $pago_acum;?>" />
+					<input type="hidden"	name="cl" 		value="<?= $_GET['cl'];?>" />
+					<input type="hidden"	name="c"		value="<?= $cuenta;?>" />
+					<input type="hidden"	name="pid"		value="<?= $r->id;?>" />
+					<input type="hidden"	name="action"	value="cuenta_pagar" />
+					<input type="submit"	value="ABONAR" <?=$opcnpagarbtn;?> />
 					</form>
 					<?php
 				}
@@ -859,7 +859,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 				while($re = $db->fetchNextObject($rec))
 				{
 					if($re->estado == 0){
-						echo '	<td> <center>$ '; moneda($re->monto-$re->monto_saldado).'</center></td>';
+						echo '	<td> <center>$ '; moneda($re->monto).'</center></td>';
 						echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
 						$tot += $re->monto;
 						?>
@@ -871,7 +871,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 						<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
 						<input type="hidden" name="action" value="recargos" />
 						<center>
-							<input type="text" name="recargo" value="<?= $re->monto-$re->monto_saldado;?>" style="width:70px;" />
+							<input type="text" name="recargo" value="<?= $re->monto;?>" readonly style="width:70px;" />
 							<input type="submit" name="rec_pagar" value="Pagar" />
 						</center>
 						</form>

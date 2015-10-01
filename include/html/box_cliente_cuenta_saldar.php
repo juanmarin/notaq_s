@@ -41,7 +41,7 @@
 	?>
 	<tr>
 		<th>Monto a pagar</th>
-		<td><input type="text" name="total" value="<?php moneda($saldo + $recargos);?>" /></td>
+		<td><input type="text" name="total" value="<?php moneda($saldo + $recargos);?>" readonly /></td>
 	</tr>
 	<tr>
 		<th colspan="2" style="text-align: center;">Autorización</th>

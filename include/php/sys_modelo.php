@@ -776,7 +776,7 @@ switch($_POST["action"]){
 		$res = mysql_query($sql);
 		$row = mysql_fetch_array($res);
 		$saldo = $row["total"];
-		$sql = "SELECT SUM(monto), cliente FROM recargos WHERE estado = 0 AND cuenta = ".$_POST["c"];
+		$sql = "SELECT SUM(monto), cliente FROM recargos WHERE estado = 0 AND cuenta = ".$_POST["c"]." group by cliente";
 		#echo $sql . "<br />";
 		$res = mysql_query($sql);
 		$row = mysql_fetch_array($res);
@@ -787,11 +787,11 @@ switch($_POST["action"]){
 			$sql = "UPDATE cuentas SET estado=1, fecha_pago='".date("Y-m-d")."' WHERE id = ".$_POST["c"];
 			$res = mysql_query($sql);
 
-			$sql = "UPDATE pagos SET estado=1, fechaPago='".date("Y-m-d")."', aplicado_x = '".$UserName."' WHERE estado=0 AND cuenta = ".$_POST["c"];
+			$sql = "UPDATE pagos SET estado=1, fechaPago='".date("Y-m-d")."', aplicado_x = '".$UserName."', pago_real=pago WHERE estado=0 AND cuenta = ".$_POST["c"];
 			$res = mysql_query($sql);
 
-			//$sql = "UPDATE recargos SET estado=1, fechaPago='".date("Y-m-d")."' WHERE estado=0 AND cuenta = ".$_POST["c"];
-			//$res = mysql_query($sql);
+			$sql = "UPDATE recargos SET estado=1, fecha='".date("Y-m-d")."', monto_saldado=monto WHERE estado=0 AND cuenta = ".$_POST["c"];
+			$res = mysql_query($sql);
 
 			$sql = "UPDATE clientes SET demanda=0 WHERE id = ".$_POST["cl"];
 			$res = mysql_query($sql);
@@ -799,7 +799,9 @@ switch($_POST["action"]){
 			$sql = "DELETE FROM demandas WHERE cliente_id = ".$_POST["cl"];
 			$res = mysql_query($sql);
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
-		}else{
+		}
+		else{
+			/* YA NO SE PUEDE SALDAR UNA CUENTA CON UNA CANTIDAD DIFERENTE AL TOTAL
 			if(($_POST["usuario"] != "") && ($_POST["autorizacion"] != "")){
 				$sql = "SELECT nivel FROM mymvcdb_users WHERE username = '".$_POST["usuario"]."' AND password = '".sha1($_POST["autorizacion"])."'";
     			$res = mysql_query($sql);
@@ -811,12 +813,13 @@ switch($_POST["action"]){
 						echo $sql . "<br />";
 						$res = mysql_query($sql);
 						if($res){
-							$sql = "UPDATE pagos SET estado = 2, fechaPago='".date("Y-m-d")."' WHERE cuenta = ".$_POST["c"]." AND estado = 0";
+							$sql = "UPDATE pagos SET estado = 2, fechaPago='".date("Y-m-d")."', pago_real=pago WHERE cuenta = ".$_POST["c"]." AND estado = 0";
 							$res = mysql_query($sql);
 						}
 					}
 				}
 			}
+			*/
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		}
 	break;
@@ -936,12 +939,12 @@ switch($_POST["action"]){
 					$abono+=$saldados;
 				}
 				$sql = "UPDATE recargos SET 
-					fecha 		= '".date("Y-m-d")."', 
+					fecha 			= '".date("Y-m-d")."', 
 					monto_saldado 	= $abono, 
-					estado 		= $estado,
-					monto		= '$restante',
-					aplicado_x 	= '".$UserName."'
-					WHERE id 	= $recargo_id";
+					estado 			= $estado,
+					monto			= '$restante',
+					aplicado_x 		= '".$UserName."'
+					WHERE id 		= $recargo_id";
 				mysql_query($sql);
 				##Verificando si despues del abono de recargos ya no hay mas por pagar.
 				$sql = "SELECT SUM(monto) FROM recargos WHERE cuenta= $cuenta AND cliente = $cliente AND estado = 0";
@@ -1076,11 +1079,11 @@ switch($_POST["action"]){
 	
 	case "corte_caja":
 		$hoy 		= date("Y-m-d");
-		//$cobrador 	= ($_POST["cobrador"]==0)?"":"AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
+		//$cobrador = ($_POST["cobrador"]==0)?"":"AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
 		$cobrador 	= $_POST["cobrador"];
 		$totpagos 	= $_POST["totpagos"];
 		$totabonos	= $_POST["totabonos"];
-		$totrecargos 	= $_POST["totrecargos"];
+		$totrecargos= $_POST["totrecargos"];
 		$totGlobal 	= $_POST["totGlobal"];
 		$consulta 	= $_POST["consulta"];	
 		//echo $consulta;
@@ -1095,8 +1098,8 @@ switch($_POST["action"]){
 			$created_at = mysql_fetch_array($res);
 			$created = str_replace(" ", "_", $created_at[0]);
 		##SACANDO LOS REGISTROS PARA INSERTAR EN EL DETALLE DEL CORTE DE CAJA
-		$sql = $consulta;
-		//echo "<br />".$sql."<br />";				
+		$sql = str_replace("\\","",$consulta);
+		echo "<br />".$sql."<br />";				
 		$result = mysql_query($sql);
 		while($ln = mysql_fetch_array($result))
 		{
@@ -1106,44 +1109,52 @@ switch($_POST["action"]){
 			$abo_id=($ln["abo_id"]>0)?$ln["abo_id"]:0;
 			$rec_id=($ln["rec_id"]>0)?$ln["rec_id"]:0;
 			$cc_detail = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaPago, fechaCobro, 
-									pago_id, pago_importe, abono_id, abono_importe, recarg_id, recarg_importe) 
-			VALUES (
-				".$ccaj_id.", 
-				".$ln["cliente"].", 
-				'".$ln["nombre"]."',
-				".$ln["cta_id"].",
-				'".$ln["fechacob"]."',
-				'".$ln["fecha"]."',
-				".$ln["p_id"].",
-				".$p.",
-				".$abo_id.",
-				".$a.",
-				".$rec_id.",
-				".$r."
-				)
+							pago_id, pago_importe, abono_id, abono_importe, recarg_id, recarg_importe) 
+							VALUES (
+								".$ccaj_id.", 
+								".$ln["cliente"].", 
+								'".$ln["nombre"]."',
+								".$ln["cta_id"].",
+								'".$ln["fechacob"]."',
+								'".$ln["fecha"]."',
+								".$ln["p_id"].",
+								".$p.",
+								".$abo_id.",
+								".$a.",
+								".$rec_id.",
+								".$r."
+							)
 			";
+			echo "<br />$cc_detail<br />";
 			$rest = mysql_query($cc_detail);
 			if ($rest) {
-		//Actualizando la columna de los pagos "reportado = 1" 
-		/*Para que no aparezcan en los futuros reportes */
-				$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
-				mysql_query($sql);
+				//Actualizando la columna de los pagos "reportado = 1" 
+				/*Para que no aparezcan en los futuros reportes */
+				if($p>0){
+					$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
+					mysql_query($sql);
+					echo "<br />$sql<br />";
+				}
 				if ($abo_id > 0) {
+
 					$absql = "UPDATE abono SET reportado = 1 WHERE idabono = ".$abo_id."";
 					mysql_query($absql);
+					echo "<br />$absql<br />";
 				}
 				if ($rec_id > 0) {
 					$recsql = "UPDATE recargos SET reportado = 1 WHERE id = ".$rec_id."";
 					mysql_query($recsql);
+					echo "<br />$recsql<br />";
 				}
 			}
 		}
+		/*
 		include_once("../fpdf/corte_caja.php");
 		if (file_exists($titulo)) {
 			include_once("../fpdf/reportes/index.php");
 		}else{
 			Echo "<h1>No se encontro el archivo en el servidor</h1>";
-		}
+		}*/
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=3h"> ';
 		break;
 	default:
