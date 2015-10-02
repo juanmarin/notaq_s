@@ -68,6 +68,24 @@ $("#mapacliente").click(function(){
 		$("#mapacontenedor").text()
 	}
 });
+$("#btnabrecuenta").click(function(){
+	if( $("#cantidad").val()=="" || $("#monto1").val()=="" || $("plazo1").val()=="" )
+	{
+		alert("Error al abrir cuenta:\nFaltan campos por llenar en el formulario.");
+	}
+	else
+	{
+		var cantidad = ($("#plazo1").val() * $("#monto1").val()) + ($("#plazo2").val() * $("#monto2").val());
+		if( cantidad == $("#cantidad").val() )
+		{
+			$("#frmabrecuenta").submit();
+		}
+		else
+		{
+			alert("Error: Las cantidades no coinciden.\nLa cantidad prestada es de: "+$("#cantidad").val()+" y la cuenta en plazos es de: "+cantidad);
+		}
+	}
+});
 </script>
 <p class="title">Clientes &raquo; Cuenta</p>
 <table>
@@ -249,7 +267,7 @@ while ($ln2 = $db1->fetchNextObject($result))
 }
 ?>
 <br>
-<form name="abrecuenta" action="include/php/sys_modelo.php" method="post">
+<form name="abrecuenta" id="frmabrecuenta" action="include/php/sys_modelo.php" method="post">
 <input type="hidden" name="action" value="cuenta_nueva" />
 <input type="hidden" name="cl" value="<?php echo $_GET["cl"];?>" />
 <?php
@@ -317,7 +335,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	</tr>
 	<tr>
 		<th>Cantidad:</th>
-		<td>$<input type="text" name="cantidad" size="5" value="<?=$ec_cant;?>" /></td>
+		<td>$<input type="text" name="cantidad" id="cantidad" size="5" value="<?=$ec_cant;?>" /></td>
 		<th>Cobrador: </th>
 		<td>
 			<select name="cobrador" id="cobrador">
@@ -414,15 +432,15 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	</tr>
 	<tr>
 		<th>Plazo:</th>
-		<td><input type="text" name="plazo1" size="10" value="<?=$ec_pzo1;?>" /></td>
+		<td><input type="text" name="plazo1" id="plazo1" size="10" value="<?=$ec_pzo1;?>" /></td>
 		<th>Monto:</th>
-		<td>$<input type="text" name="monto1" size="10" value="<?=$ec_mto1;?>" /></td>
+		<td>$<input type="text" name="monto1" id="monto1" size="10" value="<?=$ec_mto1;?>" /></td>
 	</tr>
 	<tr>
 		<th>Plazo:</th>
-		<td><input type="text" name="plazo2" size="10" value="<?=$ec_pzo2;?>" /></td>
+		<td><input type="text" name="plazo2" id="plazo2" size="10" value="<?=$ec_pzo2;?>" /></td>
 		<th>Monto:</th>
-		<td>$<input type="text" name="monto2" size="10" value="<?=$ec_mto2;?>" /></td>
+		<td>$<input type="text" name="monto2" id="monto2" size="10" value="<?=$ec_mto2;?>" /></td>
 	</tr>	
 	<tr>
 		<th>Observaciones</th>
@@ -443,7 +461,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 		else
 		{
 			?>
-			<th colspan="4"><input type="submit" value="Abrir cuenta" /></th>
+			<th colspan="4"><input type="button" id="btnabrecuenta" value="Abrir cuenta" /></th>
 			<?php
 		}
 		?>
@@ -729,6 +747,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 					<input type="hidden"	name="numpago"	value="<?= $i;?>" />
 					<input type="text"		name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> class="validarpago" rel="<?= $pago_acum;?>" />
 					<input type="hidden"	name="cl" 		value="<?= $_GET['cl'];?>" />
+
 					<input type="hidden"	name="c"		value="<?= $cuenta;?>" />
 					<input type="hidden"	name="pid"		value="<?= $r->id;?>" />
 					<input type="hidden"	name="action"	value="cuenta_pagar" />
@@ -871,7 +890,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 						<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
 						<input type="hidden" name="action" value="recargos" />
 						<center>
-							<input type="text" name="recargo" value="<?= $re->monto;?>" readonly style="width:70px;" />
+							<input type="text" name="recargo" value="<?= $re->monto;?>" style="width:70px;" />
 							<input type="submit" name="rec_pagar" value="Pagar" />
 						</center>
 						</form>
