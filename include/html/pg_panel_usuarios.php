@@ -18,9 +18,11 @@
 	{
 		?>
 		<tr>
-			<th style="text-transform: uppercase;"><?echo $ln->nombre;?></th>
-			<td width="80"><a href="include/html/box_usuarios.php?width=700&height=350&u=<?echo $ln->userID;?>" class="thickbox tboton sombra esqRedondas detalles" title="Detalles de usuario">Detalles</a></td>
-			<td width="80"><a href="include/html/box_usuario_elim.php?width=480&height=250&usr=<?echo $ln->userID;?>" class="thickbox tboton sombra esqRedondas eliminar" title="Eliminar usuario">Eliminar</a></td>
+			<th style="text-transform: uppercase;"><?php echo $ln->nombre;?></th>
+			<td width="80"><a href="include/html/box_usuarios.php?width=700&height=350&u=<?php echo $ln->userID;?>" class="thickbox tboton sombra esqRedondas detalles" title="Detalles de usuario">Detalles</a></td>
+			<td width="80"><a href="include/html/box_usuario_elim.php?width=480&height=250&usr=<?php echo $ln->userID;?>" class="thickbox tboton sombra esqRedondas eliminar" title="Eliminar usuario">Eliminar</a></td>
+			<td width="80"><a href="include/html/pg_panel_usuario_editar.php?width=780&height=650&usr=<?php echo $ln->userID;?>" class="thickbox tboton sombra esqRedondas editar" title="Editar usuario">Editar</a></td>
+
 		</tr>
 		<?php
 	}

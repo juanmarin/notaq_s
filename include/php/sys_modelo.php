@@ -1,10 +1,10 @@
 <?php
 @session_start();
-/*
+
 foreach($_POST as $var => $val){
 		echo $var . " => " . $val . "<br />";
 	}
-*/
+
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
 require_once "../conf/Config.php";
@@ -92,17 +92,17 @@ switch($_POST["action"]){
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		}
 		break;
+		// username = '".$_POST["uname"]."',
 	case "usr_editar":
-		$_cadena = "UPDATE mymvcdb_users SET 
-			username = '".$_POST["uname"]."', 
+		$_cadena = "UPDATE mymvcdb_users SET  
 			nombre = '".$_POST["nombre"]."', 
-			puesto = '".$_POST["puesto"]."', 
-			departamento = '".$_POST["departamento"]."', 
+			departamento = '".$_POST["departamento"]."',
+			puesto = '".$_POST["puesto"]."',  
 			telefono = '".$_POST["telefono"]."', 
-			email = '".$_POST["email"]."', 
-			nivel = ".$_POST["nivel"]." 
+			email = '".$_POST["email"]."' 
 			WHERE userID = ".$_POST["id"];
 		$_query = mysql_query($_cadena);
+		echo $_cadena."<br />";
 		if($_POST["conu"] == $_POST["confnu"]){
 			$sql = "SELECT password FROM mymvcdb_users WHERE userID = ".$_SESSION["REQUIRED1"];
 			$res = mysql_query($sql);
@@ -113,7 +113,7 @@ switch($_POST["action"]){
 				mysql_close();
 			}
 		}
-		echo '<meta http-equiv="refresh" content="0;url=../../?pg=4"> ';
+		//echo '<meta http-equiv="refresh" content="0;url=../../?pg=4"> ';
 		break;
 	case "cliente_nuevo":
 		$_cadena = "INSERT INTO clientes (nombre, apellidop, apellidom, direccion, colonia, telefono, 
