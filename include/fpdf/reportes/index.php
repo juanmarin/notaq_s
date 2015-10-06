@@ -21,7 +21,18 @@ $mail->AddAttachment("adjunto.txt");
 $mail->AddAddress("jmarincastro@hotmail.com", "Nombre Destinatario");
 $mail->IsHTML(true);
 $mail->Send();
+////////////////////////////////////////////////////
+
+/
+/Obteniendo los datos del cobrador
+/Para incluirlo en el envio de correos
+/
 */
+$sql = "SELECT nombre, email FROM mymvcdb_users WHERE username = '".$cobrador."'";
+	$res = mysql_query($sql);
+	$rec = mysql_fetch_array($res);
+	$cob_mail = $rec['1'];
+	$cob_name = $rec['0']
 ///// SIN GMAIL.COM ////
 $mail = new PHPMailer();
 $mail->IsSMTP();
@@ -41,6 +52,7 @@ $mail->AddAttachment("$titulo");
 $mail->AddAddress("jmarincastro34@gmail.com", "Juan Marin");
 $mail->AddAddress("pacozozaya@gmail.com ", "Francisco Zozaya");
 $mail->AddAddress("manuels.dominguez@gmail.com ", "Manuel dominguez");
+$mail->AddAddress("$cob_mail", "$cob_name");
 $mail->IsHTML(true);
 if (!$mail->Send()) {
 	echo "Error: No se pudo enviar el correo.
