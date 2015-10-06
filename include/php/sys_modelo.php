@@ -1,10 +1,10 @@
 <?php
 @session_start();
-
+/*
 foreach($_POST as $var => $val){
 		echo $var . " => " . $val . "<br />";
 	}
-
+*/
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
 require_once "../conf/Config.php";
@@ -113,7 +113,7 @@ switch($_POST["action"]){
 				mysql_close();
 			}
 		}
-		//echo '<meta http-equiv="refresh" content="0;url=../../?pg=4"> ';
+		echo '<meta http-equiv="refresh" content="0;url=../../?pg=4"> ';
 		break;
 	case "cliente_nuevo":
 		$_cadena = "INSERT INTO clientes (nombre, apellidop, apellidom, direccion, colonia, telefono, 
