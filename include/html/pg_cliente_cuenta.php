@@ -82,7 +82,7 @@ $("#btnabrecuenta").click(function(){
 		}
 		else
 		{
-			alert("Error: Las cantidades no coinciden.\nLa cantidad prestada es de: "+$("#cantidad").val()+" y la cuenta en plazos es de: "+cantidad);
+			alert("Error: Las cantidades no coinciden.\nLa cantidad prestada es de:"+$("#cantidad").val()+" y la cuenta en plazos es de: "+cantidad);
 		}
 	}
 });

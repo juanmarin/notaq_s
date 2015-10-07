@@ -912,11 +912,11 @@ switch($_POST["action"]){
 		{
 			//showPost($_POST);
 			#-INICIANDO VARIABLES -------------------------------------------------------------------------------------------------
-			$cuenta = $_POST["c"];
-			$cliente = $_POST["cl"];
+			$cuenta 	= $_POST["c"];
+			$cliente 	= $_POST["cl"];
 			$recargo_id = $_POST["recargo_id"];
-			$abono = $_POST["recargo"];
-			$f_recargo = $_POST["fecha_recargo"];
+			$abono 		= $_POST["recargo"];
+			$f_recargo 	= $_POST["fecha_recargo"];
 			#-OBTENIENDO MONTO DE RECARGOS ----------------------------------------------------------------------------------------
 			$sql = "SELECT monto, monto_saldado FROM recargos WHERE id=".$recargo_id;
 			$res = mysql_query($sql);
@@ -934,9 +934,15 @@ switch($_POST["action"]){
 				}
 				else 
 				{
+					#-LLEVAR CUENTA DE ABONOS DE RECARGOS
+					$sql = "INSERT INTO abono_recargos (idrec,idcte,fecha_ab,abono,aplicado_x)
+							VALUES($recargo_id,$cliente,'".date("Y-m-d")."','$abono','".$UserName."')";
+					$res = mysql_query($sql);
+					#-DEFINIR VALORES DE ACTUALIZACIÓN DEL RECARGO
 					$estado = 0;
 					$restante  = $recargos - $abono;
 					$abono+=$saldados;
+					
 				}
 				$sql = "UPDATE recargos SET 
 					fecha 			= '".date("Y-m-d")."', 
@@ -1078,52 +1084,64 @@ switch($_POST["action"]){
 		break;		
 	
 	case "corte_caja":
+		echo "<br />Checkpoint<br />";
 		$hoy 		= date("Y-m-d");
 		//$cobrador = ($_POST["cobrador"]==0)?"":"AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
 		$cobrador 	= $_POST["cobrador"];
 		$totpagos 	= $_POST["totpagos"];
 		$totabonos	= $_POST["totabonos"];
-		$totrecargos= $_POST["totrecargos"];
+		$totrecargos	= $_POST["totrecargos"];
+		$totabrecargos	= $_POST["totarecargos"];
 		$totGlobal 	= $_POST["totGlobal"];
 		$consulta 	= $_POST["consulta"];	
 		//echo $consulta;
-		$corte_c 	= "INSERT INTO corte_caja (cobrador, recibido_x, totpagos, totabonos, totrecargos, totglobal) 
-		VALUES ('".$cobrador."', '".$UserName."', ".$totpagos.", ".$totabonos.", ".$totrecargos.", ".$totGlobal.")";
+		$corte_c 	= "INSERT INTO corte_caja (cobrador, recibido_x, totpagos, totabonos, totrecargos, totabrecargos, totglobal) 
+				VALUES ('".$cobrador."', '".$UserName."', ".$totpagos.", ".$totabonos.", ".$totrecargos.", ".$totabrecargos.", ".$totGlobal.")";
 		//echo "<br />$corte_c";
 		$rest 		= mysql_query($corte_c);
 		$ccaj_id	= mysql_insert_id();
-		##buscando la fecha y hora en la que se creo el registro para agrgarla al nombre del archivo pdf
-		$sql = "SELECT created_at FROM corte_caja WHERE id = ".$ccaj_id."";
-			$res = mysql_query($sql);
-			$created_at = mysql_fetch_array($res);
-			$created = str_replace(" ", "_", $created_at[0]);
-		##SACANDO LOS REGISTROS PARA INSERTAR EN EL DETALLE DEL CORTE DE CAJA
-		$sql = str_replace("\\","",$consulta);
+		##buscando la fecha y hora en la que se creo el registro para agrgarla al nombre del archivo pdf.............................................
+		$sql 		= "SELECT created_at FROM corte_caja WHERE id = ".$ccaj_id."";
+		$res 		= mysql_query($sql);
+		$created_at 	= mysql_fetch_array($res);
+		$created 	= str_replace(" ", "_", $created_at[0]);
+		##SACANDO LOS REGISTROS PARA INSERTAR EN EL DETALLE DEL CORTE DE CAJA........................................................................
+		$sql 		= str_replace("\\","",$consulta);
 		echo "<br />".$sql."<br />";				
 		$result = mysql_query($sql);
+		$chkpaid=0;
+		$chkreid=0;
 		while($ln = mysql_fetch_array($result))
 		{
-			$p=($ln["pagos"]>0)?$ln["pagos"]:0;
+			/* comprobar que no esten repetidos los pagos y recargos */
+			$montopago=($ln["p_id"]==$chkpaid)?0:$ln["pagos"];
+			$montoreca=($ln["rec_id"]==$chkreid)?0:$ln["recargos"];
+			/**/
+			$p=($montopago>0)?$montopago:0;
 			$a=($ln["abonos"]>0)?$ln["abonos"]:0;
-			$r=($ln["recargos"]>0)?$ln["recargos"]:0;
+			$r=($montoreca>0)?$montoreca:0;
 			$abo_id=($ln["abo_id"]>0)?$ln["abo_id"]:0;
 			$rec_id=($ln["rec_id"]>0)?$ln["rec_id"]:0;
+			$arec_id=($ln["ar_id"]>0)?$ln["ar_id"]:0;
+			##detalle................................................................................................................................
 			$cc_detail = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaPago, fechaCobro, 
-							pago_id, pago_importe, abono_id, abono_importe, recarg_id, recarg_importe) 
-							VALUES (
-								".$ccaj_id.", 
-								".$ln["cliente"].", 
-								'".$ln["nombre"]."',
-								".$ln["cta_id"].",
-								'".$ln["fechacob"]."',
-								'".$ln["fecha"]."',
-								".$ln["p_id"].",
-								".$p.",
-								".$abo_id.",
-								".$a.",
-								".$rec_id.",
-								".$r."
-							)
+					pago_id, pago_importe, abono_id, abono_importe, recarg_id, recarg_importe, abrecarg_id, abrecarg_importe) 
+					VALUES (
+						".$ccaj_id.", 
+						".$ln["cliente"].", 
+						'".$ln["nombre"]."',
+						".$ln["cta_id"].",
+						'".$ln["fechacob"]."',
+						'".$ln["fecha"]."',
+						".$ln["p_id"].",
+						".$p.",
+						".$abo_id.",
+						".$a.",
+						".$rec_id.",
+						".$r.",
+						".$arec_id.",
+						".$ln["abrec"]."
+					)
 			";
 			echo "<br />$cc_detail<br />";
 			$rest = mysql_query($cc_detail);
@@ -1132,21 +1150,28 @@ switch($_POST["action"]){
 				/*Para que no aparezcan en los futuros reportes */
 				if($p>0){
 					$sql = "UPDATE pagos SET reportado = 1 WHERE id = ".$ln["p_id"]."";
-					mysql_query($sql);
-					echo "<br />$sql<br />";
+					$res = mysql_query($sql);
+					//echo (!$res)?"<br />$sql<br />":"<br />Error: $sql<br />";
 				}
 				if ($abo_id > 0) {
 
-					$absql = "UPDATE abono SET reportado = 1 WHERE idabono = ".$abo_id."";
-					mysql_query($absql);
-					echo "<br />$absql<br />";
+					$sql = "UPDATE abono SET reportado = 1 WHERE idabono = ".$abo_id."";
+					$res = mysql_query($sql);
+					//echo (!$res)?"<br />$sql<br />":"<br />Error: $sql<br />";
 				}
 				if ($rec_id > 0) {
-					$recsql = "UPDATE recargos SET reportado = 1 WHERE id = ".$rec_id."";
-					mysql_query($recsql);
-					echo "<br />$recsql<br />";
+					$sql = "UPDATE recargos SET reportado = 1 WHERE id = ".$rec_id."";
+					$res = mysql_query($sql);
+					//echo (!$res)?"<br />$sql<br />":"<br />Error: $sql<br />";
+				}
+				if ($arec_id > 0) {
+					$sql = "UPDATE abono_recargos SET reportado = 1 WHERE idabrec = ".$arec_id."";
+					$res = mysql_query($sql);
+					//echo (!$res)?"<br />$sql<br />":"<br />Error: $sql<br />";
 				}
 			}
+			$chkpaid=$ln["p_id"];
+			$chkreid=$ln["rec_id"];
 		}
 		/*
 		include_once("../fpdf/corte_caja.php");
