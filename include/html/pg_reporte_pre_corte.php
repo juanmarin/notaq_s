@@ -69,7 +69,7 @@ if(isset($_POST['enviar']))
 				OR	(fechaabono is not null AND fechaabono <= '".$hoy."' AND ra=0 and abonos>0) 
 				OR	(er!=0 and fecharecargo <='".$hoy."' and rr=0 and recargos > 0)
 				OR	(fecha_abr<='".$hoy."' and rar=0 and abrec>0)
-				) $clcobrador";
+				) $clcobrador ORDER BY fecha DESC";
 	
 		$result = $db->query($sql);
 		$num_rows = mysql_num_rows($result);
