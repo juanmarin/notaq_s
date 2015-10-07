@@ -1084,7 +1084,7 @@ switch($_POST["action"]){
 		break;		
 	
 	case "corte_caja":
-		echo "<br />Checkpoint<br />";
+		//echo "<br />Checkpoint<br />";
 		$hoy 		= date("Y-m-d");
 		//$cobrador = ($_POST["cobrador"]==0)?"":"AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
 		$cobrador 	= $_POST["cobrador"];
@@ -1100,14 +1100,14 @@ switch($_POST["action"]){
 		//echo "<br />$corte_c";
 		$rest 		= mysql_query($corte_c);
 		$ccaj_id	= mysql_insert_id();
-		##buscando la fecha y hora en la que se creo el registro para agrgarla al nombre del archivo pdf.............................................
+		##buscando la fecha y hora en la que se creo el registro para agregarla al nombre del archivo pdf.............................................
 		$sql 		= "SELECT created_at FROM corte_caja WHERE id = ".$ccaj_id."";
 		$res 		= mysql_query($sql);
 		$created_at 	= mysql_fetch_array($res);
 		$created 	= str_replace(" ", "_", $created_at[0]);
 		##SACANDO LOS REGISTROS PARA INSERTAR EN EL DETALLE DEL CORTE DE CAJA........................................................................
 		$sql 		= str_replace("\\","",$consulta);
-		echo "<br />".$sql."<br />";				
+		//echo "<br />".$sql."<br />";				
 		$result = mysql_query($sql);
 		$chkpaid=0;
 		$chkreid=0;
@@ -1143,7 +1143,7 @@ switch($_POST["action"]){
 						".$ln["abrec"]."
 					)
 			";
-			echo "<br />$cc_detail<br />";
+			//echo "<br />$cc_detail<br />";
 			$rest = mysql_query($cc_detail);
 			if ($rest) {
 				//Actualizando la columna de los pagos "reportado = 1" 
@@ -1173,13 +1173,13 @@ switch($_POST["action"]){
 			$chkpaid=$ln["p_id"];
 			$chkreid=$ln["rec_id"];
 		}
-		/*
+		
 		include_once("../fpdf/corte_caja.php");
 		if (file_exists($titulo)) {
 			include_once("../fpdf/reportes/index.php");
 		}else{
-			Echo "<h1>No se encontro el archivo en el servidor</h1>";
-		}*/
+			echo "<h1>No se encontro el archivo en el servidor</h1>";
+		}
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=3h"> ';
 		break;
 	default:

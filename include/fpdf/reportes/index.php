@@ -32,7 +32,7 @@ $sql = "SELECT nombre, email FROM mymvcdb_users WHERE username = '".$cobrador."'
 	$res = mysql_query($sql);
 	$rec = mysql_fetch_array($res);
 	$cob_mail = $rec['1'];
-	$cob_name = $rec['0']
+	$cob_name = $rec['0'];
 ///// SIN GMAIL.COM ////
 $mail = new PHPMailer();
 $mail->IsSMTP();
