@@ -31,7 +31,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
     	if(!isset($_GET["marks"]) || $_GET["marks"]==1)
     	{
 			$sql1 = "select * from (
-				select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
+				select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador, cl.id, cl.direccion, cl.colonia
 				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha
 				,co.latitud latitud, co.longitud longitud, co.zoom zoom
 				from cuentas cu 
@@ -45,7 +45,10 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			$cont = 1;
 			while($co = $db->fetchNextObject($res))
 			{
-				echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[0]]";
+				$dir = '<br>DIR: '.$co->direccion;
+				$col = '<br>COL: '.$co->colonia;
+				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
+				echo $coma."['".strtoupper($co->nombre)."$dir $col $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[0]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -54,7 +57,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
     	if(!isset($_GET["marks"]) || $_GET["marks"]==2)
     	{
 			$sql2 = "select * from (
-					select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
+				select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador, cl.id, cl.direccion, cl.colonia
 				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
 				,co.latitud latitud, co.longitud longitud, co.zoom zoom
 				from cuentas cu 
@@ -66,7 +69,10 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			$res = $db->query($sql2);
 			while($co = $db->fetchNextObject($res))
 			{
-				echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[1]]";
+				$dir = '<br>DIR: '.$co->direccion;
+				$col = '<br>COL: '.$co->colonia;
+				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
+				echo $coma."['".strtoupper($co->nombre)."$dir $col $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[1]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -75,7 +81,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
     	if(!isset($_GET["marks"]) || $_GET["marks"]==3)
     	{
 			$sql3 = "select * from (
-					select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
+				select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador, cl.id, cl.direccion, cl.colonia
 				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
 				,co.latitud latitud, co.longitud longitud, co.zoom zoom
 				from cuentas cu 
@@ -87,7 +93,10 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			$res = $db->query($sql3);
 			while($co = $db->fetchNextObject($res))
 			{
-				echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[2]]";
+				$dir = '<br>DIR: '.$co->direccion;
+				$col = '<br>COL: '.$co->colonia;
+				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
+				echo $coma."['".strtoupper($co->nombre)."$dir $col $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[2]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -96,7 +105,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
     	if(!isset($_GET["marks"]) || $_GET["marks"]==4)
     	{
 			$sql4 = "select * from (
-					select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
+				select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador, cl.id, cl.direccion, cl.colonia
 				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
 				,co.latitud latitud, co.longitud longitud, co.zoom zoom
 				from cuentas cu 
@@ -108,7 +117,10 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			$res = $db->query($sql4);
 			while($co = $db->fetchNextObject($res))
 			{
-				echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[3]]";
+				$dir = '<br>DIR: '.$co->direccion;
+				$col = '<br>COL: '.$co->colonia;
+				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
+				echo $coma."['".strtoupper($co->nombre)."$dir $col $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[3]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -117,7 +129,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
     	if(!isset($_GET["marks"]) || $_GET["marks"]==5)
     	{
 			$sql4 = "select * from (
-					select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador
+				select concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) nombre, cl.c_cobrador cobrador, cl.id, cl.direccion, cl.colonia
 				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
 				,co.latitud latitud, co.longitud longitud, co.zoom zoom
 				from cuentas cu 
@@ -129,7 +141,10 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			$res = $db->query($sql4);
 			while($co = $db->fetchNextObject($res))
 			{
-				echo $coma."['".$co->nombre."', ".$co->latitud.", ".$co->longitud.", $cont, colors[4]]";
+				$dir = '<br>DIR: '.$co->direccion;
+				$col = '<br>COL: '.$co->colonia;
+				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
+				echo $coma."['".strtoupper($co->nombre)."$dir $col $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[4]]";
 				$coma = ",";
 				$cont++;
 			}
