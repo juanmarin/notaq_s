@@ -715,12 +715,12 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 			<?php
 			if($r->estado == 0)
 			{
-				if (  ($r->fecha > date("Y-m-d")) && ($fcnt > 1) )
+				if (  ($r->fecha > date("Y-m-d")) && ($fcnt > 0) )
 				{
-					$opcnpagar	= 'disabled style="background:#999;color:#777;border-color:#666;"';
+					$opcnpagar	= 'disabled style="background:#999;color:#777;border-color:#666;width:70px;visibility:hidden;"';
 					$opcnpagarbtn	= 'style="visibility: hidden;"';
 				}else{
-					$opcnpagar 	= '';
+					$opcnpagar 	= 'style="width:70px;"';
 					$opcnpagarbtn	= '';
 				}
 				$fcnt++;
@@ -730,7 +730,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" 	name="numpago" 	value="<?= $i;?>" />
-					<input type="text" 	name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> class="validarpago" rel="<?= $pago_acum;?>" />
+					<input type="text" 	name="pago" 	value="<?= $pago_acum;?>" <?=$opcnpagar;?> class="validarpago" rel="<?= $pago_acum;?>" />
 					<input type="hidden" 	name="cl" 	value="<?= $_GET['cl'];?>" />
 					<input type="hidden" 	name="c" 	value="<?= $cuenta;?>" />
 					<input type="hidden" 	name="pid" 	value="<?= $r->id;?>" />
@@ -745,7 +745,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden"	name="numpago"	value="<?= $i;?>" />
-					<input type="text"		name="pago" 	value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> class="validarpago" rel="<?= $pago_acum;?>" />
+					<input type="text"		name="pago" 	value="<?= $pago_acum;?>" <?=$opcnpagar;?> class="validarpago" rel="<?= $pago_acum;?>" />
 					<input type="hidden"	name="cl" 		value="<?= $_GET['cl'];?>" />
 
 					<input type="hidden"	name="c"		value="<?= $cuenta;?>" />
@@ -761,7 +761,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" name="numpago"	value="<?= $i;?>" />
-					<input type="text" name="pago"		value="<?= $pago_acum;?>" style="width:70px;" <?=$opcnpagar;?> />
+					<input type="text" name="pago"		value="<?= $pago_acum;?>" <?=$opcnpagar;?> />
 					<input type="hidden" name="cl"		value="<?= $_GET['cl'];?>" />
 					<input type="hidden" name="c"		value="<?= $cuenta;?>" />
 					<input type="hidden" name="pid"		value="<?= $r->id;?>" />
