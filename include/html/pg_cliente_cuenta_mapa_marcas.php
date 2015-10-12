@@ -1,5 +1,6 @@
 <?php
 @session_start();
+require_once("../../include/php/fun_global.php");
 require_once("../../include/php/sys_db.class.php");
 require_once("../../include/conf/Config_con.php");
 $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
@@ -47,8 +48,9 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			{
 				$dir = '<br>DIR: '.$co->direccion;
 				$col = '<br>COL: '.$co->colonia;
+				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper($co->nombre)."$dir $col $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[0]]";
+				echo $coma."['".strtoupper($co->nombre)."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[0]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -71,8 +73,9 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			{
 				$dir = '<br>DIR: '.$co->direccion;
 				$col = '<br>COL: '.$co->colonia;
+				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper($co->nombre)."$dir $col $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[1]]";
+				echo $coma."['".strtoupper($co->nombre)."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[1]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -95,8 +98,9 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			{
 				$dir = '<br>DIR: '.$co->direccion;
 				$col = '<br>COL: '.$co->colonia;
+				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper($co->nombre)."$dir $col $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[2]]";
+				echo $coma."['".strtoupper($co->nombre)."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[2]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -119,8 +123,9 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			{
 				$dir = '<br>DIR: '.$co->direccion;
 				$col = '<br>COL: '.$co->colonia;
+				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper($co->nombre)."$dir $col $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[3]]";
+				echo $coma."['".strtoupper($co->nombre)."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[3]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -143,8 +148,9 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			{
 				$dir = '<br>DIR: '.$co->direccion;
 				$col = '<br>COL: '.$co->colonia;
+				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper($co->nombre)."$dir $col $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[4]]";
+				echo $coma."['".strtoupper($co->nombre)."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[4]]";
 				$coma = ",";
 				$cont++;
 			}

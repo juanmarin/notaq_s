@@ -28,6 +28,7 @@ $UserLevel = $_SESSION["U_NIVEL"];
 		<th>ID</th>
 		<th>CLIENTE</th>
 		<th>COBRADOR</th>
+		<th>D. VENC.</th>
 		<th>SALDO</th>
 		<th></th>
 	</tr>
@@ -48,6 +49,7 @@ $UserLevel = $_SESSION["U_NIVEL"];
 			<td style="text-align:center"> <?= $r->id;?></td>
 			<td style="text-align:center"><?= $r->nombre . " ". $r->apellidop ." " .$r->apellidom;?></td>
 			<td style="text-align:center"> <?= $r->c_cobrador;?></td>
+			<td style="text-align:center"> <?= diasVencidos($r->id);?></td>
 			<td style="text-align:center">$ <?= moneda($r->total);?></td>
 			<td width="80"><a href="?pg=2e&cl=<?= $r->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></td>
 		</tr>
@@ -57,7 +59,7 @@ $UserLevel = $_SESSION["U_NIVEL"];
 </tbody>
 <tfoot>
 	<tr>
-		<th colspan="5"></th>
+		<th colspan="6"></th>
 	</tr>
 </tfoot>
 </table>

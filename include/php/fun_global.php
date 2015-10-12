@@ -569,8 +569,8 @@ function revert_tipoPago($tipo_pago){
 			break;   
 			case "MENSUAL":
 					$tipo_pago = 4;
-			break;  		
-		}
+			break;  	
+			}
 	return $tipo_pago;
 }
 function date_diffe($hoy, $proxpago){
@@ -602,7 +602,20 @@ function semaforo($avanced){
 		
 	}
 	return $color;
-	
 }
 
+function diasVencidos($cliente){
+	$sql ="SELECT fecha FROM  pagos WHERE cliente = $cliente AND estado =0 LIMIT 1";
+		$res = mysql_query($sql);
+		$rec = mysql_fetch_array($res);
+		$hoy = date("Y-m-d");
+		$proxpago = $rec[0];
+		if($hoy > $proxpago){ 
+			$dias	= (strtotime($hoy)-strtotime($proxpago))/86400;
+			$dias 	= abs($dias); $dias = floor($dias);
+		}else{
+			$dias = 0;
+		}
+		return $dias;
+	}
 ?>
