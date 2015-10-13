@@ -10,11 +10,14 @@ if($UserLevel==0){
 	if(isset($_POST["cobrador"])){
 		if($_POST["cobrador"]=="0"){
 			$clcobrador="";
+			$cobradorPA="";
 		}else{
 			$clcobrador="AND cobrador = '".$_POST["cobrador"]."'";
+			$cobradorPA="AND cl.c_cobrador = '".$_POST["cobrador"]."'";
 		}
 	}else{
 		$clcobrador="";
+		$cobradorPA="";
 	}
 }else{
 	$clcobrador="AND cobrador = '$UserName'";
@@ -69,9 +72,8 @@ if(isset($_POST['enviar']))
 				OR	(er!=0 and fecharecargo <='".$hoy."' and rr=0 and recargos > 0)
 				OR	(fecha_abr<='".$hoy."' and rar=0 and abrec>0)
 				) $clcobrador ORDER BY fecha DESC";
-	
 		$result = $db->query($sql);
-		$num_rows = mysql_num_rows($result);
+		$num_rows = $db->numRows($result);
 		$totGlobal=0;
 		if ($num_rows > 0)
 		{
@@ -120,32 +122,32 @@ if(isset($_POST['enviar']))
 				$chkreid=$ln->rec_id;
 			}
 			$totGlobal = ($totpagos+$totabonos+$totrecargos+$totabrecargos);
-		?>	
-		<tr>
-		<th style="text-align:left" colspan="4">Total Pagos </th>
-		<th style="text-align:right" colspan="5">$ <?=number_format($totpagos,2);?></th>
-		</tr>
-		<tr>
-		<th style="text-align:left" colspan="4">Total Abonos </th>
-		<th style="text-align:right" colspan="5">$ <?=number_format($totabonos,2);?></th>
-		</tr>
-		<tr>
-		<th style="text-align:left" colspan="4">Total Recargos </th>
-		<th style="text-align:right" colspan="5">$ <?=number_format($totrecargos,2);?></th>
-		</tr>
-		<tr>
-		<th style="text-align:left" colspan="4">Total Abonos de recargos </th>
-		<th style="text-align:right" colspan="5">$ <?=number_format($totabrecargos,2);?></th>
-		</tr>
-		<tr>
-		<th style="text-align:left" colspan="4">Total a Entregar </th>
-		<th style="text-align:right" colspan="5">$ <?=number_format($totGlobal,2);?></th>
-		</tr>
+			?>	
+			<tr>
+			<th style="text-align:left" colspan="4">Total Pagos </th>
+			<th style="text-align:right" colspan="5">$ <?=number_format($totpagos,2);?></th>
+			</tr>
+			<tr>
+			<th style="text-align:left" colspan="4">Total Abonos </th>
+			<th style="text-align:right" colspan="5">$ <?=number_format($totabonos,2);?></th>
+			</tr>
+			<tr>
+			<th style="text-align:left" colspan="4">Total Recargos </th>
+			<th style="text-align:right" colspan="5">$ <?=number_format($totrecargos,2);?></th>
+			</tr>
+			<tr>
+			<th style="text-align:left" colspan="4">Total Abonos de recargos </th>
+			<th style="text-align:right" colspan="5">$ <?=number_format($totabrecargos,2);?></th>
+			</tr>
+			<tr>
+			<th style="text-align:left" colspan="4">Total a Entregar </th>
+			<th style="text-align:right" colspan="5">$ <?=number_format($totGlobal,2);?></th>
+			</tr>
 		</tbody>
 		<tfoot>
-		<tr>
-		<form action="include/php/sys_modelo.php" method="post">
-			<input type="hidden" name="action" 		value="corte_caja">
+			<tr>
+			<form action="include/php/sys_modelo.php" method="post">
+			<input type="hidden" name="action" 	value="corte_caja">
 			<input type="hidden" name="cobrador" 	value="<?php echo $_POST["cobrador"]; ?>">
 			<input type="hidden" name="supervisor" 	value="<?php echo $UserName; ?>" />
 			<input type="hidden" name="totpagos" 	value="<?php echo $totpagos;?>" />
@@ -155,10 +157,173 @@ if(isset($_POST['enviar']))
 			<input type="hidden" name="totGlobal" 	value="<?php echo $totGlobal;?>" />
 			<input type="hidden" name="consulta" 	value="<?php echo $sql;?>" />
 			<th colspan="9"><input type="submit" value="Realizar corte" name="enviar" /></th>
-		</form>
-		</tr>
+			</form>
+			</tr>
 		</tfoot>
-		<table>
+		</table>
+		<?php
+	}
+	else
+	{
+		?>
+		<tr align="center">
+			<th colspan="9">POR EL MOMENTO NO SE ENCONTRARON REGISTROS PARA MOSTRAR</th>
+		</tr>
+		<?php
+	}
+}elseif(isset($_POST["enviar2"])){
+	$hoy = date("Y-m-d");
+	?>
+	<p class="title">Reportes &raquo; Reporte diario alternativo</p>
+	<table>
+	<caption>Reporte hasta el dia : <?php echo getFecha($hoy); ?> </caption>
+	<thead>
+		<tr>
+		<th>Nombre de cliente</th>
+		<th>Cobrador</th>
+		<th>Fecha Cobro</th>
+		<th>Tipo de cobro</th>
+		<th>Cantidad</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php
+#Crear tabla:
+/*
+CREATE TABLE `corte_tmp` (
+  `Id` int(11) NOT NULL auto_increment,
+  `clienteid` int(11) NOT NULL default '0',
+  `clientenom` varchar(255) default NULL,
+  `cuenta` int(11) NOT NULL default '0',
+  `cobrador` varchar(255) default NULL,
+  `tipoid` int(11) default NULL COMMENT 'Tipo de cobro - (1=pago)(2=abono)(3=recargo)(4=abono de recargo)',
+  `tipodes` varchar(255) default '0.00' COMMENT 'Descripcion de tipo de cobro',
+  `fecha` date default NULL COMMENT 'Fecha del cobro',
+  `cobroid` int(11) default NULL COMMENT 'id del cobro',
+  `monto` double(10,2) default '0.00' COMMENT 'Pago abono- monto',
+  PRIMARY KEY  (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+*/
+		set_time_limit(0);
+		$db->execute("TRUNCATE TABLE corte_tmp");
+		//-pagos
+		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fecha, cobroid, monto)
+				SELECT 
+				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, pa.cuenta, cl.c_cobrador cobrador
+				, '1' tipoid, 'PAGO' tipodes
+				, pa.fechaPago fecha, pa.id cobroid, pa.pago_real monto
+				FROM pagos pa 
+				RIGHT JOIN clientes cl ON pa.cliente=cl.id
+				WHERE pa.estado > 0 AND reportado = 0
+				$cobradorPA";
+		$res = $db->query($sql);
+		//-abonos
+		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fecha, cobroid, monto)
+				SELECT 
+				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, pa.cuenta, cl.c_cobrador cobrador
+				, '2' tipoid, 'ABONO DE PAGO' tipodes
+				, ab.fecha fecha, ab.idabono cobroid, ab.abono monto
+				FROM pagos pa 
+				RIGHT JOIN clientes cl ON pa.cliente=cl.id
+				RIGHT JOIN abono ab ON ab.idpago=pa.id
+				WHERE ab.reportado = 0 
+				$cobradorPA";
+		$res = $db->query($sql);
+		//-recargos
+		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fecha, cobroid, monto)
+				SELECT 
+				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, re.cuenta, cl.c_cobrador cobrador
+				, '3' tipoid, 'RECARGO' tipodes
+				, re.fecha fecha, re.id cobroid, re.monto monto
+				FROM recargos re
+				RIGHT JOIN clientes cl ON re.cliente=cl.id
+				WHERE re.reportado = 0 
+				$cobradorPA";
+		$res = $db->query($sql);
+		//-ABONOS DE RECARGOS
+		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fecha, cobroid, monto)
+				SELECT 
+				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, re.cuenta, cl.c_cobrador cobrador
+				, '4' tipoid, 'ABONO DE RECARGO' tipodes
+				, ar.fecha_ab fecha, ar.idabrec cobroid, ar.abono monto
+				FROM abono_recargos ar 
+				RIGHT JOIN clientes cl ON ar.idcte=cl.id
+				LEFT JOIN recargos re ON re.id=ar.idrec
+				WHERE ar.reportado = 0 
+				$cobradorPA";
+		$res = $db->query($sql);
+
+		//-mostrando resultados
+		$totpagos=0;
+		$totabonos=0;
+		$totrecargos=0;
+		$totabrecargos=0;
+		$totGlobal=0;
+		
+		$sql = "SELECT * FROM corte_tmp WHERE monto > 0 ORDER BY fecha DESC";
+		$res = $db->query($sql);
+		$num = $db->numRows($res);
+		if ($num > 0)
+		{
+			while ($ln = $db->fetchNextObject($res))
+			{
+				switch($ln->tipoid)
+				{
+					case 1:	$totpagos += $ln->monto;		break;
+					case 2:	$totabonos += $ln->monto;		break;
+					case 3:	$totrecargos += $ln->monto;		break;
+					case 4:	$totabrecargos += $ln->monto;	break;
+				}
+				$totGlobal += $ln->monto;
+				?>
+				<tr>
+				<th style="text-align: center;"><?= $ln->clientenom;?></th>
+				<th style="text-align: center;"><?= $ln->cobrador;?></th>
+				<th style="text-align: center;"><?= $ln->tipodes;?></th>
+				<th style="text-align: center;"><?= date("d-m-Y", strtotime($ln->fecha));?></th>
+				<th style="text-align: center;"><?= "&#36;"; echo number_format($ln->monto,2);?></th>
+				</tr>
+				<?php
+			}
+			?>	
+			<tr>
+			<th style="text-align:left" colspan="4">Total Pagos </th>
+			<th style="text-align:right">$ <?=number_format($totpagos,2);?></th>
+			</tr>
+			<tr>
+			<th style="text-align:left" colspan="4">Total Abonos </th>
+			<th style="text-align:right">$ <?=number_format($totabonos,2);?></th>
+			</tr>
+			<tr>
+			<th style="text-align:left" colspan="4">Total Recargos </th>
+			<th style="text-align:right">$ <?=number_format($totrecargos,2);?></th>
+			</tr>
+			<tr>
+			<th style="text-align:left" colspan="4">Total Abonos de recargos </th>
+			<th style="text-align:right">$ <?=number_format($totabrecargos,2);?></th>
+			</tr>
+			<tr>
+			<th style="text-align:left" colspan="4">Total a Entregar </th>
+			<th style="text-align:right">$ <?=number_format($totGlobal,2);?></th>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+			<form action="include/php/sys_modelo.php" method="post">
+			<input type="hidden" name="action" 		value="corte_caja2">
+			<input type="hidden" name="cobrador" 	value="<?php echo $_POST["cobrador"]; ?>">
+			<input type="hidden" name="supervisor" 	value="<?php echo $UserName; ?>" />
+			<input type="hidden" name="totpagos" 	value="<?php echo $totpagos;?>" />
+			<input type="hidden" name="totabonos" 	value="<?php echo $totabonos;?>" />
+			<input type="hidden" name="totrecargos" value="<?php echo $totrecargos;?>" />
+			<input type="hidden" name="totarecargos"value="<?php echo $totabrecargos;?>" />
+			<input type="hidden" name="totGlobal" 	value="<?php echo $totGlobal;?>" />
+			<input type="hidden" name="consulta" 	value="<?php echo $sql;?>" />
+			<th colspan="5"><input type="submit" value="Realizar corte" name="enviar" /></th>
+			</form>
+			</tr>
+		</tfoot>
+		</table>
 		<?php
 	}
 	else

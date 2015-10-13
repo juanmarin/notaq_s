@@ -1182,6 +1182,73 @@ switch($_POST["action"]){
 		}
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=3h"> ';
 		break;
+		
+	case "corte_caja2":
+		//echo "<br />Checkpoint<br />";
+		$hoy 		= date("Y-m-d");
+		//$cobrador = ($_POST["cobrador"]==0)?"":"AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
+		$cobrador 	= $_POST["cobrador"];
+		$totpagos 	= $_POST["totpagos"];
+		$totabonos	= $_POST["totabonos"];
+		$totrecargos	= $_POST["totrecargos"];
+		$totabrecargos	= $_POST["totarecargos"];
+		$totGlobal 	= $_POST["totGlobal"];
+		$consulta 	= $_POST["consulta"];	
+		//echo $consulta;
+		$corte_c 	= "INSERT INTO corte_caja (cobrador, recibido_x, totpagos, totabonos, totrecargos, totabrecargos, totglobal) 
+				VALUES ('".$cobrador."', '".$UserName."', ".$totpagos.", ".$totabonos.", ".$totrecargos.", ".$totabrecargos.", ".$totGlobal.")";
+		//echo "<br />$corte_c";
+		$rest 		= mysql_query($corte_c);
+		$ccaj_id	= mysql_insert_id();
+		##buscando la fecha y hora en la que se creo el registro para agregarla al nombre del archivo pdf.............................................
+		$sql 		= "SELECT created_at FROM corte_caja WHERE id = ".$ccaj_id."";
+		$res 		= mysql_query($sql);
+		$created_at 	= mysql_fetch_array($res);
+		$created 	= str_replace(" ", "_", $created_at[0]);
+		##SACANDO LOS REGISTROS PARA INSERTAR EN EL DETALLE DEL CORTE DE CAJA........................................................................
+		$sql 		= str_replace("\\","",$consulta);
+		//echo "<br />".$sql."<br />";			
+		//$result = mysql_query($sql);
+		$chkpaid=0;
+		$chkreid=0;
+		//-INSERTANDO EL DETALLE DEL CORTE DE CAJA--
+		//-PAGOS
+		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, pago_id, pago_importe)
+			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=1";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		//-ABONOS DE PAGOS
+		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, recarg_id, recarg_importe)
+			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=2";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		//-MARCANDO REGISTROS COMO PROCESADOS
+		//-PAGOS
+		$sql = "UPDATE pagos SET reportado=1 WHERE id IN(SELECT cobroid FROM corte_tmp WHERE tipoid=1)";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		//-ABONOS DE PAGOS
+		$sql = "UPDATE abono SET reportado=1 WHERE idabono IN(SELECT cobroid FROM corte_tmp WHERE tipoid=2)";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		//-RECARGOS
+		$sql = "UPDATE recargos SET reportado=1 WHERE id IN(SELECT cobroid FROM corte_tmp WHERE tipoid=3)";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		//-ABONOS DE RECARGOS
+		$sql = "UPDATE abono_recargos SET reportado=1 WHERE idabrec IN(SELECT cobroid FROM corte_tmp WHERE tipoid=4)";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		/*
+		include_once("../fpdf/corte_caja.php");
+		if (file_exists($titulo)) {
+			include_once("../fpdf/reportes/index.php");
+		}else{
+			echo "<h1>No se encontro el archivo en el servidor</h1>";
+		}
+		*/
+		//echo '<meta http-equiv="refresh" content="0;url=../../?pg=3h"> ';
+		break;
 	default:
 		//Header("Location: ". HTTP_REFERER);
 }
