@@ -39,7 +39,6 @@ if(isset($_POST['enviar']))
 	</thead>
 	<tbody>
 		<?php
-		
 		$sql = "SELECT 
 				cliente, nombre, cobrador, cta_id, fechacob
 				, fecha, p_id, pagos, abo_id, abonos, rec_id, recargos, ar_id, abrec
@@ -74,14 +73,16 @@ if(isset($_POST['enviar']))
 		$result = $db->query($sql);
 		$num_rows = mysql_num_rows($result);
 		$totGlobal=0;
-		if ($num_rows > 0) {
+		if ($num_rows > 0)
+		{
 			$chkpaid=0;
 			$chkreid=0;
 			$totpagos = 0;
 			$totabonos = 0;
 			$totrecargos = 0;
 			$totabrecargos = 0;
-			while ($ln = $db->fetchNextObject($result)){
+			while ($ln = $db->fetchNextObject($result))
+			{
 				/* comprobar que no esten repetidos los pagos y recargos */
 				$montopago=($ln->p_id==$chkpaid)?0:$ln->pagos;
 				$montoreca=($ln->rec_id==$chkreid)?0:$ln->recargos;
@@ -118,32 +119,31 @@ if(isset($_POST['enviar']))
 				$chkpaid=$ln->p_id;
 				$chkreid=$ln->rec_id;
 			}
-		
 			$totGlobal = ($totpagos+$totabonos+$totrecargos+$totabrecargos);
 		?>	
-	<tr>
-	<th style="text-align:left" colspan="4">Total Pagos </th>
-	<th style="text-align:right" colspan="5">$ <?=number_format($totpagos,2);?></th>
-	</tr>
-	<tr>
-	<th style="text-align:left" colspan="4">Total Abonos </th>
-	<th style="text-align:right" colspan="5">$ <?=number_format($totabonos,2);?></th>
-	</tr>
-	<tr>
-	<th style="text-align:left" colspan="4">Total Recargos </th>
-	<th style="text-align:right" colspan="5">$ <?=number_format($totrecargos,2);?></th>
-	</tr>
-	<tr>
-	<th style="text-align:left" colspan="4">Total Abonos de recargos </th>
-	<th style="text-align:right" colspan="5">$ <?=number_format($totabrecargos,2);?></th>
-	</tr>
-	<tr>
-	<th style="text-align:left" colspan="4">Total a Entregar </th>
-	<th style="text-align:right" colspan="5">$ <?=number_format($totGlobal,2);?></th>
-	</tr>
-	</tbody>
-	<tfoot>
-	<tr>
+		<tr>
+		<th style="text-align:left" colspan="4">Total Pagos </th>
+		<th style="text-align:right" colspan="5">$ <?=number_format($totpagos,2);?></th>
+		</tr>
+		<tr>
+		<th style="text-align:left" colspan="4">Total Abonos </th>
+		<th style="text-align:right" colspan="5">$ <?=number_format($totabonos,2);?></th>
+		</tr>
+		<tr>
+		<th style="text-align:left" colspan="4">Total Recargos </th>
+		<th style="text-align:right" colspan="5">$ <?=number_format($totrecargos,2);?></th>
+		</tr>
+		<tr>
+		<th style="text-align:left" colspan="4">Total Abonos de recargos </th>
+		<th style="text-align:right" colspan="5">$ <?=number_format($totabrecargos,2);?></th>
+		</tr>
+		<tr>
+		<th style="text-align:left" colspan="4">Total a Entregar </th>
+		<th style="text-align:right" colspan="5">$ <?=number_format($totGlobal,2);?></th>
+		</tr>
+		</tbody>
+		<tfoot>
+		<tr>
 		<form action="include/php/sys_modelo.php" method="post">
 			<input type="hidden" name="action" 		value="corte_caja">
 			<input type="hidden" name="cobrador" 	value="<?php echo $_POST["cobrador"]; ?>">
@@ -156,18 +156,23 @@ if(isset($_POST['enviar']))
 			<input type="hidden" name="consulta" 	value="<?php echo $sql;?>" />
 			<th colspan="9"><input type="submit" value="Realizar corte" name="enviar" /></th>
 		</form>
-	</tr>
-	</tfoot>
-	<table>
-<?php
+		</tr>
+		</tfoot>
+		<table>
+		<?php
+	}
+	else
+	{
+		?>
+		<tr align="center">
+			<th colspan="9">POR EL MOMENTO NO SE ENCONTRARON REGISTROS PARA MOSTRAR</th>
+		</tr>
+		<?php
+	}
 }else{
-?>
-	<tr align="center">
-		<th colspan="9">POR EL MOMENTO NO SE ENCONTRARON REGISTROS PARA MOSTRAR</th>
-	</tr>
-<?php
-}
-}else{
+	if(isset($_POST["enviar2"])){
+		echo "<p>Este reporte se encuentra actualmente en contrucción.</p>";
+	}
 	?>
 	<p class="title">Reportes &raquo; Corte de caja</p>
 	<form name="repoFechas" action="" method="post">
@@ -203,7 +208,10 @@ if(isset($_POST['enviar']))
 	</tbody>
 	<tfoot>
 	<tr>
-	<th colspan="4"><input type="submit" value="Mostrar Reporte" name="enviar" /></th>
+	<th colspan="4">
+		<input type="submit" value="Mostrar Reporte" name="enviar" />
+		<input type="submit" value="Mostrar Reporte 2" name="enviar2" />
+	</th>
 	</tr>
 	</tfoot>
 	</table>

@@ -346,7 +346,7 @@
 					case "3":	require_once("include/html/pg_reportes.php");					break;
 					case "3a":	require_once("include/html/pg_reporte_diario.php");				break;
 					case "3h":	require_once("include/html/pg_reporte_pre_corte.php");				break;
-					case "3i":	require_once("include/html/pg_reporte_corte_lista.php");				break;
+					case "3i":	require_once("include/html/pg_reporte_corte_lista.php");			break;
 					case "3e":	require_once("include/html/pg_elimina_pago.php");				break;
 					case "3b":	require_once("include/html/pg_reporte_fechas.php");				break;
 					case "3c":	require_once("include/html/pg_reporte_cobranza.php");				break;
