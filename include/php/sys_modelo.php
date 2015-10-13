@@ -671,7 +671,7 @@ switch($_POST["action"]){
 			##-CANTIDAD A PAGAR --
 			$sql 	= "SELECT * FROM pagos WHERE id = ".$pid;
 			$res 	= mysql_query($sql);
-			$p 		= mysql_fetch_array($res);
+			$p 	= mysql_fetch_array($res);
 			$pago 	= $p["pago"];
 			$fechap = $p["fecha"];
 		 	## 
@@ -704,7 +704,7 @@ switch($_POST["action"]){
 				$sql = "UPDATE cuentas SET total = ".$ctasaldo." WHERE id = ".$cta;
 				mysql_query($sql);
 				#-INSERTANGO ABONO
-				$sql = "INSERT INTO abono (idpago, idcuenta, fecha, cargo, abono, aplicado_x)values(".$pid.", ".$cta.", '".$fecha."', ".$pago.", ".$abono.", '".$UserName."')";
+				$sql = "INSERT INTO abono (idpago, idcuenta, fecha, cargo, abono, aplicado_x)values(".$pid.", ".$cta.", '".date("Y-m-d")."', ".$pago.", ".$abono.", '".$UserName."')";
 				mysql_query($sql);
 			}
 		}
