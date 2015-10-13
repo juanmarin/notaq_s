@@ -6,7 +6,7 @@
 $sitio_nombre_raiz = "";
 $tipo_login = 1;
 $_GET["m"] = ( isset($_GET["m"]) )? $_GET["m"] : "1";
-$msg = '<p class="suggestion">Recuerde coincidir en mayÃºsculas.</p>';
+$msg = '<p class="suggestion">Recuerde coincidir en mayúsculas.</p>';
 if ($tipo_login == 3){
 	session_start();
 	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';

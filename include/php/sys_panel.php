@@ -18,6 +18,7 @@
 	/*Agregando encoding UTF-8
 	*/
 	//header("Content-Type: text/html;charset=utf-8");
+	header("Content-Type: text/html;charset=ISO-8859-1");
 ?>
 <html>
 <head>

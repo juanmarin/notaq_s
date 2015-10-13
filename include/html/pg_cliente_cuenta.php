@@ -512,7 +512,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	<tr>
 		<th>TIEMPO:</th><td><?php echo $r->tiempo . " "; ?></td>
 		<th>MODO DE PAGO:</th><td><?php echo $tp; ?></td>
-		<th>DIAS DE PAGO:</th><td><?php if($r->tipo_pago < 4){getDiaSemana($r->dias_pago, $r->tipo_pago);}else{echo 'Dí­as '.$r->dias_pago.' de cada mes.';} ?></td>
+		<th>DIAS DE PAGO:</th><td><?php if($r->tipo_pago < 4){getDiaSemana($r->dias_pago, $r->tipo_pago);}else{echo 'Días '.$r->dias_pago.' de cada mes.';} ?></td>
 	<tr>
 		<th>OBSERVACIONES:</th><td colspan="5" style="text-align:left;"><?php echo nl2br($r->observaciones); ?></td>		
 	</tr>
