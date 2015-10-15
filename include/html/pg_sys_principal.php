@@ -173,8 +173,8 @@ if(isset($_POST["desempxtiempo"]))
 		<?php
 		$sql="SELECT cu.cobrador, count(pa.id) total 
 			FROM cuentas cu, pagos pa 
-			WHERE cu.id=pa.cuenta AND cu.estado=0  AND pa.estado<2
-			AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			WHERE cu.id=pa.cuenta AND pa.estado<2
+			AND pa.fechaPago BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
 			GROUP BY cu.cobrador ORDER BY cu.cobrador";
 		//echo $sql;
 		$res=$db->query($sql);
@@ -189,7 +189,7 @@ if(isset($_POST["desempxtiempo"]))
 			#BUSCANDO COBROS EN FECHA
 			$sql="SELECT count(*) cobrosef
 			FROM cuentas cu, pagos pa
-			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=1 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			WHERE cu.id=pa.cuenta AND pa.estado=1 AND pa.fechaPago BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
 			AND cu.cobrador='".$rd->cobrador."'
 			AND pa.fechaPago<=pa.fecha";
 			$re2=$db->query($sql);
@@ -202,7 +202,7 @@ if(isset($_POST["desempxtiempo"]))
 			#BUSCANDO COBROS FUERA DE FECHA
 			$sql="SELECT count(*) cobrosff
 			FROM cuentas cu, pagos pa
-			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=1 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			WHERE cu.id=pa.cuenta AND pa.estado=1 AND pa.fechaPago BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
 			AND cu.cobrador='".$rd->cobrador."'
 			AND pa.fechaPago>pa.fecha";
 			$re2=$db->query($sql);
@@ -214,7 +214,7 @@ if(isset($_POST["desempxtiempo"]))
 			#BUSCANDO COBROS PENDIENTES
 			$sql="SELECT count(*) cobrospc
 			FROM cuentas cu, pagos pa
-			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=0 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			WHERE cu.id=pa.cuenta AND pa.estado=0 AND pa.fechaPago BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
 			AND cu.cobrador='".$rd->cobrador."'";
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
