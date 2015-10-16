@@ -8,7 +8,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 <!DOCTYPE html>
 <html> 
 <head> 
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" /> 
   <title>Google Maps Multiple Markers</title> 
   <script src="http://maps.google.com/maps/api/js?sensor=false" 
           type="text/javascript"></script>
@@ -50,7 +50,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$col = '<br>COL: '.$co->colonia;
 				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper($co->nombre)."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[0]]";
+				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[0]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -75,7 +75,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$col = '<br>COL: '.$co->colonia;
 				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper($co->nombre)."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[1]]";
+				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[1]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -100,7 +100,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$col = '<br>COL: '.$co->colonia;
 				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper($co->nombre)."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[2]]";
+				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[2]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -125,7 +125,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$col = '<br>COL: '.$co->colonia;
 				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper($co->nombre)."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[3]]";
+				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[3]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -150,7 +150,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$col = '<br>COL: '.$co->colonia;
 				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper($co->nombre)."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[4]]";
+				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[4]]";
 				$coma = ",";
 				$cont++;
 			}
