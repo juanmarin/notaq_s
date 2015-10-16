@@ -454,7 +454,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 			?>
 			<th colspan="4">
 			<input type="button" value="Cancelar" id="CancelarEditarCuenta" title="Cancelar editar datos de cuenta" rel="<?=$ncta;?>" />
-			<input type="submit" value="Editar cuenta" />
+			<input type="button" id="btnabrecuenta" value="Guardar cambios" />
 			</th>
 			<?php
 		}

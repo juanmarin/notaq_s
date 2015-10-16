@@ -540,7 +540,7 @@ switch($_POST["action"]){
 						$a = (int)substr($prxpago, 0, -6);
 						$m = (int)substr($prxpago, 5, -3);
 						$d = (int)substr($prxpago, -2);
-						if( $d >= 16 ){
+						if( $d >= 15 ){
 							if($m == 12){$m = 1; $a++;}else{ $m++;}
 							$d = $dia[0];
 						}else{
@@ -584,7 +584,7 @@ switch($_POST["action"]){
 							$a = (int)substr($prxpago, 0, -6);
 							$m = (int)substr($prxpago, 5, -3);
 							$d = (int)substr($prxpago, -2);
-							if( $d >= 16 )
+							if( $d >= 15 )
 							{
 								if($m == 12){$m = 1; $a++;}else{ $m++;}
 								$d = $dia[0];
@@ -638,7 +638,7 @@ switch($_POST["action"]){
 			}
 			//include_once "imprimeReciboCuenta.php";
 		}
-		echo '<meta http-equiv="refresh" content="1;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		break;
 	
 	case "reimprimir_prestamo":
@@ -945,12 +945,13 @@ switch($_POST["action"]){
 					
 				}
 				$sql = "UPDATE recargos SET 
-					fecha 			= '".date("Y-m-d")."', 
+					fecha 		= '".date("Y-m-d")."', 
 					monto_saldado 	= $abono, 
-					estado 			= $estado,
-					monto			= '$restante',
-					aplicado_x 		= '".$UserName."'
-					WHERE id 		= $recargo_id";
+					estado 		= $estado,
+					monto		= '$restante',
+					aplicado_x 	= '".$UserName."'
+					WHERE id 	= $recargo_id";
+				echo $sql;
 				mysql_query($sql);
 				##Verificando si despues del abono de recargos ya no hay mas por pagar.
 				$sql = "SELECT SUM(monto) FROM recargos WHERE cuenta= $cuenta AND cliente = $cliente AND estado = 0";
@@ -970,7 +971,7 @@ switch($_POST["action"]){
 				}
 				//include_once("imprimeReciboRecargo.php");
 			}
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
+			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
 		}
 		elseif($_POST["rec_reimprime"])
 		{
