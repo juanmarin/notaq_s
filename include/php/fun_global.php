@@ -605,7 +605,13 @@ function semaforo($avanced){
 }
 
 function diasVencidos($cliente){
-	$sql ="SELECT fecha FROM  pagos WHERE cliente = $cliente AND estado =0 LIMIT 1";
+	### Obteniendo la cuenta que actualmente esta activa del cliente
+	$cta ="SELECT id FROM cuentas WHERE cliente = $cliente AND estado = 0 LIMIT 1";
+	$res1 = mysql_query($cta);
+	$rec1 = mysql_fetch_array($res1);
+	$cuenta = $rec1[0];
+	### Obteniendo el primer pago sin pagar apartir de la cuenta del cliente
+	$sql ="SELECT fecha FROM  pagos WHERE cuenta = $cuenta AND estado =0 LIMIT 1";
 		$res = mysql_query($sql);
 		$rec = mysql_fetch_array($res);
 		$hoy = date("Y-m-d");
