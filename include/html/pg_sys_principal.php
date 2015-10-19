@@ -1,6 +1,6 @@
 <?php
 @session_start();
-header('Content-Type: text/html; charset=utf-8');
+header('Content-Type: text/html; charset=ISO-8859-1');
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
 ?>
@@ -96,10 +96,10 @@ if ($UserLevel == 0) {
 	});
 	</script>
 	<table class="formato">
-	<caption>Localizaci贸n geogr谩fica</caption>
+	<caption>Localizaci髇 geogr醘ica</caption>
 	<thead>
 		<tr>
-			<th>Mueva el marcador para cambiar la localizaci贸n del cliente.</th>
+			<th>Mueva el marcador para cambiar la localizaci髇 del cliente.</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -108,11 +108,11 @@ if ($UserLevel == 0) {
 	 		Filtrar marcadores: 
 	 		<select name="filtromapas" id="filtromapas">
 				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=5" style="background:#0066CC;">CLIENTES DEL D脥A DE HOY</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 1 A 7 D脥AS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 D脥AS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 D脥AS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 D脥AS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=5" style="background:#0066CC;">CLIENTES DEL D虯 DE HOY</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 1 A 7 D虯S VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 D虯S VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 D虯S VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 D虯S VENCIDOS</option>
 	 		</select>
 	 		</td>
 		</tr>
@@ -130,7 +130,7 @@ if ($UserLevel == 0) {
 <br/>
 <!-- REPORTE DE PUNTUALIDAD POR COBRADOR -->
 <?php
-#FORMULARIO PARA GENERAR REPROTE DE DESEMPE脩O
+#FORMULARIO PARA GENERAR REPROTE DE DESEMPE袿
 ?>
 <form action="" method="post">
 <table>
@@ -173,14 +173,14 @@ if(isset($_POST["desempxtiempo"]))
 		<?php
 		$sql="SELECT cu.cobrador, count(pa.id) total 
 			FROM cuentas cu, pagos pa 
-			WHERE cu.id=pa.cuenta AND cu.estado=0  AND pa.estado<2
-			AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			WHERE cu.id=pa.cuenta AND pa.estado<2
+			AND pa.fechaPago BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
 			GROUP BY cu.cobrador ORDER BY cu.cobrador";
 		//echo $sql;
 		$res=$db->query($sql);
 		while($rd=$db->fetchNextObject($res))
 		{
-			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPE脩O, VENDEDOR Y TOTAL COBRADO
+			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPE袿, VENDEDOR Y TOTAL COBRADO
 			echo'<tr>';
 			echo'<td align="center">'.$rd->cobrador.'</td>';
 			echo'<td align="center">'.$rd->total.'</td>';
@@ -189,7 +189,7 @@ if(isset($_POST["desempxtiempo"]))
 			#BUSCANDO COBROS EN FECHA
 			$sql="SELECT count(*) cobrosef
 			FROM cuentas cu, pagos pa
-			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=1 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			WHERE cu.id=pa.cuenta AND pa.estado=1 AND pa.fechaPago BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
 			AND cu.cobrador='".$rd->cobrador."'
 			AND pa.fechaPago<=pa.fecha";
 			$re2=$db->query($sql);
@@ -202,7 +202,7 @@ if(isset($_POST["desempxtiempo"]))
 			#BUSCANDO COBROS FUERA DE FECHA
 			$sql="SELECT count(*) cobrosff
 			FROM cuentas cu, pagos pa
-			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=1 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			WHERE cu.id=pa.cuenta AND pa.estado=1 AND pa.fechaPago BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
 			AND cu.cobrador='".$rd->cobrador."'
 			AND pa.fechaPago>pa.fecha";
 			$re2=$db->query($sql);
@@ -214,7 +214,7 @@ if(isset($_POST["desempxtiempo"]))
 			#BUSCANDO COBROS PENDIENTES
 			$sql="SELECT count(*) cobrospc
 			FROM cuentas cu, pagos pa
-			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=0 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
+			WHERE cu.id=pa.cuenta AND pa.estado=0 AND pa.fechaPago BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
 			AND cu.cobrador='".$rd->cobrador."'";
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
@@ -259,7 +259,7 @@ if(isset($_POST["desempxtiempo"]))
 		$res=$db->query($sql);
 		while($rd=$db->fetchNextObject($res))
 		{
-			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPE脩O, VENDEDOR Y TOTAL COBRADO
+			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPE袿, VENDEDOR Y TOTAL COBRADO
 			echo'<tr>';
 			echo'<td>'.$rd->cobrador.'</td>';
 			echo'<td>'.$rd->total.'</td>';
@@ -427,10 +427,10 @@ if(isset($_POST["desempxtiempo"]))
 	});
 	</script>
 	<table class="formato">
-	<caption>Localizaci贸n geogr谩fica</caption>
+	<caption>Localizaci髇 geogr醘ica</caption>
 	<thead>
 		<tr>
-			<th>Mueva el marcador para cambiar la localizaci贸n del cliente.</th>
+			<th>Mueva el marcador para cambiar la localizaci髇 del cliente.</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -439,10 +439,10 @@ if(isset($_POST["desempxtiempo"]))
 	 		Filtrar marcadores: 
 	 		<select name="filtromapas" id="filtromapas">
 				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 D脥AS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 D脥AS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 D脥AS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 D脥AS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 D虯S VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 D虯S VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 D虯S VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 D虯S VENCIDOS</option>
 	 		</select>
 	 		</td>
 		</tr>
@@ -459,7 +459,7 @@ if(isset($_POST["desempxtiempo"]))
 <br/>
 <?php 
 }
-#MOSTRANDO TABLA DE DESEMPE脩O ---
+#MOSTRANDO TABLA DE DESEMPE袿 ---
 $cobrador=($UserLevel>1)?"AND cobrador='$UserName'":"";
 $semana = 
 $sql = "SELECT * FROM desempeno WHERE year=".date("Y")." AND semana>".(date("W")-5)." $cobrador ORDER BY semana DESC, cobrador ASC";
@@ -477,7 +477,7 @@ while($d=$db->fetchNextObject($res))
 		if($con>=0){echo $separador;}
 		echo"
 		<table>
-		<caption>Desempe帽o semanal (Semana actual: $sem)</caption>
+		<caption>Desempe駉 semanal (Semana actual: $sem)</caption>
 		<thead>
 			<tr>
 				<th>SEMANA</th>

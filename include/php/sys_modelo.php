@@ -540,7 +540,7 @@ switch($_POST["action"]){
 						$a = (int)substr($prxpago, 0, -6);
 						$m = (int)substr($prxpago, 5, -3);
 						$d = (int)substr($prxpago, -2);
-						if( $d >= 16 ){
+						if( $d >= 15 ){
 							if($m == 12){$m = 1; $a++;}else{ $m++;}
 							$d = $dia[0];
 						}else{
@@ -584,7 +584,7 @@ switch($_POST["action"]){
 							$a = (int)substr($prxpago, 0, -6);
 							$m = (int)substr($prxpago, 5, -3);
 							$d = (int)substr($prxpago, -2);
-							if( $d >= 16 )
+							if( $d >= 15 )
 							{
 								if($m == 12){$m = 1; $a++;}else{ $m++;}
 								$d = $dia[0];
@@ -638,7 +638,7 @@ switch($_POST["action"]){
 			}
 			//include_once "imprimeReciboCuenta.php";
 		}
-		echo '<meta http-equiv="refresh" content="1;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+		echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		break;
 	
 	case "reimprimir_prestamo":
@@ -671,7 +671,7 @@ switch($_POST["action"]){
 			##-CANTIDAD A PAGAR --
 			$sql 	= "SELECT * FROM pagos WHERE id = ".$pid;
 			$res 	= mysql_query($sql);
-			$p 		= mysql_fetch_array($res);
+			$p 	= mysql_fetch_array($res);
 			$pago 	= $p["pago"];
 			$fechap = $p["fecha"];
 		 	## 
@@ -704,7 +704,7 @@ switch($_POST["action"]){
 				$sql = "UPDATE cuentas SET total = ".$ctasaldo." WHERE id = ".$cta;
 				mysql_query($sql);
 				#-INSERTANGO ABONO
-				$sql = "INSERT INTO abono (idpago, idcuenta, fecha, cargo, abono, aplicado_x)values(".$pid.", ".$cta.", '".$fecha."', ".$pago.", ".$abono.", '".$UserName."')";
+				$sql = "INSERT INTO abono (idpago, idcuenta, fecha, cargo, abono, aplicado_x)values(".$pid.", ".$cta.", '".date("Y-m-d")."', ".$pago.", ".$abono.", '".$UserName."')";
 				mysql_query($sql);
 			}
 		}
@@ -945,12 +945,13 @@ switch($_POST["action"]){
 					
 				}
 				$sql = "UPDATE recargos SET 
-					fecha 			= '".date("Y-m-d")."', 
+					fecha 		= '".date("Y-m-d")."', 
 					monto_saldado 	= $abono, 
-					estado 			= $estado,
-					monto			= '$restante',
-					aplicado_x 		= '".$UserName."'
-					WHERE id 		= $recargo_id";
+					estado 		= $estado,
+					monto		= '$restante',
+					aplicado_x 	= '".$UserName."'
+					WHERE id 	= $recargo_id";
+				echo $sql;
 				mysql_query($sql);
 				##Verificando si despues del abono de recargos ya no hay mas por pagar.
 				$sql = "SELECT SUM(monto) FROM recargos WHERE cuenta= $cuenta AND cliente = $cliente AND estado = 0";
@@ -970,7 +971,7 @@ switch($_POST["action"]){
 				}
 				//include_once("imprimeReciboRecargo.php");
 			}
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
+			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
 		}
 		elseif($_POST["rec_reimprime"])
 		{
@@ -1181,6 +1182,73 @@ switch($_POST["action"]){
 			echo "<h1>No se encontro el archivo en el servidor</h1>";
 		}
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=3h"> ';
+		break;
+		
+	case "corte_caja2":
+		//echo "<br />Checkpoint<br />";
+		$hoy 		= date("Y-m-d");
+		//$cobrador = ($_POST["cobrador"]==0)?"":"AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
+		$cobrador 	= $_POST["cobrador"];
+		$totpagos 	= $_POST["totpagos"];
+		$totabonos	= $_POST["totabonos"];
+		$totrecargos	= $_POST["totrecargos"];
+		$totabrecargos	= $_POST["totarecargos"];
+		$totGlobal 	= $_POST["totGlobal"];
+		$consulta 	= $_POST["consulta"];	
+		//echo $consulta;
+		$corte_c 	= "INSERT INTO corte_caja (cobrador, recibido_x, totpagos, totabonos, totrecargos, totabrecargos, totglobal) 
+				VALUES ('".$cobrador."', '".$UserName."', ".$totpagos.", ".$totabonos.", ".$totrecargos.", ".$totabrecargos.", ".$totGlobal.")";
+		//echo "<br />$corte_c";
+		$rest 		= mysql_query($corte_c);
+		$ccaj_id	= mysql_insert_id();
+		##buscando la fecha y hora en la que se creo el registro para agregarla al nombre del archivo pdf.............................................
+		$sql 		= "SELECT created_at FROM corte_caja WHERE id = ".$ccaj_id."";
+		$res 		= mysql_query($sql);
+		$created_at 	= mysql_fetch_array($res);
+		$created 	= str_replace(" ", "_", $created_at[0]);
+		##SACANDO LOS REGISTROS PARA INSERTAR EN EL DETALLE DEL CORTE DE CAJA........................................................................
+		$sql 		= str_replace("\\","",$consulta);
+		//echo "<br />".$sql."<br />";			
+		//$result = mysql_query($sql);
+		$chkpaid=0;
+		$chkreid=0;
+		//-INSERTANDO EL DETALLE DEL CORTE DE CAJA--
+		//-PAGOS
+		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, pago_id, pago_importe)
+			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=1";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		//-ABONOS DE PAGOS
+		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, recarg_id, recarg_importe)
+			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=2";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		//-MARCANDO REGISTROS COMO PROCESADOS
+		//-PAGOS
+		$sql = "UPDATE pagos SET reportado=1 WHERE id IN(SELECT cobroid FROM corte_tmp WHERE tipoid=1)";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		//-ABONOS DE PAGOS
+		$sql = "UPDATE abono SET reportado=1 WHERE idabono IN(SELECT cobroid FROM corte_tmp WHERE tipoid=2)";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		//-RECARGOS
+		$sql = "UPDATE recargos SET reportado=1 WHERE id IN(SELECT cobroid FROM corte_tmp WHERE tipoid=3)";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		//-ABONOS DE RECARGOS
+		$sql = "UPDATE abono_recargos SET reportado=1 WHERE idabrec IN(SELECT cobroid FROM corte_tmp WHERE tipoid=4)";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		/*
+		include_once("../fpdf/corte_caja.php");
+		if (file_exists($titulo)) {
+			include_once("../fpdf/reportes/index.php");
+		}else{
+			echo "<h1>No se encontro el archivo en el servidor</h1>";
+		}
+		*/
+		//echo '<meta http-equiv="refresh" content="0;url=../../?pg=3h"> ';
 		break;
 	default:
 		//Header("Location: ". HTTP_REFERER);
