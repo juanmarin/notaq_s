@@ -69,7 +69,7 @@ $("#mapacliente").click(function(){
 	}
 });
 $("#btnabrecuenta").click(function(){
-	if( $("#cantidad").val()=="" || $("#monto1").val()=="" || $("plazo1").val()=="" )
+	if( $("#cantidad").val()=="" || $("#monto1").val()=="" || $("plazo1").val()=="" || $("#dias_pago").val()=="nd" )
 	{
 		alert("Error al abrir cuenta:\nFaltan campos por llenar en el formulario.");
 	}
