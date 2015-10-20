@@ -234,7 +234,7 @@ CREATE TABLE `corte_tmp` (
 				SELECT 
 				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, re.cuenta, cl.c_cobrador cobrador
 				, '3' tipoid, 'RECARGO' tipodes
-				, re.fecha fecha, re.id cobroid, re.monto monto
+				, re.fecha fecha, re.id cobroid, re.monto_saldado monto
 				FROM recargos re
 				RIGHT JOIN clientes cl ON re.cliente=cl.id
 				WHERE re.reportado = 0 
@@ -269,9 +269,9 @@ CREATE TABLE `corte_tmp` (
 			{
 				switch($ln->tipoid)
 				{
-					case 1:	$totpagos += $ln->monto;		break;
-					case 2:	$totabonos += $ln->monto;		break;
-					case 3:	$totrecargos += $ln->monto;		break;
+					case 1:	$totpagos += $ln->monto;	break;
+					case 2:	$totabonos += $ln->monto;	break;
+					case 3:	$totrecargos += $ln->monto;	break;
 					case 4:	$totabrecargos += $ln->monto;	break;
 				}
 				$totGlobal += $ln->monto;
