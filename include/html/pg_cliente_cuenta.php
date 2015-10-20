@@ -895,7 +895,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 						<input type="hidden" name="fecha_recargo" value="<?= $re->pago;?>" />
 						<input type="hidden" name="action" value="recargos" />
 						<center>
-							<input type="text" name="recargo" value="<?= $re->monto;?>" style="width:70px;" />
+							<input type="text" name="recargo" value="<?= $pendiente;?>" style="width:70px;" />
 							<input type="submit" name="rec_pagar" value="Pagar" />
 						</center>
 						</form>
