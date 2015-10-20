@@ -878,8 +878,12 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 				while($re = $db->fetchNextObject($rec))
 				{
 					if($re->estado == 0){
+						//-MONTO SALDADO
+						$SQL="select sum(abono) saldado from abono_recargos where idrec=".$re->id;
+						$RES=$db->query($SQL);
+						$ars=$db->fetchNextObject($RES);
 						echo '	<td> <center>$ '; moneda($re->monto).'</center></td>';
-						echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
+						echo '	<td> <center>$ '; moneda($ars->saldado).'</center></td>';
 						$tot += $re->monto;
 						?>
 						<th>

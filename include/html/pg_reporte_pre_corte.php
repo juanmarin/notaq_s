@@ -237,7 +237,7 @@ CREATE TABLE `corte_tmp` (
 				, re.fecha fecha, re.id cobroid, re.monto_saldado monto
 				FROM recargos re
 				RIGHT JOIN clientes cl ON re.cliente=cl.id
-				WHERE re.reportado = 0 
+				WHERE re.reportado = 0 AND re.estado > 0
 				$cobradorPA";
 		$res = $db->query($sql);
 		//-ABONOS DE RECARGOS

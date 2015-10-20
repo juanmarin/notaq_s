@@ -914,7 +914,7 @@ switch($_POST["action"]){
 			#-INICIANDO VARIABLES -------------------------------------------------------------------------------------------------
 			$cuenta 	= $_POST["c"];
 			$cliente 	= $_POST["cl"];
-			$recargo_id = $_POST["recargo_id"];
+			$recargo_id 	= $_POST["recargo_id"];
 			$abono 		= $_POST["recargo"];
 			$f_recargo 	= $_POST["fecha_recargo"];
 			#-OBTENIENDO MONTO DE RECARGOS ----------------------------------------------------------------------------------------
@@ -930,7 +930,7 @@ switch($_POST["action"]){
 				{
 					$estado = 1;
 					$restante = 0;
-					$abono+=$saldados;
+					//$abono+=$saldados;
 				}
 				else 
 				{
@@ -983,7 +983,7 @@ switch($_POST["action"]){
 			$recargos = $_POST["recargo"];
 			$f_recargo = $_POST["fecha_recargo"];
 			//include_once("imprimeReciboRecargo.php");
-			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
+			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
 		}
 		break;
 		
