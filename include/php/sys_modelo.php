@@ -971,7 +971,7 @@ switch($_POST["action"]){
 				}
 				//include_once("imprimeReciboRecargo.php");
 			}
-			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
+			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$cliente.'"> ';
 		}
 		elseif($_POST["rec_reimprime"])
 		{

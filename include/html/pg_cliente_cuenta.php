@@ -882,7 +882,8 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 						$SQL="select sum(abono) saldado from abono_recargos where idrec=".$re->id;
 						$RES=$db->query($SQL);
 						$ars=$db->fetchNextObject($RES);
-						echo '	<td> <center>$ '; moneda($re->monto).'</center></td>';
+						$pendiente=($r->estado==0)?$re->monto-$ars->saldado:$re->monto;
+						echo '	<td> <center>$ '; moneda($pendiente).'</center></td>';
 						echo '	<td> <center>$ '; moneda($ars->saldado).'</center></td>';
 						$tot += $re->monto;
 						?>
@@ -901,8 +902,11 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 						</th>
 						<?php
 					}else{
-						echo '	<td> <center>$ '; moneda($re->monto).'</center></td>';
-						echo '	<td> <center>$ '; moneda($re->monto_saldado).'</center></td>';
+						$SQL="select sum(abono) saldado from abono_recargos where idrec=".$re->id;
+						$RES=$db->query($SQL);
+						$ars=$db->fetchNextObject($RES);
+						echo '	<td> <center>$ '; moneda(0).'</center></td>';
+						echo '	<td> <center>$ '; moneda($re->monto_saldado+$ars->saldado).'</center></td>';
 						?>
 						<th>
 						<form name="frm_re_recargo" action="include/php/sys_modelo.php"  method="post">
