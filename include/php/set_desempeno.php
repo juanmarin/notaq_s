@@ -48,8 +48,8 @@ $res = $db->query($sql);
 echo $db->numRows() . " Regisros encontrados.<br />Número de semana: ".date("W");
 if($db->numRows()==0)
 {
-	$ff = date("Y-m-d");
-	$fi = date('Y-m-d', strtotime('-7 days'));
+	$fi = date("Y-m-d");
+	$ff = date('Y-m-d', strtotime('+7 days'));
 	$sql="SELECT cu.cobrador, count(pa.id) total 
 		FROM cuentas cu, pagos pa 
 		WHERE cu.id=pa.cuenta AND cu.estado=0  AND pa.estado<2
