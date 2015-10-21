@@ -1219,8 +1219,18 @@ switch($_POST["action"]){
 		echo "<br />".$sql."<br />";
 		mysql_query($sql);
 		//-ABONOS DE PAGOS
-		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, recarg_id, recarg_importe)
+		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, abono_id, abono_importe)
 			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=2";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		//-RECARGOS
+		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, recarg_id, recarg_importe)
+			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=3";
+		echo "<br />".$sql."<br />";
+		mysql_query($sql);
+		//-ABONO DE RECARGOS
+		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, abrecarg_id, abrecarg_importe)
+			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=4";
 		echo "<br />".$sql."<br />";
 		mysql_query($sql);
 		//-MARCANDO REGISTROS COMO PROCESADOS
