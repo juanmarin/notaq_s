@@ -474,9 +474,10 @@ switch($_POST["action"]){
 					total		=  ". $cantidad .", 
 					npagos		=  ". $npagos .",
 					cobrador	= '". $_POST["cobrador"] ."',
-					observaciones	= '". $_POST["observ"]."'
+					observaciones	= '". $_POST["observ"]."',
+					editadopor	= '$UserName'
 					WHERE id = ".$_SESSION["EDITARCUENTA"];
-				//echo $_cadena;
+				//echo "<br>$_cadena<br>";
 				$res = mysql_query($_cadena);
 				//if($res){echo"ok";}else{echo"falla en update";}
 				$cuenta = $_SESSION["EDITARCUENTA"];
@@ -489,10 +490,12 @@ switch($_POST["action"]){
 				else
 				{
 					## BORRAR PAGOS PENDIENTES, DEJANDO SOLO LOS QUE ESTÉN SALDADOS
-					$sql = "DELETE FROM pagos WHERE cuenta=$cuenta AND estado=0 AND id NOT IN(SELECT pago_id FROM recargos WHERE estado>0);";
+					$sql = "DELETE FROM pagos WHERE cuenta=$cuenta AND estado=0";
+					//echo "<br />$sql<br />";
 					mysql_query($sql);
 					## BORRAR RECARGOS QUE NO HAN SIDO SALDADOS
 					$sql = "DELETE FROM recargos WHERE cuenta=$cuenta AND estado=0";
+					//echo "<br />$sql<br />";
 					mysql_query($sql);
 				}
 				unset($_SESSION["EDITARCUENTA"]);
@@ -623,7 +626,7 @@ switch($_POST["action"]){
 					".$monto2.", 
 					".($interes * $tiempo)."   
 					)";
-					echo $sql . "<br />";
+					//echo $sql . "<br />";
 					mysql_query($sql);
 					$cnt++;
 				}
