@@ -69,7 +69,8 @@ $("#mapacliente").click(function(){
 	}
 });
 $("#btnabrecuenta").click(function(){
-	if( $("#cantidad").val()=="" || $("#monto1").val()=="" || $("plazo1").val()=="" || $("#dias_pago").val()=="nd" )
+	if( $("#cantidad").val()=="" || $("#monto1").val()=="" || $("plazo1").val()=="" || $("#dias_pago").val()=="5" )//Cambie a 5 por que nunca caera en ese numero
+
 	{
 		alert("Error al abrir cuenta:\nFaltan campos por llenar en el formulario.");
 	}
