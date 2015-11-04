@@ -1224,44 +1224,43 @@ switch($_POST["action"]){
 		//-ABONOS DE PAGOS
 		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, abono_id, abono_importe)
 			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=2";
-		echo "<br />".$sql."<br />";
+		//echo "<br />".$sql."<br />";
 		mysql_query($sql);
 		//-RECARGOS
 		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, recarg_id, recarg_importe)
 			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=3";
-		echo "<br />".$sql."<br />";
+		//echo "<br />".$sql."<br />";
 		mysql_query($sql);
 		//-ABONO DE RECARGOS
 		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, abrecarg_id, abrecarg_importe)
 			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=4";
-		echo "<br />".$sql."<br />";
+		//echo "<br />".$sql."<br />";
 		mysql_query($sql);
 		//-MARCANDO REGISTROS COMO PROCESADOS
 		//-PAGOS
 		$sql = "UPDATE pagos SET reportado=1 WHERE id IN(SELECT cobroid FROM corte_tmp WHERE tipoid=1)";
-		echo "<br />".$sql."<br />";
+		//echo "<br />".$sql."<br />";
 		mysql_query($sql);
 		//-ABONOS DE PAGOS
 		$sql = "UPDATE abono SET reportado=1 WHERE idabono IN(SELECT cobroid FROM corte_tmp WHERE tipoid=2)";
-		echo "<br />".$sql."<br />";
+		//echo "<br />".$sql."<br />";
 		mysql_query($sql);
 		//-RECARGOS
 		$sql = "UPDATE recargos SET reportado=1 WHERE id IN(SELECT cobroid FROM corte_tmp WHERE tipoid=3)";
-		echo "<br />".$sql."<br />";
+		//echo "<br />".$sql."<br />";
 		mysql_query($sql);
 		//-ABONOS DE RECARGOS
 		$sql = "UPDATE abono_recargos SET reportado=1 WHERE idabrec IN(SELECT cobroid FROM corte_tmp WHERE tipoid=4)";
-		echo "<br />".$sql."<br />";
+		//echo "<br />".$sql."<br />";
 		mysql_query($sql);
-		/*
-		include_once("../fpdf/corte_caja.php");
+		
+		include_once("../fpdf/corte_caja_2.php");
 		if (file_exists($titulo)) {
 			include_once("../fpdf/reportes/index.php");
 		}else{
 			echo "<h1>No se encontro el archivo en el servidor</h1>";
 		}
-		*/
-		//echo '<meta http-equiv="refresh" content="0;url=../../?pg=3h"> ';
+		echo '<meta http-equiv="refresh" content="0;url=../../?pg=3h"> ';
 		break;
 	default:
 		//Header("Location: ". HTTP_REFERER);

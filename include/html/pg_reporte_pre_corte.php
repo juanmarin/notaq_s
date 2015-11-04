@@ -28,7 +28,7 @@ if(isset($_POST['enviar']))
 	?>
 	<p class="title">Reportes &raquo; Reporte diario</p>
 	<table>
-	<caption>Reporte hasta el dia : <?php echo getFecha($hoy); ?> </caption>
+	<caption>Reporte hasta el dia : <?php echo getFecha($hoy); ?> Correspondientes al cobrador: <?php echo $_POST["cobrador"]; ?> </caption>
 	<thead>
 		<tr>
 		<th colspan="2">Nombre</th>
@@ -176,7 +176,7 @@ if(isset($_POST['enviar']))
 	?>
 	<p class="title">Reportes &raquo; Reporte diario alternativo</p>
 	<table>
-	<caption>Reporte hasta el dia : <?php echo getFecha($hoy); ?> </caption>
+	<caption>Reporte hasta el dia : <?php echo getFecha($hoy); ?> Correspondientes al cobrador: <?php echo $_POST["cobrador"]; ?> </caption>
 	<thead>
 		<tr>
 		<th>Nombre de cliente</th>
