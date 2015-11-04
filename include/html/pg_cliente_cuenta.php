@@ -69,7 +69,7 @@ $("#mapacliente").click(function(){
 	}
 });
 $("#btnabrecuenta").click(function(){
-	if( $("#cantidad").val()=="" || $("#monto1").val()=="" || $("plazo1").val()=="" || $("#dias_pago").val()=="5" )//Cambie a 5 por que nunca caera en ese numero
+	if( $("#cantidad").val()=="" || $("#monto1").val()=="" || $("plazo1").val()=="" || ($("#dias_pago").val()=="" && $("#tipo_pago").val()>1) )
 
 	{
 		alert("Error al abrir cuenta:\nFaltan campos por llenar en el formulario.");
