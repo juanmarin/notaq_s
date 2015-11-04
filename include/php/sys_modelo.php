@@ -661,7 +661,7 @@ switch($_POST["action"]){
 		##-innformacion de cuenta
 		$sql 	= "SELECT * FROM cuentas WHERE id = ".$cta;
 		$res 	= mysql_query($sql);
-		$c 		= mysql_fetch_array($res);
+		$c 	= mysql_fetch_array($res);
 		$total 	= $c["total"];
 		$tp 	= $c["tipo_pago"];
 		$int 	= $c["interes"];
@@ -682,20 +682,20 @@ switch($_POST["action"]){
 			{
 				if (hayRecargos($cta, $cl) == 0) 
 				{
-			    	#-CUENTA SALDADA --
-					$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
-					#echo $sql . "<br />";
+			    		#-CUENTA SALDADA --
+					$sql = "UPDATE cuentas SET estado = 1, total='0' WHERE id = ".$cta;
 					mysql_query($sql);
-					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono.", aplicado_x = '".$UserName."' WHERE id = ".$pid;
-					#echo $sql . "<br />";
+					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono.", fechaPago = '".date("Y-m-d")."', aplicado_x = '".$UserName."' WHERE id = ".$pid;
 					mysql_query($sql);
 				}else{
-					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono.", aplicado_x = '".$UserName."' WHERE id = ".$pid;
-					#echo $sql . "<br />";
+					#-CUENTA ACTUALIZADA --
+					$sql = "UPDATE cuentas SET total='0' WHERE id = ".$cta;
+					mysql_query($sql);
+					$sql = "UPDATE pagos SET estado = 1, pago_real = ".$abono.", fechaPago = '".date("Y-m-d")."', aplicado_x = '".$UserName."' WHERE id = ".$pid;
 					mysql_query($sql);
 				}
 				
-			} 
+			}
 			elseif( $abono < $pago )
 			{
 				#-ACTUALIZANDO PAGO --
@@ -1077,6 +1077,26 @@ switch($_POST["action"]){
 		$idrec	= $_POST["idr"];
 		$sql 	= "UPDATE recargos SET estado=2, aplicado_x='$UserName' WHERE id = $idrec";
 		$res 	= mysql_query($sql);
+		//OBTENER ID DE LA CUENTA
+		$sql = "SELECT cuenta FROM recargos WHERE id = $idrec";
+		$res = mysql_query($sql);
+		$ary = mysql_fetch_array($res);
+		$cta = $ary["cuenta"];
+		//COMPROBAR SI HAY MÁS RECARGOS POR CONDONAR
+		$sql = "SELECT id FROM recargos WHERE cuenta = $cta AND estado = 0";
+		$res = mysql_query($sql);
+		if( mysql_num_rows($res) == 0 )
+		{
+			//NO HAY RECARGOS --> COMPROBAR QUE NO HAY PAGOS PENDIENTES
+			$sql = "SELECT id FROM pagos WHERE cuenta = $cta AND estado = 0";
+			$res = mysql_query($sql);
+			if( mysql_num_rows($res) == 0 )
+			{
+				//NO HAY PAGOS PENDIENTES --> CERRAR CUENTA
+				$sql = "UPDATE cuentas SET estado=1, fecha_pago='".date("Y-m-d")."' WHERE id = $cta";
+				mysql_query($sql);
+			}
+		}
 		break;
 		
 	case "borrarnota":
@@ -1090,7 +1110,7 @@ switch($_POST["action"]){
 	case "corte_caja":
 		//echo "<br />Checkpoint<br />";
 		$hoy 		= date("Y-m-d");
-		//$cobrador = ($_POST["cobrador"]==0)?"":"AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
+		//$cobrador 	= ($_POST["cobrador"]==0)?"":"AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
 		$cobrador 	= $_POST["cobrador"];
 		$totpagos 	= $_POST["totpagos"];
 		$totabonos	= $_POST["totabonos"];
