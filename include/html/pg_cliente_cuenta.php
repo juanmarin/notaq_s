@@ -890,6 +890,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 						?>
 						<th>
 						<form name="frm_saldar" action="include/php/sys_modelo.php"  method="post">
+						<input type="hidden" name="pendiente" value="<?= $pendiente;?>" />
 						<input type="hidden" name="recargo_id" value="<?= $re->id;?>" />
 						<input type="hidden" name="c" value="<?= $cuenta;?>" />
 						<input type="hidden" name="cl" value="<?= $cliente;?>" />

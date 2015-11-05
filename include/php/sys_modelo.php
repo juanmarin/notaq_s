@@ -919,6 +919,7 @@ switch($_POST["action"]){
 			$cliente 	= $_POST["cl"];
 			$recargo_id 	= $_POST["recargo_id"];
 			$abono 		= $_POST["recargo"];
+			$pendiente	= $_POST["pendiente"];
 			$f_recargo 	= $_POST["fecha_recargo"];
 			#-OBTENIENDO MONTO DE RECARGOS ----------------------------------------------------------------------------------------
 			$sql = "SELECT monto, monto_saldado FROM recargos WHERE id=".$recargo_id;
@@ -927,9 +928,9 @@ switch($_POST["action"]){
 			$recargos = $rec[0];
 			$saldados = $rec[1];
 			#-VERIFICANDO SI CANTIDAD ABONADA CORRESPONDE AL TOTAL DE RECARGOS ----------------------------------------------------
-			if($abono <= $recargos)
+			if($abono <= $pendiente)
 			{
-				if($abono == $recargos)
+				if($abono == $pendiente)
 				{
 					$estado = 1;
 					$restante = 0;
@@ -943,7 +944,7 @@ switch($_POST["action"]){
 					$res = mysql_query($sql);
 					#-DEFINIR VALORES DE ACTUALIZACIÓN DEL RECARGO
 					$estado = 0;
-					$restante  = $recargos - $abono;
+					$restante  = $pendiente - $abono;
 					$abono+=$saldados;
 					
 				}
@@ -968,7 +969,7 @@ switch($_POST["action"]){
 					$res = mysql_query($sql);
 				}
 				# VERIFICANDO SI EL ABONO SALDA EL RECARGO PENDIENTE
-				if ($abono == $recargos) {
+				if ($abono == $pendiente) {
 					$sql = "UPDATE recargos SET estado = 1 WHERE id = $recargo_id";
 					$res = mysql_query($sql);
 				}
