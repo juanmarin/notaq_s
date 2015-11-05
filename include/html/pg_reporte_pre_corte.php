@@ -298,7 +298,7 @@ CREATE TABLE `corte_tmp` (
 				, pa.fechaPago fecha, pa.id cobroid, pa.pago_real monto
 				FROM pagos pa 
 				RIGHT JOIN clientes cl ON pa.cliente=cl.id
-				WHERE pa.estado > 0 AND reportado = 0
+				WHERE pa.estado in(1,2) AND reportado = 0
 				$cobradorPA";
 		$res = $db->query($sql);
 		//-abonos
