@@ -27,6 +27,48 @@ if(isset($_POST['enviar']))
 	$hoy = date("Y-m-d");
 	?>
 	<p class="title">Reportes &raquo; Reporte diario</p>
+	<form name="repoFechas" action="" method="post">
+	<table>
+	<caption>Entrega de cobros recibidos</caption>
+	<thead>
+	<tr>
+	<th colspan="4"></th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php
+	if($UserLevel==0){
+		?>
+		<tr>
+		<th colspan="2">Seleccione un cobrador:</th>
+		<td colspan="2">
+		<select name="cobrador" id="cobrador">
+		<option value="0">Todos</option>
+		<?php
+		$sql = "SELECT username FROM mymvcdb_users WHERE nivel=3";
+		$res = $db->query($sql);
+		while( $cob = $db->fetchNextObject($res) ){
+			echo '<option value="'.$cob->username.'">'.$cob->username.'</option>';
+		}
+		?>
+		</select>
+		</td>
+		</tr>
+		<?php
+	}
+	?>
+	</tbody>
+	<tfoot>
+	<tr>
+	<th colspan="4">
+		<input type="submit" value="Mostrar Reporte" name="enviar" />
+		<input type="submit" value="Mostrar Reporte 2" name="enviar2" />
+	</th>
+	</tr>
+	</tfoot>
+	</table>
+	</form>
+	<caption>&nbsp;</caption>
 	<table>
 	<caption>Reporte hasta el dia : <?php echo getFecha($hoy); ?> Correspondientes al cobrador: <?php echo $_POST["cobrador"]; ?> </caption>
 	<thead>
@@ -175,6 +217,48 @@ if(isset($_POST['enviar']))
 	$hoy = date("Y-m-d");
 	?>
 	<p class="title">Reportes &raquo; Reporte diario alternativo</p>
+	<form name="repoFechas" action="" method="post">
+	<table>
+	<caption>Entrega de cobros recibidos</caption>
+	<thead>
+	<tr>
+	<th colspan="4"></th>
+	</tr>
+	</thead>
+	<tbody>
+	<?php
+	if($UserLevel==0){
+		?>
+		<tr>
+		<th colspan="2">Seleccione un cobrador:</th>
+		<td colspan="2">
+		<select name="cobrador" id="cobrador">
+		<option value="0">Todos</option>
+		<?php
+		$sql = "SELECT username FROM mymvcdb_users WHERE nivel=3";
+		$res = $db->query($sql);
+		while( $cob = $db->fetchNextObject($res) ){
+			echo '<option value="'.$cob->username.'">'.$cob->username.'</option>';
+		}
+		?>
+		</select>
+		</td>
+		</tr>
+		<?php
+	}
+	?>
+	</tbody>
+	<tfoot>
+	<tr>
+	<th colspan="4">
+		<input type="submit" value="Mostrar Reporte" name="enviar" />
+		<input type="submit" value="Mostrar Reporte 2" name="enviar2" />
+	</th>
+	</tr>
+	</tfoot>
+	</table>
+	</form>
+	<caption>&nbsp;</caption>
 	<table>
 	<caption>Reporte hasta el dia : <?php echo getFecha($hoy); ?> Correspondientes al cobrador: <?php echo $_POST["cobrador"]; ?> </caption>
 	<thead>
