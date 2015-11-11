@@ -1236,28 +1236,28 @@ switch($_POST["action"]){
 		//$result = mysql_query($sql);
 		$chkpaid=0;
 		$chkreid=0;
-		//-INSERTANDO EL DETALLE DEL CORTE DE CAJA--
+		//-INSERTANDO EL DETALLE DEL CORTE DE CAJA---------------------------------------------------------------------------------------------------
 		//-PAGOS
-		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, pago_id, pago_importe)
-			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=1";
+		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaPago, fechaCobro, pago_id, pago_importe)
+			SELECT $ccaj_id, clienteid, clientenom, cuenta, fechap, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=1";
 		echo "<br />".$sql."<br />";
 		mysql_query($sql);
 		//-ABONOS DE PAGOS
-		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, abono_id, abono_importe)
-			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=2";
+		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaPago, fechaCobro, abono_id, abono_importe)
+			SELECT $ccaj_id, clienteid, clientenom, cuenta, fechap, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=2";
 		//echo "<br />".$sql."<br />";
 		mysql_query($sql);
 		//-RECARGOS
-		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, recarg_id, recarg_importe)
-			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=3";
+		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaPago, fechaCobro, recarg_id, recarg_importe)
+			SELECT $ccaj_id, clienteid, clientenom, cuenta, fechap, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=3";
 		//echo "<br />".$sql."<br />";
 		mysql_query($sql);
 		//-ABONO DE RECARGOS
-		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaCobro, abrecarg_id, abrecarg_importe)
-			SELECT $ccaj_id, clienteid, clientenom, cuenta, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=4";
+		$sql = "INSERT INTO corte_caja_detail (cocaj_id, client_id, client_nom, cuenta, fechaPago, fechaCobro, abrecarg_id, abrecarg_importe)
+			SELECT $ccaj_id, clienteid, clientenom, cuenta, fechap, fecha, cobroid, monto FROM corte_tmp WHERE tipoid=4";
 		//echo "<br />".$sql."<br />";
 		mysql_query($sql);
-		//-MARCANDO REGISTROS COMO PROCESADOS
+		//-MARCANDO REGISTROS COMO PROCESADOS--------------------------------------------------------------------------------------------------------
 		//-PAGOS
 		$sql = "UPDATE pagos SET reportado=1 WHERE id IN(SELECT cobroid FROM corte_tmp WHERE tipoid=1)";
 		//echo "<br />".$sql."<br />";

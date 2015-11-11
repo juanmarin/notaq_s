@@ -282,31 +282,35 @@ CREATE TABLE `corte_tmp` (
   `cobrador` varchar(255) default NULL,
   `tipoid` int(11) default NULL COMMENT 'Tipo de cobro - (1=pago)(2=abono)(3=recargo)(4=abono de recargo)',
   `tipodes` varchar(255) default '0.00' COMMENT 'Descripcion de tipo de cobro',
+  `fechap` date default NULL COMMENT 'Fecha del pago',
   `fecha` date default NULL COMMENT 'Fecha del cobro',
   `cobroid` int(11) default NULL COMMENT 'id del cobro',
   `monto` double(10,2) default '0.00' COMMENT 'Pago abono- monto',
   PRIMARY KEY  (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+#Crear columna
+ALTER TABLE `notaq`.`corte_tmp` 
+ADD COLUMN `fechap` DATE NULL COMMENT 'Fecha del pago' AFTER `tipodes`;
 */
-		set_time_limit(0);
+		//set_time_limit(0);
 		$db->execute("TRUNCATE TABLE corte_tmp");
 		//-pagos
-		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fecha, cobroid, monto)
+		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fechap, fecha, cobroid, monto)
 				SELECT 
 				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, pa.cuenta, cl.c_cobrador cobrador
 				, '1' tipoid, 'PAGO' tipodes
-				, pa.fechaPago fecha, pa.id cobroid, pa.pago_real monto
+				, pa.fecha fechap, pa.fechaPago fecha, pa.id cobroid, pa.pago_real monto
 				FROM pagos pa 
 				RIGHT JOIN clientes cl ON pa.cliente=cl.id
-				WHERE pa.estado in(1,2) AND reportado = 0
+				WHERE pa.estado > 0 AND reportado = 0
 				$cobradorPA";
 		$res = $db->query($sql);
 		//-abonos
-		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fecha, cobroid, monto)
+		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fechap, fecha, cobroid, monto)
 				SELECT 
 				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, pa.cuenta, cl.c_cobrador cobrador
 				, '2' tipoid, 'ABONO DE PAGO' tipodes
-				, ab.fecha fecha, ab.idabono cobroid, ab.abono monto
+				, pa.fecha fechap, ab.fecha fecha, ab.idabono cobroid, ab.abono monto
 				FROM pagos pa 
 				RIGHT JOIN clientes cl ON pa.cliente=cl.id
 				RIGHT JOIN abono ab ON ab.idpago=pa.id
@@ -314,22 +318,22 @@ CREATE TABLE `corte_tmp` (
 				$cobradorPA";
 		$res = $db->query($sql);
 		//-recargos
-		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fecha, cobroid, monto)
+		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fechap, fecha, cobroid, monto)
 				SELECT 
 				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, re.cuenta, cl.c_cobrador cobrador
 				, '3' tipoid, 'RECARGO' tipodes
-				, re.fecha fecha, re.id cobroid, re.monto_saldado monto
+				, re.pago fechap, re.fecha fecha, re.id cobroid, re.monto_saldado monto
 				FROM recargos re
 				RIGHT JOIN clientes cl ON re.cliente=cl.id
 				WHERE re.reportado = 0 AND re.estado > 0
 				$cobradorPA";
 		$res = $db->query($sql);
 		//-ABONOS DE RECARGOS
-		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fecha, cobroid, monto)
+		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fechap, fecha, cobroid, monto)
 				SELECT 
 				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, re.cuenta, cl.c_cobrador cobrador
 				, '4' tipoid, 'ABONO DE RECARGO' tipodes
-				, ar.fecha_ab fecha, ar.idabrec cobroid, ar.abono monto
+				, re.pago fechap, ar.fecha_ab fecha, ar.idabrec cobroid, ar.abono monto
 				FROM abono_recargos ar 
 				RIGHT JOIN clientes cl ON ar.idcte=cl.id
 				LEFT JOIN recargos re ON re.id=ar.idrec
