@@ -292,7 +292,6 @@ CREATE TABLE `corte_tmp` (
 ALTER TABLE `notaq`.`corte_tmp` 
 ADD COLUMN `fechap` DATE NULL COMMENT 'Fecha del pago' AFTER `tipodes`;
 */
-		//set_time_limit(0);
 		$db->execute("TRUNCATE TABLE corte_tmp");
 		//-pagos
 		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fechap, fecha, cobroid, monto)
