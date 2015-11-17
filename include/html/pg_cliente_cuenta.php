@@ -183,10 +183,15 @@ $("#btnabrecuenta").click(function(){
 				<a href="<?php echo $lnkmap;?>">
 					<img src="img/map_.png" />
 				</a>
+				&nbsp;
+				<a href="include/html/box_cliente_cuenta_ine.php?width=700&height=600&cl=<?php echo $_GET["cl"];?>" class="thickbox" title="Imágenes de INE" >
+				<img src="estilo/img/contactcard32.png" title="INE" />
+				</a>
 				<?php
 			}
 			?>
-			</th><td colspan="3"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
+			</th>
+			<td colspan="3"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
 		<tr>
 			<td><strong>Calle: </strong> <br /><?php echo $ln->direccion;?></td><td><strong>Colonia: </strong> <br /><?php echo $ln->colonia;?></td><td><strong>Tel&eacute;fono: </strong> <br /><?php echo $ln->telefono;?></td>
 		</tr>

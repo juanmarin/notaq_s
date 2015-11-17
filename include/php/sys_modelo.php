@@ -1283,6 +1283,80 @@ switch($_POST["action"]){
 		}
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=3h"> ';
 		break;
+	
+	case "clienteine":
+		if (isset($_FILES['image']) && $_FILES['image']['size'] > 0)
+		{
+			echo "Subiendo imagen de ine";
+			$sPhotoFileName = $_FILES['image']['name']; // get client side file name 
+			if ($sPhotoFileName) // file uploaded 
+			{
+				$aFileNameParts = explode(".", $sPhotoFileName); $sFileExtension = end($aFileNameParts); // part behind last dot 
+				if($sFileExtension != "jpg" && $sFileExtension != "JPEG" && $sFileExtension != "JPG") 
+				{
+					die ("Choose a JPG for the photo"); 
+				}
+				$nPhotoSize = $_FILES['image']['size']; // size of uploaded file 
+				if($nPhotoSize == 0) 
+				{
+					die ("Sorry. The upload of $sPhotoFileName has failed. Search a photo smaller than 100K, using the button.");
+				}
+				// read photo 
+				$sTempFileName = $_FILES['image']['tmp_name']; // temporary file at server side 
+				$oTempFile = fopen($sTempFileName, "r");
+				$sBinaryPhoto = fread($oTempFile, fileSize($sTempFileName)); // Try to read image 
+				$nOldErrorReporting = error_reporting(E_ALL & ~(E_WARNING)); // ingore warnings 
+				$oSourceImage = imagecreatefromstring($sBinaryPhoto); // try to create image 
+				error_reporting($nOldErrorReporting);
+				if(!$oSourceImage) // error, image is not a valid jpg 
+				{
+					die("Sorry. It was not possible to read photo $sPhotoFileName. Choose another photo in JPG format.");
+				}
+			}
+			// CAMBIAR TAMAÑO DE IMAGEN --
+			$nWidth = imagesx($oSourceImage);  // get original source image width 
+			$nHeight = imagesy($oSourceImage); // and height 
+			// create small thumbnail 
+			$minsize=400;
+			if($nWidth==$nHeight)
+			{
+				$nDestinationWidth = $minsize; 
+				$nDestinationHeight = $minsize;
+			}
+			elseif($nWidth<$nHeight){
+				$nDestinationWidth = $minsize; 
+				$nDestinationHeight= ($minsize/$nWidth)*$nHeight;
+			}else{
+				$nDestinationHeight= $minsize; 
+				$nDestinationWidth = ($minsize/$nHeight)*$nWidth;
+			}
+			$oDestinationImage = imagecreatetruecolor($nDestinationWidth, $nDestinationHeight); 
+			imagecopyresized( $oDestinationImage, $oSourceImage, 0, 0, 0, 0, $nDestinationWidth, $nDestinationHeight, $nWidth, $nHeight); // resize the image 
+			ob_start(); // /////////////////////////////// Start capturing stdout. 
+			imageJPEG($oDestinationImage); // //////////// As though output to browser. 
+			$sBinaryThumbnail = ob_get_contents(); // //// the raw jpeg image data. 
+			ob_end_clean(); // /////////////////////////// Dump the stdout so it does not screw other output.
+			// Create the query and insert
+			// into our database.
+			$sBinaryThumbnail = addslashes($sBinaryThumbnail);
+			$sql = "SELECT * FROM clienteine WHERE cliente = ".$_POST["c"]." AND lado = '".$_POST["l"]."'";
+			$res = mysql_query($sql);
+			if(mysql_num_rows($res)==0)
+			{
+				$query = "INSERT INTO clienteine (cliente,lado,imagen) VALUES (".$_POST["c"].",'".$_POST["l"]."','$sBinaryThumbnail')";
+			}
+			else
+			{
+				$query = "UPDATE clienteine SET imagen = '$sBinaryThumbnail' WHERE cliente = ".$_POST["c"]." AND lado = '".$_POST["l"]."'";
+			}
+			//echo "<br />$query";
+			$results = mysql_query($query);
+			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["c"].'"> ';
+		}else{
+			echo "No se ha seleccionado imagen";
+			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["c"].'"> ';
+		}
+		break;
 	default:
 		//Header("Location: ". HTTP_REFERER);
 }
