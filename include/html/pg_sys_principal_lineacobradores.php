@@ -6,7 +6,7 @@ require_once("include/conf/Config_con.php");
 $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 ?>
 <table>
-	<caption>Comparativa de avance de cobradores</caption>
+	<caption>Porcentaje de riesgo de vencimiento de cartera</caption>
 	<?php
 	$sql = "SELECT username FROM mymvcdb_users WHERE nivel=3 GROUP BY username";
 	$res = $db->query($sql);
@@ -81,15 +81,15 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			//-resultados
 			$suma = $azul + $verde + $amarillo + $rojo + $negro;
 			$ancho = ( $azul / $suma ) * 100;
-			echo "<div style='background-color:#000080;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$azul clientes, ".moneda($ancho, 0)." %'></div>";
+			echo "<div style='background-color:#0066CC;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$azul clientes, ".moneda($ancho, 0)." %'></div>";
 			$ancho = ( $verde / $suma ) * 100;
-			echo "<div style='background-color:#009900;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$verde clientes, ".moneda($ancho, 0)." %'></div>";
+			echo "<div style='background-color:#4acc66;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$verde clientes, ".moneda($ancho, 0)." %'></div>";
 			$ancho = ( $amarillo / $suma ) * 100;
-			echo "<div style='background-color:#FFFF00;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$amarillo clientes, ".moneda($ancho, 0)." %'></div>";
+			echo "<div style='background-color:#f3ce2e;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$amarillo clientes, ".moneda($ancho, 0)." %'></div>";
 			$ancho = ( $rojo / $suma ) * 100;
-			echo "<div style='background-color:#FF0000;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$rojo clientes, ".moneda($ancho, 0)." %'></div>";
+			echo "<div style='background-color:#ce1818;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$rojo clientes, ".moneda($ancho, 0)." %'></div>";
 			$ancho = ( $negro / $suma ) * 100;
-			echo "<div style='background-color:#000000;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$negro clientes, ".moneda($ancho, 0)." %'></div>";
+			echo "<div style='background-color:#a020f0;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$negro clientes, ".moneda($ancho, 0)." %'></div>";
 			echo "<div style='clear:both;'></div>";
 			echo "</div>";
 		echo "</td>";
