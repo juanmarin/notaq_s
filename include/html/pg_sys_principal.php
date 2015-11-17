@@ -94,6 +94,7 @@ if ($UserLevel == 0) {
 <?php
 #-LINEA DE AVANCE POR COBRADOR -- ---------------------------------------------------------------------------------------------------------------------------------------
 require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando contenido
+
 ?>
 
 <br />
