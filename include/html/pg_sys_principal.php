@@ -79,7 +79,7 @@ if ($UserLevel == 0) {
 		</tr>
 	    	<?php
 	}
-?>
+	?>
 	<tr style="font-weight: bold;">
 		<td colspan="2">Totales</td>
 		<td align="center"><?php echo $tot_asi ?></td>
@@ -90,16 +90,23 @@ if ($UserLevel == 0) {
 </tbody>
 </table>
 <br />
+
+<?php
+#-LINEA DE AVANCE POR COBRADOR -- -------------------------------------------------------------------------------------------------------------------------------------------------
+require_once("include/html/pg_sys_principal_lineacobradores.php");
+?>
+
+<br />
 	<script>
 	$("#filtromapas").change(function(){
 		$("#mapa").attr("src",$(this).val());
 	});
 	</script>
 	<table class="formato">
-	<caption>Localización geográfica</caption>
+	<caption>Localización geogr&aacute;fica</caption>
 	<thead>
 		<tr>
-			<th>Mueva el marcador para cambiar la localización del cliente.</th>
+			<th>Mueva el marcador para cambiar la localizaci&oacute;n del cliente.</th>
 		</tr>
 	</thead>
 	<tbody>

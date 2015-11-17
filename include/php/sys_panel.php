@@ -18,14 +18,14 @@
 	/*Agregando encoding UTF-8
 	*/
 	//header("Content-Type: text/html;charset=utf-8");
-	header("Content-Type: text/html;charset=UTF-8");
+	header("Content-Type: text/html;charset=ISO-8859-1");
 ?>
 
 <html>
 <head>
 <title>Confian</title>
 <meta name="author" content="Juan Marin" />
-<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
 <meta http-equiv="content-style-type" content="text/css" />
 
 <link rel="stylesheet" href="estilo/style.css" type="text/css" media="all" />
