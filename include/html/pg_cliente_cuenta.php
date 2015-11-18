@@ -294,6 +294,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 		$ec_cobr = $cc->conrador;
 		$ec_tpag = $ec->tipo_pago;
 		$ec_dpag = $ec->dias_pago;
+		$ec_capital = $ec->capital_inicial;
 		#[OBTENER MONTOS Y PAGOS]#
 		$sql = "select count(*) plazo,pago monto from pagos where cuenta = ".$_SESSION["EDITARCUENTA"]." group by pago ORDER BY id";
 		$res = $db->query($sql);
@@ -334,6 +335,12 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 			$frmfp=date('Y-m-d');
 		}
 		?>
+	<tr>
+		<th width="200">Capital prestado: </th>
+		<td width="250">$<input type="text" name="cap_inicial" id="cap_inicial" size="10" value="<?=$ec_cap;?>" /></td>
+		<th >&nbsp;</th>
+		<td>&nbsp;</td>
+	</tr>
 		<th width="120">Fecha:</th>
 		<td width="210"><input type="text" name="fecha" id="fecha" size="10" value="<?=$frmfe;?>" class="dpfecha" /></td>
 		<th width="150">Primer pago:</th>
@@ -506,6 +513,10 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	<table>
 	<caption>DETALLES DE LA CUENTA</caption>
 	<tbody>
+	<tr>
+		<th>CAPITAL PRESTADO:</th><td colspan="3">$&nbsp;<?php moneda($r->capital_inicial); ?></td>
+		<th></th><td colspan=""></td>
+	</tr>
 	<tr>
 		<th>FECHA:</th><td colspan="3"><?php echo date ("d-m-Y", strtotime($r->fecha)); ?></td>
 		<th>COBRADOR:</th><td colspan=""><?php echo $cobrador; ?></td>

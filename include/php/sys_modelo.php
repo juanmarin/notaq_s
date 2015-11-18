@@ -414,11 +414,13 @@ switch($_POST["action"]){
 				case 3:	$tipo_pago = "QUINCENAL";	break;   
 				case 4:	$tipo_pago = "MENSUAL";		break;  		
 			}
+			$cap_inicial = $_POST["cap_inicial"];
 			$cantidad = $_POST["cantidad"];
 			$monto1 = $_POST["monto1"];
 			$monto2 = $_POST["monto2"]; 
 			$plazo1 = $_POST["plazo1"];
 			$plazo2 = $_POST["plazo2"];
+
 			# mandamos llamar la funcion que nos traera los datos para crear la nueva cuenta
 			$datosPrestamo = calculamonto($cantidad, $monto1, $monto2, $plazo1, $plazo2, $tipo_pago);
 			//var_dump($datosPrestamo);
@@ -440,7 +442,7 @@ switch($_POST["action"]){
 			{	
 				## comprobar datos anteriores de cuenta
 				$sql = "SELECT * FROM cuentas WHERE id=".$_SESSION["EDITARCUENTA"];
-				echo $sql;
+				//echo $sql;
 				$res = mysql_query($sql);
 				$pre = mysql_fetch_array($res);
 				$pre_canti = $pre["cantidad"];
@@ -466,6 +468,7 @@ switch($_POST["action"]){
 				## editando cuenta 
 				$_cadena = "UPDATE cuentas SET
 					fecha 		= '". $_POST["fecha"] ."',
+					capital_inicial = '".$_POST["cap_inicial"]."',
 					fecha_pago	= '". $_POST["fechapp"] ."',
 					cantidad	=  ". $cantidad .",
 					tiempo		=  ". $tiempo .",
@@ -501,10 +504,11 @@ switch($_POST["action"]){
 				unset($_SESSION["EDITARCUENTA"]);
 			}else{
 				## creando cuenta 
-				$_cadena = "INSERT INTO cuentas (cliente, fecha, fecha_pago, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones)
+				$_cadena = "INSERT INTO cuentas (cliente, fecha, capital_inicial, fecha_pago, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones)
 					VALUES (
 					 ". $_POST["cl"] .",
 					'". $_POST["fecha"] ."',
+					'".$_POST["cap_inicial"]."',
 					'". $_POST["fechapp"] ."',
 					 ". $cantidad .",
 					 ". $interes .",
