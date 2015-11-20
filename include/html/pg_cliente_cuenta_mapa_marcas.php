@@ -27,7 +27,13 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
     var locations = [
     	<?php
     	//-VERIFICAR SI EL USUARIO ES COBRADOR
-    	$ftrcobrador = ($_SESSION["U_NIVEL"]==3)?"AND cobrador = '".$_SESSION["USERNAME"]."'":"";
+    	if( $_SESSION["U_NIVEL"]==3 ){
+		$ftrcobrador = "AND cobrador = '".$_SESSION["USERNAME"]."'";
+	} else {
+		if( isset($_GET["cobrador"]) ){
+			$ftrcobrador = "AND cobrador = '".$_GET["cobrador"]."'";
+		}
+	}
     	//- VERDE - CLIENTES DE 0 A 7 DÍAS VENCIDOS
     	if(!isset($_GET["marks"]) || $_GET["marks"]==1)
     	{
@@ -49,8 +55,9 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$dir = '<br>DIR: '.$co->direccion;
 				$col = '<br>COL: '.$co->colonia;
 				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
+				$cob = '<br>COBRADOR: '.$co->cobrador;
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[0]]";
+				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $cob $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[0]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -74,8 +81,9 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$dir = '<br>DIR: '.$co->direccion;
 				$col = '<br>COL: '.$co->colonia;
 				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
+				$cob = '<br>COBRADOR: '.$co->cobrador;
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[1]]";
+				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $cob $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[1]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -99,8 +107,9 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$dir = '<br>DIR: '.$co->direccion;
 				$col = '<br>COL: '.$co->colonia;
 				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
+				$cob = '<br>COBRADOR: '.$co->cobrador;
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[2]]";
+				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $cob $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[2]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -124,8 +133,9 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$dir = '<br>DIR: '.$co->direccion;
 				$col = '<br>COL: '.$co->colonia;
 				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
+				$cob = '<br>COBRADOR: '.$co->cobrador;
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[3]]";
+				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $cob $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[3]]";
 				$coma = ",";
 				$cont++;
 			}
@@ -149,8 +159,9 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$dir = '<br>DIR: '.$co->direccion;
 				$col = '<br>COL: '.$co->colonia;
 				$dv  = '<br>D.VENC. '.diasVencidos($co->id);
+				$cob = '<br>COBRADOR: '.$co->cobrador;
 				$lnk = '<br><a href="/?pg=2e&cl='.$co->id.'" target="_parent">Cuenta</a>';
-				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[4]]";
+				echo $coma."['".strtoupper(utf8_encode($co->nombre))."$dir $col $dv $cob $lnk', ".$co->latitud.", ".$co->longitud.", $cont, colors[4]]";
 				$coma = ",";
 				$cont++;
 			}

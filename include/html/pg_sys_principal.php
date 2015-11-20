@@ -100,7 +100,25 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 <br />
 	<script>
 	$("#filtromapas").change(function(){
-		$("#mapa").attr("src",$(this).val());
+		var ruta = "include/html/pg_cliente_cuenta_mapa_marcas.php?nada=0";
+		if( $("#filtromapas").val() != "" ){
+			ruta += "&marks="+$("#filtromapas").val();
+		}
+		if( $("#mapacobrador").val() != "" ){
+			ruta += "&cobrador="+$("#mapacobrador").val();
+		}
+		$("#mapa").attr("src",ruta);
+	});
+	
+	$("#mapacobrador").change(function(){
+		var ruta = "include/html/pg_cliente_cuenta_mapa_marcas.php?nada=0";
+		if( $("#filtromapas").val() != "" ){
+			ruta += "&marks="+$("#filtromapas").val();
+		}
+		if( $("#mapacobrador").val() != "" ){
+			ruta += "&cobrador="+$("#mapacobrador").val();
+		}
+		$("#mapa").attr("src",ruta);
 	});
 	</script>
 	<table class="formato">
@@ -115,12 +133,12 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 			<td>
 	 		Filtrar marcadores: 
 	 		<select name="filtromapas" id="filtromapas">
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=5" style="background:#0066CC;">CLIENTES DEL DÃA DE HOY</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 1 A 7 DÃAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÃAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÃAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÃAS VENCIDOS</option>
+				<option value="">Mostrar todos</option>
+				<option value="5" style="background:#0066CC;">CLIENTES DEL DÍA DE HOY</option>
+				<option value="1" style="background:#4acc66;">CLIENTES DE 1 A 7 DÍAS VENCIDOS</option>
+				<option value="2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÍAS VENCIDOS</option>
+				<option value="3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÍAS VENCIDOS</option>
+				<option value="4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÍAS VENCIDOS</option>
 	 		</select>
 	 		</td>
 	 	</tr>
@@ -131,9 +149,9 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 	 		<td>
 	 		Filtrar Cobrador: &nbsp; &nbsp;
 				<?php
-		            $sql = "SELECT userID, username FROM mymvcdb_users WHERE nivel = 3";
+		            $sql = "SELECT userID, username FROM mymvcdb_users WHERE nivel = 3 ORDER BY username";
 		            $rs = mysql_query($sql) or die(mysql_error());
-		            echo "<select name='cobrador' id='cobrador'>";
+		            echo "<select name='cobrador' id='mapacobrador'>";
 		            echo "<option value=''>Mostar todos</option>";
 		            while($row = mysql_fetch_array($rs)){
 		            echo "<option value='".$row["username"]."'>".$row["username"]."</option>";
