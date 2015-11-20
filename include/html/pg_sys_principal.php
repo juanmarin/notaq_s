@@ -104,7 +104,7 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 	});
 	</script>
 	<table class="formato">
-	<caption>Localización geogr&aacute;fica</caption>
+	<caption>LocalizaciÃ³n geogr&aacute;fica</caption>
 	<thead>
 		<tr>
 			<th>Mueva el marcador para cambiar la localizaci&oacute;n del cliente.</th>
@@ -116,14 +116,35 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 	 		Filtrar marcadores: 
 	 		<select name="filtromapas" id="filtromapas">
 				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=5" style="background:#0066CC;">CLIENTES DEL DÍA DE HOY</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 1 A 7 DÍAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÍAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÍAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=5" style="background:#0066CC;">CLIENTES DEL DÃA DE HOY</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 1 A 7 DÃAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÃAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÃAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÃAS VENCIDOS</option>
 	 		</select>
 	 		</td>
+	 	</tr>
+	 	<?php
+	 		if ($UserLevel == 0) {
+	 	?>
+		<tr>
+	 		<td>
+	 		Filtrar Cobrador: &nbsp; &nbsp;
+				<?php
+		            $sql = "SELECT userID, username FROM mymvcdb_users WHERE nivel = 3";
+		            $rs = mysql_query($sql) or die(mysql_error());
+		            echo "<select name='cobrador' id='cobrador'>";
+		            echo "<option value=''>Mostar todos</option>";
+		            while($row = mysql_fetch_array($rs)){
+		            echo "<option value='".$row["username"]."'>".$row["username"]."</option>";
+		            }mysql_free_result($rs);
+		    	?>
+			</select>
+	 		</td>
 		</tr>
+		<?php
+			}
+		?>
 		<tr>
 			<td>
 	 		<iframe name="mapa" id="mapa" src="include/html/pg_cliente_cuenta_mapa_marcas.php" style="width:100%;border:0px;min-width:400px;height:420px;border:none;"></iframe> 
@@ -138,7 +159,7 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 <br/>
 <!-- REPORTE DE PUNTUALIDAD POR COBRADOR -->
 <?php
-#FORMULARIO PARA GENERAR REPROTE DE DESEMPEÑO
+#FORMULARIO PARA GENERAR REPROTE DE DESEMPEÃ‘O
 ?>
 <form action="" method="post">
 <table>
@@ -188,7 +209,7 @@ if(isset($_POST["desempxtiempo"]))
 		$res=$db->query($sql);
 		while($rd=$db->fetchNextObject($res))
 		{
-			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEÑO, VENDEDOR Y TOTAL COBRADO
+			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEÃ‘O, VENDEDOR Y TOTAL COBRADO
 			echo'<tr>';
 			echo'<td align="center">'.$rd->cobrador.'</td>';
 			echo'<td align="center">'.$rd->total.'</td>';
@@ -242,7 +263,8 @@ if(isset($_POST["desempxtiempo"]))
 	</table>
 	<br />
 	<br />
-<!-- reporte monetario 
+<!-- 
+//reporte monetario 
 	<br />
 	
 	<table>
@@ -267,7 +289,7 @@ if(isset($_POST["desempxtiempo"]))
 		$res=$db->query($sql);
 		while($rd=$db->fetchNextObject($res))
 		{
-			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEÑO, VENDEDOR Y TOTAL COBRADO
+			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEÃ‘O, VENDEDOR Y TOTAL COBRADO
 			echo'<tr>';
 			echo'<td>'.$rd->cobrador.'</td>';
 			echo'<td>'.$rd->total.'</td>';
@@ -435,10 +457,10 @@ if(isset($_POST["desempxtiempo"]))
 	});
 	</script>
 	<table class="formato">
-	<caption>Localización geográfica</caption>
+	<caption>LocalizaciÃ³n geogrÃ¡fica</caption>
 	<thead>
 		<tr>
-			<th>Mueva el marcador para cambiar la localización del cliente.</th>
+			<th>Mueva el marcador para cambiar la localizaciÃ³n del cliente.</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -447,10 +469,10 @@ if(isset($_POST["desempxtiempo"]))
 	 		Filtrar marcadores: 
 	 		<select name="filtromapas" id="filtromapas">
 				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÍAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÍAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÍAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÃAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÃAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÃAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÃAS VENCIDOS</option>
 	 		</select>
 	 		</td>
 		</tr>
@@ -467,7 +489,7 @@ if(isset($_POST["desempxtiempo"]))
 <br/>
 <?php 
 }
-#MOSTRANDO TABLA DE DESEMPEÑO ---
+#MOSTRANDO TABLA DE DESEMPEÃ‘O ---
 $cobrador=($UserLevel>1)?"AND cobrador='$UserName'":"";
 $semana = 
 $sql = "SELECT * FROM desempeno WHERE year=".date("Y")." AND semana>".(date("W")-5)." $cobrador ORDER BY semana DESC, cobrador ASC";
@@ -485,7 +507,7 @@ while($d=$db->fetchNextObject($res))
 		if($con>=0){echo $separador;}
 		echo"
 		<table>
-		<caption>Desempeño semanal (Semana actual: $sem)</caption>
+		<caption>DesempeÃ±o semanal (Semana actual: $sem)</caption>
 		<thead>
 			<tr>
 				<th>SEMANA</th>
