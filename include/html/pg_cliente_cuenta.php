@@ -138,12 +138,12 @@ $("#btnabrecuenta").click(function(){
 		<tr>
 			<td rowspan="4" width="210">
 			<?php
-			$sql = "SELECT * FROM clientefoto WHERE idcliente = ".$_GET["cl"];
+			$sql = "SELECT * FROM clientefoto WHERE idcliente = ".$_GET["cl"]." AND detalle = 'P'";
 			$fres= $db->query($sql);
 			if( $db->numRows($fres) > 0 ){
 				?>
 				<div class="fotocliente-frame">
-				<div class="fotocliente-image" style="background:url(include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET['cl'];?>) center no-repeat;background-size:200px;">
+				<div class="fotocliente-image" style="background:url(include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET['cl'];?>&d=P) center no-repeat;background-size:200px;">
 				</div>
 				</div>
 				<?php

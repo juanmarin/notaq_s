@@ -1343,15 +1343,15 @@ switch($_POST["action"]){
 			// Create the query and insert
 			// into our database.
 			$sBinaryThumbnail = addslashes($sBinaryThumbnail);
-			$sql = "SELECT * FROM clienteine WHERE cliente = ".$_POST["c"]." AND lado = '".$_POST["l"]."'";
+			$sql = "SELECT * FROM clientefoto WHERE idcliente = ".$_POST["c"]." AND detalle = '".$_POST["d"]."'";
 			$res = mysql_query($sql);
 			if(mysql_num_rows($res)==0)
 			{
-				$query = "INSERT INTO clienteine (cliente,lado,imagen) VALUES (".$_POST["c"].",'".$_POST["l"]."','$sBinaryThumbnail')";
+				$query = "INSERT INTO clientefoto (idcliente,detalle,foto) VALUES (".$_POST["c"].",'".$_POST["d"]."','$sBinaryThumbnail')";
 			}
 			else
 			{
-				$query = "UPDATE clienteine SET imagen = '$sBinaryThumbnail' WHERE cliente = ".$_POST["c"]." AND lado = '".$_POST["l"]."'";
+				$query = "UPDATE clientefoto SET foto = '$sBinaryThumbnail' WHERE idcliente = ".$_POST["c"]." AND detalle = '".$_POST["d"]."'";
 			}
 			//echo "<br />$query";
 			$results = mysql_query($query);
