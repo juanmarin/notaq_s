@@ -183,13 +183,13 @@ $("#btnabrecuenta").click(function(){
 				<a href="<?php echo $lnkmap;?>">
 					<img src="img/map_.png" />
 				</a>
-				&nbsp;
-				<a href="include/html/box_cliente_cuenta_ine.php?width=700&height=600&cl=<?php echo $_GET["cl"];?>" class="thickbox" title="Imágenes de INE" >
-				<img src="estilo/img/contactcard32.png" title="INE" />
-				</a>
 				<?php
 			}
 			?>
+				&nbsp;
+				<a href="include/html/box_cliente_cuenta_ine.php?width=700&height=600&cl=<?php echo $_GET["cl"];?>" class="thickbox" title="Actualizar imágenes de cliente" >
+				<img src="estilo/img/contactcard32.png" />
+				</a>
 			</th>
 			<td colspan="3"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
 		<tr>
@@ -202,6 +202,29 @@ $("#btnabrecuenta").click(function(){
 		$cobrador = $ln->c_cobrador;
 	}
 	?>
+	<tr>
+		<td colspan="4">
+			Imágenes: 
+			<a href="include/html/pg_clientes_muestraine_html.php?width=800&height=500&c=<?php echo $_GET["cl"];?>&d=IF" title="Credencial INE Frente" class="thickbox">
+				<img src="include/html/pg_clientes_muestraine.php?c=<?php echo $_GET["cl"];?>&d=IF" height="30" style="border:1px solid #888;background:#ccc;padding:2px;" />
+			</a> 
+			<a href="include/html/pg_clientes_muestraine_html.php?width=800&height=500&c=<?php echo $_GET["cl"];?>&d=IR" title="Credencial INE Reverso" class="thickbox">
+				<img src="include/html/pg_clientes_muestraine.php?c=<?php echo $_GET["cl"];?>&d=IR" height="30" style="border:1px solid #888;background:#ccc;padding:2px;" />
+			</a> 
+			<a href="include/html/pg_clientes_muestraine_html.php?width=800&height=500&c=<?php echo $_GET["cl"];?>&d=D1" title="Domicilio 1" class="thickbox">
+				<img src="include/html/pg_clientes_muestraine.php?c=<?php echo $_GET["cl"];?>&d=D1" height="30" style="border:1px solid #888;background:#ccc;padding:2px;" />
+			</a> 
+			<a href="include/html/pg_clientes_muestraine_html.php?width=800&height=500&c=<?php echo $_GET["cl"];?>&d=D2" title="Domicioio 2" class="thickbox">
+				<img src="include/html/pg_clientes_muestraine.php?c=<?php echo $_GET["cl"];?>&d=D2" height="30" style="border:1px solid #888;background:#ccc;padding:2px;" />
+			</a> 
+			<a href="include/html/pg_clientes_muestraine_html.php?width=800&height=500&c=<?php echo $_GET["cl"];?>&d=A1" title="Aval 1" class="thickbox">
+				<img src="include/html/pg_clientes_muestraine.php?c=<?php echo $_GET["cl"];?>&d=A1" height="30" style="border:1px solid #888;background:#ccc;padding:2px;" />
+			</a> 
+			<a href="include/html/pg_clientes_muestraine_html.php?width=800&height=500&c=<?php echo $_GET["cl"];?>&d=A2" title="Aval 2" class="thickbox">
+				<img src="include/html/pg_clientes_muestraine.php?c=<?php echo $_GET["cl"];?>&d=A2" height="30" style="border:1px solid #888;background:#ccc;padding:2px;" />
+			</a>
+		</td>
+	</tr>
 </tbody>
 <tfoot>
 	<tr>
