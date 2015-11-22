@@ -48,7 +48,7 @@ if ($UserLevel == 0) {
 			<td style="font-size:small;"><?php echo $cob->cobrador;?></td>
 			<td style="font-size:small;" align="center"> <?php echo $cob->mis_ctes; ?></td>
 			<?php
-				$sql2="SELECT clientes.id, clientes.demanda, cuentas.cliente, clientes.c_cobrador, 
+			$sql2="SELECT clientes.id, clientes.demanda, cuentas.cliente, clientes.c_cobrador, 
 			cuentas.cobrador, cuentas.estado, 
 			pagos.cuenta, pagos.cliente, pagos.fecha, pagos.estado
 			FROM clientes, cuentas, pagos 
@@ -61,17 +61,17 @@ if ($UserLevel == 0) {
 				AND pagos.fecha < '".$fecha."'
 				AND clientes.c_cobrador='".$cob->cobrador."'
 				GROUP BY pagos.cliente";
-				$res2 = $db->query($sql2);
-				$morosos = mysql_num_rows($res2);
-				while ($mor = $db->fetchNextObject($res2))
-				{
-					$corriente=$cob->mis_ctes-$morosos;
-					$avance = ($corriente/$cob->mis_ctes)*100;
-				}
-				$tot_asi += $cob->mis_ctes;
-				$tot_corr += $corriente;
-				$tot_mor += $morosos;	
-				$tot_avance = ($tot_corr/$tot_asi)*100;
+			$res2 = $db->query($sql2);
+			$morosos = mysql_num_rows($res2);
+			while ($mor = $db->fetchNextObject($res2))
+			{
+				$corriente=$cob->mis_ctes-$morosos;
+				$avance = ($corriente/$cob->mis_ctes)*100;
+			}
+			$tot_asi += $cob->mis_ctes;
+			$tot_corr += $corriente;
+			$tot_mor += $morosos;	
+			$tot_avance = ($tot_corr/$tot_asi)*100;
 			?>
 		<td style="background-color: #7DB77B; font-size:small" align="center"><?php echo $corriente;?></td>
 		<td style="background-color: #F78181; font-size:small" align="center"><?php echo $morosos;?></td>

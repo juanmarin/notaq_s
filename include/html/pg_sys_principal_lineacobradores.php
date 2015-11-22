@@ -17,19 +17,37 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 		echo "<td>";
 			echo "<div style='padding:1px;border:1px solid #bbb;height:12px;width:100%;background:#eee;'>";
 			#-- pagos pendientes del dia
-			$sql1 = "select * from (
-				select cl.c_cobrador cobrador
-				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
-				from cuentas cu 
-				left join clientes cl on cl.id=cu.cliente 
-				left join pagos pa on pa.cuenta=cu.id 
-				where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
-				where fecha = '".date('Y-m-d')."'
-				AND cobrador = '".$cob->username."'";
+			$sql1 = "SELECT * FROM (
+			SELECT clientes.id, clientes.demanda, clientes.c_cobrador
+			, cuentas.cobrador , cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha
+			FROM clientes, cuentas, pagos 
+			WHERE clientes.id = cuentas.cliente 
+			AND clientes.demanda != 1 
+			AND cuentas.id = pagos.cuenta 
+			AND cuentas.estado = 0 
+			AND pagos.estado = 0 
+			AND clientes.c_cobrador='".$cob->username."' 
+			GROUP BY pagos.cliente ) AS cartera
+			where fecha >= '".date('Y-m-d')."'";
+			//echo $sql1;
 			$res1 = $db->query($sql1);
 			//echo $sql1;
 			$azul = $db->numRows($res1);
 			#-- pagos pendientes de 0 a 7 dias
+			$sql1 = "SELECT * FROM (
+			SELECT clientes.id, clientes.demanda, clientes.c_cobrador
+			, cuentas.cobrador , cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha
+			FROM clientes, cuentas, pagos 
+			WHERE clientes.id = cuentas.cliente 
+			AND clientes.demanda != 1 
+			AND cuentas.id = pagos.cuenta 
+			AND cuentas.estado = 0 
+			AND pagos.estado = 0 
+			AND clientes.c_cobrador='".$cob->username."' 
+			GROUP BY pagos.cliente ) AS cartera
+			where fecha between '".date('Y-m-d' , strtotime('- 7 days'))."' and '".date('Y-m-d' , strtotime('- 1 days'))."'";
+			//echo $sql1;
+			/*
 			$sql1 = "select * from (
 				select cl.c_cobrador cobrador
 				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
@@ -39,10 +57,25 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
 				where fecha between '".date('Y-m-d' , strtotime('- 7 days'))."' and '".date('Y-m-d' , strtotime('- 1 days'))."' 
 				AND cobrador = '".$cob->username."'";
+			*/
 			$res1 = $db->query($sql1);
 			//echo $sql1;
 			$verde = $db->numRows($res1);
 			#-- pagos pendientes de 8 a 30 dias
+			$sql1 = "SELECT * FROM (
+			SELECT clientes.id, clientes.demanda, clientes.c_cobrador
+			, cuentas.cobrador , cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha
+			FROM clientes, cuentas, pagos 
+			WHERE clientes.id = cuentas.cliente 
+			AND clientes.demanda != 1 
+			AND cuentas.id = pagos.cuenta 
+			AND cuentas.estado = 0 
+			AND pagos.estado = 0 
+			AND clientes.c_cobrador='".$cob->username."' 
+			GROUP BY pagos.cliente ) AS cartera
+			where fecha between '".date('Y-m-d' , strtotime('- 30 days'))."' and '".date('Y-m-d' , strtotime('- 8 days'))."'";
+			//echo $sql1;
+			/*
 			$sql1 = "select * from (
 				select cl.c_cobrador cobrador
 				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
@@ -52,9 +85,24 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
 				where fecha between '".date('Y-m-d' , strtotime('- 30 days'))."' and '".date('Y-m-d' , strtotime('- 8 days'))."' 
 				AND cobrador = '".$cob->username."'";
+			*/
 			$res1 = $db->query($sql1);
 			$amarillo = $db->numRows($res1);
 			#-- pagos pendientes de 31 a 60 dias
+			$sql1 = "SELECT * FROM (
+			SELECT clientes.id, clientes.demanda, clientes.c_cobrador
+			, cuentas.cobrador , cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha
+			FROM clientes, cuentas, pagos 
+			WHERE clientes.id = cuentas.cliente 
+			AND clientes.demanda != 1 
+			AND cuentas.id = pagos.cuenta 
+			AND cuentas.estado = 0 
+			AND pagos.estado = 0 
+			AND clientes.c_cobrador='".$cob->username."' 
+			GROUP BY pagos.cliente ) AS cartera
+			where fecha between '".date('Y-m-d' , strtotime('- 60 days'))."' and '".date('Y-m-d' , strtotime('- 31 days'))."'";
+			//echo $sql1;
+			/*
 			$sql1 = "select * from (
 				select cl.c_cobrador cobrador
 				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
@@ -64,9 +112,23 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
 				where fecha between '".date('Y-m-d' , strtotime('- 60 days'))."' and '".date('Y-m-d' , strtotime('- 31 days'))."' 
 				AND cobrador = '".$cob->username."'";
+			*/
 			$res1 = $db->query($sql1);
 			$rojo = $db->numRows($res1);
 			#-- pagos pendientes de mas de 60 dias
+			$sql1 = "SELECT * FROM (
+			SELECT clientes.id, clientes.demanda, clientes.c_cobrador
+			, cuentas.cobrador , cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha
+			FROM clientes, cuentas, pagos 
+			WHERE clientes.id = cuentas.cliente 
+			AND clientes.demanda != 1 
+			AND cuentas.id = pagos.cuenta 
+			AND cuentas.estado = 0 
+			AND pagos.estado = 0 
+			AND clientes.c_cobrador='".$cob->username."' 
+			GROUP BY pagos.cliente ) AS cartera
+			where fecha < '".date('Y-m-d' , strtotime('- 60 days'))."'";
+			/*
 			$sql1 = "select * from (
 				select cl.c_cobrador cobrador
 				,pa.cuenta cuenta,pa.cliente cliente,pa.fecha fecha 
@@ -76,6 +138,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				where cu.estado=0 and pa.estado=0 group by pa.cliente having min(pa.fecha)) as clientes 
 				where fecha < '".date('Y-m-d' , strtotime('- 60 days'))."'
 				AND cobrador = '".$cob->username."'";
+			*/
 			$res1 = $db->query($sql1);
 			$negro = $db->numRows($res1);
 			//-resultados
