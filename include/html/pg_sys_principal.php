@@ -282,7 +282,6 @@ if(isset($_POST["desempxtiempo"]))
 	<br />
 	<br />
 
-<!--
 	<table>
 	<thead>
 		<tr>
@@ -295,7 +294,7 @@ if(isset($_POST["desempxtiempo"]))
 	</thead>
 	<tbody>
 		<?php
-		$sql="SELECT cu.cobrador, SUM(pa.pago_real) total
+		$sql="SELECT cu.cobrador, SUM(pa.pago) total
 			FROM cuentas cu, pagos pa 
 			WHERE cu.id=pa.cuenta AND cu.estado=0  AND pa.estado<2
 			AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
@@ -304,7 +303,7 @@ if(isset($_POST["desempxtiempo"]))
 		$res=$db->query($sql);
 		while($rd=$db->fetchNextObject($res))
 		{
-			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEÃ‘O, VENDEDOR Y TOTAL COBRADO
+			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEñO, VENDEDOR Y TOTAL COBRADO
 			echo'<tr>';
 			echo'<td>'.$rd->cobrador.'</td>';
 			echo'<td alignt="right">$ '.moneda($rd->total, 0).'</td>';
@@ -348,7 +347,7 @@ if(isset($_POST["desempxtiempo"]))
 		?>
 	</tbody>
 	</table>
-	-->
+	
 	<?php	
 }
 } else {
