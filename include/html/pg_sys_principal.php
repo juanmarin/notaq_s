@@ -281,9 +281,6 @@ if(isset($_POST["desempxtiempo"]))
 	</table>
 	<br />
 	<br />
-<!-- 
-//reporte monetario 
-	<br />
 	
 	<table>
 	<thead>
@@ -293,7 +290,6 @@ if(isset($_POST["desempxtiempo"]))
 			<th>COBROS EN FECHA</th>
 			<th>COBROS FUERA DE FECHA</th>
 			<th>POR COBRAR</th>
-			<th>AVANCE</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -310,7 +306,7 @@ if(isset($_POST["desempxtiempo"]))
 			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEÑO, VENDEDOR Y TOTAL COBRADO
 			echo'<tr>';
 			echo'<td>'.$rd->cobrador.'</td>';
-			echo'<td>'.$rd->total.'</td>';
+			echo'<td alignt="right">$ '.moneda($rd->total, 0).'</td>';
 
 			#BUSCANDO COBROS EN FECHA
 			$sql="SELECT SUM(pa.pago_real) cobrosef
@@ -321,7 +317,7 @@ if(isset($_POST["desempxtiempo"]))
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
-				echo'<td>'.$get->cobrosef.'</td>';
+				echo'<td align="right">'.moneda($get->cobrosef, 0).'</td>';
 			}
 
 			#BUSCANDO COBROS FUERA DE FECHA
@@ -333,7 +329,7 @@ if(isset($_POST["desempxtiempo"]))
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
-				echo'<td>'.$get->cobrosff.'</td>';
+				echo'<td align="right">'.moneda($get->cobrosff, 0).'</td>';
 			}
 
 			#BUSCANDO COBROS PENDIENTES
@@ -344,14 +340,14 @@ if(isset($_POST["desempxtiempo"]))
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
-				echo'<td>'.$get->cobrospc.'</td>';
+				echo'<td align="right">'.moneda($get->cobrospc, 0).'</td>';
 			}
 			echo'</tr>';
 		}
 		?>
 	</tbody>
 	</table>
-	-->
+	<!-- -->
 	<?php	
 }
 } else {
