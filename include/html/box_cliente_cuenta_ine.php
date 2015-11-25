@@ -15,8 +15,8 @@
 				<option value="P">Perfil</option>
 				<option value="D1">Domicilio 1</option>
 				<option value="D2">domicilio 2</option>
-				<option value="A1">Aval 1</option>
-				<option value="A2">Aval 2</option>
+				<option value="A1">Aval F</option>
+				<option value="A2">Aval R</option>
 			</select>
 			<input type="submit" value="Agregar" />
 		</td>
