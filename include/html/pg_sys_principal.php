@@ -317,7 +317,7 @@ if(isset($_POST["desempxtiempo"]))
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
-				echo'<td align="right">'.moneda($get->cobrosef, 0).'</td>';
+				echo'<td align="right">$'.moneda($get->cobrosef, 0).'</td>';
 			}
 
 			#BUSCANDO COBROS FUERA DE FECHA
@@ -329,7 +329,7 @@ if(isset($_POST["desempxtiempo"]))
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
-				echo'<td align="right">'.moneda($get->cobrosff, 0).'</td>';
+				echo'<td align="right">$'.moneda($get->cobrosff, 0).'</td>';
 			}
 
 			#BUSCANDO COBROS PENDIENTES
@@ -340,7 +340,7 @@ if(isset($_POST["desempxtiempo"]))
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
-				echo'<td align="right">'.moneda($get->cobrospc, 0).'</td>';
+				echo'<td align="right">$'.moneda($get->cobrospc, 0).'</td>';
 			}
 			echo'</tr>';
 		}
@@ -471,10 +471,10 @@ if(isset($_POST["desempxtiempo"]))
 	});
 	</script>
 	<table class="formato">
-	<caption>LocalizaciÃ³n geogrÃ¡fica</caption>
+	<caption>Localización geográfica</caption>
 	<thead>
 		<tr>
-			<th>Mueva el marcador para cambiar la localizaciÃ³n del cliente.</th>
+			<th>Mueva el marcador para cambiar la localización del cliente.</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -503,7 +503,7 @@ if(isset($_POST["desempxtiempo"]))
 <br/>
 <?php 
 }
-#MOSTRANDO TABLA DE DESEMPEÃ‘O ---
+#MOSTRANDO TABLA DE DESEMPEñoO ---
 $cobrador=($UserLevel>1)?"AND cobrador='$UserName'":"";
 $semana = 
 $sql = "SELECT * FROM desempeno WHERE year=".date("Y")." AND semana>".(date("W")-5)." $cobrador ORDER BY semana DESC, cobrador ASC";
@@ -521,7 +521,7 @@ while($d=$db->fetchNextObject($res))
 		if($con>=0){echo $separador;}
 		echo"
 		<table>
-		<caption>DesempeÃ±o semanal (Semana actual: $sem)</caption>
+		<caption>Desempeño semanal (Semana actual: $sem)</caption>
 		<thead>
 			<tr>
 				<th>SEMANA</th>
