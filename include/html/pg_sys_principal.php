@@ -281,10 +281,7 @@ if(isset($_POST["desempxtiempo"]))
 	</table>
 	<br />
 	<br />
-<!-- 
-//reporte monetario 
-	<br />
-	
+
 	<table>
 	<thead>
 		<tr>
@@ -293,12 +290,11 @@ if(isset($_POST["desempxtiempo"]))
 			<th>COBROS EN FECHA</th>
 			<th>COBROS FUERA DE FECHA</th>
 			<th>POR COBRAR</th>
-			<th>AVANCE</th>
 		</tr>
 	</thead>
 	<tbody>
 		<?php
-		$sql="SELECT cu.cobrador, SUM(pa.pago_real) total
+		$sql="SELECT cu.cobrador, SUM(pa.pago) total
 			FROM cuentas cu, pagos pa 
 			WHERE cu.id=pa.cuenta AND cu.estado=0  AND pa.estado<2
 			AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
@@ -307,10 +303,10 @@ if(isset($_POST["desempxtiempo"]))
 		$res=$db->query($sql);
 		while($rd=$db->fetchNextObject($res))
 		{
-			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEÃ‘O, VENDEDOR Y TOTAL COBRADO
+			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEñO, VENDEDOR Y TOTAL COBRADO
 			echo'<tr>';
 			echo'<td>'.$rd->cobrador.'</td>';
-			echo'<td>'.$rd->total.'</td>';
+			echo'<td alignt="right">$ '.moneda($rd->total, 0).'</td>';
 
 			#BUSCANDO COBROS EN FECHA
 			$sql="SELECT SUM(pa.pago_real) cobrosef
@@ -321,7 +317,7 @@ if(isset($_POST["desempxtiempo"]))
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
-				echo'<td>'.$get->cobrosef.'</td>';
+				echo'<td align="right">$'.moneda($get->cobrosef, 0).'</td>';
 			}
 
 			#BUSCANDO COBROS FUERA DE FECHA
@@ -333,7 +329,7 @@ if(isset($_POST["desempxtiempo"]))
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
-				echo'<td>'.$get->cobrosff.'</td>';
+				echo'<td align="right">$'.moneda($get->cobrosff, 0).'</td>';
 			}
 
 			#BUSCANDO COBROS PENDIENTES
@@ -344,14 +340,14 @@ if(isset($_POST["desempxtiempo"]))
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
-				echo'<td>'.$get->cobrospc.'</td>';
+				echo'<td align="right">$'.moneda($get->cobrospc, 0).'</td>';
 			}
 			echo'</tr>';
 		}
 		?>
 	</tbody>
 	</table>
-	-->
+	
 	<?php	
 }
 } else {
@@ -475,10 +471,10 @@ if(isset($_POST["desempxtiempo"]))
 	});
 	</script>
 	<table class="formato">
-	<caption>LocalizaciÃ³n geogrÃ¡fica</caption>
+	<caption>Localización geográfica</caption>
 	<thead>
 		<tr>
-			<th>Mueva el marcador para cambiar la localizaciÃ³n del cliente.</th>
+			<th>Mueva el marcador para cambiar la localización del cliente.</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -507,7 +503,7 @@ if(isset($_POST["desempxtiempo"]))
 <br/>
 <?php 
 }
-#MOSTRANDO TABLA DE DESEMPEÃ‘O ---
+#MOSTRANDO TABLA DE DESEMPEñoO ---
 $cobrador=($UserLevel>1)?"AND cobrador='$UserName'":"";
 $semana = 
 $sql = "SELECT * FROM desempeno WHERE year=".date("Y")." AND semana>".(date("W")-5)." $cobrador ORDER BY semana DESC, cobrador ASC";
@@ -525,7 +521,7 @@ while($d=$db->fetchNextObject($res))
 		if($con>=0){echo $separador;}
 		echo"
 		<table>
-		<caption>DesempeÃ±o semanal (Semana actual: $sem)</caption>
+		<caption>Desempeño semanal (Semana actual: $sem)</caption>
 		<thead>
 			<tr>
 				<th>SEMANA</th>
