@@ -281,7 +281,8 @@ if(isset($_POST["desempxtiempo"]))
 	</table>
 	<br />
 	<br />
-	
+
+<!--
 	<table>
 	<thead>
 		<tr>
@@ -347,7 +348,7 @@ if(isset($_POST["desempxtiempo"]))
 		?>
 	</tbody>
 	</table>
-	<!-- -->
+	-->
 	<?php	
 }
 } else {
