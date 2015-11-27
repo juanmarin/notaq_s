@@ -18,7 +18,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 		echo "<td width='200'>".$cob->username."</td>";
 		echo "<td>";
 			echo "<div style='padding:1px;border:1px solid #bbb;height:12px;width:100%;background:#eee;'>";
-			#-- clientes al día
+			#-- clientes al dÃ­a
 			$sql1 = "SELECT * FROM (
 			SELECT clientes.id, clientes.demanda, clientes.c_cobrador
 			, cuentas.cobrador , cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha

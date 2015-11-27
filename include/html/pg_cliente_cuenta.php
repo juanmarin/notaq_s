@@ -87,6 +87,21 @@ $("#btnabrecuenta").click(function(){
 		}
 	}
 });
+$("#plazos").click(function(){
+	 $(".plazo").attr("disabled",true);
+	 $(".int").removeAttr("disabled");
+	 $("#interes").removeAttr("checked");
+	 $(".plazo").css({ 'background': '#D8D8D8'});
+	 $(".int").css({ 'background': ''});
+ });
+
+$("#interes").click(function(){
+ 	$(".plazo").removeAttr("disabled");
+ 	$(".int").attr("disabled",true);
+ 	$("#plazos").removeAttr("checked");
+ 	$(".int").css({ 'background': '#D8D8D8'});
+ 	$(".plazo").css({ 'background': ''});
+ });
 </script>
 <p class="title">Clientes &raquo; Cuenta</p>
 <table>
@@ -359,10 +374,16 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 		}
 		?>
 	<tr>
+		<th width="200">Seleccione tipo de prestamo: </th>
+		<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" id="plazos" value="plazo" name="plazo"/> Plazos 
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" id="interes" name="interes" value="interes" /> Interes<br /></td>
+		
+	</tr>
+	<tr>
 		<th width="200">Capital prestado: </th>
-		<td width="250">$<input type="text" name="cap_inicial" id="cap_inicial" size="10" value="<?=$ec_cap;?>" /></td>
-		<th >&nbsp;</th>
-		<td>&nbsp;</td>
+		<td width="250">$&nbsp;<input type="text" class="int" name="cap_inicial" id="cap_inicial" size="10" value="<?=$ec_cap;?>" /></td>
+		<th >Interes</th>
+		<td>%&nbsp;<input type="text" class="plazo" name="interes" id="interes" size="5" value="<?=$ec_int;?>" /></td>
 	</tr>
 		<th width="120">Fecha:</th>
 		<td width="210"><input type="text" name="fecha" id="fecha" size="10" value="<?=$frmfe;?>" class="dpfecha" /></td>
@@ -371,7 +392,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	</tr>
 	<tr>
 		<th>Cantidad:</th>
-		<td>$<input type="text" name="cantidad" id="cantidad" size="5" value="<?=$ec_cant;?>" /></td>
+		<td>$&nbsp;<input type="text" name="cantidad" id="cantidad" size="5" value="<?=$ec_cant;?>" /></td>
 		<th>Cobrador: </th>
 		<td>
 			<select name="cobrador" id="cobrador">
@@ -467,16 +488,16 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 		</td>
 	</tr>
 	<tr>
-		<th>Plazo:</th>
+		<th>Plazo/Meses:</th>
 		<td><input type="text" name="plazo1" id="plazo1" size="10" value="<?=$ec_pzo1;?>" /></td>
 		<th>Monto:</th>
-		<td>$<input type="text" name="monto1" id="monto1" size="10" value="<?=$ec_mto1;?>" /></td>
+		<td>$&nbsp;<input type="text" class="int" name="monto1" id="monto1" size="10" value="<?=$ec_mto1;?>" /></td>
 	</tr>
 	<tr>
 		<th>Plazo:</th>
-		<td><input type="text" name="plazo2" id="plazo2" size="10" value="<?=$ec_pzo2;?>" /></td>
+		<td><input type="text" class="int" name="plazo2" id="plazo2" size="10" value="<?=$ec_pzo2;?>" /></td>
 		<th>Monto:</th>
-		<td>$<input type="text" name="monto2" id="monto2" size="10" value="<?=$ec_mto2;?>" /></td>
+		<td>$&nbsp;<input type="text" class="int" name="monto2" id="monto2" size="10" value="<?=$ec_mto2;?>" /></td>
 	</tr>	
 	<tr>
 		<th>Observaciones</th>
@@ -484,13 +505,12 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	</tr>	
 	</tbody>
 	<tfoot>	
-	<tr>
 		<?php
 		if (isset($_SESSION["EDITARCUENTA"])){
 			?>
 			<th colspan="4">
 			<input type="button" value="Cancelar" id="CancelarEditarCuenta" title="Cancelar editar datos de cuenta" rel="<?=$ncta;?>" />
-			<input type="button" id="btnabrecuenta" value="Guardar cambios" />
+			<input type="button" id="btnabrecuenta2" value="Guardar cambios" />
 			</th>
 			<?php
 		}

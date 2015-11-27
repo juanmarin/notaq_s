@@ -324,7 +324,7 @@ ADD COLUMN `fechap` DATE NULL COMMENT 'Fecha del pago' AFTER `tipodes`;
 				, re.pago fechap, re.fecha fecha, re.id cobroid, re.monto_saldado monto
 				FROM recargos re
 				RIGHT JOIN clientes cl ON re.cliente=cl.id
-				WHERE re.reportado = 0 AND re.estado > 0
+				WHERE re.reportado = 0 AND re.estado = 1
 				$cobradorPA";
 		$res = $db->query($sql);
 		//-ABONOS DE RECARGOS
@@ -423,7 +423,7 @@ ADD COLUMN `fechap` DATE NULL COMMENT 'Fecha del pago' AFTER `tipodes`;
 	}
 }else{
 	if(isset($_POST["enviar2"])){
-		echo "<p>Este reporte se encuentra actualmente en contrucción.</p>";
+		echo "<p>Este reporte se encuentra actualmente en contrucciÃ³n.</p>";
 	}
 	?>
 	<p class="title">Reportes &raquo; Corte de caja</p>

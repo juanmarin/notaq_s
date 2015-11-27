@@ -46,7 +46,7 @@ switch($_POST["action"]){
 			$_SESSION["nu_ema"] = $_POST["email"]; 
 			$_SESSION["nu_tel"] = $_POST["telefono"]; 
 			$_SESSION["nu_una"] = $_POST["uname"];
-			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Las contrase&nacute;as no coinciden, asegurese de escribir correctamente la contraseÃ±a al confirmarla.</p></th></tr>';
+			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Las contrase&nacute;as no coinciden, asegurese de escribir correctamente la contraseÃƒÂ±a al confirmarla.</p></th></tr>';
 			#echo $_SESSION["msg"];
 			#echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
@@ -74,7 +74,7 @@ switch($_POST["action"]){
 			unset($_SESSION["nu_ema"]); 
 			unset($_SESSION["nu_tel"]); 
 			unset($_SESSION["nu_una"]);
-			$_SESSION["msg"] = '<tr><th colspan="2"><p class="inportant">Usuario registrado con Ã©xito.</p></th></tr>';
+			$_SESSION["msg"] = '<tr><th colspan="2"><p class="inportant">Usuario registrado con ÃƒÂ©xito.</p></th></tr>';
 			#echo $_SESSION["msg"];
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
@@ -102,7 +102,7 @@ switch($_POST["action"]){
 			email = '".$_POST["email"]."' 
 			WHERE userID = ".$_POST["id"];
 		$_query = mysql_query($_cadena);
-		echo $_cadena."<br />";
+		//echo $_cadena."<br />";
 		if($_POST["conu"] == $_POST["confnu"]){
 			$sql = "SELECT password FROM mymvcdb_users WHERE userID = ".$_SESSION["REQUIRED1"];
 			$res = mysql_query($sql);
@@ -142,7 +142,7 @@ switch($_POST["action"]){
 			'". $_POST["cobrador"] ."'
 		)";
 		$_query = mysql_query($_cadena);
-		echo $_cadena;
+		//echo $_cadena;
 		if($_query){
 			$_SESSION["clid"] = mysql_insert_id();
 			# CARGANDO IMAGEN DE CLIENTE -------------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ switch($_POST["action"]){
 						die("Sorry. It was not possible to read photo $sPhotoFileName. Choose another photo in JPG format.");
 					}
 				}
-				// CAMBIAR TAMAÑO DE IMAGEN --
+				// CAMBIAR TAMAÃ‘O DE IMAGEN --
 				$nWidth = imagesx($oSourceImage);  // get original source image width 
 				$nHeight = imagesy($oSourceImage); // and height 
 				// create small thumbnail 
@@ -293,7 +293,7 @@ switch($_POST["action"]){
 			else{
 				?>
 				<script type="text/javascript" >
-				alert("Permiso denegado.\nUsuario o contraseÃ±a incorrectos.\nIntente de nuevo.");
+				alert("Permiso denegado.\nUsuario o contraseÃƒÂ±a incorrectos.\nIntente de nuevo.");
 				</script>
 				<?php
 				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
@@ -401,12 +401,110 @@ switch($_POST["action"]){
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2bd&cl='.$_POST["cl"].'"> ';
 		}
 	case "cuenta_nueva":
-		if((($_POST["tipo_pago"] > 4) && ($_POST["dias_pago"] == "nd")) || ($_POST["tipo_pago"] == "nd") || ($_POST["cantidad"] == "") || ($_POST["plazo1"] == "") || ($_POST["monto1"] == "")){
+		if((($_POST["tipo_pago"] > 4) && ($_POST["dias_pago"] == "nd")) || ($_POST["tipo_pago"] == "nd") || 
+			($_POST["cantidad"] == "") || ($_POST["plazo1"] == "") || ($_POST["monto1"] == "")){
 			# no hacer nada porque estan mal los datos
-			echo "Informaci�n incorrecta";
+			echo "Información incorrecta";
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+		}
+		if($_POST["interes"] != "") {## Metodo de cuenta en base a tiempo e interes fijos
+			## Validar que vengan los datos necesarios para crear la cuenta.
+			/*
+			foreach($_POST as $var => $val){
+				echo $var . " => " . $val . "<br />";
+			}
+*/
+			$_POST["cantidad"] = $_POST["cap_inicial"];
+			$tiempo = $_POST["plazo1"];
+				## calcular total
+			$total = $_POST["cantidad"] * (( ($_POST["interes"] * $tiempo)  / 100 ) + 1 );
+			$npagos = getPagos($total, $tiempo, $_POST["tipo_pago"]);
+			$pago = $total / $npagos; 
+			if($_POST["tipo_pago"] == 4){
+				$diasPago = substr($_POST["fechapp"], -2);
+			}else{
+				$diasPago = $_POST["dias_pago"];
+			}			
+			## creando cuenta 
+			$_cadena = "INSERT INTO cuentas (cliente, fecha, capital_inicial, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones)
+			VALUES (
+				". $_POST["cl"] .",
+				'". $_POST["fecha"] ."',
+				".$_POST["cap_inicial"].",
+				". $_POST["cantidad"] .",
+				". $_POST["interes"] .",
+				". $tiempo .",
+				". $_POST["tipo_pago"] .",
+				". $diasPago .",
+				". $total .", 
+				". $npagos .",
+				". $pago .",
+				'". $_POST["cobrador"] ."',
+				'". $_POST["observ"]."'
+			)";
+			echo $_cadena."</br>";
+			$res = mysql_query($_cadena);
+			$cuenta = mysql_insert_id();
+			echo $cuenta;
+			$cnt = 0;
+			$n = 1;
+			if($_POST["tipo_pago"] == 1){
+				$tipo = "week";
+			}elseif($_POST["tipo_pago"] == 2) { 
+				$tipo = "week";
+				$n = 2;
+			}elseif($_POST["tipo_pago"] == 3) { 
+				#$fechas = getFechasQuincenas($_POST["dias_pago"], $npagos, $_POST["fechapp"]);
+				$dia = split("-", $_POST["dias_pago"]);
+				#$tipo = "week";
+				#$n = 2;
+			}else {
+				$tipo = "month";
+			}
+			for($i=0;$i<$npagos;$i++) {
+				if($cnt > 0){
+					if($_POST["tipo_pago"] == 3){
+						$a = (int)substr($prxpago, 0, -6);
+						$m = (int)substr($prxpago, 5, -3);
+						$d = (int)substr($prxpago, -2);
+						if( $d > 15 ){
+							if($m == 12){$m = 1; $a++;}else{ $m++;}
+							$d = $dia[0];
+						}else{
+							if($m == 2 && $dia[1] == 30) {
+								$d = 28;
+							}else {
+								$d = $dia[1];
+							}
+						}
+						if($m < 10){$m = "0".$m;}
+						if($d < 10){$d = "0".$d;}
+						$prxpago = $a . "-" . $m . "-" . $d;
+						//echo $prxpago . " ~ " . $dia[0] . $dia[1] . "<br />";
+					}else {
+						$prxpago = date('Y-m-d', strtotime($prxpago.' + '.$n.' '.$tipo));
+					}
+				}else {
+					$prxpago = $_POST["fechapp"];
+				}
+				
+				$_SESSION["pp"] = $_POST["fechapp"];
+				$sql = "INSERT INTO pagos (cliente, cuenta, fecha, pago, interes) 
+				VALUES (
+					".$_POST["cl"].",
+					".$cuenta.", 
+					'".$prxpago."',
+					".$pago.", 
+					".($_POST["interes"] * $tiempo)."   
+				)";
+				//echo $sql . "<br />";
+				mysql_query($sql);
+				$cnt++;
+			}
+			//include_once "imprimeReciboCuenta.php";
+			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> '
 		}else{
-			#[YA SE VERIFIC� QUE SER� DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
+			#[YA SE VERIFICÓ QUE SERÁ DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
 			# inicializar las variables
 			switch($_POST["tipo_pago"]){
 				case 1:	$tipo_pago = "SEMANAL";		break;
@@ -492,7 +590,7 @@ switch($_POST["action"]){
 				}
 				else
 				{
-					## BORRAR PAGOS PENDIENTES, DEJANDO SOLO LOS QUE EST�N SALDADOS
+					## BORRAR PAGOS PENDIENTES, DEJANDO SOLO LOS QUE ESTÉN SALDADOS
 					$sql = "DELETE FROM pagos WHERE cuenta=$cuenta AND estado=0";
 					//echo "<br />$sql<br />";
 					mysql_query($sql);
@@ -737,7 +835,7 @@ switch($_POST["action"]){
 				mysql_query($sql);
 				##-restar a ultimo pago
 				$abono -= $sumapagos;
-				##-aplicar pago restante a demÃ¡s pagos
+				##-aplicar pago restante a demÃƒÂ¡s pagos
 				setMontoRestante($cta, $abono);
 			}elseif($abono == $total){
 				if (hayRecargos($cta, $cl) == 0) {
@@ -844,7 +942,7 @@ switch($_POST["action"]){
 		$cte 	= $_POST["cte"];
 		$cta 	= $_POST["cta"];
 		$delCte = (isset($_POST["elimina"]))?$_POST["elimina"]:"";
-		#- COMPROBAMOS EL USUARIO Y CONTRASEÃ‘A -------------------------------------------------------------------
+		#- COMPROBAMOS EL USUARIO Y CONTRASEÃƒâ€˜A -------------------------------------------------------------------
 		$pas 	= sha1($_POST["c"]);
 		$sql 	= 'SELECT username, password FROM mymvcdb_users WHERE username = "'.$_POST["u"].'" AND  password = "'.$pas.'" AND NIVEL = 0';
 		echo $sql;
@@ -946,7 +1044,7 @@ switch($_POST["action"]){
 					$sql = "INSERT INTO abono_recargos (idrec,idcte,fecha_ab,abono,aplicado_x)
 							VALUES($recargo_id,$cliente,'".date("Y-m-d")."','$abono','".$UserName."')";
 					$res = mysql_query($sql);
-					#-DEFINIR VALORES DE ACTUALIZACI�N DEL RECARGO
+					#-DEFINIR VALORES DE ACTUALIZACIÓN DEL RECARGO
 					$estado = 0;
 					$restante  = $pendiente - $abono;
 					$abono+=$saldados;
@@ -1087,7 +1185,7 @@ switch($_POST["action"]){
 		$res = mysql_query($sql);
 		$ary = mysql_fetch_array($res);
 		$cta = $ary["cuenta"];
-		//COMPROBAR SI HAY M�S RECARGOS POR CONDONAR
+		//COMPROBAR SI HAY MÁS RECARGOS POR CONDONAR
 		$sql = "SELECT id FROM recargos WHERE cuenta = $cta AND estado = 0";
 		$res = mysql_query($sql);
 		if( mysql_num_rows($res) == 0 )
@@ -1319,7 +1417,7 @@ switch($_POST["action"]){
 				}
 			}
 			echo $sPhotoFileName . "<br />";
-			// CAMBIAR TAMA�O DE IMAGEN --
+			// CAMBIAR TAMAÑO DE IMAGEN --
 			$nWidth = imagesx($oSourceImage);  // get original source image width 
 			$nHeight = imagesy($oSourceImage); // and height 
 			// create small thumbnail 
