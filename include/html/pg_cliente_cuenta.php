@@ -20,7 +20,7 @@ $("#fechapp").change(function(){
 	dia = fecha.getDay();
 	//alert(dia + ' // ' + m);
 	if(dia > 7){
-		alert("Dia de la semana invalido.\n Seleccione otro día.");
+		alert("Dia de la semana invalido.\n Seleccione otro dÃ­a.");
 	}else{
 		$("#dias_pago option").removeAttr("selected");
 		$("#dias_pago option[value="+dia+"]").attr("selected", "selected");
@@ -187,7 +187,7 @@ $("#btnabrecuenta").click(function(){
 			}
 			?>
 				&nbsp;
-				<a href="include/html/box_cliente_cuenta_ine.php?width=700&height=600&cl=<?php echo $_GET["cl"];?>" class="thickbox" title="Actualizar imágenes de cliente" >
+				<a href="include/html/box_cliente_cuenta_ine.php?width=700&height=600&cl=<?php echo $_GET["cl"];?>" class="thickbox" title="Actualizar imÃ¡genes de cliente" >
 				<img src="estilo/img/contactcard32.png" />
 				</a>
 			</th>
@@ -204,7 +204,7 @@ $("#btnabrecuenta").click(function(){
 	?>
 	<tr>
 		<td colspan="4">
-			Imágenes: 
+			ImÃ¡genes: 
 			<a href="include/html/pg_clientes_muestraine_html.php?width=800&height=500&c=<?php echo $_GET["cl"];?>&d=IF" title="Credencial INE Frente" class="thickbox">
 				<img src="include/html/pg_clientes_muestraine.php?c=<?php echo $_GET["cl"];?>&d=IF" height="30" style="border:1px solid #888;background:#ccc;padding:2px;" />
 			</a> 
@@ -552,7 +552,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	<tr>
 		<th>TIEMPO:</th><td><?php echo $r->tiempo . " "; ?></td>
 		<th>MODO DE PAGO:</th><td><?php echo $tp; ?></td>
-		<th>DIAS DE PAGO:</th><td><?php if($r->tipo_pago < 4){getDiaSemana($r->dias_pago, $r->tipo_pago);}else{echo 'Días '.$r->dias_pago.' de cada mes.';} ?></td>
+		<th>DIAS DE PAGO:</th><td><?php if($r->tipo_pago < 4){getDiaSemana($r->dias_pago, $r->tipo_pago);}else{echo 'DÃ­as '.$r->dias_pago.' de cada mes.';} ?></td>
 	<tr>
 		<th>OBSERVACIONES:</th><td colspan="5" style="text-align:left;"><?php echo nl2br($r->observaciones); ?></td>		
 	</tr>
@@ -574,10 +574,10 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 		?>
 		<br />
 		<table class="formato">
-		<caption>Localización geográfica</caption>
+		<caption>LocalizaciÃ³n geogrÃ¡fica</caption>
 		<thead>
 			<tr>
-				<th>Mueva el marcador para cambiar la localización del cliente.</th>
+				<th>Mueva el marcador para cambiar la localizaciÃ³n del cliente.</th>
 			</tr>
 		</thead>
 		<tbody>

@@ -1289,9 +1289,10 @@ switch($_POST["action"]){
 		break;
 	
 	case "clienteine":
+		echo "<p>Imagen de cliente<p>";
 		if (isset($_FILES['image']) && $_FILES['image']['size'] > 0)
 		{
-			echo "Subiendo imagen de ine";
+			echo "<p>Subiendo imagen de ine</p>";
 			$sPhotoFileName = $_FILES['image']['name']; // get client side file name 
 			if ($sPhotoFileName) // file uploaded 
 			{
@@ -1317,6 +1318,7 @@ switch($_POST["action"]){
 					die("Sorry. It was not possible to read photo $sPhotoFileName. Choose another photo in JPG format.");
 				}
 			}
+			echo $sPhotoFileName . "<br />";
 			// CAMBIAR TAMAÑO DE IMAGEN --
 			$nWidth = imagesx($oSourceImage);  // get original source image width 
 			$nHeight = imagesy($oSourceImage); // and height 
@@ -1344,6 +1346,7 @@ switch($_POST["action"]){
 			// into our database.
 			$sBinaryThumbnail = addslashes($sBinaryThumbnail);
 			$sql = "SELECT * FROM clientefoto WHERE idcliente = ".$_POST["c"]." AND detalle = '".$_POST["d"]."'";
+			echo $sql . "<br />";
 			$res = mysql_query($sql);
 			if(mysql_num_rows($res)==0)
 			{
@@ -1357,8 +1360,8 @@ switch($_POST["action"]){
 			$results = mysql_query($query);
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["c"].'"> ';
 		}else{
-			echo "No se ha seleccionado imagen";
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["c"].'"> ';
+			echo "<p>No se ha seleccionado imagen</p>";
+			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["c"].'"> ';
 		}
 		break;
 	default:

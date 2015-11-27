@@ -10,9 +10,9 @@
 		<td>
 			<input name="image" accept="image/jpeg" type="file">
 			<select name="d">
-				<option value="IF">Frente</option>
-				<option value="IR">Reverso</option>
-				<option value="P">Perfil</option>
+				<option value="IF">INE Frente</option>
+				<option value="IR">INE Reverso</option>
+				<option value="P">Perfil de cliente</option>
 				<option value="D1">Domicilio 1</option>
 				<option value="D2">domicilio 2</option>
 				<option value="A1">Aval F</option>
@@ -29,19 +29,19 @@
 
 <table>
 <tbody>
-	<tr><th colspan="2">Im√°genes de credencial de INE:</th></tr>
+	<tr><th colspan="2">Im·genes de credencial de INE:</th></tr>
 	<tr>
 		<td align="center"><img src="include/html/pg_clientes_muestraine.php?c=<?=$_GET['cl']?>&d=IF" style="max-width:320px" /></td>
 		<td align="center"><img src="include/html/pg_clientes_muestraine.php?c=<?=$_GET['cl']?>&d=IR" style="max-width:320px" /></td>
 	</tr>
 	
-	<tr><th colspan="2">Im√°genes de comprobante de domicilio:</th></tr>
+	<tr><th colspan="2">Im·genes de comprobante de domicilio:</th></tr>
 	<tr>
 		<td align="center"><img src="include/html/pg_clientes_muestraine.php?c=<?=$_GET['cl']?>&d=D1" style="max-width:320px" /></td>
 		<td align="center"><img src="include/html/pg_clientes_muestraine.php?c=<?=$_GET['cl']?>&d=D2" style="max-width:320px" /></td>
 	</tr>
 	
-	<tr><th colspan="2">Im√°genes de aval:</th></tr>
+	<tr><th colspan="2">Im·genes de aval:</th></tr>
 	<tr>
 		<td align="center"><img src="include/html/pg_clientes_muestraine.php?c=<?=$_GET['cl']?>&d=A1" style="max-width:320px" /></td>
 		<td align="center"><img src="include/html/pg_clientes_muestraine.php?c=<?=$_GET['cl']?>&d=A2" style="max-width:320px" /></td>
