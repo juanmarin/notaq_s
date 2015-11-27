@@ -122,7 +122,7 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 	});
 	</script>
 	<table class="formato">
-	<caption>LocalizaciÃ³n geogr&aacute;fica</caption>
+	<caption>Localización geogr&aacute;fica</caption>
 	<thead>
 		<tr>
 			<th>Mueva el marcador para cambiar la localizaci&oacute;n del cliente.</th>
@@ -352,7 +352,10 @@ if(isset($_POST["desempxtiempo"]))
 }
 } else {
 	$clcobrador = "AND c_cobrador = '$UserName'";
+	#-LINEA DE AVANCE POR COBRADOR -- ---------------------------------------------------------------------------------------------------------------------------------------
+	require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando contenido
 	?>
+	<br />
 	<table>
 	<caption>COBRADOR: &nbsp; <b><?php echo $user->userData[6];?></b></caption>
 	<thead>

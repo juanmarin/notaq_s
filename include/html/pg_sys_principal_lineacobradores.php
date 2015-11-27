@@ -9,7 +9,8 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 <caption>Porcentaje de riesgo de vencimiento de cartera</caption>
 <tbody>
 	<?php
-	$sql = "SELECT username FROM mymvcdb_users WHERE nivel=3 GROUP BY username";
+	$usercob = ($UserLevel==3)? "WHERE username='$UserName'":'WHERE nivel=3';
+	$sql = "SELECT username FROM mymvcdb_users $usercob GROUP BY username";
 	$res = $db->query($sql);
 	while($cob = $db->fetchNextObject($res))
 	{
