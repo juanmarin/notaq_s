@@ -206,6 +206,7 @@ if(isset($_POST["desempxtiempo"]))
 	?>
 	<br />
 	<table>
+	<caption>Reporte de desempeño desde el <?=$_POST["fi"];?> al <?=$_POST["ff"];?></caption>
 	<thead>
 		<tr>
 			<th>COBRADOR</th>
@@ -227,7 +228,7 @@ if(isset($_POST["desempxtiempo"]))
 		$res=$db->query($sql);
 		while($rd=$db->fetchNextObject($res))
 		{
-			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEÃ‘O, VENDEDOR Y TOTAL COBRADO
+			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEñO, VENDEDOR Y TOTAL COBRADO
 			echo'<tr>';
 			echo'<td align="center">'.$rd->cobrador.'</td>';
 			echo'<td align="center">'.$rd->total.'</td>';
@@ -283,6 +284,7 @@ if(isset($_POST["desempxtiempo"]))
 	<br />
 
 	<table>
+	<caption>Reporte monetario de desempeño</caption>
 	<thead>
 		<tr>
 			<th>COBRADOR</th>
@@ -307,7 +309,8 @@ if(isset($_POST["desempxtiempo"]))
 			echo'<tr>';
 			echo'<td>'.$rd->cobrador.'</td>';
 			echo'<td alignt="right">$ '.moneda($rd->total, 0).'</td>';
-
+			$montotal=$rd->total;
+			
 			#BUSCANDO COBROS EN FECHA
 			$sql="SELECT SUM(pa.pago_real) cobrosef
 			FROM cuentas cu, pagos pa
@@ -317,6 +320,7 @@ if(isset($_POST["desempxtiempo"]))
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
+				$moncobef=$get->cobrosef;
 				echo'<td align="right">$'.moneda($get->cobrosef, 0).'</td>';
 			}
 
@@ -329,10 +333,12 @@ if(isset($_POST["desempxtiempo"]))
 			$re2=$db->query($sql);
 			while($get=$db->fetchNextObject($re2))
 			{
+				$moncobff=$get->cobrosff;
 				echo'<td align="right">$'.moneda($get->cobrosff, 0).'</td>';
 			}
 
 			#BUSCANDO COBROS PENDIENTES
+			/*
 			$sql="SELECT SUM(pa.pago) cobrospc
 			FROM cuentas cu, pagos pa
 			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=0 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
@@ -342,6 +348,9 @@ if(isset($_POST["desempxtiempo"]))
 			{
 				echo'<td align="right">$'.moneda($get->cobrospc, 0).'</td>';
 			}
+			*/
+			$mont = $montotal-$moncobef-$moncobff;
+			echo'<td align="right">$'.moneda($mont,0).'</td>';
 			echo'</tr>';
 		}
 		?>
@@ -486,10 +495,10 @@ if(isset($_POST["desempxtiempo"]))
 	 		Filtrar marcadores: 
 	 		<select name="filtromapas" id="filtromapas">
 				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÃAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÃAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÃAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÃAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÍAS VENCIDOS</option>
 	 		</select>
 	 		</td>
 		</tr>
