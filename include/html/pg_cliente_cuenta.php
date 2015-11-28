@@ -69,23 +69,21 @@ $("#mapacliente").click(function(){
 	}
 });
 $("#btnabrecuenta").click(function(){
-	if( $("#cantidad").val()=="" || $("#monto1").val()=="" || $("plazo1").val()=="" || ($("#dias_pago").val()=="" && $("#tipo_pago").val()>1) )
+	if($("#plazos").is(':checked')) {  
+    	if( $("#cantidad").val()=="" || $("#monto1").val()=="" || $("plazo1").val()=="" || ($("#dias_pago").val()=="" && $("#tipo_pago").val()>1) ){
+			alert("Error al abrir cuenta:\nFaltan campos por llenar en el formulario.");
+		}else{
+			var cantidad = ($("#plazo1").val() * $("#monto1").val()) + ($("#plazo2").val() * $("#monto2").val());
+			if( cantidad == $("#cantidad").val() ){
+				$("#frmabrecuenta").submit();
+			}else{
+				alert("Error: Las cantidades no coinciden.\nLa cantidad prestada es de:"+$("#cantidad").val()+" y la cuenta en plazos es de: "+cantidad);
+			}
+		} 
+    }else{
 
-	{
-		alert("Error al abrir cuenta:\nFaltan campos por llenar en el formulario.");
-	}
-	else
-	{
-		var cantidad = ($("#plazo1").val() * $("#monto1").val()) + ($("#plazo2").val() * $("#monto2").val());
-		if( cantidad == $("#cantidad").val() )
-		{
-			$("#frmabrecuenta").submit();
-		}
-		else
-		{
-			alert("Error: Las cantidades no coinciden.\nLa cantidad prestada es de:"+$("#cantidad").val()+" y la cuenta en plazos es de: "+cantidad);
-		}
-	}
+    	$("#frmabrecuenta").submit(); 
+    } 
 });
 $("#plazos").click(function(){
 	 $(".plazo").attr("disabled",true);
@@ -375,8 +373,8 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 		?>
 	<tr>
 		<th width="200">Seleccione tipo de prestamo: </th>
-		<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" id="plazos" value="plazo" name="plazo"/> Plazos 
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" id="interes" name="interes" value="interes" /> Interes<br /></td>
+		<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="plazos" value="plazo" name="tipo_c"/> Plazos </label>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="interes" name="tipo_c" value="interes" /> Interes</label><br /></td>
 		
 	</tr>
 	<tr>
@@ -558,7 +556,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	<tbody>
 	<tr>
 		<th>CAPITAL PRESTADO:</th><td colspan="3">$&nbsp;<?php moneda($r->capital_inicial); ?></td>
-		<th></th><td colspan=""></td>
+		<th>NUM. CONTROL:</th><td colspan="2"><?php echo $cuenta; ?></td>
 	</tr>
 	<tr>
 		<th>FECHA:</th><td colspan="3"><?php echo date ("d-m-Y", strtotime($r->fecha)); ?></td>

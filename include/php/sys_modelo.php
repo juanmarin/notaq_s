@@ -405,16 +405,14 @@ switch($_POST["action"]){
 			($_POST["cantidad"] == "") || ($_POST["plazo1"] == "") || ($_POST["monto1"] == "")){
 			# no hacer nada porque estan mal los datos
 			echo "Información incorrecta";
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		}
-		if($_POST["interes"] != "") {## Metodo de cuenta en base a tiempo e interes fijos
+		if($_POST["interes"] != "") {
+
+		## Metodo de cuenta en base a tiempo e interes fijos
 			## Validar que vengan los datos necesarios para crear la cuenta.
-			/*
-			foreach($_POST as $var => $val){
-				echo $var . " => " . $val . "<br />";
-			}
-*/
-			$_POST["cantidad"] = $_POST["cap_inicial"];
+			$cu_tipo = 1;
+			$_POST["cap_inicial"]=$_POST["cantidad"];
 			$tiempo = $_POST["plazo1"];
 				## calcular total
 			$total = $_POST["cantidad"] * (( ($_POST["interes"] * $tiempo)  / 100 ) + 1 );
@@ -426,7 +424,7 @@ switch($_POST["action"]){
 				$diasPago = $_POST["dias_pago"];
 			}			
 			## creando cuenta 
-			$_cadena = "INSERT INTO cuentas (cliente, fecha, capital_inicial, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones)
+			$_cadena = "INSERT INTO cuentas (cliente, fecha, capital_inicial, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones, cuenta_tipo)
 			VALUES (
 				". $_POST["cl"] .",
 				'". $_POST["fecha"] ."',
@@ -440,12 +438,13 @@ switch($_POST["action"]){
 				". $npagos .",
 				". $pago .",
 				'". $_POST["cobrador"] ."',
-				'". $_POST["observ"]."'
+				'". $_POST["observ"]."',
+				".$cu_tipo."
 			)";
-			echo $_cadena."</br>";
+			//echo $_cadena."</br>";
 			$res = mysql_query($_cadena);
 			$cuenta = mysql_insert_id();
-			echo $cuenta;
+			//echo $cuenta;
 			$cnt = 0;
 			$n = 1;
 			if($_POST["tipo_pago"] == 1){
@@ -502,10 +501,11 @@ switch($_POST["action"]){
 				$cnt++;
 			}
 			//include_once "imprimeReciboCuenta.php";
-			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> '
+			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		}else{
 			#[YA SE VERIFICÓ QUE SERÁ DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
 			# inicializar las variables
+
 			switch($_POST["tipo_pago"]){
 				case 1:	$tipo_pago = "SEMANAL";		break;
 				case 2:	$tipo_pago = "CATORCENAL";	break;
@@ -518,7 +518,7 @@ switch($_POST["action"]){
 			$monto2 = $_POST["monto2"]; 
 			$plazo1 = $_POST["plazo1"];
 			$plazo2 = $_POST["plazo2"];
-
+			$cu_tipo = 0; #<--- VARIABLE QUE DEFINE EL TIPO DE CUENTA ----->
 			# mandamos llamar la funcion que nos traera los datos para crear la nueva cuenta
 			$datosPrestamo = calculamonto($cantidad, $monto1, $monto2, $plazo1, $plazo2, $tipo_pago);
 			//var_dump($datosPrestamo);
@@ -586,7 +586,7 @@ switch($_POST["action"]){
 				{
 					## NO SE HACE NADA AQUI, NO SE HICIERON CAMBIOS EN LOS PAGOS
 					unset($_SESSION["EDITARCUENTA"]);
-					echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+					//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 				}
 				else
 				{
@@ -602,7 +602,7 @@ switch($_POST["action"]){
 				unset($_SESSION["EDITARCUENTA"]);
 			}else{
 				## creando cuenta 
-				$_cadena = "INSERT INTO cuentas (cliente, fecha, capital_inicial, fecha_pago, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones)
+				$_cadena = "INSERT INTO cuentas (cliente, fecha, capital_inicial, fecha_pago, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones, cuenta_tipo)
 					VALUES (
 					 ". $_POST["cl"] .",
 					'". $_POST["fecha"] ."',
@@ -618,6 +618,7 @@ switch($_POST["action"]){
 					 ". $pago .",
 					'". $_POST["cobrador"] ."',
 					'". $_POST["observ"]."'
+					".$cuenta_tipo."
 				)";
 				$res = mysql_query($_cadena);
 				$cuenta = mysql_insert_id();
@@ -738,7 +739,7 @@ switch($_POST["action"]){
 			if($cl_cobrador != $_POST["cobrador"])
 			{
 				$sql = "UPDATE clientes SET c_cobrador = '".$_POST["cobrador"]."' WHERE id = ".$_POST["cl"];
-				echo $sql;
+				//echo $sql;
 				mysql_query($sql);
 			}
 			//include_once "imprimeReciboCuenta.php";
