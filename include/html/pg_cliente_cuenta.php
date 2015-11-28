@@ -69,8 +69,8 @@ $("#mapacliente").click(function(){
 	}
 });
 $("#btnabrecuenta").click(function(){
-	if($("#plazos").is(':checked')) {  
-    	if( $("#cantidad").val()=="" || $("#monto1").val()=="" || $("plazo1").val()=="" || ($("#dias_pago").val()=="" && $("#tipo_pago").val()>1) ){
+	if($("#plazos").is(':checked')){
+		if( $("#cantidad").val()=="" || $("#monto1").val()=="" || $("plazo1").val()=="" || ($("#dias_pago").val()=="" && $("#tipo_pago").val()=="nd") ){
 			alert("Error al abrir cuenta:\nFaltan campos por llenar en el formulario.");
 		}else{
 			var cantidad = ($("#plazo1").val() * $("#monto1").val()) + ($("#plazo2").val() * $("#monto2").val());
@@ -79,11 +79,17 @@ $("#btnabrecuenta").click(function(){
 			}else{
 				alert("Error: Las cantidades no coinciden.\nLa cantidad prestada es de:"+$("#cantidad").val()+" y la cuenta en plazos es de: "+cantidad);
 			}
-		} 
-    }else{
-
-    	$("#frmabrecuenta").submit(); 
-    } 
+		}
+	}else{
+		alert("Este tipo de cuenta no está disponible por el momento.");
+		/*
+		if( $("#cantidad").val()=="" || $("#interes").val()=="" || $("plazo1").val()=="" || ($("#dias_pago").val()=="" && $("#tipo_pago").val()=="nd" && $("#fechapp").val()=="") ){
+			alert("Error al abrir cuenta:\nFaltan campos por llenar en el formulario.");
+		}else{
+			$("#frmabrecuenta").submit();
+		}
+		*/
+	}
 });
 $("#plazos").click(function(){
 	 $(".plazo").attr("disabled",true);
@@ -94,12 +100,15 @@ $("#plazos").click(function(){
  });
 
 $("#interes").click(function(){
- 	$(".plazo").removeAttr("disabled");
- 	$(".int").attr("disabled",true);
- 	$("#plazos").removeAttr("checked");
- 	$(".int").css({ 'background': '#D8D8D8'});
- 	$(".plazo").css({ 'background': ''});
- });
+	alert("Este tipo de cuenta no se encuentra disponible por el momento.");
+	/*
+	$(".plazo").removeAttr("disabled");
+	$(".int").attr("disabled",true);
+	$("#plazos").removeAttr("checked");
+	$(".int").css({ 'background': '#D8D8D8'});
+	$(".plazo").css({ 'background': ''});
+	*/
+});
 </script>
 <p class="title">Clientes &raquo; Cuenta</p>
 <table>
@@ -373,8 +382,8 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 		?>
 	<tr>
 		<th width="200">Seleccione tipo de prestamo: </th>
-		<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="plazos" value="plazo" name="tipo_c"/> Plazos </label>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="interes" name="tipo_c" value="interes" /> Interes</label><br /></td>
+		<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="plazos" value="plazo" name="tipo_c" checked /> Plazos </label>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="interes" name="tipo_c" value="interes" disabled /> Interes</label><br /></td>
 		
 	</tr>
 	<tr>
@@ -508,7 +517,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 			?>
 			<th colspan="4">
 			<input type="button" value="Cancelar" id="CancelarEditarCuenta" title="Cancelar editar datos de cuenta" rel="<?=$ncta;?>" />
-			<input type="button" id="btnabrecuenta2" value="Guardar cambios" />
+			<input type="button" id="btnabrecuenta" value="Guardar cambios" />
 			</th>
 			<?php
 		}
