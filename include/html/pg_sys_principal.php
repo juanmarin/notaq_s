@@ -177,187 +177,38 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 <br/>
 <!-- REPORTE DE PUNTUALIDAD POR COBRADOR -->
 <?php
-#FORMULARIO PARA GENERAR REPROTE DE DESEMPEÃO
+#FORMULARIO PARA GENERAR REPROTE DE DESEMPEÑO
 ?>
 <form action="" method="post">
-<table>
-<caption>Generar reporte de desempe&nacute;o</caption>
-<tbody>
-<tr>
-	<td>Seleccionar rango de fechas:</td>
-</tr>
-<tr>
-	<td>Desde: <input type="text" name="fi" class="dpfecha" value="<?=$_POST['fi'];?>" /></td>
-</tr>
-<tr>
-	<td>Hasta: <input type="text" name="ff" class="dpfecha" value="<?=date('Y-m-d')?>" /></td>
-</tr>
-</tbody>
-<tfoot>
-<tr>
-	<td><input type="submit" name="desempxtiempo" value="Generar reporte" /></td>
-</tr>
-</tfoot>
+	<table class="table">
+	<caption>Generar reporte de desempe&nacute;o</caption>
+	<tbody>
+		<tr>
+		<td>Seleccionar rango de fechas:</td>
+		</tr>
+		<tr>
+		<td>Desde: <input type="text" name="fi" class="dpfecha" value="<?=$_POST['fi'];?>" /></td>
+		</tr>
+		<tr>
+		<td>Hasta: <input type="text" name="ff" class="dpfecha" value="<?=date('Y-m-d')?>" /></td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+		<td><input type="submit" name="desempxtiempo" value="Generar reporte" /></td>
+		</tr>
+	</tfoot>
 </table>
 </form>
 <?php
 if(isset($_POST["desempxtiempo"]))
 {
-	?>
-	<br />
-	<table>
-	<caption>Reporte de desempeño desde el <?=$_POST["fi"];?> al <?=$_POST["ff"];?></caption>
-	<thead>
-		<tr>
-			<th>COBRADOR</th>
-			<th>TOTAL</th>
-			<th>COBROS EN FECHA</th>
-			<th>COBROS FUERA DE FECHA</th>
-			<th>POR COBRAR</th>
-			<th>AVANCE</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php
-		$sql="SELECT cu.cobrador, count(pa.id) total 
-			FROM cuentas cu, pagos pa 
-			WHERE cu.id=pa.cuenta AND pa.estado<2
-			AND pa.fechaPago BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
-			GROUP BY cu.cobrador ORDER BY cu.cobrador";
-		//echo $sql;
-		$res=$db->query($sql);
-		while($rd=$db->fetchNextObject($res))
-		{
-			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEñO, VENDEDOR Y TOTAL COBRADO
-			echo'<tr>';
-			echo'<td align="center">'.$rd->cobrador.'</td>';
-			echo'<td align="center">'.$rd->total.'</td>';
-			$totalavance = $rd->total;
-
-			#BUSCANDO COBROS EN FECHA
-			$sql="SELECT count(*) cobrosef
-			FROM cuentas cu, pagos pa
-			WHERE cu.id=pa.cuenta AND pa.estado=1 AND pa.fechaPago BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
-			AND cu.cobrador='".$rd->cobrador."'
-			AND pa.fechaPago<=pa.fecha";
-			$re2=$db->query($sql);
-			while($get=$db->fetchNextObject($re2))
-			{
-				$cobrosenfecha = $get->cobrosef;
-				echo'<td align="center">'.$get->cobrosef.'</td>';
-			}
-
-			#BUSCANDO COBROS FUERA DE FECHA
-			$sql="SELECT count(*) cobrosff
-			FROM cuentas cu, pagos pa
-			WHERE cu.id=pa.cuenta AND pa.estado=1 AND pa.fechaPago BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
-			AND cu.cobrador='".$rd->cobrador."'
-			AND pa.fechaPago>pa.fecha";
-			$re2=$db->query($sql);
-			while($get=$db->fetchNextObject($re2))
-			{
-				echo'<td align="center">'.$get->cobrosff.'</td>';
-			}
-
-			#BUSCANDO COBROS PENDIENTES
-			$sql="SELECT count(*) cobrospc
-			FROM cuentas cu, pagos pa
-			WHERE cu.id=pa.cuenta AND pa.estado=0 AND pa.fechaPago BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
-			AND cu.cobrador='".$rd->cobrador."'";
-			$re2=$db->query($sql);
-			while($get=$db->fetchNextObject($re2))
-			{
-				echo'<td align="center">'.$get->cobrospc.'</td>';
-			}
-			
-			#CALCULANDO EL PORCCENTAJE DE AVANCE
-			$pavance = ( $cobrosenfecha / $totalavance ) * 100;
-			$tbl_color = semaforo(number_format($pavance, 2));
-			?><td style='background-color:<?php echo $tbl_color;?>' align='right'><?php moneda($pavance);?> %</td><?php
-			
-			echo'</tr>';
-		}
-		?>
-	</tbody>
-	</table>
-	<br />
-	<br />
-
-	<table>
-	<caption>Reporte monetario de desempeño</caption>
-	<thead>
-		<tr>
-			<th>COBRADOR</th>
-			<th>TOTAL</th>
-			<th>COBROS EN FECHA</th>
-			<th>COBROS FUERA DE FECHA</th>
-			<th>POR COBRAR</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php
-		$sql="SELECT cu.cobrador, SUM(pa.pago) total
-			FROM cuentas cu, pagos pa 
-			WHERE cu.id=pa.cuenta AND cu.estado=0  AND pa.estado<2
-			AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
-			GROUP BY cu.cobrador ORDER BY cu.cobrador";
-		//echo $sql;
-		$res=$db->query($sql);
-		while($rd=$db->fetchNextObject($res))
-		{
-			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEñO, VENDEDOR Y TOTAL COBRADO
-			echo'<tr>';
-			echo'<td>'.$rd->cobrador.'</td>';
-			echo'<td alignt="right">$ '.moneda($rd->total, 0).'</td>';
-			$montotal=$rd->total;
-			
-			#BUSCANDO COBROS EN FECHA
-			$sql="SELECT SUM(pa.pago_real) cobrosef
-			FROM cuentas cu, pagos pa
-			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=1 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
-			AND cu.cobrador='".$rd->cobrador."'
-			AND pa.fechaPago<=pa.fecha";
-			$re2=$db->query($sql);
-			while($get=$db->fetchNextObject($re2))
-			{
-				$moncobef=$get->cobrosef;
-				echo'<td align="right">$'.moneda($get->cobrosef, 0).'</td>';
-			}
-
-			#BUSCANDO COBROS FUERA DE FECHA
-			$sql="SELECT SUM(pa.pago_real) cobrosff
-			FROM cuentas cu, pagos pa
-			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=1 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
-			AND cu.cobrador='".$rd->cobrador."'
-			AND pa.fechaPago>pa.fecha";
-			$re2=$db->query($sql);
-			while($get=$db->fetchNextObject($re2))
-			{
-				$moncobff=$get->cobrosff;
-				echo'<td align="right">$'.moneda($get->cobrosff, 0).'</td>';
-			}
-
-			#BUSCANDO COBROS PENDIENTES
-			/*
-			$sql="SELECT SUM(pa.pago) cobrospc
-			FROM cuentas cu, pagos pa
-			WHERE cu.id=pa.cuenta AND cu.estado=0 AND pa.estado=0 AND pa.fecha BETWEEN CAST('".$_POST["fi"]."' AS DATE) AND CAST('".$_POST["ff"]."' AS DATE)
-			AND cu.cobrador='".$rd->cobrador."'";
-			$re2=$db->query($sql);
-			while($get=$db->fetchNextObject($re2))
-			{
-				echo'<td align="right">$'.moneda($get->cobrospc, 0).'</td>';
-			}
-			*/
-			$mont = $montotal-$moncobef-$moncobff;
-			echo'<td align="right">$'.moneda($mont,0).'</td>';
-			echo'</tr>';
-		}
-		?>
-	</tbody>
-	</table>
-	
-	<?php	
+	#- REPORTE DE DESEMPEÑO POR RANGO DE FECHAS
+	echo "<br />";
+	include_once "include/html/pg_sys_principal_rdesempeno.php";
+	#- REPORTE DE DESEMPEÑO MONETARIO POR RANGO DE FECHAS
+	echo "<br />";
+	include_once "include/html/pg_sys_principal_rdesempeno_monetario.php";
 }
 } else {
 	$clcobrador = "AND c_cobrador = '$UserName'";

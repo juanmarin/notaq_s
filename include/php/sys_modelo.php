@@ -1418,7 +1418,7 @@ switch($_POST["action"]){
 				}
 			}
 			echo $sPhotoFileName . "<br />";
-			// CAMBIAR TAMAÃ‘O DE IMAGEN --
+			// CAMBIAR TAMAÑO DE IMAGEN --
 			$nWidth = imagesx($oSourceImage);  // get original source image width 
 			$nHeight = imagesy($oSourceImage); // and height 
 			// create small thumbnail 
