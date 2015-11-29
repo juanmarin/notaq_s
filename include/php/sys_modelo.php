@@ -404,7 +404,7 @@ switch($_POST["action"]){
 		if((($_POST["tipo_pago"] > 4) && ($_POST["dias_pago"] == "nd")) || ($_POST["tipo_pago"] == "nd") || 
 			($_POST["cantidad"] == "") || ($_POST["plazo1"] == "") || ($_POST["monto1"] == "")){
 			# no hacer nada porque estan mal los datos
-			echo "Información incorrecta";
+			echo "Informaci�n incorrecta";
 			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		}
 		if($_POST["interes"] != "") {
@@ -503,9 +503,9 @@ switch($_POST["action"]){
 			//include_once "imprimeReciboCuenta.php";
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		}else{
-			#[YA SE VERIFICÓ QUE SERÁ DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
+			#[YA SE VERIFIC QUE SERÁ DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
 			# inicializar las variables
-
+			echo "<p>Cuenta con plazos</p>";
 			switch($_POST["tipo_pago"]){
 				case 1:	$tipo_pago = "SEMANAL";		break;
 				case 2:	$tipo_pago = "CATORCENAL";	break;
@@ -537,7 +537,7 @@ switch($_POST["action"]){
 				$diasPago = $_POST["dias_pago"];
 			}	
 			if(isset($_SESSION["EDITARCUENTA"]))
-			{	
+			{
 				## comprobar datos anteriores de cuenta
 				$sql = "SELECT * FROM cuentas WHERE id=".$_SESSION["EDITARCUENTA"];
 				//echo $sql;
@@ -578,7 +578,7 @@ switch($_POST["action"]){
 					observaciones	= '". $_POST["observ"]."',
 					editadopor	= '$UserName'
 					WHERE id = ".$_SESSION["EDITARCUENTA"];
-				//echo "<br>$_cadena<br>";
+				echo "<br>$_cadena<br>";
 				$res = mysql_query($_cadena);
 				//if($res){echo"ok";}else{echo"falla en update";}
 				$cuenta = $_SESSION["EDITARCUENTA"];
@@ -617,12 +617,14 @@ switch($_POST["action"]){
 					 ". $npagos .",
 					 ". $pago .",
 					'". $_POST["cobrador"] ."',
-					'". $_POST["observ"]."'
-					".$cuenta_tipo."
+					'". $_POST["observ"]."',
+					0
 				)";
+				echo "<p>$_cadena</p>";
 				$res = mysql_query($_cadena);
 				$cuenta = mysql_insert_id();
 			}
+			echo "<p>Cuenta id: $cuenta</p>";
 			$cnt = 0;
 			$n = 1;
 			if($tipo_pago == 1){

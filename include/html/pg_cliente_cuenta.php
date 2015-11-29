@@ -81,14 +81,16 @@ $("#btnabrecuenta").click(function(){
 			}
 		}
 	}else{
-		alert("Este tipo de cuenta no está disponible por el momento.");
-		/*
-		if( $("#cantidad").val()=="" || $("#interes").val()=="" || $("plazo1").val()=="" || ($("#dias_pago").val()=="" && $("#tipo_pago").val()=="nd" && $("#fechapp").val()=="") ){
-			alert("Error al abrir cuenta:\nFaltan campos por llenar en el formulario.");
+		var editar = <?php echo (isset($_SESSION["EDITARCUENTA"]))?$_SESSION["EDITARCUENTA"]:1;?>;
+		if(editar>0){
+			alert("Esta funcion no esta disponible");
 		}else{
-			$("#frmabrecuenta").submit();
+			if( $("#cantidad").val()=="" || $("#interes").val()=="" || $("plazo1").val()=="" || ($("#dias_pago").val()=="" && $("#tipo_pago").val()=="nd" && $("#fechapp").val()=="") ){
+				alert("Error al abrir cuenta:\nFaltan campos por llenar en el formulario.");
+			}else{
+				$("#frmabrecuenta").submit();
+			}
 		}
-		*/
 	}
 });
 $("#plazos").click(function(){
@@ -100,14 +102,11 @@ $("#plazos").click(function(){
  });
 
 $("#interes").click(function(){
-	alert("Este tipo de cuenta no se encuentra disponible por el momento.");
-	/*
 	$(".plazo").removeAttr("disabled");
 	$(".int").attr("disabled",true);
 	$("#plazos").removeAttr("checked");
 	$(".int").css({ 'background': '#D8D8D8'});
 	$(".plazo").css({ 'background': ''});
-	*/
 });
 </script>
 <p class="title">Clientes &raquo; Cuenta</p>
@@ -383,7 +382,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	<tr>
 		<th width="200">Seleccione tipo de prestamo: </th>
 		<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="plazos" value="plazo" name="tipo_c" checked /> Plazos </label>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="interes" name="tipo_c" value="interes" disabled /> Interes</label><br /></td>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="interes" name="tipo_c" value="interes" /> Interes</label><br /></td>
 		
 	</tr>
 	<tr>
