@@ -81,7 +81,7 @@ $("#btnabrecuenta").click(function(){
 			}
 		}
 	}else{
-		var editar = <?php echo (isset($_SESSION["EDITARCUENTA"]))?$_SESSION["EDITARCUENTA"]:1;?>;
+		var editar = <?php echo (isset($_SESSION["EDITARCUENTA"]))?$_SESSION["EDITARCUENTA"]:0;?>;
 		if(editar>0){
 			alert("Esta funcion no esta disponible");
 		}else{
