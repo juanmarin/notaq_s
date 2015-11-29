@@ -505,7 +505,7 @@ switch($_POST["action"]){
 		}else{
 			#[YA SE VERIFIC QUE SERÁ DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
 			# inicializar las variables
-			echo "<p>Cuenta con plazos</p>";
+			//echo "<p>Cuenta con plazos</p>";
 			switch($_POST["tipo_pago"]){
 				case 1:	$tipo_pago = "SEMANAL";		break;
 				case 2:	$tipo_pago = "CATORCENAL";	break;
@@ -578,7 +578,7 @@ switch($_POST["action"]){
 					observaciones	= '". $_POST["observ"]."',
 					editadopor	= '$UserName'
 					WHERE id = ".$_SESSION["EDITARCUENTA"];
-				echo "<br>$_cadena<br>";
+				//echo "<br>$_cadena<br>";
 				$res = mysql_query($_cadena);
 				//if($res){echo"ok";}else{echo"falla en update";}
 				$cuenta = $_SESSION["EDITARCUENTA"];
