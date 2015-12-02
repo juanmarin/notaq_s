@@ -91,12 +91,12 @@
 			<td>Nombre Empleo<br/>
 				<input type="text" name="empleo" id="empleo" maxlength="25">
 			</td>
-			<td>Direcci&oacute;n Empleo<br/>
+			<td>Calle Empleo<br/>
 				<input type="text" name="dir_empl" id="dir_empl" maxlength="25">
 			</td>
 		</tr>
 		<tr>
-			<td>Calle Empleo<br/>
+			<td>Colonia Empleo<br/>
 				<input type="text" name="c_empl" id="c_empl" maxlength="25">
 			</td>
 			<td>Tel&eacute;fono Empleo<br/>
