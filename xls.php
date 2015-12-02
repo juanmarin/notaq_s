@@ -1,11 +1,12 @@
 <?php
 /*
 */
+$hoy 		= date("d-m-Y");
 @session_start();
 if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0 && isset($_POST)){
 	header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
 	header("Content-type:   application/x-msexcel; charset=utf-8");
-	header("Content-Disposition: attachment; filename=abc.xls"); 
+	header("Content-Disposition: attachment; filename=".Cuentas_activas."".$hoy.".xls"); 
 	header("Expires: 0");
 	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	header("Cache-Control: private",false);
