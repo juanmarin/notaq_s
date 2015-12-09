@@ -36,12 +36,12 @@
 		$recargos = $rec[0];
 		echo '<tr><th>Recargos</th><td><input type="text" name="recargo" value="';
 		moneda($recargos);
-		echo '" readonly="readonly" /></td></tr>';
+		echo '"readonly/></td></tr>';
 	}
 	?>
 	<tr>
 		<th>Monto a pagar</th>
-		<td><input type="text" name="total" value="<?php moneda($saldo + $recargos);?>" readonly /></td>
+		<td><input type="text" name="total" value="<?php moneda($saldo + $recargos);?>" /></td>
 	</tr>
 	<tr>
 		<th colspan="2" style="text-align: center;">Autorización</th>
