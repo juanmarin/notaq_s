@@ -26,7 +26,7 @@
 	?>
 	<tr>
 		<th>Saldo de cuenta:</th>
-		<td><input type="text" name="cant" value="<?php moneda($saldo);?>" readonly="readonly" /></td>
+		<td><input type="text" name="cant" value="<?php moneda($saldo);?>" /></td>
 	</tr>
 	<?php
 	$sql = "SELECT SUM(monto) as monto FROM recargos WHERE estado = 0 AND cuenta = ".$_GET["c"];
@@ -36,7 +36,7 @@
 		$recargos = $rec[0];
 		echo '<tr><th>Recargos</th><td><input type="text" name="recargo" value="';
 		moneda($recargos);
-		echo '"readonly/></td></tr>';
+		echo '"/></td></tr>';
 	}
 	?>
 	<tr>
