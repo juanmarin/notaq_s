@@ -921,7 +921,7 @@ switch($_POST["action"]){
 						//echo $sql . "<br />";
 						$res = mysql_query($sql);
 						if($res){
-							$sql = "UPDATE pagos SET estado = 2, fechaPago='".date("Y-m-d")."', pago_real=pago WHERE cuenta = ".$_POST["c"]." AND estado = 0";
+							$sql = "UPDATE pagos SET estado = 4, fechaPago='".date("Y-m-d")."', pago_real=pago WHERE cuenta = ".$_POST["c"]." AND estado = 0";
 							$res = mysql_query($sql);
 							//echo $sql . "<br />";
 						}

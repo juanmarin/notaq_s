@@ -301,7 +301,7 @@ ADD COLUMN `fechap` DATE NULL COMMENT 'Fecha del pago' AFTER `tipodes`;
 				, pa.fecha fechap, pa.fechaPago fecha, pa.id cobroid, pa.pago_real monto
 				FROM pagos pa 
 				RIGHT JOIN clientes cl ON pa.cliente=cl.id
-				WHERE pa.estado > 0 AND reportado = 0
+				WHERE pa.estado > 0 AND pa.estado <= 3 AND reportado = 0
 				$cobradorPA";
 		$res = $db->query($sql);
 		//-abonos
