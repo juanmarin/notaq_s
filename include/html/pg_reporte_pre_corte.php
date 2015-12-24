@@ -1,4 +1,5 @@
 <?php
+//Reporte corte caja
 @session_start();
 require_once("include/php/sys_db.class.php");
 require_once("include/php/fun_global.php");
