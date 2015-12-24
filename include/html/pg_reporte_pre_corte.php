@@ -423,7 +423,7 @@ ADD COLUMN `fechap` DATE NULL COMMENT 'Fecha del pago' AFTER `tipodes`;
 	}
 }else{
 	if(isset($_POST["enviar2"])){
-		echo "<p>Este reporte se encuentra actualmente en contrucción.</p>";
+		echo "<p>Este reporte se encuentra actualmente en contrucci&oacute;n.</p>";
 	}
 	?>
 	<p class="title">Reportes &raquo; Corte de caja</p>
