@@ -7,14 +7,14 @@
   </head>
   <body>
     <div class="wrapper">
-	<div class="container">
-		<h1>Confianzp</h1>
-		<form class="form" action="" method="post">
-			<input type="text" name="uname" id="usuario" placeholder="Usuario">
-			<input type="password" name="pwd" placeholder="Contraseña">
-			<input type="submit" id="login-button" value="Entrar">
-		</form>
-	</div>
+		<div class="container">
+			<h1>Confianzp</h1>
+			<form class="form" action="" method="post">
+				<input type="text" name="uname" id="usuario" placeholder="Usuario">
+				<input type="password" name="pwd" placeholder="Contraseña">
+				<input type="submit" id="login-button" value="Entrar">
+			</form>
+		</div>
 	<ul class="bg-bubbles">
 		<li></li>
 		<li></li>
