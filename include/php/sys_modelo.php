@@ -1135,11 +1135,6 @@ switch($_POST["action"]){
 					$rest = mysql_query($demanda);
 					echo '<meta http-equiv="refresh" content="0;url=../../?pg=2c">';
 				}
-					?>
-						<script type="text/javascript">
-							alert("No hay registros para Mostrar.");
-						</script>
-					<?php
 					echo '<meta http-equiv="refresh" content="0;url=../../?pg=2c">';
 			}
 		} 
