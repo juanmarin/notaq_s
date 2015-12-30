@@ -35,7 +35,7 @@ if($UserLevel==0){
 </thead>
 <tbody>
 	<?php
-	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidop, clientes.demanda, cuentas.cliente, clientes.c_cobrador, 
+	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidom, clientes.demanda, cuentas.cliente, clientes.c_cobrador, 
 	cuentas.cobrador, cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha, 
 	SUM(pagos.pago) AS pago, pagos.estado
 	FROM clientes, cuentas, pagos 
@@ -61,7 +61,9 @@ if($UserLevel==0){
 			<td style="text-align:center">$ <?= moneda($r->pago);?></td>
 		<?php
 			if ($UserLevel == 0) {
-				echo '<th style="text-align:center"><input type="checkbox" name="ids[]" value="<?= $r->id; ?>" /></th>';
+				?>
+					<th style="text-align:center"><input type="checkbox" name="ids[]" value="<?= $r->id; ?>" /></th>
+				<?php
 			}
 			
 		?>

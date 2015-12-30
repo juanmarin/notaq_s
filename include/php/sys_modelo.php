@@ -4,6 +4,8 @@
 foreach($_POST as $var => $val){
 		echo $var . " => " . $val . "<br />";
 	}
+
+var_dump($_POST['ids']);
 */
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
@@ -1122,9 +1124,23 @@ switch($_POST["action"]){
 			$res = mysql_query($sql);
 			if($res)
 			{
-				$demanda = "INSERT INTO demandas (cliente_id)VALUES(".$cl_id.")";
-				$rest = mysql_query($demanda);
-				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2c"> ';
+				$verify = "SELECT * FROM demandas WHERE cliente_id = ".$cl_id;
+				//echo $verify."<br/>";
+				$res = mysql_query($verify);
+				$num_rows = mysql_num_rows($res);
+				//echo $num_rows;
+
+				if ($num_rows == 0) {
+					$demanda = "INSERT INTO demandas (cliente_id)VALUES(".$cl_id.")";
+					$rest = mysql_query($demanda);
+					echo '<meta http-equiv="refresh" content="0;url=../../?pg=2c">';
+				}
+					?>
+						<script type="text/javascript">
+							alert("No hay registros para Mostrar.");
+						</script>
+					<?php
+					echo '<meta http-equiv="refresh" content="0;url=../../?pg=2c">';
 			}
 		} 
 		break;

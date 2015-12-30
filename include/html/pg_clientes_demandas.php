@@ -20,7 +20,7 @@ $UserLevel = $_SESSION["U_NIVEL"];
 	$clcobrador="AND clientes.c_cobrador = '$UserName'";
 }if (isset($_POST["enviar"])){
 	?>
-<p class="title">Portada &raquo; Listado de Clientes en Demanda</p>
+<p class="title">Clientes &raquo; Listado de clientes activos</p>
 <table>
 <caption>CUENTAS EN PROCESO DE DEMANDA</caption>
 <thead>
@@ -33,7 +33,7 @@ $UserLevel = $_SESSION["U_NIVEL"];
 </thead>
 <tbody>
 	<?php
-	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidop, clientes.c_cobrador, demandas.cliente_id AS id 
+	$sql = "SELECT clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidom, clientes.c_cobrador, demandas.cliente_id AS id 
 	FROM clientes, demandas
 	WHERE
 	clientes.id = demandas.cliente_id
@@ -41,6 +41,13 @@ $UserLevel = $_SESSION["U_NIVEL"];
 	ORDER BY clientes.nombre ASC";
 	$res = $db->query($sql);
 	$num_rows = mysql_num_rows($res);
+	if ($num_rows < 1) {
+		?>
+		<script type="text/javascript">
+				alert("No hay registros para Mostrar.");
+		</script>
+		<?php
+	}
 	while($r = $db->fetchNextObject($res)){
 		?>
 		<tr>
@@ -55,7 +62,7 @@ $UserLevel = $_SESSION["U_NIVEL"];
 </tbody>
 <tfoot>
 	<tr>
-		<th colspan="5"></th>
+		<th colspan="6"></th>
 	</tr>
 </tfoot>
 </table>
@@ -65,7 +72,7 @@ $UserLevel = $_SESSION["U_NIVEL"];
 	<p class="title">Clientes &raquo; Demandas</p>
 	<form name="repoFechas" action="" method="post">
 	<table>
-	<caption>Clientes en Proceso de Demanda</caption>
+	<caption>Clientes Activos</caption>
 	<thead>
 	<tr>
 	<th colspan="4"></th>
