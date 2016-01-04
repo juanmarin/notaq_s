@@ -122,7 +122,7 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 	});
 	</script>
 	<table class="formato">
-	<caption>LocalizaciÃ³n geogr&aacute;fica</caption>
+	<caption>Localización geogr&aacute;fica</caption>
 	<thead>
 		<tr>
 			<th>Mueva el marcador para cambiar la localizaci&oacute;n del cliente.</th>
@@ -134,11 +134,11 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 	 		Filtrar marcadores: 
 	 		<select name="filtromapas" id="filtromapas">
 				<option value="">Mostrar todos</option>
-				<option value="5" style="background:#0066CC;">CLIENTES DEL DÃA DE HOY</option>
-				<option value="1" style="background:#4acc66;">CLIENTES DE 1 A 7 DÃAS VENCIDOS</option>
-				<option value="2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÃAS VENCIDOS</option>
-				<option value="3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÃAS VENCIDOS</option>
-				<option value="4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÃAS VENCIDOS</option>
+				<option value="5" style="background:#0066CC;">CLIENTES DEL DÍA DE HOY</option>
+				<option value="1" style="background:#4acc66;">CLIENTES DE 1 A 7 DÍAS VENCIDOS</option>
+				<option value="2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÍAS VENCIDOS</option>
+				<option value="3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÍAS VENCIDOS</option>
+				<option value="4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÍAS VENCIDOS</option>
 	 		</select>
 	 		</td>
 	 	</tr>
@@ -177,7 +177,7 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 <br/>
 <!-- REPORTE DE PUNTUALIDAD POR COBRADOR -->
 <?php
-#FORMULARIO PARA GENERAR REPROTE DE DESEMPEÃ‘O
+#FORMULARIO PARA GENERAR REPROTE DE DESEMPEÑO
 ?>
 <form action="" method="post">
 	<table class="table">
@@ -203,10 +203,10 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 <?php
 if(isset($_POST["desempxtiempo"]))
 {
-	#- REPORTE DE DESEMPEÃ‘O POR RANGO DE FECHAS
+	#- REPORTE DE DESEMPEÑO POR RANGO DE FECHAS
 	echo "<br />";
 	include_once "include/html/pg_sys_principal_rdesempeno.php";
-	#- REPORTE DE DESEMPEÃ‘O MONETARIO POR RANGO DE FECHAS
+	#- REPORTE DE DESEMPEÑO MONETARIO POR RANGO DE FECHAS
 	echo "<br />";
 	include_once "include/html/pg_sys_principal_rdesempeno_monetario.php";
 }
@@ -334,10 +334,10 @@ if(isset($_POST["desempxtiempo"]))
 	});
 	</script>
 	<table class="formato">
-	<caption>LocalizaciÃ³n geogrÃ¡fica</caption>
+	<caption>Localización geográfica</caption>
 	<thead>
 		<tr>
-			<th>Mueva el marcador para cambiar la localizaciÃ³n del cliente.</th>
+			<th>Mueva el marcador para cambiar la localización del cliente.</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -346,10 +346,11 @@ if(isset($_POST["desempxtiempo"]))
 	 		Filtrar marcadores: 
 	 		<select name="filtromapas" id="filtromapas">
 				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÃAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÃAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÃAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÃAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=5" style="background:#0066CC;">CLIENTES DEL DÍA DE HOY</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÍAS VENCIDOS</option>
 	 		</select>
 	 		</td>
 		</tr>
@@ -366,7 +367,7 @@ if(isset($_POST["desempxtiempo"]))
 <br/>
 <?php 
 }
-#MOSTRANDO TABLA DE DESEMPEÃ±oO ---
+#MOSTRANDO TABLA DE DESEMPEñoO ---
 $cobrador=($UserLevel>1)?"AND cobrador='$UserName'":"";
 $semana = 
 $sql = "SELECT * FROM desempeno WHERE year=".date("Y")." AND semana>".(date("W")-5)." $cobrador ORDER BY semana DESC, cobrador ASC";
@@ -384,7 +385,7 @@ while($d=$db->fetchNextObject($res))
 		if($con>=0){echo $separador;}
 		echo"
 		<table>
-		<caption>DesempeÃ±o semanal (Semana actual: $sem)</caption>
+		<caption>Desempeño semanal (Semana actual: $sem)</caption>
 		<thead>
 			<tr>
 				<th>SEMANA</th>
