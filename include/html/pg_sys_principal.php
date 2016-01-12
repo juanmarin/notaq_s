@@ -1,6 +1,6 @@
 <?php
 @session_start();
-header('Content-Type: text/html; charset=ISO-8859-1');
+//header('Content-Type: text/html; charset=UTF-8');
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
 ?>
@@ -48,13 +48,13 @@ if ($UserLevel == 0) {
 			<td style="font-size:small;"><?php echo $cob->cobrador;?></td>
 			<td style="font-size:small;" align="center"> <?php echo $cob->mis_ctes; ?></td>
 			<?php
-			$sql2="SELECT clientes.id, clientes.demanda, cuentas.cliente, clientes.c_cobrador, 
+			/// ***** ****** OBTENIEDO LOS CLIENTES CON PAGOS VENCIDOS 
+			$sql2="SELECT clientes.id, cuentas.cliente, clientes.c_cobrador, 
 			cuentas.cobrador, cuentas.estado, 
 			pagos.cuenta, pagos.cliente, pagos.fecha, pagos.estado
 			FROM clientes, cuentas, pagos 
 			WHERE
-				clientes.id = cuentas.cliente 
-				AND clientes.demanda != 1 
+				clientes.id = cuentas.cliente
 				AND cuentas.id = pagos.cuenta 
 				AND cuentas.estado = 0 
 				AND pagos.estado = 0 
