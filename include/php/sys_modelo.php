@@ -411,12 +411,12 @@ switch($_POST["action"]){
 		}
 		if($_POST["interes"] != "") {
 
-		## Metodo de cuenta en base a tiempo e interes fijos
+			## Metodo de cuenta en base a tiempo e interes fijos
 			## Validar que vengan los datos necesarios para crear la cuenta.
 			$cu_tipo = 1;
 			$_POST["cap_inicial"]=$_POST["cantidad"];
 			$tiempo = $_POST["plazo1"];
-				## calcular total
+			## calcular total
 			$total = $_POST["cantidad"] * (( ($_POST["interes"] * $tiempo)  / 100 ) + 1 );
 			$npagos = getPagos($total, $tiempo, $_POST["tipo_pago"]);
 			$pago = $total / $npagos; 
@@ -443,7 +443,7 @@ switch($_POST["action"]){
 				'". $_POST["observ"]."',
 				".$cu_tipo."
 			)";
-			//echo $_cadena."</br>";
+			echo $_cadena."</br>";
 			$res = mysql_query($_cadena);
 			$cuenta = mysql_insert_id();
 			//echo $cuenta;
@@ -503,9 +503,11 @@ switch($_POST["action"]){
 				$cnt++;
 			}
 			//include_once "imprimeReciboCuenta.php";
-			echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
-		}else{
-			#[YA SE VERIFIC QUE SERÃ DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
+			echo '<meta http-equiv="refresh" content="3;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
+		}
+		else
+		{
+			#[YA SE VERIFIC QUE SER� DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
 			# inicializar las variables
 			//echo "<p>Cuenta con plazos</p>";
 			switch($_POST["tipo_pago"]){
@@ -578,6 +580,7 @@ switch($_POST["action"]){
 					npagos		=  ". $npagos .",
 					cobrador	= '". $_POST["cobrador"] ."',
 					observaciones	= '". $_POST["observ"]."',
+					editado		= '". date("Y-m-d H:i:s") ."',
 					editadopor	= '$UserName'
 					WHERE id = ".$_SESSION["EDITARCUENTA"];
 				//echo "<br>$_cadena<br>";
@@ -650,7 +653,7 @@ switch($_POST["action"]){
 						$a = (int)substr($prxpago, 0, -6);
 						$m = (int)substr($prxpago, 5, -3);
 						$d = (int)substr($prxpago, -2);
-						if( $d >= 15 ){
+						if( $d >= 16 ){
 							if($m == 12){$m = 1; $a++;}else{ $m++;}
 							$d = $dia[0];
 						}else{
@@ -694,7 +697,7 @@ switch($_POST["action"]){
 							$a = (int)substr($prxpago, 0, -6);
 							$m = (int)substr($prxpago, 5, -3);
 							$d = (int)substr($prxpago, -2);
-							if( $d >= 15 )
+							if( $d >= 16 )
 							{
 								if($m == 12){$m = 1; $a++;}else{ $m++;}
 								$d = $dia[0];
