@@ -18,13 +18,12 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 		echo "<td width='200'>".$cob->username."</td>";
 		echo "<td>";
 			echo "<div style='padding:1px;border:1px solid #bbb;height:12px;width:100%;background:#eee;'>";
-			#-- clientes al dÃ­a
+			#-- clientes al día
 			$sql1 = "SELECT * FROM (
-			SELECT clientes.id, clientes.demanda, clientes.c_cobrador
+			SELECT clientes.id, clientes.c_cobrador
 			, cuentas.cobrador , cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha
 			FROM clientes, cuentas, pagos 
-			WHERE clientes.id = cuentas.cliente 
-			AND clientes.demanda != 1 
+			WHERE clientes.id = cuentas.cliente  
 			AND cuentas.id = pagos.cuenta 
 			AND cuentas.estado = 0 
 			AND pagos.estado = 0 
@@ -36,11 +35,10 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			$azulclaro = $db->numRows($res1);
 			#-- pagos pendientes del dia
 			$sql1 = "SELECT * FROM (
-			SELECT clientes.id, clientes.demanda, clientes.c_cobrador
+			SELECT clientes.id, clientes.c_cobrador
 			, cuentas.cobrador , cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha
 			FROM clientes, cuentas, pagos 
 			WHERE clientes.id = cuentas.cliente 
-			AND clientes.demanda != 1 
 			AND cuentas.id = pagos.cuenta 
 			AND cuentas.estado = 0 
 			AND pagos.estado = 0 
@@ -52,11 +50,10 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			$azul = $db->numRows($res1);
 			#-- pagos pendientes de 0 a 7 dias
 			$sql1 = "SELECT * FROM (
-			SELECT clientes.id, clientes.demanda, clientes.c_cobrador
+			SELECT clientes.id, clientes.c_cobrador
 			, cuentas.cobrador , cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha
 			FROM clientes, cuentas, pagos 
 			WHERE clientes.id = cuentas.cliente 
-			AND clientes.demanda != 1 
 			AND cuentas.id = pagos.cuenta 
 			AND cuentas.estado = 0 
 			AND pagos.estado = 0 
@@ -68,11 +65,10 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			$verde = $db->numRows($res1);
 			#-- pagos pendientes de 8 a 30 dias
 			$sql1 = "SELECT * FROM (
-			SELECT clientes.id, clientes.demanda, clientes.c_cobrador
+			SELECT clientes.id, clientes.c_cobrador
 			, cuentas.cobrador , cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha
 			FROM clientes, cuentas, pagos 
 			WHERE clientes.id = cuentas.cliente 
-			AND clientes.demanda != 1 
 			AND cuentas.id = pagos.cuenta 
 			AND cuentas.estado = 0 
 			AND pagos.estado = 0 
@@ -84,11 +80,10 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			$amarillo = $db->numRows($res1);
 			#-- pagos pendientes de 31 a 60 dias
 			$sql1 = "SELECT * FROM (
-			SELECT clientes.id, clientes.demanda, clientes.c_cobrador
+			SELECT clientes.id, clientes.c_cobrador
 			, cuentas.cobrador , cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha
 			FROM clientes, cuentas, pagos 
 			WHERE clientes.id = cuentas.cliente 
-			AND clientes.demanda != 1 
 			AND cuentas.id = pagos.cuenta 
 			AND cuentas.estado = 0 
 			AND pagos.estado = 0 
@@ -100,11 +95,10 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			$rojo = $db->numRows($res1);
 			#-- pagos pendientes de mas de 60 dias
 			$sql1 = "SELECT * FROM (
-			SELECT clientes.id, clientes.demanda, clientes.c_cobrador
+			SELECT clientes.id, clientes.c_cobrador
 			, cuentas.cobrador , cuentas.estado, pagos.cuenta, pagos.cliente, pagos.fecha
 			FROM clientes, cuentas, pagos 
 			WHERE clientes.id = cuentas.cliente 
-			AND clientes.demanda != 1 
 			AND cuentas.id = pagos.cuenta 
 			AND cuentas.estado = 0 
 			AND pagos.estado = 0 
