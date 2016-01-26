@@ -1401,7 +1401,8 @@ switch($_POST["action"]){
 		
 		include_once("../fpdf/corte_caja_2.php");
 		if (file_exists($titulo)) {
-			include_once("../fpdf/reportes/index.php");
+			//include_once("../fpdf/reportes/index.php");
+			include_once("../fpdf/reportes/send_mail.php");
 		}else{
 			echo "<h1>No se encontro el archivo en el servidor</h1>";
 		}
