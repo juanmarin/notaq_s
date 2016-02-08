@@ -20,17 +20,17 @@
 		<tr>
 			<td>
 			Nombre(s):<br />
-			<input type="text" name="nombre" id="nombre" style="width:400px;" maxlength="25" />
+			<input type="text" name="nombre" id="nombre" style="width:400px;" maxlength="30" />
 			</td>
 			<td>
 			Apellido paterno:<br />
-			<input type="text" name="apellidop" id="apellidop" maxlength="15" />
+			<input type="text" name="apellidop" id="apellidop" maxlength="20" />
 			</td>
 		</tr>
 		<tr>
 			<td>
 			Apellido materno:<br />
-			<input type="text" name="apellidom" id="apellidom" maxlength="15" />
+			<input type="text" name="apellidom" id="apellidom" maxlength="20" />
 			</td>
 			<td>
 			Direcci&oacute;n:<br />
@@ -92,7 +92,7 @@
 				<input type="text" name="empleo" id="empleo" maxlength="25">
 			</td>
 			<td>Calle Empleo<br/>
-				<input type="text" name="dir_empl" id="dir_empl" maxlength="25">
+				<input type="text" name="dir_empl" id="dir_empl" maxlength="35">
 			</td>
 		</tr>
 		<tr>

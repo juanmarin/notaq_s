@@ -97,12 +97,12 @@ $attr = 'selected="selected"';// Stributo select para los select de opcion mutip
 			<td>Nombre Empleo<br/>
 				<input type="text" name="empleo" id="empleo" value="<?php echo $r->empleo;?>" maxlength="25">
 			</td>
-			<td>Direccion Empleo<br/>
+			<td>Calle Empleo<br/>
 				<input type="text" name="dir_empl" id="dir_empl" value="<?php echo $r->dir_empl; ?>" maxlength="25">
 			</td>
 		</tr>
 		<tr>
-			<td>Calle Empleo<br/>
+			<td>Colonia Empleo<br/>
 				<input type="text" name="c_empl" id="c_empl" value="<?php echo $r->c_empl; ?>" maxlength="25">
 			</td>
 			<td>Teléfono Empleo<br/>
