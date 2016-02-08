@@ -1107,7 +1107,7 @@ switch($_POST["action"]){
 		break;
 		
 	case "cuenta_solo_interes":
-		$sql = "INSERT INTO pagos (cliente,cuenta,pago_real,fechaPago,interes,estado)VALUES(".$_POST["cl"].",".$_POST["c"].",".$_POST["cant"].",'".date("Y-m-d")."',0,1)";
+		$sql = "INSERT INTO pagos (cliente,cuenta,pago_real,fecha,fechaPago,interes,estado)VALUES(".$_POST["cl"].",".$_POST["c"].",".$_POST["cant"].",'".date("Y-m-d")."','".date("Y-m-d")."',0,1)";
 		mysql_query($sql);
 		$pid = recorreFechas($_POST["c"]);
 		//echo $pid."<br>";
@@ -1401,7 +1401,8 @@ switch($_POST["action"]){
 		
 		include_once("../fpdf/corte_caja_2.php");
 		if (file_exists($titulo)) {
-			include_once("../fpdf/reportes/index.php");
+			//include_once("../fpdf/reportes/index.php");
+			include_once("../fpdf/reportes/send_mail.php");
 		}else{
 			echo "<h1>No se encontro el archivo en el servidor</h1>";
 		}
