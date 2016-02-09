@@ -577,6 +577,9 @@ function date_diffe($hoy, $proxpago){
 	$hoy = date("Y-m-d");
 	$dias	= (strtotime($hoy)-strtotime($proxpago))/86400;
 	$dias 	= abs($dias); $dias = floor($dias);		
+	if($dias > 30){
+		$dias = 30;
+	}
 	return $dias;
 }
 
