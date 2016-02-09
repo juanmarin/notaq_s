@@ -124,9 +124,39 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			echo "<div style='background-color:#a020f0;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$negro clientes, ".moneda($ancho, 0)." %'></div>";
 			echo "<div style='clear:both;'></div>";
 			echo "</div>";
-		echo "</td>";
-		echo "</tr>";
-	}
+			echo "</td>";
+			echo "</tr>";
+		$Tazulclaro += $azulclaro;
+		$Tazul += $azul;
+		$Tverde += $verde;
+		$Tamarillo += $amarillo;
+		$Trojo += $rojo;
+		$Tnegro += $negro;
+			
+	}	
+		if (($UserLevel == 0) && ($UserName == "jmarincastro") || ($UserName == "francisco")){
+			echo "<tr>";
+			echo "<td width='200'>TOTALES</td>";
+			echo "<td>";
+			echo "<div style='padding:1px;border:1px solid #bbb;height:12px;width:100%;background:#eee;'>";
+			$Gtotal = $Tazulclaro + $Tazul + $Tverde + $Tamarillo + $Trojo + $Tnegro;
+			$Tancho = ( $Tazulclaro / $Gtotal ) * 100;
+			echo "<div style='background-color:#3399FF;height:11px;width:$Tancho%;float:left;' class='masterTooltip' title='$Tazulclaro clientes, ".moneda($Tancho, 0)." %'></div>";
+			$Tancho = ( $Tazul / $Gtotal ) * 100;
+			echo "<div style='background-color:#0066CC;height:11px;width:$Tancho%;float:left;' class='masterTooltip' title='$Tazul clientes, ".moneda($Tancho, 0)." %'></div>";
+			$Tancho = ( $Tverde / $Gtotal ) * 100;
+			echo "<div style='background-color:#4acc66;height:11px;width:$Tancho%;float:left;' class='masterTooltip' title='$Tverde clientes, ".moneda($Tancho, 0)." %'></div>";
+			$Tancho = ( $Tamarillo / $Gtotal ) * 100;
+			echo "<div style='background-color:#f3ce2e;height:11px;width:$Tancho%;float:left;' class='masterTooltip' title='$Tamarillo clientes, ".moneda($Tancho, 0)." %'></div>";
+			$Tancho = ( $Trojo / $Gtotal ) * 100;
+			echo "<div style='background-color:#ce1818;height:11px;width:$Tancho%;float:left;' class='masterTooltip' title='$Trojo clientes, ".moneda($Tancho, 0)." %'></div>";
+			$Tancho = ( $Tnegro / $Gtotal ) * 100;
+			echo "<div style='background-color:#a020f0;height:11px;width:$Tancho%;float:left;' class='masterTooltip' title='$Tnegro clientes, ".moneda($Tancho, 0)." %'></div>";
+			echo "<div style='clear:both;'></div>";
+			echo "</div>";
+			echo "</td>";
+			echo "</tr>";
+		}
 	?>
 </tbody>
 </table>
