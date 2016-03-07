@@ -311,7 +311,7 @@ if(isset($_POST["desempxtiempo"]))
 		$clcobrador";
 		$res = $db->query($sql);
 		$visitados = mysql_num_rows($res);
-		$avanced = ($visitados/($x_visitar+$visitados))*100;
+		$avanced = ($visitados/($x_visitar+$visitados))*(100);
 		$tbl_color = semaforo(number_format($avanced, 2));
 		?>
 		<tr style="font-weight: bold;">
