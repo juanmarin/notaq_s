@@ -14,8 +14,9 @@ h1, h2, h3, h4, h5{color:#ddd;}
 }
 #logo{
 	width: 210px;
-	margin: 10px auto;
-	padding:5px;
+	height: 210px;
+	margin: 5px auto;
+	padding:0px;
 	font-size: 40px;
 	font-weight: bolder;
 	background: #009999;

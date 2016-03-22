@@ -53,7 +53,7 @@
 <body>
 	<div id="main">
 		<div id="barra" class="sombra esqRedondas_b">
-			<div id="logo">CONFIAN</div>
+			<div id="logo"><img src="img/logo_confianzp_edited.jpg" /></div>
 			<div id="vmenu">
 				<ul class="menul">
 					<?php
