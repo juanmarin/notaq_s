@@ -102,12 +102,13 @@ if($UserLevel==0){
             $totIntCobrado += $intPagado;
 ?>
 		<tr>
-			<th width="180px" style="text-align: center;"><?php echo getFecha($ln->fecha);?></th>
-			<th width="180px" style="text-align: center;"><?php echo getFecha($ln->fechaPago);?></th>
+			<th width="180px" style="text-align: center;"><?php echo date("d-m-Y", strtotime($ln->fecha));?></th>
+			<th width="180px" style="text-align: center;"><?php echo date("d-m-Y", strtotime($ln->fechaPago));?></th>
 			<th colspan="3" width="250px" style="text-align: center"><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
 			<th width="180px" style="text-align: center;"><?php echo $ln->cobrador;?></th>
 			<th width="180px" style="text-align: center;"><?php echo "&#36;"; echo $ln->pago_real;?></th>
 			<!--
+			echo date ("d-m-Y", strtotime($r->fecha));
 			<th style="text-align:center"><input type="checkbox" name="ids[]" value="<?php echo $ln->pago; ?>" /></th>
 			<th style="text-align: center;"><a href="?pg=2e&cl=<?php echo $ln->clientes;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
 			-->
