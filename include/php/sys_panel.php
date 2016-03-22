@@ -24,6 +24,8 @@
 <html>
 <head>
 <title>Confian</title>
+<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+<link rel="icon" href="img/favicon.ico" type="image/x-icon">
 <meta name="author" content="Juan Marin" />
 <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
 <meta http-equiv="content-style-type" content="text/css" />
