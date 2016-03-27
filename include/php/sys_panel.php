@@ -18,7 +18,7 @@
 	/*Agregando encoding UTF-8
 	*/
 	//header("Content-Type: text/html;charset=utf-8");
-	header("Content-Type: text/html;charset=ISO-8859-1");
+	//header("Content-Type: text/html;charset=ISO-8859-1");
 ?>
 
 <html>
@@ -67,7 +67,7 @@
 								?>
     							<li><a href="?pg=3a" class="_diario">Reporte Diario</a></li>
     							<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
-    							<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
+    							<!--<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>-->
 								<li><a href="?pg=3f" class="_visitas">Reporte Recargos</a></li>
 								<li><a href="?pg=3d" class="_estado">Historial Credito</a></li>
 								<li><a href="?pg=3e" class="_pagos">Control Pagos</a></li>
@@ -79,7 +79,7 @@
 								?>
 								<li><a href="?pg=3a" class="_diario">Reporte Diario</a></li>
     							<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
-    							<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
+    							<!--<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>-->
 								<li><a href="?pg=3f" class="_visitas">Reporte Recargos</a></li>
 								<?php
 							}
@@ -92,6 +92,7 @@
 								?>
 								<li><a href="?pg=4a" class="_todos">Lista de usuarios</a></li>
 								<li><a href="?pg=4b" class="_agregar">Agregar usuario</a></li>
+								<li><a href="?pg=4d" class="_diario">Cuotas de cobradores</a></li>
 								<li><a href="?pg=4c" class="_backup">Respaldar Base de Datos</a></li>
 								<?php
 							}
@@ -102,6 +103,7 @@
 								<li><a href="?pg=2a" class="_buscar">Buscar cliente</a></li>
 								<li><a href="?pg=2" class="_todos">Todos los clientes</a></li>
 								<li><a href="?pg=2cb" class="_activos">Clientes activos</a></li>
+								<li><a href="?pg=2cd" class="_visitas">Lista Cobranza</a></li>
 								<li><a href="?pg=2c" class="_morosos">Clientes vencidos</a></li>
 								<li><a href="?pg=2cc" class="_demanda">Clientes en demanda</a></li>
 								<li><a href="?pg=2ca" class="_inactivos">Clientes inactivos</a></li>
@@ -111,6 +113,7 @@
 								?>         
 								<li><a href="?pg=2a" class="_buscar">Buscar cliente</a></li>
 								<li><a href="?pg=2" class="_todos">Mis clientes</a></li>
+								<li><a href="?pg=2cd" class="_visitas">Lista Cobranza</a></li>
 								<li><a href="?pg=2cb" class="_activos">Mis Clientes activos</a></li>
 								<li><a href="?pg=2c" class="_morosos">Mis Clientes vencidos</a></li>
 								<?php
@@ -122,6 +125,9 @@
 			<?php
 			if(isset($_GET["pg"]) && $_GET["pg"] == "2e"){
 			?>
+					<a href="include/html/box_nota.php?width=500&height=390&cl=<?php echo $_GET["cl"];?>" title="Agregar notas" class="thickbox boton esqRedondas sombra" >
+					Agregar Notas al cliente
+					</a>
 				<div id="notas" class="sombra">
 				<div id="n_title">Notas de cliente</div>
 				<ul class="notas">
@@ -331,7 +337,7 @@
 				<?php
 				$pg=(isset($_GET["pg"]))?$_GET["pg"]:"";
 				switch($pg){
-					case "2":	require_once("include/html/pg_clientes.php");					break;
+					case "2":	require_once("include/html/pg_clientes.php");						break;
 					case "2a":	require_once("include/html/pg_clientes_buscar.php");				break;
 					case "2b":	require_once("include/html/pg_clientes_editar.php");				break;
 					case "2c":	require_once("include/html/pg_clientes_morosos.php");				break;
@@ -345,23 +351,23 @@
 					case "2da":	require_once("include/html/pg_clientes_agregar2.php");				break;
 					case "2db":	require_once("include/html/pg_clientes_agregar3.php");				break;
 					case "2dc":	require_once("include/html/pg_clientes_agregar4.php");				break;
-					case "2e":	require_once("include/html/pg_cliente_cuenta.php");				break;
-					case "3":	require_once("include/html/pg_reportes.php");					break;
-					case "3a":	require_once("include/html/pg_reporte_diario.php");				break;
+					case "2cd":	require_once("include/html/pg_reporte_cobranza.php");				break;
+					case "2e":	require_once("include/html/pg_cliente_cuenta.php");					break;
+					case "3":	require_once("include/html/pg_reportes.php");						break;
+					case "3a":	require_once("include/html/pg_reporte_diario.php");					break;
 					case "3h":	require_once("include/html/pg_reporte_pre_corte.php");				break;
 					case "3i":	require_once("include/html/pg_reporte_corte_lista.php");			break;
-					case "3e":	require_once("include/html/pg_elimina_pago.php");				break;
-					case "3b":	require_once("include/html/pg_reporte_fechas.php");				break;
-					case "3c":	require_once("include/html/pg_reporte_cobranza.php");				break;
+					case "3e":	require_once("include/html/pg_elimina_pago.php");					break;
+					case "3b":	require_once("include/html/pg_reporte_fechas.php");					break;
 					case "3d":	require_once("include/html/pg_reporte_historial_cred.php");			break;
-					case "3da":	require_once("include/html/pg_reporte_historial_cred_cl.php");			break;
+					case "3da":	require_once("include/html/pg_reporte_historial_cred_cl.php");		break;
 					case "3f":	require_once("include/html/pg_reporte_recargos.php");				break;
-					case "3g":	require_once("include/html/pg_reporte_excel.php");				break;
-					case "4":	require_once("include/html/pg_panel.php");					break;
-					case "4a":	require_once("include/html/pg_panel_usuarios.php");				break;
+					case "3g":	require_once("include/html/pg_reporte_excel.php");					break;
+					case "4":	require_once("include/html/pg_panel.php");							break;
+					case "4a":	require_once("include/html/pg_panel_usuarios.php");					break;
 					case "4b":	require_once("include/html/pg_panel_usuario_agregar.php");			break;
-                			case "4c":	require_once("include/html/pg_panel_db_backup.php");				break;
-					case "4d":	require_once("include/html/pg_panel_prestamos.php");				break;
+                	case "4c":	require_once("include/html/pg_panel_db_backup.php");				break;
+					case "4d":	require_once("include/html/pg_panel_pago_cobradores.php");			break;
 					case "5":	require_once("include/html/pg_reporte_inversionistas.php");			break;
 					default:	//--
 							if($user->is_loaded()){
