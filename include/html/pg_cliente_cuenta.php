@@ -184,9 +184,11 @@ $("#interes").click(function(){
 			if(!isset($_SESSION["nohaycuenta"]))
 			{
 				?>
-				<a href="include/html/box_nota.php?width=500&height=390&cl=<?php echo $_GET["cl"];?>" class="thickbox" >
+				<!--Este ink ya no se necesitara en la parte arriba de la cuenta
+				<a href="include/html/box_nota.php?width=500&height=390&cl=<?php echo $_GET["cl"];?>" title="Agregar notas" class="thickbox" >
 				<img src="estilo/img/order-162.png" />
 				</a>
+				-->
 				&nbsp;
 				
 				<?php
@@ -383,6 +385,16 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 		<th width="200">Seleccione tipo de prestamo: </th>
 		<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="plazos" value="plazo" name="tipo_c" checked /> Plazos </label>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="interes" name="tipo_c" value="interes" /> Interes</label><br /></td>
+		<td width="">Seleccione tipo de cuenta: </td>
+		<td colspan="2">
+			<select name="tipo_prestamo" id="tipo_prestamo">
+			<option value="0">SELECCIONAR</option>
+			<option value="1">NUEVO</option>
+			<option value="2">RENOVACION</option>
+			<option value="3">REESTRUCTURA</option>
+			<option value="4">CONVENIO</option>
+			</select>
+		</td>
 		
 	</tr>
 	<tr>
@@ -631,7 +643,8 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 		## verificando estado del pago 
 		if(getHayRecargo($proxpago) == 1)
 		{
-			$dAtras = date_diffe($hoy, $proxpago);
+			$dAtras = date_diffe($proxpago);
+			echo "Dias de retrazo" .$dAtras;
 			$sql = "SELECT * FROM recargos WHERE pago_id = ".$pago_id." AND pago = '".$proxpago."'";
 			$rec = $db->query($sql);
 			$monto = (10 * $dAtras);
