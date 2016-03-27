@@ -573,6 +573,7 @@ function revert_tipoPago($tipo_pago){
 			}
 	return $tipo_pago;
 }
+/*
 function date_diffe($hoy, $proxpago){
 	$hoy = date("Y-m-d");
 	$dias	= (strtotime($hoy)-strtotime($proxpago))/86400;
@@ -580,6 +581,14 @@ function date_diffe($hoy, $proxpago){
 	if($dias > 30){
 		$dias = 30;
 	}
+	return $dias;
+}
+*/
+
+function date_diffe($hoy, $proxpago){
+	$hoy = date("Y-m-d");
+	$dias	= (strtotime($hoy)-strtotime($proxpago))/86400;
+	$dias 	= abs($dias); $dias = floor($dias);		
 	return $dias;
 }
 
@@ -627,4 +636,40 @@ function diasVencidos($cliente){
 		}
 		return $dias;
 	}
+
+function pagaCobrador($porcentaje, $cobrados){
+	if ($porcentaje && $cobrados != "" && $porcentaje && $cobrados > 0){
+		if ($porcentaje >= 90) {
+			$tot_pagar = $cobrados * 15.00;
+		}elseif ($porcentaje >= 85 && $porcentaje < 90) {
+			$tot_pagar = $cobrados * 10.00;
+		}elseif ($porcentaje >= 80 && $porcentaje < 85) {
+			$tot_pagar = $cobrados * 7.00;
+		}elseif ($porcentaje < 80) {
+			$tot_pagar = $cobrados * 5.00;
+		}
+	}else{
+		$tot_pagar = "Error: No se puede calcular el monto con valores vacios";
+		return $tot_pagar;
+	}
+
+	return "$ ".number_format($tot_pagar,2,'.', ',');
+}
+
+function cuentaPagos($cuenta, $cliente){
+	## Calculando el numero de pagos de la cuenta
+	$sql = "SELECT COUNT(*) FROM pagos where cuenta = $cuenta AND cliente = $cliente";
+	$res = mysql_query($sql);
+	$rec = mysql_fetch_array($res);
+	$numPagos = $rec[0];
+
+	## Calculando el numero de pagos pagados de la cuenta
+	$sql = "SELECT COUNT(*) FROM pagos where cuenta = $cuenta AND cliente = $cliente AND estado = 1";
+	$res1 = mysql_query($sql);
+	$rec1 = mysql_fetch_array($res1);
+	$pPagados = $rec1[0];
+
+	$ctaEdo = $pPagados ."/". $numPagos;
+	return $ctaEdo;
+}
 ?>
