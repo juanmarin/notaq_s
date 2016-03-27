@@ -31,9 +31,10 @@ if(isset($_POST['enviar'])){
 	<caption>Reporte del dia : <?php echo getFecha($desde); ?> al <?php echo getFecha($hasta); ?></caption>
 	<thead>
 	<tr>
-	<th colspan="1">Fecha Pago</th>
-	<th>Nombre</th>
+	<th>Fecha Pago</th>
+	<th>NOMBRE</th>
 	<th>DIRECCION</th>
+	<th>PAGOS</th>
 	<th>PAGO</th>
 	<th>ACCIONES</th>
 	</tr>
@@ -57,6 +58,7 @@ if(isset($_POST['enviar'])){
 		<th width="250px" style="text-align: center;"><?= getFecha($ln->fecha);?></th>
 		<th width="250px" style="text-align: center"><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
 		<th width="250px" style="text-align: center;"><?= $ln->direccion." ".$ln->colonia." ".$ln->telefono;?></th>
+		<th width="250px" style="text-align: center;"><?= cuentaPagos($ln->cuenta, $ln->id);?></th>
 		<th width="250px" style="text-align: center;"><?= "&#36;"; echo moneda($ln->pago);?></th>
 		<th colspan="1" style="text-align: center;"><a href="?pg=2e&cl=<?= $ln->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
 		</tr>
