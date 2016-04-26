@@ -27,7 +27,7 @@ $ln = $db->fetchNextObject($result);
 		<td><?php echo $ln->email;?></td>
 	</tr>
 	<tr>
-		<th>Teléfono:</th>
+		<th>TelÃ©fono:</th>
 		<td><?php echo $ln->telefono;?></td>
 	</tr>
 </tbody>
@@ -39,7 +39,7 @@ $ln = $db->fetchNextObject($result);
 </table>
 
 <table>
-<caption>INFORMACIÓN DE CUENTA</caption>
+<caption>INFORMACIÃ“N DE CUENTA</caption>
 <tbody>
 	<tr>
 		<th>Nombre de usuario:</th>

@@ -1,10 +1,12 @@
 <?php
- /* Ejemplo 1 generando excel desde mysql con PHP
-    @Autor: Carlos Hernan Aguilar Hurtado
+ /* Generando excel desde mysql con PHP
+    @Autor: Juan Marin
+    Version: 1.0
  */
   
- 
+ $conexion = mysql_connect ("localhost", "root", "root");
  $conexion = mysql_connect ("localhost", "confian1_notaq", "99_shamp00");
+ //mysql_select_db ("notaq", $conexion);
  mysql_select_db ("confian1_notaq", $conexion);    
  $sql = "SELECT * FROM clientes ORDER BY nombre ASC";
  $resultado = mysql_query ($sql, $conexion) or die (mysql_error ());
@@ -17,13 +19,13 @@
    //Informacion del excel
    $objPHPExcel->
     getProperties()
-        ->setCreator("ingenieroweb.com.co")
-        ->setLastModifiedBy("ingenieroweb.com.co")
-        ->setTitle("Listado de clientes.date('Y-m-d')")
-        ->setSubject("date('Y-m-d')")
-        ->setDescription("Documento generado con PHPExcel")
-        ->setKeywords("ingenieroweb.com.co  con  phpexcel")
-        ->setCategory("ciudades");    
+        ->setCreator("Notaq")
+        ->setLastModifiedBy("Notaq")
+        ->setTitle("Listado de clientes")
+        ->setSubject("Listado Clientes")
+        ->setDescription("Notaq Lista CLientes")
+        ->setKeywords("Notaq Lista Clientes")
+        ->setCategory("Reportes");    
  			
    $i = 1;    
    while ($registro = mysql_fetch_object ($resultado)) {

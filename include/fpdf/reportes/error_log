@@ -1,0 +1,60 @@
+[21-Sep-2015 23:36:23 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:36:23 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:36:23 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:36:23 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:36:39 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:36:39 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:36:39 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:36:39 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:36:44 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:36:44 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:36:44 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:36:44 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:36:46 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:36:46 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:36:46 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:36:46 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:37:02 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:37:02 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:37:02 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:37:02 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:37:12 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:37:12 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:37:12 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:37:12 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:37:14 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:37:14 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:37:14 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:37:14 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:42:34 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:42:34 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:42:34 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:42:34 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:42:48 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:42:48 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:42:48 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:42:48 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:44:02 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:44:02 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:44:02 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:44:02 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:44:11 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:44:11 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:44:11 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:44:11 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:45:26 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:45:26 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:45:26 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:45:26 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:45:31 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:45:31 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:45:31 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:45:31 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:45:36 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:45:36 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:45:36 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:45:36 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592
+[21-Sep-2015 23:45:44 America/Mexico_City] PHP Notice:  Undefined variable: cobrador in /home/confian1/public_html/include/fpdf/reportes/index.php on line 40
+[21-Sep-2015 23:45:44 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1218
+[21-Sep-2015 23:45:44 America/Mexico_City] PHP Deprecated:  Function set_magic_quotes_runtime() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 1222
+[21-Sep-2015 23:45:44 America/Mexico_City] PHP Deprecated:  Function eregi() is deprecated in /home/confian1/public_html/include/fpdf/reportes/class.phpmailer.php on line 592

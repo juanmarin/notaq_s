@@ -584,14 +584,21 @@ function date_diffe($hoy, $proxpago){
 	return $dias;
 }
 */
-
+/*
 function date_diffe($hoy, $proxpago){
 	$hoy = date("Y-m-d");
 	$dias	= (strtotime($hoy)-strtotime($proxpago))/86400;
 	$dias 	= abs($dias); $dias = floor($dias);		
 	return $dias;
 }
-
+*/
+function date_diffe($hoy,$proxpago){
+	$dStart = new DateTime($hoy);
+	$dEnd  = new DateTime($proxpago);
+	$dDiff = $dStart->diff($dEnd);
+	$dDiff->format('%R'); // use for point out relation: smaller/greater
+	return $dDiff->days;
+}
 function hayRecargos($cuenta, $cliente){
 	$sql = "SELECT * FROM recargos WHERE cuenta = $cuenta AND cliente = $cliente AND estado = 0";
 	$res = mysql_query($sql);
@@ -638,7 +645,6 @@ function diasVencidos($cliente){
 	}
 
 function pagaCobrador($porcentaje, $cobrados){
-	if ($porcentaje && $cobrados != "" && $porcentaje && $cobrados > 0){
 		if ($porcentaje >= 90) {
 			$tot_pagar = $cobrados * 15.00;
 		}elseif ($porcentaje >= 85 && $porcentaje < 90) {
@@ -648,12 +654,8 @@ function pagaCobrador($porcentaje, $cobrados){
 		}elseif ($porcentaje < 80) {
 			$tot_pagar = $cobrados * 5.00;
 		}
-	}else{
-		$tot_pagar = "Error: No se puede calcular el monto con valores vacios";
-		return $tot_pagar;
-	}
 
-	return "$ ".number_format($tot_pagar,2,'.', ',');
+	return number_format($tot_pagar,2,'.', ',');
 }
 
 function cuentaPagos($cuenta, $cliente){
@@ -671,5 +673,32 @@ function cuentaPagos($cuenta, $cliente){
 
 	$ctaEdo = $pPagados ."/". $numPagos;
 	return $ctaEdo;
+}
+
+function getTipoprestamo($tipo_prestamo){
+
+		switch ($tipo_prestamo) {
+			case 1:
+				$tipo_prestamo = "NUEVO";
+				break;
+			case 2:
+				$tipo_prestamo = "RENOVACION";
+				break;
+			case 3:
+				$tipo_prestamo = "REESTRUCTURA";
+				break;
+			case 4:
+				$tipo_prestamo = "CONVENIO";
+				break;
+			
+			default:
+				$tipo_prestamo = "NO DEFINIDO";
+				break;
+		}
+	return $tipo_prestamo;
+}
+function pagaRecargos($recargos){
+	$pagorecargos = ($recargos*.30);
+	return $pagorecargos;
 }
 ?>

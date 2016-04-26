@@ -67,7 +67,7 @@
 								?>
     							<li><a href="?pg=3a" class="_diario">Reporte Diario</a></li>
     							<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
-    							<!--<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>-->
+    							<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
 								<li><a href="?pg=3f" class="_visitas">Reporte Recargos</a></li>
 								<li><a href="?pg=3d" class="_estado">Historial Credito</a></li>
 								<li><a href="?pg=3e" class="_pagos">Control Pagos</a></li>
@@ -79,7 +79,7 @@
 								?>
 								<li><a href="?pg=3a" class="_diario">Reporte Diario</a></li>
     							<li><a href="?pg=3b" class="_fechas">Reporte por Fechas</a></li>
-    							<!--<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>-->
+    							<li><a href="?pg=3c" class="_visitas">Lista Cobranza</a></li>
 								<li><a href="?pg=3f" class="_visitas">Reporte Recargos</a></li>
 								<?php
 							}
@@ -103,7 +103,6 @@
 								<li><a href="?pg=2a" class="_buscar">Buscar cliente</a></li>
 								<li><a href="?pg=2" class="_todos">Todos los clientes</a></li>
 								<li><a href="?pg=2cb" class="_activos">Clientes activos</a></li>
-								<li><a href="?pg=2cd" class="_visitas">Lista Cobranza</a></li>
 								<li><a href="?pg=2c" class="_morosos">Clientes vencidos</a></li>
 								<li><a href="?pg=2cc" class="_demanda">Clientes en demanda</a></li>
 								<li><a href="?pg=2ca" class="_inactivos">Clientes inactivos</a></li>
@@ -113,7 +112,6 @@
 								?>         
 								<li><a href="?pg=2a" class="_buscar">Buscar cliente</a></li>
 								<li><a href="?pg=2" class="_todos">Mis clientes</a></li>
-								<li><a href="?pg=2cd" class="_visitas">Lista Cobranza</a></li>
 								<li><a href="?pg=2cb" class="_activos">Mis Clientes activos</a></li>
 								<li><a href="?pg=2c" class="_morosos">Mis Clientes vencidos</a></li>
 								<?php
@@ -302,7 +300,7 @@
 							<li><a href="?pg=1">Portada</a></li>
 							<li><a href="?pg=2">Clientes</a></li>
 							<li><a href="?pg=3a">Reportes</a></li>
-							<li><a href="?pg=5">Inversionistas</a></li>
+							<!--<li><a href="?pg=5">Inversionistas</a></li>-->
 							<li><a href="?pg=4">Panel</a></li>
 							<li><a href="?logout=1">Salir</a></li>
 						<?php
@@ -351,7 +349,7 @@
 					case "2da":	require_once("include/html/pg_clientes_agregar2.php");				break;
 					case "2db":	require_once("include/html/pg_clientes_agregar3.php");				break;
 					case "2dc":	require_once("include/html/pg_clientes_agregar4.php");				break;
-					case "2cd":	require_once("include/html/pg_reporte_cobranza.php");				break;
+					case "3c":	require_once("include/html/pg_reporte_cobranza.php");				break;
 					case "2e":	require_once("include/html/pg_cliente_cuenta.php");					break;
 					case "3":	require_once("include/html/pg_reportes.php");						break;
 					case "3a":	require_once("include/html/pg_reporte_diario.php");					break;

@@ -1,12 +1,12 @@
 <?php
 @session_start();
-/*
+
 foreach($_POST as $var => $val){
 		echo $var . " => " . $val . "<br />";
 	}
 
 var_dump($_POST['ids']);
-*/
+
 $UserName = $_SESSION["USERNAME"];
 $UserLevel = $_SESSION["U_NIVEL"];
 require_once "../conf/Config.php";
@@ -406,11 +406,10 @@ switch($_POST["action"]){
 		if((($_POST["tipo_pago"] > 4) && ($_POST["dias_pago"] == "nd")) || ($_POST["tipo_pago"] == "nd") || 
 			($_POST["cantidad"] == "") || ($_POST["plazo1"] == "") || ($_POST["monto1"] == "")){
 			# no hacer nada porque estan mal los datos
-			echo "Información incorrecta";
+			echo "Informacion incorrecta";
 			//echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cl"].'"> ';
 		}
 		if($_POST["interes"] != "") {
-
 			## Metodo de cuenta en base a tiempo e interes fijos
 			## Validar que vengan los datos necesarios para crear la cuenta.
 			$cu_tipo = 1;
@@ -426,7 +425,7 @@ switch($_POST["action"]){
 				$diasPago = $_POST["dias_pago"];
 			}			
 			## creando cuenta 
-			$_cadena = "INSERT INTO cuentas (cliente, fecha, capital_inicial, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones, cuenta_tipo)
+			$_cadena = "INSERT INTO cuentas (cliente, fecha, capital_inicial, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones, cuenta_tipo, tipo_prestamo)
 			VALUES (
 				". $_POST["cl"] .",
 				'". $_POST["fecha"] ."',
@@ -441,9 +440,11 @@ switch($_POST["action"]){
 				". $pago .",
 				'". $_POST["cobrador"] ."',
 				'". $_POST["observ"]."',
-				".$cu_tipo."
+				".$cu_tipo.",
+				".$_POST["tipo_prestamo"]."
+
 			)";
-			echo $_cadena."</br>";
+			//echo $_cadena."</br>";
 			$res = mysql_query($_cadena);
 			$cuenta = mysql_insert_id();
 			//echo $cuenta;
@@ -468,7 +469,7 @@ switch($_POST["action"]){
 						$a = (int)substr($prxpago, 0, -6);
 						$m = (int)substr($prxpago, 5, -3);
 						$d = (int)substr($prxpago, -2);
-						if( $d >= 15 ){
+						if( (($_POST["dias_pago"]=="1-15") && $d>=15) || ($d >= 16) ){
 							if($m == 12){$m = 1; $a++;}else{ $m++;}
 							$d = $dia[0];
 						}else{
@@ -522,7 +523,8 @@ switch($_POST["action"]){
 			$monto2 = $_POST["monto2"]; 
 			$plazo1 = $_POST["plazo1"];
 			$plazo2 = $_POST["plazo2"];
-			$cu_tipo = 0; #<--- VARIABLE QUE DEFINE EL TIPO DE CUENTA ----->
+			$tipo_prestamo = $_POST["tipo_prestamo"];
+			$cu_tipo = 0; #<--- VARIABLE QUE DEFINE EL TIPO DE CUENTA 0=plazos, 1=intereses fijos ----->
 			# mandamos llamar la funcion que nos traera los datos para crear la nueva cuenta
 			$datosPrestamo = calculamonto($cantidad, $monto1, $monto2, $plazo1, $plazo2, $tipo_pago);
 			//var_dump($datosPrestamo);
@@ -580,6 +582,8 @@ switch($_POST["action"]){
 					npagos		=  ". $npagos .",
 					cobrador	= '". $_POST["cobrador"] ."',
 					observaciones	= '". $_POST["observ"]."',
+					cuenta_tipo     = ".$cu_tipo.",
+					tipo_prestamo   = ".$tipo_prestamo.",
 					editado		= '". date("Y-m-d H:i:s") ."',
 					editadopor	= '$UserName'
 					WHERE id = ".$_SESSION["EDITARCUENTA"];
@@ -607,7 +611,7 @@ switch($_POST["action"]){
 				unset($_SESSION["EDITARCUENTA"]);
 			}else{
 				## creando cuenta 
-				$_cadena = "INSERT INTO cuentas (cliente, fecha, capital_inicial, fecha_pago, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones, cuenta_tipo)
+				$_cadena = "INSERT INTO cuentas (cliente, fecha, capital_inicial, fecha_pago, cantidad, interes, tiempo, tipo_pago, dias_pago, total, npagos, pago, cobrador, observaciones, cuenta_tipo, tipo_prestamo)
 					VALUES (
 					 ". $_POST["cl"] .",
 					'". $_POST["fecha"] ."',
@@ -623,13 +627,14 @@ switch($_POST["action"]){
 					 ". $pago .",
 					'". $_POST["cobrador"] ."',
 					'". $_POST["observ"]."',
-					0
+					".$cu_tipo.",
+					".$tipo_prestamo."
 				)";
-				echo "<p>$_cadena</p>";
+				//echo $_cadena;
 				$res = mysql_query($_cadena);
 				$cuenta = mysql_insert_id();
 			}
-			echo "<p>Cuenta id: $cuenta</p>";
+			//echo "<p>Cuenta id: $cuenta</p>";
 			$cnt = 0;
 			$n = 1;
 			if($tipo_pago == 1){
@@ -641,7 +646,7 @@ switch($_POST["action"]){
 				#$fechas = getFechasQuincenas($_POST["dias_pago"], $npagos, $_POST["fechapp"]);
 				$dia = split("-", $diasPago);
 				//echo "<br />Variable dias_pago: $diasPago <br />";
-				//var_dump($dia);
+				var_dump($dia);
 				#$tipo = "week";
 				#$n = 2;
 			}else{
@@ -653,7 +658,8 @@ switch($_POST["action"]){
 						$a = (int)substr($prxpago, 0, -6);
 						$m = (int)substr($prxpago, 5, -3);
 						$d = (int)substr($prxpago, -2);
-						if( $d >= 16 ){
+						if( (($_POST["dias_pago"]=="1-15") && $d>=15) || ($d >= 16) )
+						{
 							if($m == 12){$m = 1; $a++;}else{ $m++;}
 							$d = $dia[0];
 						}else{
@@ -683,6 +689,7 @@ switch($_POST["action"]){
 				".($interes * $tiempo)."   
 				)";
 				mysql_query($sql);
+				//echo "<p>$sql</p>";
 				$cnt++;
 			}
 			#### INSERTANDO EL SEGUNDO MONTO A LA CUENTA ////
@@ -697,7 +704,7 @@ switch($_POST["action"]){
 							$a = (int)substr($prxpago, 0, -6);
 							$m = (int)substr($prxpago, 5, -3);
 							$d = (int)substr($prxpago, -2);
-							if( $d >= 16 )
+							if( (($_POST["dias_pago"]=="1-15") && $d>=15) || ($d >= 16) )
 							{
 								if($m == 12){$m = 1; $a++;}else{ $m++;}
 								$d = $dia[0];
@@ -736,7 +743,7 @@ switch($_POST["action"]){
 					".$monto2.", 
 					".($interes * $tiempo)."   
 					)";
-					//echo $sql . "<br />";
+					echo $sql . "<br />";
 					mysql_query($sql);
 					$cnt++;
 				}
@@ -1107,7 +1114,7 @@ switch($_POST["action"]){
 		break;
 		
 	case "cuenta_solo_interes":
-		$sql = "INSERT INTO pagos (cliente,cuenta,pago_real,fecha,fechaPago,interes,estado)VALUES(".$_POST["cl"].",".$_POST["c"].",".$_POST["cant"].",'".date("Y-m-d")."','".date("Y-m-d")."',0,1)";
+		$sql = "INSERT INTO pagos (cliente,cuenta,pago_real,fecha,fechaPago,interes,aplicado_x,estado)VALUES(".$_POST["cl"].",".$_POST["c"].",".$_POST["cant"].",'".date("Y-m-d")."','".date("Y-m-d")."',0,'$UserName',1)";
 		mysql_query($sql);
 		$pid = recorreFechas($_POST["c"]);
 		//echo $pid."<br>";

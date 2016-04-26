@@ -83,7 +83,7 @@ $header=array('#','CLIENTE','F. PAGO','F. COBRO', 'PAGOS', 'ABONOS', 'RECARGOS',
 //Data loading
 //*** Load MySQL Data ***//
 $strSQL = "SELECT cc.id, cc.cobrador AS cobrador, cc.recibido_x AS supervisor, cc.created_at AS fechar, cc.totpagos AS totpagos, 
-cc.totabonos AS totabonos, cc.totrecargos AS totrecargos, cc.totglobal AS totglobal, ccd.cocaj_id, ccd.client_id, ccd.client_nom AS nombre, 
+cc.totabonos AS totabonos, cc.totrecargos AS totrecargos, cc.totabrecargos AS totabrecargos,  cc.totglobal AS totglobal, ccd.cocaj_id, ccd.client_id, ccd.client_nom AS nombre, 
 ccd.fechaPago AS fechacob, ccd.fechacobro AS fecha, ccd.pago_importe AS pagos, ccd.abono_importe AS abonos, ccd.recarg_importe AS recargos,
 ccd.abrecarg_importe AS abrecargos
 FROM corte_caja cc
@@ -107,7 +107,7 @@ $pdf->Ln(10);
 $pdf->Cell(200,10,"REPORTE DE PAGOS RECIBIDOS HASTA EL DIA ".date("d-m-Y")."",0,0,'C');
 $pdf->Ln(8);
 $pdf->BasicTable($header,$resultData);
-$titulo = "/home/confian1/public_html/include/fpdf/reportes/c_caja_".$cobrador."_".$created.".pdf";
+$titulo = "/home/confianzp/confianzp.com/include/fpdf/reportes/c_caja_".$cobrador."_".$created.".pdf";
 //$titulo = "/var/www/notaq_s/include/fpdf/reportes/c_caja_".$cobrador."_".$created.".pdf";
 $pdf->Output($titulo, "F");
 

@@ -106,6 +106,7 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 		if( $("#mapacobrador").val() != "" ){
 			ruta += "&cobrador="+$("#mapacobrador").val();
 		}
+		
 		$("#mapa").attr("src",ruta);
 	});
 	
@@ -121,7 +122,7 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 	});
 	</script>
 	<table class="formato">
-	<caption>Localización geogr&aacute;fica</caption>
+	<caption>LocalizaciÃ³n geogr&aacute;fica</caption>
 	<thead>
 		<tr>
 			<th>Mueva el marcador para cambiar la localizaci&oacute;n del cliente.</th>
@@ -130,14 +131,15 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 	<tbody>
 		<tr>
 			<td>
-	 		Filtrar marcadores: 
+	 		Filtrar marcadores:  
 	 		<select name="filtromapas" id="filtromapas">
 				<option value="">Mostrar todos</option>
-				<option value="5" style="background:#0066CC;">CLIENTES DEL DÍA DE HOY</option>
-				<option value="1" style="background:#4acc66;">CLIENTES DE 1 A 7 DÍAS VENCIDOS</option>
-				<option value="2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÍAS VENCIDOS</option>
-				<option value="3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÍAS VENCIDOS</option>
-				<option value="4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÍAS VENCIDOS</option>
+				<option value="6" style="background:#4dd2ff;">CLIENTES AL CORRIENTE</option>
+				<option value="5" style="background:#0052cc;">CLIENTES DEL DÃA DE HOY</option>
+				<option value="1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÃAS VENCIDOS</option>
+				<option value="2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÃAS VENCIDOS</option>
+				<option value="3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÃAS VENCIDOS</option>
+				<option value="4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÃAS VENCIDOS</option>
 	 		</select>
 	 		</td>
 	 	</tr>
@@ -176,7 +178,7 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 <br/>
 <!-- REPORTE DE PUNTUALIDAD POR COBRADOR -->
 <?php
-#FORMULARIO PARA GENERAR REPROTE DE DESEMPEÑO
+#FORMULARIO PARA GENERAR REPROTE DE DESEMPEÃ‘O
 ?>
 <form action="" method="post">
 	<table class="table">
@@ -202,10 +204,10 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 <?php
 if(isset($_POST["desempxtiempo"]))
 {
-	#- REPORTE DE DESEMPEÑO POR RANGO DE FECHAS
+	#- REPORTE DE DESEMPEÃ‘O POR RANGO DE FECHAS
 	echo "<br />";
 	include_once "include/html/pg_sys_principal_rdesempeno.php";
-	#- REPORTE DE DESEMPEÑO MONETARIO POR RANGO DE FECHAS
+	#- REPORTE DE DESEMPEÃ‘O MONETARIO POR RANGO DE FECHAS
 	echo "<br />";
 	include_once "include/html/pg_sys_principal_rdesempeno_monetario.php";
 }
@@ -333,10 +335,10 @@ if(isset($_POST["desempxtiempo"]))
 	});
 	</script>
 	<table class="formato">
-	<caption>Localización geográfica</caption>
+	<caption>LocalizaciÃ³n geogrÃ¡fica</caption>
 	<thead>
 		<tr>
-			<th>Mueva el marcador para cambiar la localización del cliente.</th>
+			<th>Mueva el marcador para cambiar la localizaciÃ³n del cliente.</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -345,11 +347,11 @@ if(isset($_POST["desempxtiempo"]))
 	 		Filtrar marcadores: 
 	 		<select name="filtromapas" id="filtromapas">
 				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=5" style="background:#0066CC;">CLIENTES DEL DÍA DE HOY</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÍAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÍAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÍAS VENCIDOS</option>
-				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÍAS VENCIDOS</option>
+				<option value="5" style="background:#0066CC;">CLIENTES DEL DÃA DE HOY</option>
+				<option value="1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÃAS VENCIDOS</option>
+				<option value="2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÃAS VENCIDOS</option>
+				<option value="3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÃAS VENCIDOS</option>
+				<option value="4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÃAS VENCIDOS</option>
 	 		</select>
 	 		</td>
 		</tr>
@@ -366,7 +368,7 @@ if(isset($_POST["desempxtiempo"]))
 <br/>
 <?php 
 }
-#MOSTRANDO TABLA DE DESEMPEñoO ---
+#MOSTRANDO TABLA DE DESEMPEÃ±oO ---
 $cobrador=($UserLevel>1)?"AND cobrador='$UserName'":"";
 $semana = 
 $sql = "SELECT * FROM desempeno WHERE year=".date("Y")." AND semana>".(date("W")-5)." $cobrador ORDER BY semana DESC, cobrador ASC";
@@ -384,33 +386,60 @@ while($d=$db->fetchNextObject($res))
 		if($con>=0){echo $separador;}
 		echo"
 		<table>
-		<caption>Desempeño semanal (Semana actual: $sem)</caption>
+		<caption>DesempeÃ±o semanal (Semana actual: $sem)</caption>
 		<thead>
 			<tr>
 				<th>SEMANA</th>
 				<th>COBRADOR</th>
 				<th>TOTAL</th>
 				<th>EN FECHA</th>
-				<th>FUERA DE FECHA</th>
-				<th>POR COBRAR</th>
-				<th>AVANCE</th>
-			</tr>
+				<th>F. FECHA</th>
+				<th>P. COBRAR</th>
+				<th>AVANCE</th>";
+				if ($UserName == "jmarincastro" || $UserName == "francisco") {
+			?>
+				<th>EFE</th>
+				<th>T. PAGOS</th>
+				<th>REC.COB.</th>
+				<th>%.REC.</th>
+				<th>T.PAGAR</th>
+			<?php
+		}
+		echo"	</tr>
 		</thead>
 		<tbody>";
 		$con++;
 	}
 	echo"
 	<tr>
-		<td $fondo align='center'>".$d->semana."</td>
-		<td $fondo>".$d->cobrador."</td>
-		<td $fondo align='center'>".$d->total."</td>
-		<td $fondo align='center'>".$d->en_fecha."</td>
-		<td $fondo align='center'>".$d->fuera_fecha."</td>
-		<td $fondo align='center'>".$d->por_cobrar."</td>
-		<td $fondo align='right'>".number_format(((($d->en_fecha+$d->fuera_fecha)/$d->total)*100),2,".",",")." %</td>
-	</tr>
-	";
+		<td style='font-size:small;' align='center'>".$d->semana."</td>
+		<td>".$d->cobrador."</td>
+		<td align='center'>".$d->total."</td>
+		<td align='center'>".$d->en_fecha."</td>
+		<td align='center'>".$d->fuera_fecha."</td>
+		<td align='center'>".$d->por_cobrar."</td>
+		<td align='right'>".number_format(((($d->en_fecha+$d->fuera_fecha)/$d->total)*100),2,".",",")." %</td>";
+		if ($UserName == "jmarincastro" || $UserName == "francisco") {
+		$sql1 = "SELECT * FROM cuadroavance WHERE week = ".$sem." AND cobrador = '".$d->cobrador."'";
+		$res1 = $db->query($sql1);
+		while ($d1=$db->fetchNextObject($res1)){
+			?>
+			<td <?php echo $fondo; ?> align='right'><?php echo number_format($d1->porcentaje,2,".",",");?> %</td>
+			<td <?php echo $fondo; ?> style='background-color: #F3F781' align='right'><?php echo $pagaPagos = pagaCobrador($d1->porcentaje, $d->en_fecha);?> </td>
+			<td <?php echo $fondo; ?> align='right'><?php echo number_format($d1->recargoscobrados,2,".",",");?> </td>
+			<td <?php echo $fondo; ?> style='background-color: #F3F781' align='right'><?php echo $pag_rec =number_format(pagaRecargos($d1->recargoscobrados),2,".",",");?> </td>
+			<td <?php echo $fondo; ?> style='background-color:#4acc66' align='right'><?php echo number_format($pag_rec+$pagaPagos,2,".",",");?> </td>
+		<?php
+		}
+	}
+	echo "</tr>";
 }
+echo "<br />";
+#### Cargando lista de cobranza diaria solo para cobradores
+if ($UserLevel == 3) {
+	require_once("include/html/pg_sys_principal_cobranza_diaria.php");
+
+	}	
 ?>
 </tbody>
 </table>

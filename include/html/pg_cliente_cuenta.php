@@ -184,8 +184,8 @@ $("#interes").click(function(){
 			if(!isset($_SESSION["nohaycuenta"]))
 			{
 				?>
-				<!--Este ink ya no se necesitara en la parte arriba de la cuenta
-				<a href="include/html/box_nota.php?width=500&height=390&cl=<?php echo $_GET["cl"];?>" title="Agregar notas" class="thickbox" >
+				<!--
+				<a href="include/html/box_nota.php?width=500&height=390&cl=<?php echo $_GET["cl"];?>" class="thickbox" >
 				<img src="estilo/img/order-162.png" />
 				</a>
 				-->
@@ -380,12 +380,15 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 			$frmfe=date('Y-m-d');
 			$frmfp=date('Y-m-d');
 		}
+		/*
+		ALTER TABLE `cuentas` ADD `tipo_prestamo` SMALLINT(4) NULL DEFAULT NULL COMMENT '1=nuevo, 2=renovacion, 3=restructura, 4=convenio' AFTER `cuenta_tipo`;
+		*/
 		?>
 	<tr>
 		<th width="200">Seleccione tipo de prestamo: </th>
-		<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="plazos" value="plazo" name="tipo_c" checked /> Plazos </label>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="radio" id="interes" name="tipo_c" value="interes" /> Interes</label><br /></td>
-		<td width="">Seleccione tipo de cuenta: </td>
+		<td colspan="1">&nbsp;&nbsp;&nbsp;<label><input type="radio" id="plazos" value="plazo" name="tipo_c" checked /> Plazos </label>
+		&nbsp;&nbsp;&nbsp;<label><input type="radio" id="interes" name="tipo_c" value="interes" /> Interes</label><br /></td>	
+		<th width="100">Tipo cuenta: </th>
 		<td colspan="2">
 			<select name="tipo_prestamo" id="tipo_prestamo">
 			<option value="0">SELECCIONAR</option>
@@ -394,8 +397,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 			<option value="3">REESTRUCTURA</option>
 			<option value="4">CONVENIO</option>
 			</select>
-		</td>
-		
+		</td>	
 	</tr>
 	<tr>
 		<th width="200">Capital prestado: </th>
@@ -554,6 +556,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	$interes = $r->interes; 
 	$fecha = $r->fecha;
 	$saldo = $r->total;
+	$t_presta = $r->tipo_prestamo;
 	if($r->tipo_pago == 1)
 	{
 		$tp = "SEMANAL";
@@ -575,8 +578,9 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 	<caption>DETALLES DE LA CUENTA</caption>
 	<tbody>
 	<tr>
-		<th>CAPITAL PRESTADO:</th><td colspan="3">$&nbsp;<?php moneda($r->capital_inicial); ?></td>
-		<th>NUM. CONTROL:</th><td colspan="2"><?php echo $cuenta; ?></td>
+		<th>CAPITAL PRESTADO:</th><td>$&nbsp;<?php moneda($r->capital_inicial); ?></td>
+		<th>TIPO CUENTA:</th><td><?php echo getTipoprestamo($t_presta); ?></td>
+		<th>NUM. CONTROL:</th><td><?php echo $cuenta; ?></td>
 	</tr>
 	<tr>
 		<th>FECHA:</th><td colspan="3"><?php echo date ("d-m-Y", strtotime($r->fecha)); ?></td>
@@ -643,8 +647,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 		## verificando estado del pago 
 		if(getHayRecargo($proxpago) == 1)
 		{
-			$dAtras = date_diffe($proxpago);
-			echo "Dias de retrazo" .$dAtras;
+			$dAtras = date_diffe($hoy,$proxpago);
 			$sql = "SELECT * FROM recargos WHERE pago_id = ".$pago_id." AND pago = '".$proxpago."'";
 			$rec = $db->query($sql);
 			$monto = (10 * $dAtras);
@@ -804,17 +807,19 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 				}
 				$fcnt++;
 				$pago_acum += getPagoRedondo($r->pago);
+				$textoconfirm = "Esta seguro que desea aplicar el pago del dia" .date("d-m-Y", strtotime($r->fecha)). "por la cantidad de " .$pago_acum. "?";
 				if($saldo > $pago_acum)
+
 				{
 					?>
 					<form name="frm_<?php echo $r->id;?>" action="include/php/sys_modelo.php" method="post">
 					<input type="hidden" 	name="numpago" 	value="<?= $i;?>" />
-					<input type="text" 	name="pago" 	value="<?= $pago_acum;?>" <?=$opcnpagar;?> class="validarpago" rel="<?= $pago_acum;?>" />
+					<input type="text" 		name="pago" 	value="<?= $pago_acum;?>" <?=$opcnpagar;?> class="validarpago" rel="<?= $pago_acum;?>" />
 					<input type="hidden" 	name="cl" 	value="<?= $_GET['cl'];?>" />
 					<input type="hidden" 	name="c" 	value="<?= $cuenta;?>" />
 					<input type="hidden" 	name="pid" 	value="<?= $r->id;?>" />
-					<input type="hidden" 	name="action" 	value="cuenta_pagar" />
-					<input type="submit" 	value="ABONAR" <?=$opcnpagarbtn;?>  />
+					<input type="hidden" 	name="action" 	value="cuenta_pagar" />	
+					<input type="submit" 	onclick="return confirm('<?php echo $textoconfirm;?>' )" value="ABONAR" <?=$opcnpagarbtn;?>   />
 					</form>
 					<?php
 				}
@@ -826,11 +831,10 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 					<input type="hidden"	name="numpago"	value="<?= $i;?>" />
 					<input type="text"		name="pago" 	value="<?= $pago_acum;?>" <?=$opcnpagar;?> class="validarpago" rel="<?= $pago_acum;?>" />
 					<input type="hidden"	name="cl" 		value="<?= $_GET['cl'];?>" />
-
 					<input type="hidden"	name="c"		value="<?= $cuenta;?>" />
 					<input type="hidden"	name="pid"		value="<?= $r->id;?>" />
 					<input type="hidden"	name="action"	value="cuenta_pagar" />
-					<input type="submit"	value="ABONAR" <?=$opcnpagarbtn;?> />
+					<input type="submit"	onclick="return confirm('Esta seguro que desea aplicar el pago por \n la cantidad de $'+ <?php echo ($pago_acum);?>+'00 ?' )" value="ABONAR" <?=$opcnpagarbtn;?> />
 					</form>
 					<?php
 				}
@@ -845,7 +849,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 					<input type="hidden" name="c"		value="<?= $cuenta;?>" />
 					<input type="hidden" name="pid"		value="<?= $r->id;?>" />
 					<input type="hidden" name="action"	value="cuenta_pagar" />
-					<input type="submit" value="ABONAR" <?=$opcnpagarbtn;?> />
+					<input type="submit" onclick="return confirm('Esta seguro que desea aplicar el pago por \n la cantidad de $'+ <?php echo ($pago_acum);?>+'.00 ?')" value="ABONAR" <?=$opcnpagarbtn;?> />
 					</form>
 					<?php
 				}

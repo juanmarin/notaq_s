@@ -7,7 +7,7 @@
 <script>
 	$(document).ready(function(){
 		$(".elimina").click(function(){
-			var res = confirm("¿Eliminar registro permanentemente?");
+			var res = confirm("Â¿Eliminar registro permanentemente?");
 			if(res){
 				var id = $(this).attr("rel");
 				$.post("include/php/sys_modelo.php", { action: "lscl_elimina", key: id }, function(data){});

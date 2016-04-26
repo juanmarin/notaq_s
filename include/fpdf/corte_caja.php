@@ -109,7 +109,7 @@ $pdf->Ln(10);
 $pdf->Cell(200,10,"REPORTE DE PAGOS RECIBIDOS HASTA EL DIA ".date("d-m-Y")."",0,0,'C');
 $pdf->Ln(8);
 $pdf->BasicTable($header,$resultData);
-$titulo = "/home/confianzp/confianzp.com/include/fpdf/reportes/c_caja_".$cobrador."_".$created.".pdf";
+$titulo = "sftp://confianzp@atkinson.dreamhost.com/home/confianzp/confianzp.com/include/fpdf/reportes/c_caja_".$cobrador."_".$created.".pdf";
 //$titulo = "/var/www/html/notaq_s/include/fpdf/reportes/c_caja_".$cobrador."_".$created.".pdf";
 $pdf->Output($titulo, "F");
 ?>

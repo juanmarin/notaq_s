@@ -9,9 +9,8 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 <html> 
 <head> 
   <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" /> 
-  <title>Google Maps Multiple Markers</title> 
-  <script src="http://maps.google.com/maps/api/js?sensor=false" 
-          type="text/javascript"></script>
+  <title>Google Maps Multiples Marcas</title> 
+  <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 </head> 
 <body>
   <div id="map" style="width:100%; min-width:300px; height: 400px;"></div>
@@ -34,6 +33,29 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 			$ftrcobrador = "AND cobrador = '".$_GET["cobrador"]."'";
 		}
 	}
+	//-TABLA TEMP CENTAS
+	/*
+	$sql = "CREATE TEMPORARY TABLE tmp_cuentas
+		SELECT 
+		cl.c_cobrador 'cobrador'
+		,cu.id 'cuenta'
+		,cl.id 'cliente'
+		,(SELECT IFNULL(SUM(pa.pago),0) pago FROM pagos pa WHERE pa.cuenta = cu.id AND pa.estado=0 AND pa.fecha < CURDATE()) AS 'vencido'
+		,@dd:=IFNULL((SELECT DATEDIFF(CURDATE(),pa.fecha) FROM pagos pa WHERE pa.cuenta = cu.id AND pa.estado=0 AND pa.fecha < CURDATE() ORDER BY pa.fecha ASC LIMIT 0,1),0) AS 'diasvencidos'
+		,CASE
+			WHEN @dd=0 THEN 'AZULCLARO'
+			WHEN @dd=1 THEN 'AZUL'
+			WHEN (@dd>1 AND @dd<8) THEN 'VERDE'
+			WHEN (@dd>7 AND @dd<=30) THEN 'AMARILLO'
+			WHEN (@dd>30 AND @dd<=60) THEN 'ROJO'
+			ELSE 'NEGRO'
+		END AS 'color'
+		FROM clientes cl 
+		RIGHT JOIN cuentas cu ON cl.id=cu.cliente
+		LEFT JOIN mymvcdb_users co ON cl.c_cobrador=co.username
+		WHERE cu.estado=0";
+	$db->execute($sql);
+	*/
     	//- VERDE - CLIENTES DE 0 A 7 DÍAS VENCIDOS
     	if(!isset($_GET["marks"]) || $_GET["marks"]==1)
     	{

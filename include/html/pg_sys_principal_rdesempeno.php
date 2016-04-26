@@ -1,5 +1,5 @@
 <table class="table">
-	<caption>Reporte de desempeÒo desde el <?=$_POST["fi"];?> al <?=$_POST["ff"];?></caption>
+	<caption>Reporte de desempe√±o desde el <?=$_POST["fi"];?> al <?=$_POST["ff"];?></caption>
 	<thead>
 		<tr>
 			<th>COBRADOR</th>
@@ -21,7 +21,7 @@
 		$res=$db->query($sql);
 		while($rd=$db->fetchNextObject($res))
 		{
-			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPEÒO, VENDEDOR Y TOTAL COBRADO
+			#INFORMACION PRINCIPAL DE REPORTE DE DESEMPE√±O, VENDEDOR Y TOTAL COBRADO
 			echo'<tr>';
 			echo'<td align="center">'.$rd->cobrador.'</td>';
 			echo'<td align="center">'.$rd->total.'</td>';

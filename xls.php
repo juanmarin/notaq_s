@@ -1,7 +1,7 @@
 <?php
 /*
 */
-$hoy 		= date("d-m-Y");
+$hoy = date("d-m-Y");
 @session_start();
 if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0 && isset($_POST)){
 	header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
@@ -32,7 +32,7 @@ if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0 && isset($_POST)){
 			ORDER BY clientes.nombre ASC
 			";
 			break;
-		case 1 :
+		case 1:
 			$reporte="
 			SELECT 
 				 cu.fecha 'Fecha préstamo'
@@ -68,7 +68,15 @@ if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0 && isset($_POST)){
 				/* ** ----------------------------------------------------------------------------------------------------------------------------------------- ** */
 				/* ** DIAS VENCIDOS: -------------------------------------------------------------------------------------------------------------------------- ** */
 				/* ** Faltaría validar si estan vencidos los días para evitar salga un número negativo -------------------------------------------------------- ** */
-				,(SELECT DATEDIFF(CURDATE(),pa.fecha) FROM pagos pa WHERE pa.cuenta = cu.id AND pa.estado=0 AND pa.fecha < CURDATE() ORDER BY pa.fecha ASC LIMIT 0,1) AS 'Dias vencidos'
+				,@dd:=IFNULL((SELECT DATEDIFF(CURDATE(),pa.fecha) FROM pagos pa WHERE pa.cuenta = cu.id AND pa.estado=0 AND pa.fecha < CURDATE() ORDER BY pa.fecha ASC LIMIT 0,1),0) AS 'Dias vencidos'
+				,CASE
+					WHEN @dd=0 THEN 'CORRIENTE'
+					WHEN @dd=1 THEN 'AZUL'
+					WHEN (@dd>1 AND @dd<8) THEN 'VERDE'
+					WHEN (@dd>7 AND @dd<=30) THEN 'AMARILLO'
+					WHEN (@dd>30 AND @dd<=60) THEN 'ROJO'
+					ELSE 'NEGRO'
+				END AS 'riesgo'
 				,(SELECT pa.fecha FROM pagos pa WHERE pa.cuenta = cu.id AND pa.estado=1 ORDER BY pa.fecha DESC LIMIT 0,1) AS 'Fecha ultimo pago'
 				,'Dato no existe' AS 'Colonia empleo'
 				,'Dato no existe' AS 'Nombre de empresa'
@@ -85,6 +93,13 @@ if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0 && isset($_POST)){
 			break;
 	}
 	$res = mysql_query($reporte);
-	genTabla( $res, 0 );
+	if( $res )
+	{
+		genTabla( $res, 0 );
+	}
+	else
+	{
+		echo "Sin datos";
+	}
 }
 ?>

@@ -1,4 +1,6 @@
 <?php
+
+header("Content-Type: text/html;charset=utf-8");
 /*
 //INICIALIZANDO VARIABLES -------------------------------
 //define("IN_SITE", true);

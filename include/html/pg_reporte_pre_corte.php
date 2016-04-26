@@ -12,13 +12,22 @@ if($UserLevel==0){
 		if($_POST["cobrador"]=="0"){
 			$clcobrador="";
 			$cobradorPA="";
+			$cobradorAB="";
+			$cobradorRE="";
+			$cobradorAR="";
 		}else{
 			$clcobrador="AND cobrador = '".$_POST["cobrador"]."'";
-			$cobradorPA="AND cl.c_cobrador = '".$_POST["cobrador"]."'";
+			$cobradorPA="AND pa.aplicado_x = '".$_POST["cobrador"]."'";
+			$cobradorAB="AND ab.aplicado_x = '".$_POST["cobrador"]."'";
+			$cobradorRE="AND re.aplicado_x = '".$_POST["cobrador"]."'";
+			$cobradorAR="AND ar.aplicado_x = '".$_POST["cobrador"]."'";
 		}
 	}else{
 		$clcobrador="";
 		$cobradorPA="";
+		$cobradorAB="";
+		$cobradorRE="";
+		$cobradorAR="";
 	}
 }else{
 	$clcobrador="AND cobrador = '$UserName'";
@@ -297,7 +306,7 @@ ADD COLUMN `fechap` DATE NULL COMMENT 'Fecha del pago' AFTER `tipodes`;
 		//-pagos
 		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fechap, fecha, cobroid, monto)
 				SELECT 
-				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, pa.cuenta, cl.c_cobrador cobrador
+				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, pa.cuenta, pa.aplicado_x cobrador
 				, '1' tipoid, 'PAGO' tipodes
 				, pa.fecha fechap, pa.fechaPago fecha, pa.id cobroid, pa.pago_real monto
 				FROM pagos pa 
@@ -308,37 +317,37 @@ ADD COLUMN `fechap` DATE NULL COMMENT 'Fecha del pago' AFTER `tipodes`;
 		//-abonos
 		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fechap, fecha, cobroid, monto)
 				SELECT 
-				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, pa.cuenta, cl.c_cobrador cobrador
+				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, pa.cuenta, ab.aplicado_x cobrador
 				, '2' tipoid, 'ABONO DE PAGO' tipodes
 				, pa.fecha fechap, ab.fecha fecha, ab.idabono cobroid, ab.abono monto
 				FROM pagos pa 
 				RIGHT JOIN clientes cl ON pa.cliente=cl.id
 				RIGHT JOIN abono ab ON ab.idpago=pa.id
 				WHERE ab.reportado = 0 
-				$cobradorPA";
+				$cobradorAB";
 		$res = $db->query($sql);
 		//-recargos
 		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fechap, fecha, cobroid, monto)
 				SELECT 
-				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, re.cuenta, cl.c_cobrador cobrador
+				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, re.cuenta, re.aplicado_x cobrador
 				, '3' tipoid, 'RECARGO' tipodes
 				, re.pago fechap, re.fecha fecha, re.id cobroid, re.monto_saldado monto
 				FROM recargos re
 				RIGHT JOIN clientes cl ON re.cliente=cl.id
 				WHERE re.reportado = 0 AND re.estado = 1
-				$cobradorPA";
+				$cobradorRE";
 		$res = $db->query($sql);
 		//-ABONOS DE RECARGOS
 		$sql = "INSERT INTO corte_tmp (clienteid, clientenom, cuenta, cobrador, tipoid, tipodes, fechap, fecha, cobroid, monto)
 				SELECT 
-				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, re.cuenta, cl.c_cobrador cobrador
+				cl.id clienteid, concat(cl.nombre,' ',cl.apellidop,' ',cl.apellidom) clientenom, re.cuenta, ar.aplicado_x cobrador
 				, '4' tipoid, 'ABONO DE RECARGO' tipodes
 				, re.pago fechap, ar.fecha_ab fecha, ar.idabrec cobroid, ar.abono monto
 				FROM abono_recargos ar 
 				RIGHT JOIN clientes cl ON ar.idcte=cl.id
 				LEFT JOIN recargos re ON re.id=ar.idrec
 				WHERE ar.reportado = 0 
-				$cobradorPA";
+				$cobradorAR";
 		$res = $db->query($sql);
 
 		//-mostrando resultados

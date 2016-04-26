@@ -38,12 +38,12 @@ class flexibleAccess{
    * The database that we will use
    * var string
    */
-  var $dbName = 'notaq';
+  var $dbName = 'confian1_notaq';
   /**
    * The database host
    * var string
    */
-  var $dbHost = 'localhost';
+  var $dbHost = 'bd.dlxsistemas.com';
   /**
    * The database port
    * var int
@@ -53,12 +53,12 @@ class flexibleAccess{
    * The database user
    * var string
    */
-  var $dbUser = 'root';
+  var $dbUser = 'confian1_notaq';
   /**
    * The database password
    * var string
    */
-  var $dbPass = 'root';
+  var $dbPass = '99_shamp00';
   /**
    * 99_shamp00
    * The database table that holds all the information
