@@ -78,7 +78,7 @@ $attr = 'selected="selected"';// Stributo select para los select de opcion mutip
 				Asignar Cobrador:<br/>
 				<select name="cobrador" id="cobrador">
 				<?php
-		            $sql = "SELECT username FROM mymvcdb_users WHERE nivel=3";
+		            $sql = "SELECT username FROM mymvcdb_users WHERE username!='jmarincastro'";
 					$res = $db->query($sql);
 		            while( $cob = $db->fetchNextObject($res) ){ //JUan Marin
 		        ?>

@@ -69,7 +69,7 @@
 			<td>
 				Asignar Cobrador:<br/>
 				<?php
-		            $sql = "SELECT userID, username FROM mymvcdb_users WHERE nivel = 3";
+		            $sql = "SELECT userID, username FROM mymvcdb_users WHERE username!='jmarincastro'";
 		            $rs = mysql_query($sql) or die(mysql_error());
 		            echo "<select name='cobrador' id='cobrador'>";
 		            echo "<option value=''>Asignar</option>";

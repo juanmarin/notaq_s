@@ -150,7 +150,7 @@ require_once("include/html/pg_sys_principal_lineacobradores.php"); ///- cargando
 	 		<td>
 	 		Filtrar Cobrador: &nbsp; &nbsp;
 				<?php
-		            $sql = "SELECT userID, username FROM mymvcdb_users WHERE nivel = 3 ORDER BY username";
+		            $sql = "SELECT userID, username FROM mymvcdb_users WHERE username!='jmarincastro' ORDER BY username";
 		            $rs = mysql_query($sql) or die(mysql_error());
 		            echo "<select name='cobrador' id='mapacobrador'>";
 		            echo "<option value=''>Mostar todos</option>";

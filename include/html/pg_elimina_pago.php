@@ -213,7 +213,7 @@ if($UserLevel==0){
 		<select name="cobrador" id="cobrador">
 		<option value="0">Todos</option>
 		<?php
-		$sql = "SELECT username FROM mymvcdb_users WHERE nivel=3";
+		$sql = "SELECT username FROM mymvcdb_users WHERE username!='jmarincastro'";
 		$res = $db->query($sql);
 		while( $cob = $db->fetchNextObject($res) ){
 			echo '<option value="'.$cob->username.'">'.$cob->username.'</option>';

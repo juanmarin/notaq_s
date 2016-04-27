@@ -55,7 +55,7 @@ if(isset($_POST['enviar']))
 		<select name="cobrador" id="cobrador">
 		<option value="0">Todos</option>
 		<?php
-		$sql = "SELECT username FROM mymvcdb_users WHERE nivel=3";
+		$sql = "SELECT username FROM mymvcdb_users WHERE username!='jmarincastro'";
 		$res = $db->query($sql);
 		while( $cob = $db->fetchNextObject($res) ){
 			echo '<option value="'.$cob->username.'">'.$cob->username.'</option>';
@@ -71,8 +71,8 @@ if(isset($_POST['enviar']))
 	<tfoot>
 	<tr>
 	<th colspan="4">
-		<input type="submit" value="Mostrar Reporte" name="enviar" />
-		<input type="submit" value="Mostrar Reporte 2" name="enviar2" />
+		<!--<input type="submit" value="Mostrar Reporte" name="enviar" />-->
+		<input type="submit" value="Mostrar Reporte" name="enviar2" />
 	</th>
 	</tr>
 	</tfoot>
@@ -245,7 +245,7 @@ if(isset($_POST['enviar']))
 		<select name="cobrador" id="cobrador">
 		<option value="0">Todos</option>
 		<?php
-		$sql = "SELECT username FROM mymvcdb_users WHERE nivel=3";
+		$sql = "SELECT username FROM mymvcdb_users WHERE username!='jmarincastro'";
 		$res = $db->query($sql);
 		while( $cob = $db->fetchNextObject($res) ){
 			echo '<option value="'.$cob->username.'">'.$cob->username.'</option>';
@@ -261,8 +261,8 @@ if(isset($_POST['enviar']))
 	<tfoot>
 	<tr>
 	<th colspan="4">
-		<input type="submit" value="Mostrar Reporte" name="enviar" />
-		<input type="submit" value="Mostrar Reporte 2" name="enviar2" />
+		<!--<input type="submit" value="Mostrar Reporte" name="enviar" />-->
+		<input type="submit" value="Mostrar Reporte " name="enviar2" />
 	</th>
 	</tr>
 	</tfoot>
@@ -275,8 +275,8 @@ if(isset($_POST['enviar']))
 		<tr>
 		<th>Nombre de cliente</th>
 		<th>Cobrador</th>
-		<th>Fecha Cobro</th>
 		<th>Tipo de cobro</th>
+		<th>Fecha Cobro</th>
 		<th>Cantidad</th>
 		</tr>
 	</thead>
@@ -455,7 +455,7 @@ ADD COLUMN `fechap` DATE NULL COMMENT 'Fecha del pago' AFTER `tipodes`;
 		<select name="cobrador" id="cobrador">
 		<option value="0">Todos</option>
 		<?php
-		$sql = "SELECT username FROM mymvcdb_users WHERE nivel=3";
+		$sql = "SELECT username FROM mymvcdb_users WHERE username!='jmarincastro'";
 		$res = $db->query($sql);
 		while( $cob = $db->fetchNextObject($res) ){
 			echo '<option value="'.$cob->username.'">'.$cob->username.'</option>';
@@ -471,8 +471,8 @@ ADD COLUMN `fechap` DATE NULL COMMENT 'Fecha del pago' AFTER `tipodes`;
 	<tfoot>
 	<tr>
 	<th colspan="4">
-		<input type="submit" value="Mostrar Reporte" name="enviar" />
-		<input type="submit" value="Mostrar Reporte 2" name="enviar2" />
+		<!--<input type="submit" value="Mostrar Reporte" name="enviar" />-->
+		<input type="submit" value="Mostrar Reporte" name="enviar2" />
 	</th>
 	</tr>
 	</tfoot>
