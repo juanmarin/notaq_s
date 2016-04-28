@@ -119,7 +119,7 @@ if($UserLevel==0){
 	?>
 	<tfoot>
 	<tr>
-		<th colspan="4" style="text-align: left"> Totales </th>
+		<th colspan="4" style="text-align: left"><?php echo $ctasNum;?> Totales </th>
 		
 		<th colspan="3" style="text-align:center"><?php echo "&#36;"; echo $totSaldado + $totGlobal;?></th>
 	</tr>
