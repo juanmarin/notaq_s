@@ -48,17 +48,18 @@
 			<th width="195">Nombre: </th><td><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
 		</tr>
 		<tr>
-			<th>Dirección: </th><td><?= $ln->direccion.", Colonia: ".$ln->colonia;?></td>
+			<th>Direcci&oacute;n: </th><td><?= $ln->direccion.", Col&oacute;nia: ".$ln->colonia;?></td>
 		</tr>
 		<tr>
-			<th>Teléfono de casa: </th><td><?= $ln->telefono;?></td>
+			<th>Entrecalles: </th><td><?= $ln->entrecalles;?></td>
 		</tr>
 		<tr>
-			<th>Teléfono celular: </th><td><?= $ln->celular;?></td>
+			<th>Tel&eacute;fono de casa: </th><td><?= $ln->telefono;?></td>
 		</tr>
 		<tr>
-			<th>RFC: </th><td><?= $ln->rfc;?></td>
+			<th>Tel&eacute;fono celular: </th><td><?= $ln->celular;?></td>
 		</tr>
+		
 		<tr>
 			<th>Vivienda: </th><td><?= getVivienda($ln->vivienda);?></td>
 		</tr>
@@ -69,10 +70,10 @@
 			<th>Puesto: </th><td><?= $ln->epuesto;?></td>
 		</tr>
 		<tr>
-			<th>Teléfono: </th><td><?= $ln->etelefono;?></td>
+			<th>Tel&eacute;fono: </th><td><?= $ln->etelefono;?></td>
 		</tr>
 		<tr>
-			<th>Dirección: </th><td><?= $ln->edireccion .", Colonia: ".$ln->ecolonia;?></td>
+			<th>Direcci&oacute;n: </th><td><?= $ln->edireccion .", Colonia: ".$ln->ecolonia;?></td>
 		</tr>
 		<tr>
 			<th>Negocio propio: </th><td><?= getProp($ln->propio);?></td>

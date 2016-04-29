@@ -42,25 +42,31 @@ $attr = 'selected="selected"';// Stributo select para los select de opcion mutip
 		<input type="text" name="apellidom" id="apellidom" maxlength="15" value="<?= $r->apellidom;?>" />
 		</td>
 		<td>
-		Dirección:<br />
+		Direcci&oacute;n:<br />
 		<input type="text" name="dir" id="dir" style="width:430px" maxlength="40" value="<?= $r->direccion;?>" />
 		</td>
 	</tr>
 	<tr>
 		<td>
-		Colonia:<br />
+		Col&oacute;nia:<br />
 		<input type="text" name="col" id="col" maxlength="30" value="<?= $r->colonia;?>" />
 		</td>
-		<td>
-		Teléfono de casa:<br />
-		<input type="text" name="tel" id="tel" maxlength="20" value="<?= $r->telefono;?>" />
+		<td>Entre calles:<br />
+			<input type="text" name="entrec" id="entrec" style="width:300px" maxlength="50" value="<?= $r->entrecalles;?>"/>
 		</td>
 	</tr>
 	<tr>
 		<td>
-		Teléfono celular:<br />
+		Tel&eacute;fono de casa:<br />
+		<input type="text" name="tel" id="tel" maxlength="20" value="<?= $r->telefono;?>" />
+		</td>
+
+		<td>
+		Tel&eacute;fono celular:<br />
 		<input type="text" name="cel" id="cel" maxlength="20" value="<?= $r->celular;?>" />
 		</td>
+	</tr>
+	<tr>
 		<td>
 			Sector:<br />
 			<select name="sector" id="sector">
@@ -72,8 +78,6 @@ $attr = 'selected="selected"';// Stributo select para los select de opcion mutip
 				<option value="6" <?php echo $r->sector == 6 ? $attr : ''; ?>>Sector 6</option>
 			</select>
 			</td>
-	</tr>
-	<tr>
 			<td>
 				Asignar Cobrador:<br/>
 				<select name="cobrador" id="cobrador">
@@ -88,7 +92,6 @@ $attr = 'selected="selected"';// Stributo select para los select de opcion mutip
 				?>
 				</select>
 			</td>
-			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center"><b>Datos Empleo<b/></td>
@@ -102,10 +105,10 @@ $attr = 'selected="selected"';// Stributo select para los select de opcion mutip
 			</td>
 		</tr>
 		<tr>
-			<td>Colonia Empleo<br/>
+			<td>Col&oacute;nia Empleo<br/>
 				<input type="text" name="c_empl" id="c_empl" value="<?php echo $r->c_empl; ?>" maxlength="25">
 			</td>
-			<td>Teléfono Empleo<br/>
+			<td>Tel&eacute;fono Empleo<br/>
 				<input type="text" name="tel_empl" id="tel_empl" value="<?php echo $r->tel_empl; ?>"maxlength="25">
 			</td>
 		</tr>
@@ -121,10 +124,10 @@ $attr = 'selected="selected"';// Stributo select para los select de opcion mutip
 			</td>
 		</tr>
 		<tr>
-			<td>Teléfono Celular<br/>
+			<td>Tel&eacute;fono Celular<br/>
 				<input type="text" name="cel_ref1" id="cel_ref1" value="<?php echo $r->cel_ref1; ?>" maxlength="25">
 			</td>
-			<td>Teléfono Celular<br/>
+			<td>Tel&eacute;fono Celular<br/>
 				<input type="text" name="cel_ref2" id="cel_ref2" value="<?php echo $r->cel_ref2; ?>" maxlength="25">
 			</td>
 		</tr>

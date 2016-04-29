@@ -43,26 +43,18 @@
 			<input type="text" name="col" id="col" maxlength="30" />
 			</td>
 			<td>
-			Tel&eacute;fono de casa:<br />
-			<input type="text" name="tel" id="tel" maxlength="20" />
+			Entre calles:<br />
+			<input type="text" name="entrec" id="entrec" style="width:300px" maxlength="50" />
 			</td>
 		</tr>
 		<tr>
 			<td>
-			Tel&eacute;fono celular:<br />
-			<input type="text" name="cel" id="cel" maxlength="20" />
+			Tel&eacute;fono de casa:<br />
+			<input type="text" name="tel" id="tel" maxlength="20" />
 			</td>
 			<td>
-			Sector:<br />
-			<select name="sector" id="sector">
-				<option value=" ">Seleccionar</option>
-				<option value="1">Sector 1</option>
-				<option value="2">Sector 2</option>
-				<option value="3">Sector 3</option>
-				<option value="4">Sector 4</option>
-				<option value="5">Sector 5</option>
-				<option value="6">Sector 6</option>
-			</select>
+			Tel&eacute;fono celular:<br />
+			<input type="text" name="cel" id="cel" maxlength="20" />
 			</td>
 		</tr>
 		<tr>
@@ -80,8 +72,16 @@
 			</select>
 			</td>
 			<td>
-				Cargar imagen de cliente (JPG):<br />
-				<input name="image" accept="image/jpeg" type="file">
+				Sector:<br />
+			<select name="sector" id="sector">
+				<option value=" ">Seleccionar</option>
+				<option value="1">Sector 1</option>
+				<option value="2">Sector 2</option>
+				<option value="3">Sector 3</option>
+				<option value="4">Sector 4</option>
+				<option value="5">Sector 5</option>
+				<option value="6">Sector 6</option>
+			</select>
 			</td>
 		</tr>
 		<tr>

@@ -214,12 +214,16 @@ $("#interes").click(function(){
 				<img src="estilo/img/contactcard32.png" />
 				</a>
 			</th>
-			<td colspan="3"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
+			<td colspan="4"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
 		<tr>
-			<td><strong>Calle: </strong> <br /><?php echo $ln->direccion;?></td><td><strong>Colonia: </strong> <br /><?php echo $ln->colonia;?></td><td><strong>Tel&eacute;fono: </strong> <br /><?php echo $ln->telefono;?></td>
+			<td><strong>Calle: </strong> <br /><?php echo $ln->direccion;?></td>
+			<td><strong>Colonia: </strong> <br /><?php echo $ln->colonia;?></td>
+			<td><strong>Tel&eacute;fono: </strong> <br /><?php echo $ln->telefono;?></td>
 		</tr>
 		<tr>
-			<td colspan="2"><strong>Celular: </strong> <br /><?php echo $ln->celular;?></td><td><strong>Cobrador: </strong> <br /><?php echo $ln->c_cobrador;?></td>
+			<td colspan="1"><strong>Celular: </strong> <br /><?php echo $ln->celular;?></td>
+			<td><strong>Entrecalles: </strong> <br /><?php echo $ln->entrecalles;?></td>
+			<td><strong>Cobrador: </strong> <br /><?php echo $ln->c_cobrador;?></td>
 		</tr>
 		<?php
 		$cobrador = $ln->c_cobrador;

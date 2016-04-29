@@ -2,7 +2,7 @@
 @session_start();
 
 foreach($_POST as $var => $val){
-		echo $var . " => " . $val . "<br />";
+		#echo $var . " => " . $val . "<br />";
 	}
 
 var_dump($_POST['ids']);
@@ -118,7 +118,7 @@ switch($_POST["action"]){
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=4"> ';
 		break;
 	case "cliente_nuevo":
-		$_cadena = "INSERT INTO clientes (nombre, apellidop, apellidom, direccion, colonia, telefono, 
+		$_cadena = "INSERT INTO clientes (nombre, apellidop, apellidom, direccion,entrecalles, colonia, telefono, 
 								celular, vivienda, Aval, activo, sector, empleo, dir_empl, c_empleo,
 								tel_empl, nom_ref_1, cel_ref1, nom_ref_2, cel_ref2, c_cobrador)
 		VALUES (
@@ -126,6 +126,7 @@ switch($_POST["action"]){
 			'". $_POST["apellidop"] ."',
 			'". $_POST["apellidom"] ."',
 			'". $_POST["dir"] ."',
+			'". $_POST["entrec"] ."',
 			'". $_POST["col"] ."',
 			'". $_POST["tel"] ."',
 			'". $_POST["cel"] ."',
@@ -317,7 +318,8 @@ switch($_POST["action"]){
 			nombre 		= '".$_POST["nombre"]."', 
 			apellidop 	= '".$_POST["apellidop"]."', 
 			apellidom 	= '".$_POST["apellidom"]."', 
-			direccion 	= '".$_POST["dir"]."', 
+			direccion 	= '".$_POST["dir"]."',
+			entrecalles = '". $_POST["entrec"] ."', 
 			colonia 	= '".$_POST["col"]."', 
 			telefono 	= '".$_POST["tel"]."', 
 			celular 	= '".$_POST["cel"]."', 
