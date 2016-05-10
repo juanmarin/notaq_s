@@ -35,8 +35,9 @@ if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0 && isset($_POST)){
 		case 1:
 			$reporte="
 			SELECT 
-				 cu.fecha 'Fecha préstamo'
+				 cu.fecha 'Fecha prestamo'
 				,cu.id 'Contrato'
+				,cu.tipo_prestamo
 				,concat(cl.apellidop,' ',cl.apellidom,' ',cl.nombre) 'Nombre del cliente'
 				,cl.colonia 'Colonia'
 				,cl.direccion 'Calle'
@@ -45,6 +46,13 @@ if(isset($_SESSION["U_NIVEL"]) && $_SESSION["U_NIVEL"]==0 && isset($_POST)){
 				,'Dato no existe' as 'Tel. empleo'
 				,cl.celular 'Tel. celuar'
 				,cl.sector  'Sector'
+				,CASE cu.tipo_prestamo
+					WHEN 1 THEN 'NUEVO'
+					WHEN 2 THEN 'RENOVACION'
+					WHEN 3 THEN 'REESTRUCTURA'
+					WHEN 4 THEN 'CONVENIO'
+					ELSE 'NO DEFINIDO'
+				END AS 'T.Credito'
 				,cu.total 'Total adeudo'
 				,(SELECT SUM(pa.pago) FROM pagos pa WHERE pa.cuenta = cu.id AND pa.estado=0 AND pa.fecha < CURDATE()) AS 'Total vencido en pagos'
 				/* ** ----------------------------------------------------------------------------------------------------------------------------------------- ** */
