@@ -236,6 +236,9 @@ table tfoot tr th{
 	-webkit-border-radius: 0 0 5px 5px;
 	-khtml-border-radius: 0 0 5px 5px;
 }
+table tr {
+	hover:background: #ffc;
+}
 .tboton{
 	display: block;
 	width: 60px;
@@ -332,6 +335,19 @@ input[type=submit], input[type=button]{
 	text-shadow: 1px 1px #888;
 	text-align: center;
 	text-decoration: none;
+
+}
+
+.boton2{
+	margin:10px;
+	padding:19px 94px;
+	border:2px solid #888;
+	background: #F3F16D;
+	color: #000;
+	text-shadow: 1px 1px #888;
+	text-align: center;
+	text-decoration: none;
+
 }
 .clear{clear: both;}
 a{outline: none;}
@@ -355,42 +371,41 @@ a{outline: none;}
 	-khtml-border-radius: 0px 0 2em 4pt;
 }
 .campoerror{border:2px solid #AA1818;}
-/---------------STYLOS PARA LOS BOTONOS Y LINKS DEL PAGINADOR------------------------------/
-#actual {
-	color:#000000;
-	font-weight:600;
+/---------------STYLOS PARA LOS BOTONES Y LINKS DEL PAGINADOR------------------------------/
+.paginate {
+	font-size: .7em;
 }
-a {
-	color:#CCCCCC;
-	text-decoration:none;
+
+a.paginate {
+	border: 1px solid #000080;
+	padding: 2px 6px 2px 6px;
+	text-decoration: none;
+	color: #000080;
 }
-a:hover {
-	color:#000000;
+
+
+a.paginate:hover {
+	background-color: #000080;
+	color: #FFF;
+	text-decoration: underline;
 }
-.numPages {
-	border:1px solid #999999;
-	padding:0.3em 0.4em;
+
+a.current {
+	border: 1px solid #000080;
+	font: bold .7em Arial,Helvetica,sans-serif;
+	padding: 2px 6px 2px 6px;
+	cursor: default;
+	background:#000080;
+	color: #FFF;
+	text-decoration: none;
 }
-.numPages:hover {
-	background:#CCCCCC;
+
+span.inactive {
+	border: 1px solid #999;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: .7em;
+	padding: 2px 6px 2px 6px;
+	color: #999;
+	cursor: default;
 }
-img.fotocliente
-{
-	height:200px;
-	padding:4px;
-	background:#999;
-	border:1px solid #888;
-}
-.fotocliente-frame
-{
-	height:200px;
-	padding:4px;
-	background:#999;
-	border:1px solid #888;
-}
-.fotocliente-image
-{
-	height:192px;
-	padding:4px;
-	background:#999;
-}
+
