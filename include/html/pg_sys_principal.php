@@ -347,11 +347,11 @@ if(isset($_POST["desempxtiempo"]))
 	 		Filtrar marcadores: 
 	 		<select name="filtromapas" id="filtromapas">
 				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php">Mostrar todos</option>
-				<option value="5" style="background:#0066CC;">CLIENTES DEL DÍA DE HOY</option>
-				<option value="1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÍAS VENCIDOS</option>
-				<option value="2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÍAS VENCIDOS</option>
-				<option value="3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÍAS VENCIDOS</option>
-				<option value="4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=5" style="background:#0066CC;">CLIENTES DEL DÍA DE HOY</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=1" style="background:#4acc66;">CLIENTES DE 0 A 7 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=2" style="background:#f3ce2e;">CLIENTES DE 8 A 30 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=3" style="background:#ce1818;">CLIENTES DE 31 A 60 DÍAS VENCIDOS</option>
+				<option value="include/html/pg_cliente_cuenta_mapa_marcas.php?marks=4" style="background:#a020f0;">CLIENTES DE MAS DE 61 DÍAS VENCIDOS</option>
 	 		</select>
 	 		</td>
 		</tr>

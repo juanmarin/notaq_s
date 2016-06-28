@@ -14,13 +14,13 @@ if($UserLevel==0){
 		if($_POST["cobrador"]=="0"){
 			$clcobrador="";
 		}else{
-			$clcobrador="AND clientes.c_cobrador = '".$_POST["cobrador"]."'";
+			$clcobrador="AND recargos.aplicado_x = '".$_POST["cobrador"]."'";
 		}
 	}else{
 		$clcobrador="";
 	}
 }else{
-	$clcobrador="AND clientes.c_cobrador = '$UserName'";
+	$clcobrador="AND recargos.aplicado_x = '$UserName'";
 }
 if(isset($_POST['enviar']))
 {
@@ -39,15 +39,15 @@ if(isset($_POST['enviar']))
 	<tr>
 	<th>Fecha Pago</th>
 	<th colspan="2">Nombre</th>
+	<th colspan="2">Cobrador</th>
 	<th colspan="2">Pago Total</th>
 	<th colspan="2">Acciones</th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php
-	$result = $db->query("SELECT clientes.id AS cliente, clientes.nombre, clientes.apellidop, clientes.apellidom, recargos.cliente, recargos.cuenta, recargos.fecha, SUM(recargos.monto_saldado)AS sumatoria, 
-	recargos.estado FROM clientes, recargos WHERE clientes.id = recargos.cliente AND 
-	DATE(fecha) BETWEEN '".$desde."' AND '".$hasta."' AND estado > 0 GROUP BY recargos.cliente ORDER BY fecha DESC");
+	$result = $db->query("SELECT clientes.id AS cliente, clientes.nombre, clientes.apellidop, clientes.apellidom, recargos.cliente, recargos.cuenta, recargos.fecha, SUM(recargos.monto_saldado)AS sumatoria, recargos.estado, recargos.aplicado_x FROM clientes, recargos WHERE clientes.id = recargos.cliente AND 
+	DATE(fecha) BETWEEN '".$desde."' AND '".$hasta."' AND estado > 0 AND recargos.aplicado_x != '' $clcobrador GROUP BY recargos.cliente ORDER BY fecha DESC");
 	$totRecCobrado=0;
 	while ($ln = $db->fetchNextObject($result))
 	{
@@ -56,7 +56,7 @@ if(isset($_POST['enviar']))
 		<tr>
 		<th width="250px" style="text-align: center;"><?= getFecha($ln->fecha);?></th>
 		<th colspan="3" width="250px" style="text-align: center"><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
-
+		<th width="250px" style="text-align: center;"><?php echo $ln->aplicado_x;?></th>
 		<th width="250px" style="text-align: center;"><?= "&#36;"; echo $ln->sumatoria;?></th>
 		<th colspan="2" style="text-align: center;"><a href="?pg=2e&cl=<?= $ln->cliente;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
 		</tr>
@@ -67,7 +67,7 @@ if(isset($_POST['enviar']))
 	<tfoot>
 	<tr>
 	<th colspan="4" style="text-align: left"> Totales </th>
-	<th colspan="3" style="text-align:center"><?="&#36;"; echo $totRecCobrado;?></th>
+	<th colspan="4" style="text-align:center"><?="&nbsp; &nbsp; &nbsp;&nbsp; &#36;"; echo moneda($totRecCobrado);?></th>
 	</tr>
 	</tfoot>
 	</table>

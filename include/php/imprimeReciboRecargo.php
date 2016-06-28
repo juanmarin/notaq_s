@@ -48,7 +48,7 @@ function getDiaSemana2($dia, $tipo){
 	return $diasemana;
 }
 ## CALCULANDO DATOS 
-## INFORMACIÓN DE LA CUENTA ****************************************************************************** 
+## INFORMACIÃ“N DE LA CUENTA ****************************************************************************** 
 $cta = 
 $sql = "SELECT * FROM cuentas WHERE id = ".$cuenta;
 $res = mysql_query($sql);
@@ -57,11 +57,11 @@ $npagos = $c["npagos"];
 $interes = $c["interes"];
 $int = (($interes / 100)+1);
 
-## INFORMACIÓN DEL CLIENTE ******************************************************************************* 
+## INFORMACIÃ“N DEL CLIENTE ******************************************************************************* 
 $sql = "SELECT * FROM clientes WHERE id = ".$cliente;
 $res = mysql_query($sql);
 $cli = mysql_fetch_array($res);
-## INFORMACIÓN DEL CLIENTE ******************************************************************************* 
+## INFORMACIÃ“N DEL CLIENTE ******************************************************************************* 
 $sql = "SELECT fecha FROM pagos WHERE id = ".($pid+1);
 $res = mysql_query($sql);
 $p = mysql_fetch_array($res);
@@ -91,7 +91,7 @@ printer_draw_text($handle,"::   RECIBO GENERADO POR RECARGOS  ::",0,$li);
 $li+=$alto;
 printer_draw_text($handle,"Fecha: ".date("Y-m-d").", ".date("H:i:s"),0,$li);
 $li+=$alto;
-printer_draw_text($handle,"Recibí de:",0,$li);
+printer_draw_text($handle,"RecibÃ­ de:",0,$li);
 $li+=$alto;
 printer_draw_text($handle,$cli["nombre"]." ".$cli["apellidop"]." ".$cli["apellidom"],0,$li);
 $li+=$alto;
@@ -99,7 +99,7 @@ printer_draw_text($handle,"La cantidad de: $".$recargos,0,$li);
 $li+=$alto;
 printer_draw_text($handle,"Ref: ".$c["cliente"]."-".$cuenta,0,$li);
 $li+=$alto;
-printer_draw_text($handle,"   ¡GRACIAS POR SU PREFERENCIA!",0,$li);
+printer_draw_text($handle,"   Â¡GRACIAS POR SU PREFERENCIA!",0,$li);
 $li+=$alto;
 printer_draw_text($handle,"**********************************",0,$li);
 $li+=$alto*2;

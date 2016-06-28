@@ -22,15 +22,15 @@
 				<form action="?pg=<?php echo ($_GET['pg'])? $_GET['pg'] : 1; ?>" method="post">
 				<table class="log">
 					<thead>
-						<tr><th>Iniciar sesión</th></tr>
+						<tr><th>Iniciar sesiÃ³n</th></tr>
 					</thead>
 					<tbody>
 						<tr><td><?php echo $msg; ?></td></tr>
 						<tr><th valign="bottom">Nombre de usuario:</th></tr>
 						<tr><td valign="top"><input type="text" name="uname" id="usuario" /></td></tr>
-						<tr><th valign="bottom">Contraseña:</th></tr>
+						<tr><th valign="bottom">ContraseÃ±a:</th></tr>
 						<tr><td valign="top"><input type="password" name="pwd" /></td></tr>
-						<tr><th>Recordar mi sesión:<input type="checkbox" name="remember" value="1" /></td></tr>
+						<tr><th>Recordar mi sesiÃ³n:<input type="checkbox" name="remember" value="1" /></td></tr>
 					</tbody>
 					<tfoot>
 						<tr>

@@ -66,12 +66,12 @@ function BasicTable($header,$data)
 
     function Footer()
     {
-        //Posición: a 1,5 cm del final
+        //PosiciÃ³n: a 1,5 cm del final
         $this->SetY(-15);
         //Arial italic 8
         $this->SetFont('Arial','I',8);
-        //Número de página
-        $this->Cell(0,10,'Página '.$this->PageNo().'',0,0,'C');
+        //NÃºmero de pÃ¡gina
+        $this->Cell(0,10,'PÃ¡gina '.$this->PageNo().'',0,0,'C');
     }
 
 }

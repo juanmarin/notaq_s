@@ -236,8 +236,8 @@ table tfoot tr th{
 	-webkit-border-radius: 0 0 5px 5px;
 	-khtml-border-radius: 0 0 5px 5px;
 }
-table tr {
-	hover:background: #ffc;
+table tr:hover {
+	background: #ffc;
 }
 .tboton{
 	display: block;
@@ -335,19 +335,16 @@ input[type=submit], input[type=button]{
 	text-shadow: 1px 1px #888;
 	text-align: center;
 	text-decoration: none;
-
 }
-
 .boton2{
 	margin:10px;
-	padding:19px 94px;
+	padding:19px 90px;
 	border:2px solid #888;
 	background: #F3F16D;
 	color: #000;
 	text-shadow: 1px 1px #888;
 	text-align: center;
 	text-decoration: none;
-
 }
 .clear{clear: both;}
 a{outline: none;}
@@ -371,7 +368,7 @@ a{outline: none;}
 	-khtml-border-radius: 0px 0 2em 4pt;
 }
 .campoerror{border:2px solid #AA1818;}
-/---------------STYLOS PARA LOS BOTONES Y LINKS DEL PAGINADOR------------------------------/
+/---------------STYLOS PARA LOS BOTONOS Y LINKS DEL PAGINADOR------------------------------/
 .paginate {
 	font-size: .7em;
 }
@@ -401,11 +398,52 @@ a.current {
 }
 
 span.inactive {
-	border: 1px solid #999;
+	border: 1px solid #c0c0c0;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: .7em;
 	padding: 2px 6px 2px 6px;
-	color: #999;
+	color: #c0c0c0;
 	cursor: default;
+	text-decoration: bold;
 }
 
+
+
+#actual {
+	color:#000000;
+	font-weight:600;
+}
+a {
+	color:#CCCCCC;
+	text-decoration:none;
+}
+a:hover {
+	color:#000000;
+}
+.numPages {
+	border:1px solid #999999;
+	padding:0.3em 0.4em;
+}
+.numPages:hover {
+	background:#CCCCCC;
+}
+img.fotocliente
+{
+	height:200px;
+	padding:4px;
+	background:#999;
+	border:1px solid #888;
+}
+.fotocliente-frame
+{
+	height:200px;
+	padding:4px;
+	background:#999;
+	border:1px solid #888;
+}
+.fotocliente-image
+{
+	height:192px;
+	padding:4px;
+	background:#999;
+}

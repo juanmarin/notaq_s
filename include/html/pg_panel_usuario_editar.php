@@ -13,7 +13,7 @@
 <input type="hidden" name="id" value="<?php echo $_GET['usr'];?>" />
 
 <table>
-<caption>INFORMACIÓN DE USUARIO</caption>
+<caption>INFORMACI&Oacute;N DE USUARIO</caption>
 <tbody>
 	<tr>
 		<th>Nombre:</th>
@@ -53,22 +53,22 @@
 </table>
 
 <table>
-<caption>INFORMACIÓN DE CUENTA</caption>
+<caption>INFORMACI&Oacute;N DE CUENTA</caption>
 <tbody>
 	<tr>
 		<th>Nombre de usuario:</th>
 		<td><input type="text" name="uname" id="uname" value="<?php echo $ln->username;?>" /></td>
 	</tr>
 	<tr>
-		<th>Contraseña actual:</th>
+		<th>Contrase&ntilde;a actual:</th>
 		<td><input type="password" name="conac" id="conac" value="" /></td>
 	</tr>
 	<tr>
-		<th>Contraseña nueva:</th>
+		<th>Contrase&ntilde;a nueva:</th>
 		<td><input type="password" name="conu" id="conu" /></td>
 	</tr>
 	<tr>
-		<th>Confirmar contraseña nueva:</th>
+		<th>Confirmar contrase&ntilde;a nueva:</th>
 		<td><input type="password" name="confnu" id="confnu" /></td>
 	</tr>
 </tbody>

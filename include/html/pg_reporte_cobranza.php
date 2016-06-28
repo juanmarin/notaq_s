@@ -36,16 +36,18 @@ if(isset($_POST['enviar'])){
 	<th>DIRECCION</th>
 	<th>PAGOS</th>
 	<th>PAGO</th>
+	<th>COBRADOR</th>
 	<th>ACCIONES</th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php
 	$sql = "SELECT 
-	clientes.id, clientes.nombre, clientes.apellidop, clientes.apellidom, clientes.direccion, clientes.colonia, clientes.telefono, clientes.celular
-	, pagos.id as idp, pagos.cuenta, pagos.fecha, pagos.pago, pagos.estado 
-	FROM clientes, pagos 
-	WHERE clientes.id = pagos.cliente 
+	clientes.id AS id, CONCAT(clientes.nombre, ' ', clientes.apellidop, ' ', clientes.apellidom) AS nombre, clientes.direccion, clientes.colonia, clientes.telefono, clientes.celular, clientes.c_cobrador, cuentas.id AS cuenta, cuentas.cliente, cuentas.estado, pagos.id AS idp, pagos.cuenta, pagos.fecha, pagos.pago, pagos.estado 
+	FROM clientes, cuentas, pagos 
+	WHERE clientes.id = cuentas.cliente 
+	AND cuentas.id = pagos.cuenta 
+	AND cuentas.estado = 0
 	AND pagos.fecha BETWEEN '".$desde."' AND '".$hasta."' 
 	AND pagos.estado = 0 
 	$clcobrador
@@ -56,10 +58,11 @@ if(isset($_POST['enviar'])){
 		?>
 		<tr>
 		<th width="250px" style="text-align: center;"><?= getFecha($ln->fecha);?></th>
-		<th width="250px" style="text-align: center"><?= $ln->nombre." ".$ln->apellidop." ".$ln->apellidom ;?></th>
+		<th width="250px" style="text-align: center"><?= $ln->nombre ;?></th>
 		<th width="250px" style="text-align: center;"><?= $ln->direccion." ".$ln->colonia." ".$ln->telefono;?></th>
 		<th width="250px" style="text-align: center;"><?= cuentaPagos($ln->cuenta, $ln->id);?></th>
 		<th width="250px" style="text-align: center;"><?= "&#36;"; echo moneda($ln->pago);?></th>
+		<th width="250px" style="text-align: center;"><?= $ln->c_cobrador;?></th>
 		<th colspan="1" style="text-align: center;"><a href="?pg=2e&cl=<?= $ln->id;?>" class="tboton sombra esqRedondas cuenta">Cuenta</a></th>
 		</tr>
 		<?php

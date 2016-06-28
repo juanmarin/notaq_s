@@ -19,7 +19,7 @@ $attr = 'selected="selected"';// Stributo select para los select de opcion mutip
 <input type="hidden" name="action" value="cliente_editar_1" />
 <input type="hidden" name="cl" value="<?= $r->id;?>" />
 <table>
-<caption>Editar información de cliente: Datos personales</caption>
+<caption>Editar informaciÃ³n de cliente: Datos personales</caption>
 <thead>
 	<tr>
 		<th colspan="2">&nbsp;</th>

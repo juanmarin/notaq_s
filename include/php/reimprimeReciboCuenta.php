@@ -49,11 +49,11 @@ if($_POST["tipo_pago"] < 4){
 		$diaPago = $_POST["dias_pago"]." de cada mes";
 		}
 		echo $diaPago;
-## INFORMACIÓN DE LA CUENTA ****************************************************************************** 
+## INFORMACIÃ“N DE LA CUENTA ****************************************************************************** 
 $sql = "SELECT * FROM cuentas WHERE id = ".$cuenta;
 $res = mysql_query($sql);
 $c = mysql_fetch_array($res);
-## INFORMACIÓN DEL CLIENTE ******************************************************************************* 
+## INFORMACIÃ“N DEL CLIENTE ******************************************************************************* 
 $sql = "SELECT * FROM clientes WHERE id = ".$c["cliente"];
 $res = mysql_query($sql);
 $cl = mysql_fetch_array($res);
@@ -92,7 +92,7 @@ printer_draw_text($handle,"---",0,$li);
 $li+=$alto;
 printer_draw_text($handle,"OBSERVACIONES: ".$_POST["observ"],0,$li);
 $li+=$alto;
-printer_draw_text($handle,"¡GRACIAS POR SU PREFERENCIA!",0,$li);
+printer_draw_text($handle,"Â¡GRACIAS POR SU PREFERENCIA!",0,$li);
 $li+=$alto*3;
 printer_draw_text($handle," ",0,$li);
 printer_delete_font($font);

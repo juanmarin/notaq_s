@@ -56,7 +56,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 		WHERE cu.estado=0";
 	$db->execute($sql);
 	*/
-    	//- VERDE - CLIENTES DE 0 A 7 DÍAS VENCIDOS
+    	//- VERDE - CLIENTES DE 0 A 7 DÃAS VENCIDOS
     	if(!isset($_GET["marks"]) || $_GET["marks"]==1)
     	{
 			$sql1 = "select * from (
@@ -84,7 +84,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$cont++;
 			}
     	}
-    	//- AMARILLO - CLIENTES DE 8 A 30 DÍAS VENCIDOS
+    	//- AMARILLO - CLIENTES DE 8 A 30 DÃAS VENCIDOS
     	if(!isset($_GET["marks"]) || $_GET["marks"]==2)
     	{
 			$sql2 = "select * from (
@@ -110,7 +110,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$cont++;
 			}
     	}
-    	//- ROJO - CLIENTES DE 31 A 60 DÍAS VENCIDOS
+    	//- ROJO - CLIENTES DE 31 A 60 DÃAS VENCIDOS
     	if(!isset($_GET["marks"]) || $_GET["marks"]==3)
     	{
 			$sql3 = "select * from (
@@ -136,7 +136,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$cont++;
 			}
     	}
-    	//- PURPURA - CLIENTES DE MAS DE 61 DÍAS VENCIDOS
+    	//- PURPURA - CLIENTES DE MAS DE 61 DÃAS VENCIDOS
     	if(!isset($_GET["marks"]) || $_GET["marks"]==4)
     	{
 			$sql4 = "select * from (
@@ -162,7 +162,7 @@ $db = new DB(DB_DATABASE, DB_HOST, DB_USER, DB_PASSWORD);
 				$cont++;
 			}
     	}
-    	//- AZUL - CLIENTES DEL DÍA
+    	//- AZUL - CLIENTES DEL DÃA
     	if(!isset($_GET["marks"]) || $_GET["marks"]==5)
     	{
 			$sql4 = "select * from (

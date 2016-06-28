@@ -43,7 +43,7 @@ switch($_POST["action"]){
 			$_SESSION["nu_ema"] = $_POST["email"]; 
 			$_SESSION["nu_tel"] = $_POST["telefono"]; 
 			$_SESSION["nu_una"] = $_POST["uname"];
-			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Las contraseñas no coinciden, asegurese de escribir correctamente la contraseña al confirmarla.</p></th></tr>';
+			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Las contraseÃ±as no coinciden, asegurese de escribir correctamente la contraseÃ±a al confirmarla.</p></th></tr>';
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
 		else
@@ -70,7 +70,7 @@ switch($_POST["action"]){
 			unset($_SESSION["nu_ema"]); 
 			unset($_SESSION["nu_tel"]); 
 			unset($_SESSION["nu_una"]);
-			$_SESSION["msg"] = '<tr><th colspan="2"><p class="inportant">Usuario registrado con éxito.</p></th></tr>';
+			$_SESSION["msg"] = '<tr><th colspan="2"><p class="inportant">Usuario registrado con Ã©xito.</p></th></tr>';
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
 		break;
@@ -372,7 +372,7 @@ switch($_POST["action"]){
 			mysql_query($sql);
 			##-restar a ultimo pago
 			$abono -= $sumapagos;
-			##-aplicar pago restante a demás pagos
+			##-aplicar pago restante a demÃ¡s pagos
 			setMontoRestante($cta, $abono);
 		}elseif($abono == $total){
 			$sql = "UPDATE cuentas SET estado = 1 WHERE id = ".$cta;
@@ -504,7 +504,7 @@ switch($_POST["action"]){
 				?>
 				<script type="text/javascript" >
 					alert("Permiso denegado.\n
-					Usuario o contraseña incorrectos.");
+					Usuario o contraseÃ±a incorrectos.");
 				</script>
 				<?php
 			}
@@ -522,8 +522,8 @@ switch($_POST["action"]){
 			?>
 			<script type="text/javascript" >
 				alert("Permiso denegado.\n
-				Usuario o contraseña incorrectos.\n
-				Verifique que el usuario tenga permiso para esta operación.");
+				Usuario o contraseÃ±a incorrectos.\n
+				Verifique que el usuario tenga permiso para esta operaciÃ³n.");
 			</script>
 			<?php
 		}

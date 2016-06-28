@@ -48,7 +48,7 @@ switch($_POST["action"]){
 			$_SESSION["nu_ema"] = $_POST["email"]; 
 			$_SESSION["nu_tel"] = $_POST["telefono"]; 
 			$_SESSION["nu_una"] = $_POST["uname"];
-			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Las contrase&nacute;as no coinciden, asegurese de escribir correctamente la contraseÃƒÆ’Ã‚Â±a al confirmarla.</p></th></tr>';
+			$_SESSION["msg"] = '<tr><th colspan="2"><p class="error">Las contrase&nacute;as no coinciden, asegurese de escribir correctamente la contraseÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â±a al confirmarla.</p></th></tr>';
 			#echo $_SESSION["msg"];
 			#echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
@@ -76,7 +76,7 @@ switch($_POST["action"]){
 			unset($_SESSION["nu_ema"]); 
 			unset($_SESSION["nu_tel"]); 
 			unset($_SESSION["nu_una"]);
-			$_SESSION["msg"] = '<tr><th colspan="2"><p class="inportant">Usuario registrado con ÃƒÆ’Ã‚Â©xito.</p></th></tr>';
+			$_SESSION["msg"] = '<tr><th colspan="2"><p class="inportant">Usuario registrado con ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©xito.</p></th></tr>';
 			#echo $_SESSION["msg"];
 			echo '<meta http-equiv="refresh" content="0;url=../../?pg=4b"> ';
 		}
@@ -106,13 +106,14 @@ switch($_POST["action"]){
 		$_query = mysql_query($_cadena);
 		//echo $_cadena."<br />";
 		if($_POST["conu"] == $_POST["confnu"]){
-			$sql = "SELECT password FROM mymvcdb_users WHERE userID = ".$_SESSION["REQUIRED1"];
+			$sql = "SELECT password FROM mymvcdb_users WHERE userID = ".$_POST["id"];
 			$res = mysql_query($sql);
 			$r = mysql_fetch_array($res);
 			if(sha1($_POST["conac"]) == $r["password"]){
-				$sql = "UPDATE mymvcdb_users SET password = '".sha1($_POST["confnu"])."' WHERE userID = ".$_SESSION["REQUIRED1"];
+				$sql = "UPDATE mymvcdb_users SET password = '".sha1($_POST["confnu"])."' WHERE userID = ".$_POST["id"];
 				mysql_query($sql);
 				mysql_close();
+				//echo $sql."<br />";
 			}
 		}
 		echo '<meta http-equiv="refresh" content="0;url=../../?pg=4"> ';
@@ -178,7 +179,7 @@ switch($_POST["action"]){
 						die("Sorry. It was not possible to read photo $sPhotoFileName. Choose another photo in JPG format.");
 					}
 				}
-				// CAMBIAR TAMAÃƒâ€˜O DE IMAGEN --
+				// CAMBIAR TAMAÃƒÆ’Ã¢â‚¬ËœO DE IMAGEN --
 				$nWidth = imagesx($oSourceImage);  // get original source image width 
 				$nHeight = imagesy($oSourceImage); // and height 
 				// create small thumbnail 
@@ -296,7 +297,7 @@ switch($_POST["action"]){
 			else{
 				?>
 				<script type="text/javascript" >
-				alert("Permiso denegado.\nUsuario o contraseÃƒÆ’Ã‚Â±a incorrectos.\nIntente de nuevo.");
+				alert("Permiso denegado.\nUsuario o contraseÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â±a incorrectos.\nIntente de nuevo.");
 				</script>
 				<?php
 				echo '<meta http-equiv="refresh" content="0;url=../../?pg=2e&cl='.$_POST["cte"].'"> ';
@@ -510,7 +511,7 @@ switch($_POST["action"]){
 		}
 		else
 		{
-			#[YA SE VERIFIC QUE SER� DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
+			#[YA SE VERIFIC QUE SERÁ DE LA CUENTA EDITADA, AHORA A CREAR LA NUEVA CUENTA]# #############################################
 			# inicializar las variables
 			//echo "<p>Cuenta con plazos</p>";
 			switch($_POST["tipo_pago"]){
@@ -601,7 +602,7 @@ switch($_POST["action"]){
 				}
 				else
 				{
-					## BORRAR PAGOS PENDIENTES, DEJANDO SOLO LOS QUE ESTÃ‰N SALDADOS
+					## BORRAR PAGOS PENDIENTES, DEJANDO SOLO LOS QUE ESTÃƒâ€°N SALDADOS
 					$sql = "DELETE FROM pagos WHERE cuenta=$cuenta AND estado=0";
 					//echo "<br />$sql<br />";
 					mysql_query($sql);
@@ -852,7 +853,7 @@ switch($_POST["action"]){
 				mysql_query($sql);
 				##-restar a ultimo pago
 				$abono -= $sumapagos;
-				##-aplicar pago restante a demÃƒÆ’Ã‚Â¡s pagos
+				##-aplicar pago restante a demÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡s pagos
 				setMontoRestante($cta, $abono);
 			}elseif($abono == $total){
 				if (hayRecargos($cta, $cl) == 0) {
@@ -964,7 +965,7 @@ switch($_POST["action"]){
 		$cte 	= $_POST["cte"];
 		$cta 	= $_POST["cta"];
 		$delCte = (isset($_POST["elimina"]))?$_POST["elimina"]:"";
-		#- COMPROBAMOS EL USUARIO Y CONTRASEÃƒÆ’Ã¢â‚¬ËœA -------------------------------------------------------------------
+		#- COMPROBAMOS EL USUARIO Y CONTRASEÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‹Å“A -------------------------------------------------------------------
 		$pas 	= sha1($_POST["c"]);
 		$sql 	= 'SELECT username, password FROM mymvcdb_users WHERE username = "'.$_POST["u"].'" AND  password = "'.$pas.'" AND NIVEL = 0';
 		echo $sql;
@@ -1066,7 +1067,7 @@ switch($_POST["action"]){
 					$sql = "INSERT INTO abono_recargos (idrec,idcte,fecha_ab,abono,aplicado_x)
 							VALUES($recargo_id,$cliente,'".date("Y-m-d")."','$abono','".$UserName."')";
 					$res = mysql_query($sql);
-					#-DEFINIR VALORES DE ACTUALIZACIÃ“N DEL RECARGO
+					#-DEFINIR VALORES DE ACTUALIZACIÃƒâ€œN DEL RECARGO
 					$estado = 0;
 					$restante  = $pendiente - $abono;
 					$abono+=$saldados;
@@ -1216,7 +1217,7 @@ switch($_POST["action"]){
 		$res = mysql_query($sql);
 		$ary = mysql_fetch_array($res);
 		$cta = $ary["cuenta"];
-		//COMPROBAR SI HAY MÃS RECARGOS POR CONDONAR
+		//COMPROBAR SI HAY MÃƒÂS RECARGOS POR CONDONAR
 		$sql = "SELECT id FROM recargos WHERE cuenta = $cta AND estado = 0";
 		$res = mysql_query($sql);
 		if( mysql_num_rows($res) == 0 )
@@ -1449,7 +1450,7 @@ switch($_POST["action"]){
 				}
 			}
 			echo $sPhotoFileName . "<br />";
-			// CAMBIAR TAMAÑO DE IMAGEN --
+			// CAMBIAR TAMAÃ‘O DE IMAGEN --
 			$nWidth = imagesx($oSourceImage);  // get original source image width 
 			$nHeight = imagesy($oSourceImage); // and height 
 			// create small thumbnail 

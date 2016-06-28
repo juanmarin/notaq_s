@@ -31,7 +31,8 @@ if( $_SESSION["REQUIRED1"]==1 || $_SESSION["REQUIRED1"]==20 ){
 			WHEN (@dd>1 AND @dd<8) THEN 'VERDE'
 			WHEN (@dd>7 AND @dd<=30) THEN 'AMARILLO'
 			WHEN (@dd>30 AND @dd<=60) THEN 'ROJO'
-			ELSE 'NEGRO'
+			WHEN (@dd>61 AND @dd<=90) THEN 'MORADO'
+			WHEN (@dd>91) THEN 'NEGRO'
 		END AS 'color'
 		FROM clientes cl 
 		RIGHT JOIN cuentas cu ON cl.id=cu.cliente
@@ -50,7 +51,7 @@ if( $_SESSION["REQUIRED1"]==1 || $_SESSION["REQUIRED1"]==20 ){
 		echo "<td width='200'>$COBRADOR</td>";
 		echo "<td>";
 			echo "<div style='padding:1px;border:1px solid #bbb;height:12px;width:100%;background:#eee;'>";
-			#-- clientes al día
+			#-- clientes al dÃ­a
 			$sql1 = "SELECT COUNT(*) cantidad, SUM(vencido) monto FROM v_cuentas WHERE diasvencidos = 0 AND cobrador='$COBRADOR'";
 			//secho $sql1;
 			$res1		= $db->query($sql1);
@@ -58,14 +59,17 @@ if( $_SESSION["REQUIRED1"]==1 || $_SESSION["REQUIRED1"]==20 ){
 			$azulclaro	= $ln->cantidad;
 			$azulclaro_	= $ln->monto;
 			#-- pagos pendientes del dia
-			$sql1 = "SELECT COUNT(*) cantidad, SUM(vencido) monto FROM v_cuentas WHERE diasvencidos = 1 AND cobrador='$COBRADOR'";
+			#$sql1 = "SELECT COUNT(pa.pago) cantidad, SUM(pa.pago) monto FROM pagos pa LEFT JOIN cuentas cu ON pa.cuenta=cu.id WHERE cu.estado=0 AND pa.estado=0 AND pa.fecha>curdate() AND cu.cobrador='$COBRADOR' GROUP BY pa.cliente";
+			#-- [CAMBIO] - Listar todos los pagos con fecha entre los rangos de la semna actual
+			#$sql1 = "SELECT COUNT(*) cantidad, SUM(vencido) monto FROM v_cuentas WHERE diasvencidos = 0 AND cobrador='$COBRADOR'";
+			$sql1	= "SELECT count(pagos.pago) cantidad, sum(pagos.pago) monto FROM clientes, pagos WHERE clientes.id = pagos.cliente AND pagos.fecha = curdate() AND pagos.estado = 0 AND clientes.c_cobrador='$COBRADOR'";
 			//secho $sql1;
 			$res1 = $db->query($sql1);
 			$ln   = $db->fetchNextObject($res1);
 			$azul = $ln->cantidad;
 			$azul_= $ln->monto;
 			#-- pagos pendientes de 0 a 7 dias
-			$sql1 = "SELECT COUNT(*) cantidad, SUM(vencido) monto FROM v_cuentas WHERE diasvencidos > 1 AND diasvencidos < 8 AND cobrador='$COBRADOR'";
+			$sql1 = "SELECT COUNT(*) cantidad, SUM(vencido) monto FROM v_cuentas WHERE diasvencidos > 0 AND diasvencidos < 8 AND cobrador='$COBRADOR'";
 			//echo $sql1;
 			$res1  = $db->query($sql1);
 			$ln    = $db->fetchNextObject($res1);
@@ -85,15 +89,22 @@ if( $_SESSION["REQUIRED1"]==1 || $_SESSION["REQUIRED1"]==20 ){
 			$ln   = $db->fetchNextObject($res1);
 			$rojo = $ln->cantidad;
 			$rojo_= $ln->monto;
-			#-- pagos pendientes de mas de 60 dias
-			$sql1 = "SELECT COUNT(*) cantidad, SUM(vencido) monto FROM v_cuentas WHERE diasvencidos > 60 AND cobrador='$COBRADOR'";
+			#-- pagos pendientes de hasta 60 dias
+			$sql1 = "SELECT COUNT(*) cantidad, SUM(vencido) monto FROM v_cuentas WHERE diasvencidos > 60 AND diasvencidos < 91 AND cobrador='$COBRADOR'";
+			//echo $sql1;
+			$res1  = $db->query($sql1);
+			$ln    = $db->fetchNextObject($res1);
+			$morado = $ln->cantidad;
+			$morado_= $ln->monto;
+			#-- pagos pendientes de hasta 60 dias
+			$sql1 = "SELECT COUNT(*) cantidad, SUM(vencido) monto FROM v_cuentas WHERE diasvencidos > 90 AND cobrador='$COBRADOR'";
 			//echo $sql1;
 			$res1  = $db->query($sql1);
 			$ln    = $db->fetchNextObject($res1);
 			$negro = $ln->cantidad;
 			$negro_= $ln->monto;
 			//-resultados
-			$suma = $azulclaro + $azul + $verde + $amarillo + $rojo + $negro;
+			$suma = $azulclaro + $azul + $verde + $amarillo + $rojo + $morado + $negro;
 			$ancho = ( $azulclaro / $suma ) * 100;
 			$moneda= ($verdinero)?", $".moneda($azulclaro_, 0):"";
 			echo "<div style='background-color:#3399FF;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$azulclaro clientes, ".moneda($ancho, 0)." %$moneda'></div>";
@@ -109,24 +120,29 @@ if( $_SESSION["REQUIRED1"]==1 || $_SESSION["REQUIRED1"]==20 ){
 			$ancho = ( $rojo / $suma ) * 100;
 			$moneda= moneda($rojo_, 0);
 			echo "<div style='background-color:#ce1818;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$rojo clientes, ".moneda($ancho, 0)." %$moneda'></div>";
+			$ancho = ( $morado / $suma ) * 100;
+			$moneda= moneda($morado_, 0);
+			echo "<div style='background-color:#990DF0;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$morado clientes, ".moneda($ancho, 0)." %$moneda'></div>";
 			$ancho = ( $negro / $suma ) * 100;
 			$moneda= moneda($negro_, 0);
-			echo "<div style='background-color:#a020f0;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$negro clientes, ".moneda($ancho, 0)." %$moneda'></div>";
+			echo "<div style='background-color:#000000;height:11px;width:$ancho%;float:left;' class='masterTooltip' title='$negro clientes, ".moneda($ancho, 0)." %$moneda'></div>";
 			echo "<div style='clear:both;'></div>";
 			echo "</div>";
 			echo "</td>";
 			echo "</tr>";
 		$Tazulclaro	+= $azulclaro;
-		$Tazulclaro_+= $azulclaro_;
-		$Tazul	+= $azul;
-		$Tazul_	+= $azul_;
-		$Tverde	+= $verde;
+		$Tazulclaro_	+= $azulclaro_;
+		$Tazul		+= $azul;
+		$Tazul_		+= $azul_;
+		$Tverde		+= $verde;
 		$Tverde_	+= $verde_;
 		$Tamarillo	+= $amarillo;
 		$Tamarillo_	+= $amarillo_;
-		$Trojo	+= $rojo;
-		$Trojo_	+= $rojo_;
-		$Tnegro	+= $negro;
+		$Trojo		+= $rojo;
+		$Trojo_		+= $rojo_;
+		$Tmorado	+= $morado;
+		$Tmorado_	+= $morado_;
+		$Tnegro		+= $negro;
 		$Tnegro_	+= $negro_;
 			
 	}	
@@ -135,7 +151,7 @@ if( $_SESSION["REQUIRED1"]==1 || $_SESSION["REQUIRED1"]==20 ){
 			echo "<td width='200'>TOTALES</td>";
 			echo "<td>";
 			echo "<div style='padding:1px;border:1px solid #bbb;height:12px;width:100%;background:#eee;'>";
-			$Gtotal = $Tazulclaro + $Tazul + $Tverde + $Tamarillo + $Trojo + $Tnegro;
+			$Gtotal = $Tazulclaro + $Tazul + $Tverde + $Tamarillo + $Trojo + $Tmorado + $Tnegro;
 			$Tancho = ( $Tazulclaro / $Gtotal ) * 100;
 			$moneda = ($verdinero)?", $".moneda($Tazulclaro_, 0):"";
 			echo "<div style='background-color:#3399FF;height:11px;width:$Tancho%;float:left;' class='masterTooltip' title='$Tazulclaro clientes, ".moneda($Tancho, 0)." %$moneda'></div>";
@@ -151,9 +167,12 @@ if( $_SESSION["REQUIRED1"]==1 || $_SESSION["REQUIRED1"]==20 ){
 			$Tancho = ( $Trojo / $Gtotal ) * 100;
 			$moneda = moneda($Trojo_, 0);
 			echo "<div style='background-color:#ce1818;height:11px;width:$Tancho%;float:left;' class='masterTooltip' title='$Trojo clientes, ".moneda($Tancho, 0)." %$moneda'></div>";
+			$Tancho = ( $Tmorado / $Gtotal ) * 100;
+			$moneda = moneda($Tmorado_, 0);
+			echo "<div style='background-color:#990DF0;height:11px;width:$Tancho%;float:left;' class='masterTooltip' title='$Tmorado clientes, ".moneda($Tancho, 0)." %$moneda'></div>";
 			$Tancho = ( $Tnegro / $Gtotal ) * 100;
 			$moneda = moneda($Tnegro_, 0);
-			echo "<div style='background-color:#a020f0;height:11px;width:$Tancho%;float:left;' class='masterTooltip' title='$Tnegro clientes, ".moneda($Tancho, 0)." %$moneda'></div>";
+			echo "<div style='background-color:#000000;height:11px;width:$Tancho%;float:left;' class='masterTooltip' title='$Tnegro clientes, ".moneda($Tancho, 0)." %$moneda'></div>";
 			echo "<div style='clear:both;'></div>";
 			echo "</div>";
 			echo "</td>";

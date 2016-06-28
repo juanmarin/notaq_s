@@ -3,11 +3,11 @@ class paginacion
 {	
 	private $page; //Pagina actual
 	private $from; //Numero de registro desde donde iniciar la busqueda
-	private $quantity; //Catidad de registros por p·gina
+	private $quantity; //Catidad de registros por p√°gina
 	private $totalRows; //Total de registros a paginar
 	private $numPages; //Numero total de paginas
 	private $puri; //Parte de la uri a agregar a la url inicial
-	private $url; //Url de la p·gina que se desea hacer la paginaciÛn
+	private $url; //Url de la p√°gina que se desea hacer la paginaci√≥n
 	private $classLink;
 	
 	

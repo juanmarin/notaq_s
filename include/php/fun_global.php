@@ -592,12 +592,32 @@ function date_diffe($hoy, $proxpago){
 	return $dias;
 }
 */
-function date_diffe($hoy,$proxpago){
+function date_diffe($hoy,$proxpago,$cliente){
 	$dStart = new DateTime($hoy);
 	$dEnd  = new DateTime($proxpago);
 	$dDiff = $dStart->diff($dEnd);
-	$dDiff->format('%R'); // use for point out relation: smaller/greater
-	return $dDiff->days;
+	$dDiff->format('%R'); // # Dias de diferencia
+//Consultando la tabla de dias vencidos para saber si ya existe un registro con ese cliente
+/*
+	$sql= "SELECT dv FROM max_dv WHERE cliente =$cliente";
+	$res = mysql_query($sql);
+    	if(mysql_num_rows($res) == 0){ //Si el registro devuelve cero se inserta el cliente en la tabla
+    		$mdv = "INSERT INTO max_dv (cliente, dv) VALUES (".$cliente.", ".$dDiff->days.")";
+    		$res = mysql_query($mdv);
+    	}else{ 	//Si no y si el numero calculado es nayor que el consultado se actualiza con el mayor
+			$rec = mysql_fetch_array($res);
+			$max_dv = $rec[0];
+    		if ($dDiff->days > $max_dv) {
+    			$mdv = "UPDATE max_dv SET dv = ".$dDiff->days." WHERE cliente = ".$cliente."";
+    			$res = mysql_query($mdv);
+    		}
+}
+*/
+	$r_days = $dDiff->days;
+	if ($r_days > 30) {
+		$r_days = 30;
+	}
+	return $r_days;
 }
 function hayRecargos($cuenta, $cliente){
 	$sql = "SELECT * FROM recargos WHERE cuenta = $cuenta AND cliente = $cliente AND estado = 0";
@@ -700,5 +720,13 @@ function getTipoprestamo($tipo_prestamo){
 function pagaRecargos($recargos){
 	$pagorecargos = ($recargos*.30);
 	return $pagorecargos;
+}
+function getMaxDv($cliente){
+	$cta ="SELECT dv FROM max_dv WHERE cliente =$cliente";
+	//echo $cta;
+	$res = mysql_query($cta);
+	$dv = mysql_fetch_array($res);
+	//$max_dv = $dv[0];
+	return $dv[0];
 }
 ?>

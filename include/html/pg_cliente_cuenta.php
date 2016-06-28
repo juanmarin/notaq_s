@@ -161,10 +161,10 @@ $("#interes").click(function(){
 			<?php
 			$sql = "SELECT * FROM clientefoto WHERE idcliente = ".$_GET["cl"]." AND detalle = 'P'";
 			$fres= $db->query($sql);
-			if( $db->numRows($fres) > 0 ){
+			if( $db->numRows($fres) >= 0 ){
 				?>
 				<div class="fotocliente-frame">
-				<div class="fotocliente-image" style="background:url(include/html/pg_clientes_muestrafoto.php?imagen=<?=$_GET['cl'];?>&d=P) center no-repeat;background-size:200px;">
+				<div class="fotocliente-image" style="background:url(include/html/pg_clientes_muestraine.php?c=<?php echo $_GET["cl"];?>&d=IF) center no-repeat;background-size:200px;">
 				</div>
 				</div>
 				<?php
@@ -212,6 +212,10 @@ $("#interes").click(function(){
 				&nbsp;
 				<a href="include/html/box_cliente_cuenta_ine.php?width=700&height=600&cl=<?php echo $_GET["cl"];?>" class="thickbox" title="Actualizar imágenes de cliente" >
 				<img src="estilo/img/contactcard32.png" />
+				</a>
+				&nbsp;
+				<a href="include/html/box_cliente.php?width=700&height=410&cl=<?php echo $_GET["cl"];?>" class="thickbox" title="Detalles de cliente" >
+				<img src="estilo/img/user_32.png" />
 				</a>
 			</th>
 			<td colspan="4"><strong>Nombre: </strong> <br /><?php echo $ln->nombre." ".$ln->apellidop." ".$ln->apellidom;?></td>
@@ -587,8 +591,9 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 		<th>NUM. CONTROL:</th><td><?php echo $cuenta; ?></td>
 	</tr>
 	<tr>
-		<th>FECHA:</th><td colspan="3"><?php echo date ("d-m-Y", strtotime($r->fecha)); ?></td>
+		<th>FECHA:</th><td colspan="1"><?php echo date ("d-m-Y", strtotime($r->fecha)); ?></td>
 		<th>COBRADOR:</th><td colspan=""><?php echo $cobrador; ?></td>
+		<th>RIESGO VENC.:</th><td colspan="1"><?php echo getMaxDv($cliente);?></td>
 	</tr>
 	<tr>
 		<th>MONTO:</th>		<td>$&nbsp;<?php moneda($r->cantidad); ?></td>
@@ -651,7 +656,7 @@ if($chk == 0 || (isset($_SESSION["EDITARCUENTA"])&&$_SESSION["EDITARCUENTA"]==$n
 		## verificando estado del pago 
 		if(getHayRecargo($proxpago) == 1)
 		{
-			$dAtras = date_diffe($hoy,$proxpago);
+			$dAtras = date_diffe($hoy,$proxpago,$cliente);
 			$sql = "SELECT * FROM recargos WHERE pago_id = ".$pago_id." AND pago = '".$proxpago."'";
 			$rec = $db->query($sql);
 			$monto = (10 * $dAtras);
